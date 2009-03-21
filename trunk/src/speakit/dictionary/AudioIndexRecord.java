@@ -5,6 +5,16 @@ import java.io.OutputStream;
 
 public class AudioIndexRecord implements Record {
 
+	byte[] audio;
+	
+	public byte[] getAudio() {
+		return this.audio;
+	}
+	
+	public void setAudio(byte[] audio) {
+		this.audio = audio;
+	}
+	
 	@Override
 	public void deserialize(InputStream stream) {
 		// TODO Auto-generated method stub
@@ -19,7 +29,6 @@ public class AudioIndexRecord implements Record {
 
 	@Override
 	public int compareTo(Record o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

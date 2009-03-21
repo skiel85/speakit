@@ -1,6 +1,7 @@
 package speakit.dictionary;
 
 import java.io.OutputStream;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class RecordFileWriter {

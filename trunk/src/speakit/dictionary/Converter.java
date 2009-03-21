@@ -1,7 +1,7 @@
 package speakit.dictionary;
 
 
-public class ByteArrayConverter {
+public class Converter {
 	/**	
 	 * Convierte un array de bytes a un int. Cada byte del array formará parte del int, 
 	 * el 1er byte será el que ocupe los primeros 8 bits del int, el segundo ocupará los proximos 8 y así sucesivamente.

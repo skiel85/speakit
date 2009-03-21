@@ -5,15 +5,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.dictionary.DictionaryImpl;
+import speakit.dictionary.AudioDictionaryImpl;
 
-public class DictionaryImplTest {
+public class AudioDictionaryImplTest {
 
-	private DictionaryImpl sut;
+	private AudioDictionaryImpl sut;
 	
 	@Before
 	public void setUp() throws Exception {
-		this.sut = new DictionaryImpl();
+		this.sut = new AudioDictionaryImpl();
 	}
 
 	@After

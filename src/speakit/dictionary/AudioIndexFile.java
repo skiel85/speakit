@@ -2,7 +2,7 @@ package speakit.dictionary;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class AudioFileIndex {
+public class AudioIndexFile {
 	public void addEntry(String word, int offset) {
 		throw new NotImplementedException();
 	}

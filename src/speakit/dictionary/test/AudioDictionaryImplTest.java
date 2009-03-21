@@ -13,7 +13,11 @@ public class AudioDictionaryImplTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		/*
+		File audioFile = new File("audioFile.dat");
+		File audioIndexFile = new File("audioIndexFile.dat");
 		this.sut = new AudioDictionaryImpl();
+		*/
 	}
 
 	@After

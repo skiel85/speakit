@@ -5,14 +5,33 @@ import java.io.OutputStream;
 
 public class AudioIndexRecord implements Record {
 
-	byte[] audio;
-	
-	public byte[] getAudio() {
-		return this.audio;
+	public AudioIndexRecord() {
+		// Dejado intencionalmente en blanco.
 	}
 	
-	public void setAudio(byte[] audio) {
-		this.audio = audio;
+	public AudioIndexRecord(String word, long offset) {
+		this.word = word;
+		this.offset = offset;
+	}
+	
+	String word;
+	
+	public String getWord() {
+		return this.word;
+	}
+	
+	public void setWord(String word) {
+		this.word = word;
+	}
+	
+	long offset;
+	
+	public long getOffset() {
+		return this.offset;
+	}
+	
+	public void setOffset(long offset) {
+		this.offset = offset;
 	}
 	
 	@Override
@@ -29,7 +48,7 @@ public class AudioIndexRecord implements Record {
 
 	@Override
 	public int compareTo(Record o) {
-		return 0;
+		return this.word.compareTo(((AudioIndexRecord)o).word);
 	}
 
 }

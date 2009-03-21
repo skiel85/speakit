@@ -2,8 +2,6 @@ package speakit.dictionary;
 
 import java.io.IOException;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class AudioDictionaryImpl implements AudioDictionary {
 	private AudioIndexFile audioIndexFile;
 	private AudioFile audioFile;

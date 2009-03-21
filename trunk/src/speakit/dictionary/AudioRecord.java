@@ -7,24 +7,22 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class AudioRecord implements Record {
 
-	String word;
+	byte[] audio;
 	
-	public String getWord() {
-		return this.word;
+	public AudioRecord() {
+		// Dejado en blanco intencionalmente.
 	}
 	
-	public void setWord(String word) {
-		this.word = word;
+	public AudioRecord(byte[] audio) {
+		this.audio = audio;
 	}
 	
-	int offset;
-	
-	public int getOffset() {
-		return this.offset;
+	public byte[] getAudio() {
+		return this.audio;
 	}
 	
-	public void setOffset(int offset) {
-		this.offset = offset;
+	public void setAudio(byte[] audio) {
+		this.audio = audio;
 	}
 		
 	@Override
@@ -39,7 +37,7 @@ public class AudioRecord implements Record {
 
 	@Override
 	public int compareTo(Record o) {
-		return this.word.compareTo(((AudioRecord)o).word);
+		throw new NotImplementedException();
 	}
 
 }

@@ -12,4 +12,8 @@ public class RecordFileReader {
 	public Record readRecord() {
 		throw new NotImplementedException();
 	}
+	
+	public boolean hasNext() {
+		throw new NotImplementedException();
+	}
 }

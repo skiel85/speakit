@@ -22,7 +22,7 @@ public class SerializableInteger extends SerializablePrimitiveType {
 
 	@Override
 	public int getSerializationSize() {
-		return Integer.SIZE;
+		return Integer.SIZE/BYTE_SIZE;
 	}
 
 	@Override

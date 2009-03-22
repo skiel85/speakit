@@ -1,35 +1,25 @@
 package speakit.dictionary;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 public class AudioFile implements RecordFactory {
-	private File file;
+	private RecordFile recordFile;
 	
-	public AudioFile(File file) {
-		this.file = file;
+	public AudioFile(File file) throws FileNotFoundException {
+		this.recordFile = new RecordFile(file, this);
 	}
 	
 	public byte[] getAudio(long offset) throws IOException {
-		InputStream stream = new FileInputStream(file);
-		stream.skip(offset);
-		AudioRecord record = new AudioRecord();
-		record.deserialize(stream);
-		stream.close();
+		AudioRecord record = (AudioRecord) this.recordFile.readRecord(offset);
 		return record.getAudio();
 	}
 	
 	public long addAudio(byte[] audio) throws IOException {
-		long offset = file.length();
-		OutputStream stream = new FileOutputStream(file, true);
 		AudioRecord record = new AudioRecord(audio);
-		record.serialize(stream);
-		stream.close();
-		return offset;
+		this.recordFile.writeRecord(record);
+		return this.recordFile.getCurrentWriteOffset();
 	}	
 
 	@Override

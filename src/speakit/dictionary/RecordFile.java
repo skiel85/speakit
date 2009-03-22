@@ -15,11 +15,13 @@ public class RecordFile {
 	private long currentWriteOffset;
 	private long currentReadOffset;
 	
+	/*
 	public RecordFile(InputStream inputStream, OutputStream outputStream, RecordFactory recordFactory) {
 		this.inputStream = inputStream;
 		this.outputStream = outputStream;
 		this.recordFactory = recordFactory;
 	}
+	*/
 	
 	public RecordFile(File file, RecordFactory recordFactory) throws FileNotFoundException {
 		this.inputStream = new FileInputStream(file);
@@ -42,7 +44,7 @@ public class RecordFile {
 	}
 	
 	public Record readRecord(long offset) throws IOException {
-		this.inputStream.reset();
+		this.resetReadOffset();
 		this.inputStream.skip(offset);
 		return this.readRecord();
 	}
@@ -64,7 +66,15 @@ public class RecordFile {
 	
 	public void resetReadOffset() throws IOException {
 		this.currentReadOffset = 0;
-		this.inputStream.reset();
+		if(this.inputStream.markSupported()) {
+			this.inputStream.reset();
+		}
+		else if(this.inputStream instanceof FileInputStream) {
+			((FileInputStream)this.inputStream).getChannel().position(0);
+		}
+		else {
+			throw new RuntimeException("Operación no soportada para " + this.inputStream.getClass().getName());
+		}
 	}
 
 	public long getCurrentReadOffset() {

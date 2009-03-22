@@ -1,7 +1,5 @@
 package speakit.dictionary.test;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -31,11 +29,6 @@ public class AudioFileTest {
 		byte[] audio = new byte[] {10, -25, 32, 64, -122, 89};
 		this.sut.addAudio(audio);
 		this.sut.getAudio(0);
-	}
-
-	@Test
-	public void testAddAudio() {
-		fail("Not yet implemented");
 	}
 
 }

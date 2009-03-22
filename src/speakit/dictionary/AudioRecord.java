@@ -26,12 +26,12 @@ public class AudioRecord implements Record {
 	}
 		
 	@Override
-	public void deserialize(InputStream stream) {
+	public long deserialize(InputStream stream) {
 		throw new NotImplementedException();
 	}
 
 	@Override
-	public void serialize(OutputStream stream) {
+	public long serialize(OutputStream stream) {
 		throw new NotImplementedException();
 	}
 

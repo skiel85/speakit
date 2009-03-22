@@ -5,24 +5,24 @@ public class SerializableString extends SerializableByteArray {
  
 	String value;
 	public SerializableString(String value) {
-		this.setValue(value);
+		this.setString(value);
 	}
 	
 	public SerializableString( ) {
 		this("");
 	}
 	
-	public String getStringValue(){
+	public String getString(){
 		return this.value;
 	}
-	public void setValue(String value){
+	public void setString(String value){
 		this.value=value;
 	}
 	
-	public byte[] getValue(){
+	public byte[] getBytes(){
 		return this.value.getBytes();
 	} 
-	public void setValue(byte[] value){
+	public void setBytes(byte[] value){
 		this.value= ByteArrayConverter.toString(value);
 	}
 }

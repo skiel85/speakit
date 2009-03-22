@@ -9,22 +9,22 @@ public class SerializableByteArray extends SerializablePrimitiveType {
 	 
 	byte[] value;
 	public SerializableByteArray(byte[] value) {
-		this.setValue(value);
+		this.setBytes(value);
 	}
 	public SerializableByteArray() {
 		this(new byte[]{});
 	}
 	
-	public byte[] getValue(){
+	public byte[] getBytes(){
 		return this.value;
 	}
 	
-	public void setValue(byte[] value){
+	public void setBytes(byte[] value){
 		this.value=value;
 	}   
 	
 	public int getValueLenght(){
-		return this.getValue().length;
+		return this.getBytes().length;
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class SerializableByteArray extends SerializablePrimitiveType {
 	public void actuallyDeserialize(InputStream in) throws IOException {
 		SerializableInteger size=new SerializableInteger();
 		size.actuallyDeserialize(in);		
-		this.setValue(this.readBytes(in,size.getValue()));
+		this.setBytes(this.readBytes(in,size.getInteger()));
 	}	
 
 	/**
@@ -49,7 +49,7 @@ public class SerializableByteArray extends SerializablePrimitiveType {
 	public void actuallySerialize(OutputStream out) throws IOException {
 		SerializableInteger size = new SerializableInteger(getValueLenght());
 		size.serialize(out);
-		out.write(this.getValue());
+		out.write(this.getBytes());
 	}
 
 }

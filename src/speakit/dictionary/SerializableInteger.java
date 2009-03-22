@@ -16,7 +16,7 @@ public class SerializableInteger extends SerializablePrimitiveType {
 		this.value=0;
 	}
 	
-	public int getValue(){
+	public int getInteger(){
 		return this.value;
 	}
 

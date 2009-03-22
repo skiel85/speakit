@@ -16,7 +16,7 @@ public class SerializableLong extends SerializablePrimitiveType {
 		this.value = 0;
 	}
 	
-	public long getValue(){
+	public long getLong(){
 		return this.value;
 	}
 

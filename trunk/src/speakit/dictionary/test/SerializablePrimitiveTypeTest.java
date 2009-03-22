@@ -39,7 +39,7 @@ public class SerializablePrimitiveTypeTest {
 		SerializableInteger original = new SerializableInteger(123);
 		SerializableInteger deserialized = new SerializableInteger();
 		serializeAndUnserialize(out,original,deserialized);
-		Assert.assertEquals(original.getValue(), deserialized.getValue());
+		Assert.assertEquals(original.getInteger(), deserialized.getInteger());
 	}
 	
 	@Test
@@ -54,14 +54,14 @@ public class SerializablePrimitiveTypeTest {
 		SerializableByteArray original = new SerializableByteArray("esto es un array de bytes".getBytes());
 		SerializableByteArray deserialized = new SerializableByteArray();
 		serializeAndUnserialize(out,original,deserialized);
-		assertArrayEquals(original.getValue(), deserialized.getValue());
+		assertArrayEquals(original.getBytes(), deserialized.getBytes());
 	}
 	
 	private static void deserializeAndTest(SerializableString original,SerializableString deserialized){
 		ByteArrayOutputStream out1 = new ByteArrayOutputStream();
 		serializeAndUnserialize(out1,original,deserialized);
 		Assert.assertEquals(original.getSerializationSize(), deserialized.getSerializationSize());
-		Assert.assertEquals(original.getStringValue(), deserialized.getStringValue());
+		Assert.assertEquals(original.getString(), deserialized.getString());
 	}
 	
 	@Test

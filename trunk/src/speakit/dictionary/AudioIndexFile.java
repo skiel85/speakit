@@ -16,17 +16,16 @@ public class AudioIndexFile implements RecordFactory {
 	
 	public void addEntry(String word, long offset) throws IOException {
 		OutputStream stream = new FileOutputStream(file, true);
-		RecordFileWriter writer = new RecordFileWriter(stream);
 		AudioIndexRecord record = new AudioIndexRecord(word, offset);
-		writer.writeRecord(record);
+		record.serialize(stream);
 		stream.close();
 	}
 	
 	public boolean contains(String word) throws IOException {
 		InputStream stream = new FileInputStream(file);
-		RecordFileReader reader = new RecordFileReader(stream, this);
-		while(reader.hasNext()) {
-			AudioIndexRecord record = (AudioIndexRecord)reader.readRecord();
+		while(stream.available() > 0) {
+			AudioIndexRecord record = new AudioIndexRecord();
+			record.deserialize(stream);
 			if(record.getWord() == word) {
 				return true;
 			}
@@ -37,9 +36,9 @@ public class AudioIndexFile implements RecordFactory {
 	
 	public long getOffset(String word) throws IOException {
 		InputStream stream = new FileInputStream(file);
-		RecordFileReader reader = new RecordFileReader(stream, this);
-		while(reader.hasNext()) {
-			AudioIndexRecord record = (AudioIndexRecord)reader.readRecord();
+		while(stream.available() > 0) {
+			AudioIndexRecord record = new AudioIndexRecord();
+			record.deserialize(stream);
 			if(record.getWord() == word) {
 				return record.getOffset();
 			}

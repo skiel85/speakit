@@ -16,9 +16,9 @@ public class AudioFile implements RecordFactory {
 	
 	public byte[] getAudio(long offset) throws IOException {
 		InputStream stream = new FileInputStream(file);
-		RecordFileReader reader = new RecordFileReader(stream, this);
 		stream.skip(offset);
-		AudioRecord record = (AudioRecord)reader.readRecord();
+		AudioRecord record = new AudioRecord();
+		record.deserialize(stream);
 		stream.close();
 		return record.getAudio();
 	}
@@ -26,9 +26,8 @@ public class AudioFile implements RecordFactory {
 	public long addAudio(byte[] audio) throws IOException {
 		long offset = file.length();
 		OutputStream stream = new FileOutputStream(file, true);
-		RecordFileWriter writer = new RecordFileWriter(stream);
 		AudioRecord record = new AudioRecord(audio);
-		writer.writeRecord(record);
+		record.serialize(stream);
 		stream.close();
 		return offset;
 	}	

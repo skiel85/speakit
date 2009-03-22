@@ -27,7 +27,7 @@ public class RecordFile {
 		this.recordFactory = recordFactory;
 	}
 	
-	public Record readRecord() {
+	public Record readRecord() throws IOException {
 		Record record = recordFactory.createRecord();
 		long bytesRead = record.deserialize(this.inputStream);
 		this.currentReadOffset += bytesRead; 
@@ -40,7 +40,7 @@ public class RecordFile {
 		return this.readRecord();
 	}
 	
-	public void writeRecord(Record record) {
+	public void writeRecord(Record record) throws IOException {
 		long bytesWritten = record.serialize(this.outputStream);
 		this.currentWriteOffset += bytesWritten;
 	}

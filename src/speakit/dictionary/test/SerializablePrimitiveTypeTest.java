@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.dictionary.SerializableByteArray;
 import speakit.dictionary.SerializableInteger;
 import speakit.dictionary.SerializablePrimitiveType;
 import speakit.dictionary.SerializableString;
@@ -48,11 +49,19 @@ public class SerializablePrimitiveTypeTest {
 		deserializeAndTest(original,deserialized);
 	}
 	
+	@Test
+	public void testCompleteByteArraySerialization() {
+		SerializableByteArray original = new SerializableByteArray("esto es un array de bytes".getBytes());
+		SerializableByteArray deserialized = new SerializableByteArray();
+		serializeAndUnserialize(out,original,deserialized);
+		assertArrayEquals(original.getValue(), deserialized.getValue());
+	}
+	
 	private static void deserializeAndTest(SerializableString original,SerializableString deserialized){
 		ByteArrayOutputStream out1 = new ByteArrayOutputStream();
-		serializeAndUnserialize(out1,original,deserialized); Assert.assertEquals(original.getValue(), deserialized.getValue());
+		serializeAndUnserialize(out1,original,deserialized);
 		Assert.assertEquals(original.getSerializationSize(), deserialized.getSerializationSize());
-		Assert.assertEquals(original.getSerializationSize(), deserialized.getSerializationSize());
+		Assert.assertEquals(original.getStringValue(), deserialized.getStringValue());
 	}
 	
 	@Test

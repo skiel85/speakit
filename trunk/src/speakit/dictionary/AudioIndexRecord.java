@@ -3,6 +3,8 @@ package speakit.dictionary;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 public class AudioIndexRecord implements Record {
 
 	public AudioIndexRecord() {
@@ -35,15 +37,13 @@ public class AudioIndexRecord implements Record {
 	}
 	
 	@Override
-	public void deserialize(InputStream stream) {
-		// TODO Auto-generated method stub
-		
+	public long deserialize(InputStream stream) {
+		throw new NotImplementedException();
 	}
 
 	@Override
-	public void serialize(OutputStream stream) {
-		// TODO Auto-generated method stub
-		
+	public long serialize(OutputStream stream) {
+		throw new NotImplementedException();
 	}
 
 	@Override

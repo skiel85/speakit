@@ -27,20 +27,22 @@ public class RecordFile {
 		this.recordFactory = recordFactory;
 	}
 	
+	public Record readRecord() {
+		Record record = recordFactory.createRecord();
+		long bytesRead = record.deserialize(this.inputStream);
+		this.currentReadOffset += bytesRead; 
+		return record;
+	}
+	
 	public Record readRecord(long offset) throws IOException {
 		this.inputStream.reset();
 		this.inputStream.skip(offset);
 		return this.readRecord();
 	}
 	
-	public Record readRecord() {
-		Record record = recordFactory.createRecord();
-		record.deserialize(this.inputStream);
-		return record;
-	}
-	
 	public void writeRecord(Record record) {
-		record.serialize(this.outputStream);
+		long bytesWritten = record.serialize(this.outputStream);
+		this.currentWriteOffset += bytesWritten;
 	}
 	
 	public boolean eof() throws IOException {
@@ -48,6 +50,7 @@ public class RecordFile {
 	}
 	
 	public void resetReadOffset() throws IOException {
+		this.currentReadOffset = 0;
 		this.inputStream.reset();
 	}
 

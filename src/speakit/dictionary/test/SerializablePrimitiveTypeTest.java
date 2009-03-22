@@ -1,13 +1,10 @@
 package speakit.dictionary.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-
-import javax.naming.BinaryRefAddr;
 
 import junit.framework.Assert;
 
@@ -19,7 +16,6 @@ import speakit.dictionary.SerializableByteArray;
 import speakit.dictionary.SerializableInteger;
 import speakit.dictionary.SerializablePrimitiveType;
 import speakit.dictionary.SerializableString;
-import sun.management.FileSystem;
 
 public class SerializablePrimitiveTypeTest {
 

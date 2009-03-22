@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,7 +29,21 @@ public class AudioFileTest {
 	public void testAddAndGetAudio() throws IOException {
 		byte[] audio = new byte[] {10, -25, 32, 64, -122, 89};
 		this.sut.addAudio(audio);
-		this.sut.getAudio(0);
+		Assert.assertArrayEquals(audio, this.sut.getAudio(0));
+	}
+	
+	@Test
+	public void testAddSomeAudiosAndGetOne() throws IOException {
+		byte[] audio1 = new byte[] {10, -25, 32, 64, -122, 89, 55, 0, -3, 102};
+		byte[] audio2 = new byte[] {4, 82, 36, 25, -30, -120, 78};
+		byte[] audio3 = new byte[] {89, 23, 2, -1, 0, 64, 64, 9, -44};
+		this.sut.addAudio(audio1);
+		this.sut.addAudio(audio2);
+		this.sut.addAudio(audio3);
+		Assert.assertArrayEquals(audio1, this.sut.getAudio(0));
+		Assert.assertArrayEquals(audio2, this.sut.getAudio(4 + audio1.length));
+		Assert.assertArrayEquals(audio3, this.sut.getAudio(4 + audio1.length + 4 + audio2.length));
+		Assert.assertArrayEquals(audio2, this.sut.getAudio(4 + audio1.length));
 	}
 
 }

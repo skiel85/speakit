@@ -1,12 +1,15 @@
 package speakit.dictionary;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class AudioIndexRecord implements Record {
 
+	long offset;
+	
+	String word;
+	
 	public AudioIndexRecord() {
 		// Dejado intencionalmente en blanco.
 	}
@@ -16,39 +19,45 @@ public class AudioIndexRecord implements Record {
 		this.offset = offset;
 	}
 	
-	String word;
-	
-	public String getWord() {
-		return this.word;
+	@Override
+	public int compareTo(Record o) {
+		return this.word.compareTo(((AudioIndexRecord)o).word);
 	}
 	
-	public void setWord(String word) {
-		this.word = word;
+	@Override
+	public long deserialize(InputStream stream) throws IOException {
+		long byteCount = 0;
+		SerializableString word = new SerializableString();
+		SerializableLong offset = new SerializableLong();
+		byteCount += word.deserialize(stream);
+		byteCount += offset.deserialize(stream);
+		this.word = word.value;
+		this.offset = offset.value;
+		return byteCount;
 	}
-	
-	long offset;
 	
 	public long getOffset() {
 		return this.offset;
 	}
 	
-	public void setOffset(long offset) {
-		this.offset = offset;
+	public String getWord() {
+		return this.word;
 	}
 	
 	@Override
-	public long deserialize(InputStream stream) {
-		throw new NotImplementedException();
+	public long serialize(OutputStream stream) throws IOException {
+		long byteCount = 0;
+		byteCount += new SerializableString(this.word).serialize(stream);
+		byteCount += new SerializableLong(this.offset).serialize(stream);
+		return byteCount;
 	}
 
-	@Override
-	public long serialize(OutputStream stream) {
-		throw new NotImplementedException();
+	public void setOffset(long offset) {
+		this.offset = offset;
 	}
 
-	@Override
-	public int compareTo(Record o) {
-		return this.word.compareTo(((AudioIndexRecord)o).word);
+	public void setWord(String word) {
+		this.word = word;
 	}
 
 }

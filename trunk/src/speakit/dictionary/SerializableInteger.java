@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 public class SerializableInteger extends SerializablePrimitiveType {
 
-	int value=0;
+	private int value=0;
 	
 	public SerializableInteger(int value){
 		this.value=value;

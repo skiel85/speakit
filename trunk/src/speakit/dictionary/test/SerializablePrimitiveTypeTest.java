@@ -69,6 +69,39 @@ public class SerializablePrimitiveTypeTest {
 		deserializeAndTest(deserialized,deserialized2);
 	}
 	
+	@Test
+	public void testDoubleCompleteStringSerializationWithValueChange() {
+		SerializableString original = new SerializableString("!mundos hola");
+		SerializableString deserialized = new SerializableString();
+		deserializeAndTest(original,deserialized);
+		deserialized.setString("modific");
+		SerializableString deserialized2 = new SerializableString();
+		deserializeAndTest(deserialized,deserialized2);
+	}
+	
+	@Test
+	public void testSerializableByteArrayComparison() {
+		byte[] bytes1 = new byte[]{12,21,34,12,29,8};
+		byte[] bytes2 = new byte[]{12,21,11,12,29,8};
+		byte[] greaterArray = new byte[]{12,21,34,12,29,8,0};
+		
+		SerializableByteArray a = new SerializableByteArray(bytes1);
+		SerializableByteArray b = new SerializableByteArray(bytes2);
+
+		Assert.assertEquals(1, a.compareTo(b));
+		Assert.assertEquals(-1, b.compareTo(a));
+		
+		b.setBytes(bytes1);
+		Assert.assertEquals(0, a.compareTo(b));
+		
+		b.setBytes(greaterArray);
+		Assert.assertEquals(-1, a.compareTo(b));
+		Assert.assertEquals(1, b.compareTo(a));
+		
+		Assert.assertTrue(a.compareTo(new SerializableInteger(1))<0);
+		//Assert.assertTrue(new SerializableInteger(1).compareTo(a)>0);
+	}
+	
 	private static void serializeAndUnserialize(ByteArrayOutputStream out,SerializablePrimitiveType original,SerializablePrimitiveType deserialized){
 		try {
 			original.serialize(out);

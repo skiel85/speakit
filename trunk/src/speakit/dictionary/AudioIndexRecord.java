@@ -25,14 +25,18 @@ public class AudioIndexRecord implements Record {
 	}
 	
 	@Override
-	public long deserialize(InputStream stream) throws IOException {
+	public long deserialize(InputStream stream) throws RecordSerializationException {
 		long byteCount = 0;
 		SerializableString word = new SerializableString();
 		SerializableLong offset = new SerializableLong();
-		byteCount += word.deserialize(stream);
-		byteCount += offset.deserialize(stream);
-		this.word = word.value;
-		this.offset = offset.value;
+		try {
+			byteCount += word.deserialize(stream);
+			byteCount += offset.deserialize(stream);
+		} catch (IOException e) {
+			throw new RecordSerializationException();
+		}
+		this.word = word.getString();
+		this.offset = offset.getLong();
 		return byteCount;
 	}
 	
@@ -45,10 +49,14 @@ public class AudioIndexRecord implements Record {
 	}
 	
 	@Override
-	public long serialize(OutputStream stream) throws IOException {
+	public long serialize(OutputStream stream) throws RecordSerializationException {
 		long byteCount = 0;
-		byteCount += new SerializableString(this.word).serialize(stream);
-		byteCount += new SerializableLong(this.offset).serialize(stream);
+		try {
+			byteCount += new SerializableString(this.word).serialize(stream);
+			byteCount += new SerializableLong(this.offset).serialize(stream);
+		} catch (IOException e) {
+			throw new RecordSerializationException();
+		}
 		return byteCount;
 	}
 

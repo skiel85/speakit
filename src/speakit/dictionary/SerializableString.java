@@ -3,7 +3,7 @@ package speakit.dictionary;
 
 public class SerializableString extends SerializableByteArray {
  
-	String value;
+	private String value;
 	public SerializableString(String value) {
 		this.setString(value);
 	}

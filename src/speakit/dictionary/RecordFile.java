@@ -29,9 +29,16 @@ public class RecordFile {
 	
 	public Record readRecord() throws IOException {
 		Record record = recordFactory.createRecord();
-		long bytesRead = record.deserialize(this.inputStream);
-		this.currentReadOffset += bytesRead; 
-		return record;
+		long bytesRead;
+		try {
+			bytesRead = record.deserialize(this.inputStream);
+			this.currentReadOffset += bytesRead; 
+			return record;
+		} catch (RecordSerializationException e) {
+			// TODO Resolver que hacer cuando una excepcion es lanzada en RecordFile.readRecord
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public Record readRecord(long offset) throws IOException {
@@ -41,8 +48,14 @@ public class RecordFile {
 	}
 	
 	public void writeRecord(Record record) throws IOException {
-		long bytesWritten = record.serialize(this.outputStream);
-		this.currentWriteOffset += bytesWritten;
+		long bytesWritten;
+		try {
+			bytesWritten = record.serialize(this.outputStream);
+			this.currentWriteOffset += bytesWritten;
+		} catch (RecordSerializationException e) {
+			// TODO Resolver que hacer cuando una excepcion es lanzada en RecordFile.writeRecord
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean eof() throws IOException {

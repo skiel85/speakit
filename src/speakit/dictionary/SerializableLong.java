@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 public class SerializableLong extends SerializablePrimitiveType {
 
-	long value = 0;
+	private long value = 0;
 	
 	public SerializableLong(long value){
 		this.value = value;

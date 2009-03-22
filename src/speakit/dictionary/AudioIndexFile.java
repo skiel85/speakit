@@ -1,49 +1,39 @@
 package speakit.dictionary;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 public class AudioIndexFile implements RecordFactory {
-	private File file;
+	private RecordFile recordFile;
 	
-	public AudioIndexFile(File file) {
-		this.file = file;
+	public AudioIndexFile(File file) throws FileNotFoundException {
+		this.recordFile = new RecordFile(file, this);
 	}
 	
 	public void addEntry(String word, long offset) throws IOException {
-		OutputStream stream = new FileOutputStream(file, true);
 		AudioIndexRecord record = new AudioIndexRecord(word, offset);
-		record.serialize(stream);
-		stream.close();
+		this.recordFile.writeRecord(record);
 	}
 	
 	public boolean contains(String word) throws IOException {
-		InputStream stream = new FileInputStream(file);
-		while(stream.available() > 0) {
-			AudioIndexRecord record = new AudioIndexRecord();
-			record.deserialize(stream);
+		this.recordFile.resetReadOffset();
+		while(!this.recordFile.eof()) {
+			AudioIndexRecord record = (AudioIndexRecord) this.recordFile.readRecord();
 			if(record.getWord() == word) {
 				return true;
 			}
 		}
-		stream.close();
 		return false;
 	}
 	
 	public long getOffset(String word) throws IOException {
-		InputStream stream = new FileInputStream(file);
-		while(stream.available() > 0) {
-			AudioIndexRecord record = new AudioIndexRecord();
-			record.deserialize(stream);
+		while(!this.recordFile.eof()) {
+			AudioIndexRecord record = (AudioIndexRecord) this.recordFile.readRecord();
 			if(record.getWord() == word) {
 				return record.getOffset();
 			}
 		}
-		stream.close();
 		throw new RuntimeException("No se encontró la palabra en el índice.");
 	}
 

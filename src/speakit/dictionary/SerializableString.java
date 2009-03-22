@@ -7,8 +7,7 @@ import java.io.OutputStream;
 import junit.framework.Assert;
 
 public class SerializableString extends SerializablePrimitiveType {
-
-	SerializableInteger valueSize=null;
+ 
 	String value;
 	public SerializableString(String value) {
 		this.setValue(value);
@@ -25,30 +24,35 @@ public class SerializableString extends SerializablePrimitiveType {
 	
 	public void setValue(String value){
 		this.value=value;
-		this.valueSize=new SerializableInteger(this.getStringBytesLength());
 	} 
 	
 	private int getStringBytesLength(){
 		return this.value.getBytes().length;
-	}
+	} 
  
 	
 	@Override
 	public int getSerializationSize() {
-		return this.valueSize.getSerializationSize() + this.getStringBytesLength();
+		return new SerializableInteger(this.getStringBytesLength()).getSerializationSize() + this.getStringBytesLength();
 	}
-	
+
+	/**
+	 * lee primero el campo que indica la longitud y luego lee esa cantidad de bytes para hidratar el string 
+	 */
 	@Override
 	public void actuallyDeserialize(InputStream in) throws IOException {
 		SerializableInteger size=new SerializableInteger();
 		size.actuallyDeserialize(in);		
 		this.value=ByteArrayConverter.toString(this.readBytes(in,size.getValue()));
-		Assert.assertEquals(size.getValue(), this.getSerializationSize());
-	} 
-	
-	@Override
+	}	
+
+	/**
+	 * guarda primero un campo que indica la longitud y a continuacion los bytes del string 
+	 */
+	@Override	
 	public void actuallySerialize(OutputStream out) throws IOException {
-		this.valueSize.actuallySerialize(out);
+		SerializableInteger size = new SerializableInteger(this.getStringBytesLength());
+		size.serialize(out);
 		out.write(ByteArrayConverter.toByta(this.value.getBytes()));
 	}
 }

@@ -1,5 +1,7 @@
 package speakit.dictionary;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 
 public class SerializableString extends SerializableByteArray {
  
@@ -24,5 +26,11 @@ public class SerializableString extends SerializableByteArray {
 	} 
 	public void setBytes(byte[] value){
 		this.value= ByteArrayConverter.toString(value);
+	}
+	
+	@Override
+	protected int compareToSameClass(SerializablePrimitiveType o) {
+		SerializableString other = (SerializableString)o;
+		return this.getString().compareTo(other.getString());
 	}
 }

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public abstract class SerializablePrimitiveType {
+public abstract class SerializablePrimitiveType implements Comparable<SerializablePrimitiveType> {
 
 	/**
 	 * Tamaño de un byte expresado en bits
@@ -78,4 +78,15 @@ public abstract class SerializablePrimitiveType {
 	 * @throws IOException
 	 */
 	public abstract void actuallySerialize(OutputStream in) throws IOException ;
+	
+	@Override
+	public int compareTo(SerializablePrimitiveType o) {
+		if (this.getClass()== o.getClass()){ 	
+			return compareToSameClass(o);
+		}else{
+			return this.getClass().toString().compareTo(o.getClass().toString());
+		}
+	}
+
+	protected abstract int compareToSameClass(SerializablePrimitiveType o);
 }

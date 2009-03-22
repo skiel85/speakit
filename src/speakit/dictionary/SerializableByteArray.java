@@ -52,35 +52,31 @@ public class SerializableByteArray extends SerializablePrimitiveType {
 		out.write(this.getBytes());
 	}
 	
-	public int compareTo(SerializablePrimitiveType o){
-		if(o instanceof SerializableByteArray){ 		
-			SerializableByteArray other=(SerializableByteArray)o;
+	protected int compareToSameClass(SerializablePrimitiveType o){	
+		SerializableByteArray other=(SerializableByteArray)o;
 
-			byte[] thisBytes=this.getBytes();
-			byte[] otherBytes=other.getBytes();
+		byte[] thisBytes=this.getBytes();
+		byte[] otherBytes=other.getBytes();
 
-			//se recorren los arrays desde 0 hasta el indice del array mas chico, si algun elemento es difenente se devuelve la comparacion entre esos elementos
-			//si son iguales hasta el último elemento se resuelve mas abajo
-			for (int i = 0; i < min(thisBytes.length,otherBytes.length)-1; i++) {
-				if (thisBytes[i]!=otherBytes[i]){
-					return (thisBytes[i]<otherBytes[i])?-1:+1;
-				}
+		//se recorren los arrays desde 0 hasta el indice del array mas chico, si algun elemento es difenente se devuelve la comparacion entre esos elementos
+		//si son iguales hasta el último elemento se resuelve mas abajo
+		for (int i = 0; i < min(thisBytes.length,otherBytes.length)-1; i++) {
+			if (thisBytes[i]!=otherBytes[i]){
+				return (thisBytes[i]<otherBytes[i])?-1:+1;
 			}
-			//Se comparan los largos de los arrays
-			//Si los tamaños son iguales ==> arrays iguales
-			if (thisBytes.length==otherBytes.length){
-				return 0;
-			}else{
-				//Si el de tamaño mínimo es el array de este objeto ==> este objeto es MENOR que el otro
-				if(min(thisBytes.length,otherBytes.length)==thisBytes.length){
-					return -1;
-				}else{
-					return 1;
-				}
-			}
+		}
+		//Se comparan los largos de los arrays
+		//Si los tamaños son iguales ==> arrays iguales
+		if (thisBytes.length==otherBytes.length){
+			return 0;
 		}else{
-			return this.getClass().toString().compareTo(o.getClass().toString());
-		}	
+			//Si el de tamaño mínimo es el array de este objeto ==> este objeto es MENOR que el otro
+			if(min(thisBytes.length,otherBytes.length)==thisBytes.length){
+				return -1;
+			}else{
+				return 1;
+			}
+		} 
 	}
 
 

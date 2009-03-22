@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 public class SerializableInteger extends SerializablePrimitiveType {
 
 	private int value=0;
@@ -33,5 +35,13 @@ public class SerializableInteger extends SerializablePrimitiveType {
 	@Override
 	public void actuallySerialize(OutputStream out) throws IOException {
 		out.write(ByteArrayConverter.toByta(this.value));
-	} 
+	}
+
+	@Override
+	protected int compareToSameClass(SerializablePrimitiveType o) {
+		SerializableInteger other = (SerializableInteger)o;
+		return (this.value<other.value)?-1:1;
+	}
+
+
 }

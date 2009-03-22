@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 public class SerializableLong extends SerializablePrimitiveType {
 
 	private long value = 0;
@@ -34,4 +36,10 @@ public class SerializableLong extends SerializablePrimitiveType {
 	public void actuallySerialize(OutputStream out) throws IOException {
 		out.write(ByteArrayConverter.toByta(this.value));
 	} 
+	
+	@Override
+	protected int compareToSameClass(SerializablePrimitiveType o) {
+		SerializableLong other = (SerializableLong)o;
+		return (this.value<other.value)?-1:1;
+	}
 }

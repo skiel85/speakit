@@ -99,8 +99,47 @@ public class SerializablePrimitiveTypeTest {
 		Assert.assertEquals(1, b.compareTo(a));
 		
 		Assert.assertTrue(a.compareTo(new SerializableInteger(1))<0);
-		//Assert.assertTrue(new SerializableInteger(1).compareTo(a)>0);
+		Assert.assertTrue(new SerializableInteger(1).compareTo(a)>0);
 	}
+	
+	@Test
+	public void testSerializableStringComparison() {
+		SerializableString a = new SerializableString("aaaaad"); 
+		SerializableString b = new SerializableString("aaaaac");
+		SerializableString c = new SerializableString("aaaaada");
+		SerializableString d = new SerializableString();
+		
+		Assert.assertTrue(a.compareTo(b)>0);	
+		Assert.assertTrue(b.compareTo(a)<0);
+		
+		Assert.assertTrue(a.compareTo(c)<0);	
+		Assert.assertTrue(c.compareTo(a)>0);
+		
+		Assert.assertTrue(b.compareTo(c)<0);	
+		Assert.assertTrue(c.compareTo(b)>0);
+		
+		Assert.assertTrue(a.compareTo(d)>0);	
+		Assert.assertTrue(d.compareTo(a)<0);
+		
+		Assert.assertTrue(d.compareTo(d)==0);
+	}
+	
+	@Test
+	public void testSerializableIntegerComparison() {
+		SerializableInteger a = new SerializableInteger(1); 
+		SerializableInteger b = new SerializableInteger(2);
+		SerializableInteger c = new SerializableInteger(3);
+		
+		Assert.assertTrue(a.compareTo(b)<0);	
+		Assert.assertTrue(b.compareTo(a)>0);
+		
+		Assert.assertTrue(a.compareTo(c)<0);	
+		Assert.assertTrue(c.compareTo(a)>0);
+		
+		Assert.assertTrue(b.compareTo(c)<0);	
+		Assert.assertTrue(c.compareTo(b)>0);
+	}
+	
 	
 	private static void serializeAndUnserialize(ByteArrayOutputStream out,SerializablePrimitiveType original,SerializablePrimitiveType deserialized){
 		try {

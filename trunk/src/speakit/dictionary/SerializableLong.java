@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class SerializableLong extends SerializablePrimitiveType {
 
 	private long value = 0;

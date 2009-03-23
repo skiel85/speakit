@@ -1,6 +1,5 @@
 package speakit.dictionary;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
 public class SerializableString extends SerializableByteArray {

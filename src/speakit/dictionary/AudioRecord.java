@@ -51,8 +51,4 @@ public class AudioRecord implements Record {
 			return this.getClass().toString().compareTo(o.getClass().toString());
 		}		 
 	}
-
-	private int min(int length, int length2) {
-		return (length<length2)?length:length2;
-	} 
 }

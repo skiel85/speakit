@@ -30,7 +30,7 @@ public class AudioIndexFile implements RecordFactory {
 	public long getOffset(String word) throws IOException {
 		while(!this.recordFile.eof()) {
 			AudioIndexRecord record = (AudioIndexRecord) this.recordFile.readRecord();
-			if(record.getWord() == word) {
+			if(record.getWord().compareTo(word)==0) {
 				return record.getOffset();
 			}
 		}

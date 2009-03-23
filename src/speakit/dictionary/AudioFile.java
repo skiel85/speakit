@@ -6,6 +6,7 @@ import java.io.IOException;
 
 public class AudioFile implements RecordFactory {
 	private RecordFile recordFile;
+	private long currentOffset;
 	
 	public AudioFile(File file) throws FileNotFoundException {
 		this.recordFile = new RecordFile(file, this);
@@ -17,9 +18,11 @@ public class AudioFile implements RecordFactory {
 	}
 	
 	public long addAudio(byte[] audio) throws IOException {
+		long oldOffset = this.currentOffset; 
 		AudioRecord record = new AudioRecord(audio);
 		this.recordFile.writeRecord(record);
-		return this.recordFile.getCurrentWriteOffset();
+		this.currentOffset = this.recordFile.getCurrentWriteOffset();
+		return oldOffset;
 	}	
 
 	@Override

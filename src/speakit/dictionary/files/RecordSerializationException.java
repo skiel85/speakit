@@ -1,4 +1,4 @@
-package speakit.dictionary;
+package speakit.dictionary.files;
 
 public class RecordSerializationException extends Exception {
 

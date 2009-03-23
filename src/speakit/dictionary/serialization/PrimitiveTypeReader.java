@@ -1,7 +1,8 @@
-package speakit.dictionary;
+package speakit.dictionary.serialization;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 
 public class PrimitiveTypeReader {
 	InputStream in=null;

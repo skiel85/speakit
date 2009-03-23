@@ -2,6 +2,9 @@ package speakit.dictionary;
 
 import java.io.IOException;
 
+import speakit.dictionary.files.audiofile.AudioFile;
+import speakit.dictionary.files.audioindexfile.AudioIndexFile;
+
 public class AudioDictionaryImpl implements AudioDictionary {
 	private AudioIndexFile audioIndexFile;
 	private AudioFile audioFile;

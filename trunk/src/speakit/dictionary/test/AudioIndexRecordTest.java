@@ -4,8 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import speakit.dictionary.AudioIndexRecord;
@@ -30,7 +29,6 @@ public class AudioIndexRecordTest {
 		} catch (RecordSerializationException e) {
 			Assert.fail();
 		}
-		
 		Assert.assertEquals(record.getWord(), deserialized.getWord());
 		Assert.assertEquals(record.getOffset(), deserialized.getOffset());
 	}

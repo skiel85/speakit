@@ -79,9 +79,14 @@ public class SerializableByteArray extends SerializablePrimitiveType {
 		} 
 	}
 
-
-	private int min(int length, int length2) {
-		return (length<length2)?length:length2;
+/**
+ * Calcula el mínimo de dos números. 
+ * @param length
+ * @param length2
+ * @return
+ */
+	private int min(int num1, int num2) {
+		return (num1<num2)?num1:num2;
 	} 
 
 }

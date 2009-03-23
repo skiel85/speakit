@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.dictionary.AudioIndexFile;
+import speakit.dictionary.files.audioindexfile.AudioIndexFile;
 
 public class AudioIndexFileTest {
 

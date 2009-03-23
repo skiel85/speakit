@@ -12,10 +12,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.dictionary.SerializableByteArray;
-import speakit.dictionary.SerializableInteger;
-import speakit.dictionary.SerializablePrimitiveType;
-import speakit.dictionary.SerializableString;
+import speakit.dictionary.serialization.SerializableByteArray;
+import speakit.dictionary.serialization.SerializableInteger;
+import speakit.dictionary.serialization.SerializablePrimitiveType;
+import speakit.dictionary.serialization.SerializableString;
 
 public class SerializablePrimitiveTypeTest {
 

@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.dictionary.AudioDictionaryImpl;
-import speakit.dictionary.AudioFile;
-import speakit.dictionary.AudioIndexFile;
+import speakit.dictionary.files.audiofile.AudioFile;
+import speakit.dictionary.files.audioindexfile.AudioIndexFile;
 
 public class AudioDictionaryImplTest {
 

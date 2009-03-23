@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.dictionary.AudioFile;
+import speakit.dictionary.files.audiofile.AudioFile;
 
 public class AudioFileTest {
 	File file;

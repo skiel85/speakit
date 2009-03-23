@@ -1,8 +1,13 @@
-package speakit.dictionary;
+package speakit.dictionary.files.audioindexfile;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import speakit.dictionary.files.Record;
+import speakit.dictionary.files.RecordSerializationException;
+import speakit.dictionary.serialization.SerializableLong;
+import speakit.dictionary.serialization.SerializableString;
 
 public class AudioIndexRecord implements Record {
 

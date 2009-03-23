@@ -1,8 +1,12 @@
-package speakit.dictionary;
+package speakit.dictionary.files.audioindexfile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import speakit.dictionary.files.Record;
+import speakit.dictionary.files.RecordFactory;
+import speakit.dictionary.files.RecordFile;
 
 public class AudioIndexFile implements RecordFactory {
 	private RecordFile recordFile;

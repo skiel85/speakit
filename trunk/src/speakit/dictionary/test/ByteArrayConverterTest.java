@@ -3,7 +3,7 @@ package speakit.dictionary.test;
 import org.junit.Assert;
 import org.junit.Test;
 
-import speakit.dictionary.ByteArrayConverter;
+import speakit.dictionary.serialization.ByteArrayConverter;
 
 
 public class ByteArrayConverterTest {

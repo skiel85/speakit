@@ -1,4 +1,4 @@
-package speakit.dictionary;
+package speakit.dictionary.files;
 
 import java.io.File;
 import java.io.FileInputStream;

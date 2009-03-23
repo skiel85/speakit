@@ -21,6 +21,10 @@ public class SerializableInteger extends SerializablePrimitiveType {
 	public int getInteger(){
 		return this.value;
 	}
+	
+	public void setInteger(int value){
+		this.value = value;
+	}
 
 	@Override
 	public int getSerializationSize() {

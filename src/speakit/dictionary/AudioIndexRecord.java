@@ -6,17 +6,17 @@ import java.io.OutputStream;
 
 public class AudioIndexRecord implements Record {
 
-	long offset;
-	
-	String word;
+	SerializableLong offset;	
+	SerializableString word;
 	
 	public AudioIndexRecord() {
-		// Dejado intencionalmente en blanco.
+		this.word = new SerializableString();
+		this.offset = new SerializableLong();
 	}
 	
 	public AudioIndexRecord(String word, long offset) {
-		this.word = word;
-		this.offset = offset;
+		this.word = new SerializableString(word);
+		this.offset = new SerializableLong(offset);
 	}
 	
 	@Override
@@ -35,25 +35,25 @@ public class AudioIndexRecord implements Record {
 		} catch (IOException e) {
 			throw new RecordSerializationException();
 		}
-		this.word = word.getString();
-		this.offset = offset.getLong();
+		this.word.setString(word.getString());
+		this.offset.setLong(offset.getLong());
 		return byteCount;
 	}
 	
 	public long getOffset() {
-		return this.offset;
+		return this.offset.getLong();
 	}
 	
 	public String getWord() {
-		return this.word;
+		return this.word.getString();
 	}
 	
 	@Override
 	public long serialize(OutputStream stream) throws RecordSerializationException {
 		long byteCount = 0;
 		try {
-			byteCount += new SerializableString(this.word).serialize(stream);
-			byteCount += new SerializableLong(this.offset).serialize(stream);
+			byteCount += this.word.serialize(stream);
+			byteCount += this.offset.serialize(stream);
 		} catch (IOException e) {
 			throw new RecordSerializationException();
 		}
@@ -61,11 +61,11 @@ public class AudioIndexRecord implements Record {
 	}
 
 	public void setOffset(long offset) {
-		this.offset = offset;
+		this.offset.setLong(offset);
 	}
 
 	public void setWord(String word) {
-		this.word = word;
+		this.word.setString(word);
 	}
 
 }

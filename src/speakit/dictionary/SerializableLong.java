@@ -21,6 +21,10 @@ public class SerializableLong extends SerializablePrimitiveType {
 	public long getLong(){
 		return this.value;
 	}
+	
+	public void setLong(long value){
+		this.value = value;
+	}
 
 	@Override
 	public int getSerializationSize() {

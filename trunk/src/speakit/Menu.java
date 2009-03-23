@@ -162,7 +162,7 @@ public class Menu {
 		System.out.println(
 				"Se ha detectado una nueva palabra.\n" +
 				"	La palabra '" + word + "'" + " no se encuentra registrada.\n" +
-				"	Presione 'f' y enter iniciar la captura del audio e 'i' y enter para finalizarla."  
+				"	Presione 'f' y enter para iniciar la captura del audio e 'i' y enter para finalizarla."  
 				);
 		while(recording) {			
 			option = entrada.readLine().charAt(0);		

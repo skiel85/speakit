@@ -45,5 +45,18 @@ public class AudioFileTest {
 		Assert.assertArrayEquals(audio3, this.sut.getAudio(4 + audio1.length + 4 + audio2.length));
 		Assert.assertArrayEquals(audio2, this.sut.getAudio(4 + audio1.length));
 	}
+	
+	@Test
+	public void testAddAudioAndGetOffset() throws IOException {
+		byte[] audio1 = new byte[] {10, -25, 32, 64, -122, 89, 55, 0, -3, 102};
+		byte[] audio2 = new byte[] {4, 82, 36, 25, -30, -120, 78};
+		byte[] audio3 = new byte[] {89, 23, 2, -1, 0, 64, 64, 9, -44};
+		long offset1 = this.sut.addAudio(audio1);
+		long offset2 = this.sut.addAudio(audio2);
+		long offset3 = this.sut.addAudio(audio3);
+		Assert.assertEquals(0, offset1);
+		Assert.assertEquals(4 + audio1.length, offset2);
+		Assert.assertEquals(4 + audio1.length + 4 + audio2.length, offset3);
+	}
 
 }

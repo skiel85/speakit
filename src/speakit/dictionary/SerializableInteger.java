@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class SerializableInteger extends SerializablePrimitiveType {
 
 	private int value=0;

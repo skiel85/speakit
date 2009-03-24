@@ -1,5 +1,6 @@
 package datos.capturaaudio.exception;
 
+@SuppressWarnings("serial")
 public class SimpleAudioRecorderException extends Exception{
 
 	public SimpleAudioRecorderException(String msg){

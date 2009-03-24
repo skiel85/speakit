@@ -1,5 +1,6 @@
 package datos.reproduccionaudio.exception;
 
+@SuppressWarnings("serial")
 public class ForgotInitSimpleAudioPlayerException extends SimpleAudioPlayerException{
 
 	public ForgotInitSimpleAudioPlayerException(){

@@ -1,5 +1,6 @@
 package datos.capturaaudio.exception;
 
+@SuppressWarnings("serial")
 public class ForgotInitSimpleAudioRecorderException extends SimpleAudioRecorderException {
 	
 	public ForgotInitSimpleAudioRecorderException(){

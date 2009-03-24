@@ -2,6 +2,7 @@ package speakit;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,8 +11,8 @@ import speakit.dictionary.AudioDictionary;
 import speakit.dictionary.AudioDictionaryImpl;
 import speakit.dictionary.files.audiofile.AudioFile;
 import speakit.dictionary.files.audioindexfile.AudioIndexFile;
-import speakit.wordreader.MockWordReader;
 import speakit.wordreader.WordReader;
+import speakit.wordreader.WordReaderImpl;
 import audio.AudioManager;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
@@ -49,8 +50,8 @@ public class Menu {
 		return audioDictionary;
 	}
 
-	private WordReader getNewWordReader() {
-		wordReader=new MockWordReader();
+	private WordReader getNewWordReader(File file) throws FileNotFoundException, IOException {
+		wordReader = new WordReaderImpl(new FileInputStream(file));
 		return wordReader;
 	}	
 	/**
@@ -113,8 +114,10 @@ public class Menu {
 	 * 
 	 * @param path path del archivo a procesar
 	 * @throws SimpleAudioRecorderException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public void processTextFile(String path) throws SimpleAudioRecorderException {
+	public void processTextFile(String path) throws SimpleAudioRecorderException, FileNotFoundException, IOException {
 		// TODO Evaluar la opcion de crear una clase manejadora de archivos de entrada
 		File file = new File(path);
 //		if (file.exists())
@@ -131,9 +134,11 @@ public class Menu {
 	 * 
 	 * @param file archivo a procesar
 	 * @throws SimpleAudioRecorderException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	private void doProcessFile(File file) throws SimpleAudioRecorderException {
-		WordReader aWordReader =  getNewWordReader();
+	private void doProcessFile(File file) throws SimpleAudioRecorderException, FileNotFoundException, IOException {
+		WordReader aWordReader =  getNewWordReader(file);
 		while(aWordReader.hasNext())		
 		{
 			try {
@@ -167,7 +172,11 @@ public class Menu {
 		opt = Integer.parseInt(entrada.readLine());			
 		switch(opt){
 			case 1:
-				WordReader aWordReader =  getNewWordReader();
+				System.out.println(
+						"Leer archivo de Texto\n" +		
+						"Ingrese el path a continuación: \n");		
+						String path = entrada.readLine();
+				WordReader aWordReader =  getNewWordReader(new File(path));
 				while(aWordReader.hasNext())		
 				{
 					try {

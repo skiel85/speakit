@@ -1,23 +1,6 @@
 package speakit;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FilterInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.imageio.stream.FileImageInputStream;
-import javax.sound.sampled.AudioFileFormat;
-
-import datos.capturaaudio.core.SimpleAudioRecorder;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
-import datos.reproduccionaudio.core.SimpleAudioPlayer;
-import datos.reproduccionaudio.exception.SimpleAudioPlayerException;
 
 public class Main {
 	public static void main(String[] args) throws SimpleAudioRecorderException {

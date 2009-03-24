@@ -1,11 +1,5 @@
 package speakit.wordreader;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.jcp.xml.dsig.internal.dom.Utils;
-
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 /**
  * Clase Dummy q implementa WordREader

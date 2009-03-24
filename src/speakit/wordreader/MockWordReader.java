@@ -1,5 +1,12 @@
 package speakit.wordreader;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.jcp.xml.dsig.internal.dom.Utils;
+
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+
 /**
  * Clase Dummy q implementa WordREader
  * @author 
@@ -7,20 +14,22 @@ package speakit.wordreader;
  */
 public class MockWordReader implements WordReader {
 	int count;
-	public MockWordReader() {
-		count = 4;
+	 
+	String[] words;
+	int it=0;
+	public MockWordReader() { 
+//		words  = "puede estar temporalmente inactiva o tal vez se haya trasladado definitivamente a una nueva".split(" ");
+		words  = "puede estar temporalmente no si".split(" ");
 	}
 	@Override
 	public boolean hasNext() {
-		// TODO Auto-generated method stub
-		count--;
-		return count != 0;
+		return it< words.length;
 	}
 
 	@Override
 	public String next() {
 		// TODO Auto-generated method stub
-		return "unaPalabra";
+		return words[it++];
 	}
 
 }

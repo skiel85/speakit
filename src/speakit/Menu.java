@@ -1,20 +1,19 @@
 package speakit;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import javax.sound.sampled.AudioFileFormat;
-
-import datos.capturaaudio.core.SimpleAudioRecorder;
-import datos.capturaaudio.exception.SimpleAudioRecorderException;
-
 import speakit.dictionary.AudioDictionary;
-import speakit.dictionary.MockAudioDictionary;
+import speakit.dictionary.AudioDictionaryImpl;
+import speakit.dictionary.files.audiofile.AudioFile;
+import speakit.dictionary.files.audioindexfile.AudioIndexFile;
 import speakit.wordreader.MockWordReader;
 import speakit.wordreader.WordReader;
+import audio.AudioManager;
+import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 /**
  * Clase Encargada de manejar la interaccion con el usuario
@@ -22,16 +21,36 @@ import speakit.wordreader.WordReader;
 public class Menu {	
 	protected AudioDictionary audioDictionary;
 	protected WordReader wordReader;
+	protected AudioManager audioManager;
 	
 	public Menu() {
-		wordReader = new MockWordReader();
-		audioDictionary = new MockAudioDictionary();
+		try {
+			File file2 = new File("AudioIndexFile.dat");
+			File file = new File("AudioFile.dat");
+			file.setWritable(true);
+			file2.setWritable(true);
+			try {
+				file.createNewFile();
+				file2.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			AudioIndexFile audioIndexFile = new AudioIndexFile(file2);
+			AudioFile audioFile = new AudioFile(file);
+			audioDictionary = new AudioDictionaryImpl(audioIndexFile,audioFile);
+			audioManager = new AudioManager();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	private AudioDictionary getAudioDictionary() {
 		return audioDictionary;
 	}
 
-	private WordReader getWordReader() {		
+	private WordReader getNewWordReader() {
+		wordReader=new MockWordReader();
 		return wordReader;
 	}	
 	/**
@@ -98,14 +117,14 @@ public class Menu {
 	public void processTextFile(String path) throws SimpleAudioRecorderException {
 		// TODO Evaluar la opcion de crear una clase manejadora de archivos de entrada
 		File file = new File(path);
-		if (file.exists())
-		{
-			System.out.println("El archivo existe.");
-			doProcessFile(file);
-		}else
-		{
-			System.out.println("Error. El archivo no existe.");
-		}
+//		if (file.exists())
+//		{
+//			System.out.println("El archivo existe.");			
+//		}else
+//		{
+//			System.out.println("Error. El archivo no existe.");
+//		}
+		doProcessFile(file);
 	}
 	
 	/** Recibe un File y lo procesa 
@@ -114,14 +133,17 @@ public class Menu {
 	 * @throws SimpleAudioRecorderException 
 	 */
 	private void doProcessFile(File file) throws SimpleAudioRecorderException {
-		while(getWordReader().hasNext())		
+		WordReader aWordReader =  getNewWordReader();
+		while(aWordReader.hasNext())		
 		{
 			try {
-				String word = getWordReader().next();				
+				String word = aWordReader.next();				
 				if (!getAudioDictionary().contains(word)) {
 					byte[] audioWord = this.getNewAudioWord(word);
 					getAudioDictionary().addEntry(word, audioWord);
 					System.out.println("La palabra fue agregada exitosamente.");
+				}else{
+					System.out.println("La palabra '"+word+"' ya está en el diccionario.");
 				}
 			}
 			catch (IOException io) {
@@ -145,13 +167,21 @@ public class Menu {
 		opt = Integer.parseInt(entrada.readLine());			
 		switch(opt){
 			case 1:
-			System.out.println("reproducir archivo");
-			try {
-			Thread.sleep(1000);
-			} catch (InterruptedException ie)
-			{}
-			break;	
-			
+				WordReader aWordReader =  getNewWordReader();
+				while(aWordReader.hasNext())		
+				{
+					try {
+						String word = aWordReader.next();				
+						if (getAudioDictionary().contains(word)) {
+							byte[] audioWord = getAudioDictionary().getAudio(word);
+							playSound(audioWord);
+						}
+					}
+					catch (IOException io) {
+						//TODO Resolver la excepcion
+					}
+				}
+			break;				
 			case 0:
 			break;
 		}
@@ -181,10 +211,6 @@ public class Menu {
 				case 'f':
 				case 'F':
 					//Inicio la captura
-					output=new ByteArrayOutputStream();
-					recorder=new SimpleAudioRecorder(AudioFileFormat.Type.WAVE,output );
-					recorder.init();
-					recorder.startRecording();
 					System.out.println("Grabando nueva palabra. " +
 										"Presione 'i' para finalizar.");
 					newAudioWord = startRecording(entrada);
@@ -195,8 +221,6 @@ public class Menu {
 		newAudioWord = confirmateAudioWord(word, newAudioWord, entrada);
 		return newAudioWord;
 	}
-	ByteArrayOutputStream output=null;
-	SimpleAudioRecorder recorder=null;
 	
 	/**
 	 * confirma que el contenido del audio sea correcto, si no lo es, vuelve a grabarlo
@@ -213,6 +237,9 @@ public class Menu {
 		System.out.println("Verifique la palabra '" + word + "'.");
 		System.out.println("Reproduciendo...");
 		//Reproduzco el audio grabado
+		
+		playSound(oldAudioWord);
+		
 		System.out.println("Si está conforme, presione 's'.\n" +
 							"De lo contrario presione 'n' e ingresela nuevamente.");		
 		while(true) {			
@@ -228,14 +255,19 @@ public class Menu {
 			}
 		}
 	}
+	private void playSound(byte[] sound) {
+		audioManager.play(sound);
+	}
 	
 	/**
 	 * Inicia la obtencion de una palabra en formato audio y muestra la opcion de detener
 	 * @param entrada la consola donde escribir
 	 * @return la palabra en formato audio
 	 * @throws IOException
+	 * @throws SimpleAudioRecorderException 
 	 */
-	private byte[] startRecording(BufferedReader entrada) throws IOException {		
+	private byte[] startRecording(BufferedReader entrada) throws IOException, SimpleAudioRecorderException {
+		audioManager.startRecording();
 		char option;
 		//Inicio grabacion
 		while(true){
@@ -243,21 +275,13 @@ public class Menu {
 			switch(option){
 				case 'i':
 				case 'I':
+					//recorder.stopRecording();
+					byte[] audioWord = audioManager.stopRecording();
 					System.out.println("Grabaciòn finalizada.");
-					return stopRecording();
+					return audioWord;
 			}
 		}
 		
 	}
-
-	/**
-	 * Finaliza la grabacion 
-	 * @return la palabra en formato audio
-	 */
-	private byte[] stopRecording() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
 }

@@ -24,7 +24,7 @@ public class AudioIndexFile implements RecordFactory {
 		this.recordFile.resetReadOffset();
 		while(!this.recordFile.eof()) {
 			AudioIndexRecord record = (AudioIndexRecord) this.recordFile.readRecord();
-			if(record.getWord() == word) {
+			if(record.getWord().compareTo(word)==0) {
 				return true;
 			}
 		}
@@ -32,6 +32,7 @@ public class AudioIndexFile implements RecordFactory {
 	}
 	
 	public long getOffset(String word) throws IOException {
+		recordFile.resetReadOffset();//TODO: hacer una prueba de esto
 		while(!this.recordFile.eof()) {
 			AudioIndexRecord record = (AudioIndexRecord) this.recordFile.readRecord();
 			if(record.getWord().compareTo(word)==0) {

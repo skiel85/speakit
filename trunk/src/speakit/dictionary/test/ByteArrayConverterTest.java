@@ -24,14 +24,6 @@ public class ByteArrayConverterTest {
 		byte[] array=new byte[]{0x11, 0x11, 0x23, 0x25,0x00, 0x00, 0x00, 0x00};
 		long num = 1229802815069618176L;
 		Assert.assertEquals( num, ByteArrayConverter.toLong(array));
-	}
-	
-	@Test
-	public void testConvertToDouble() throws Exception {
-		Double d = 1231.11;
-		byte[] array=ByteArrayConverter.toByta(d); 
-		Assert.assertEquals( d, ByteArrayConverter.toDouble(array));
-	}
-	
+	}	
 	
 }

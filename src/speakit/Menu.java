@@ -1,9 +1,15 @@
 package speakit;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import javax.sound.sampled.AudioFileFormat;
+
+import datos.capturaaudio.core.SimpleAudioRecorder;
+import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 import speakit.dictionary.AudioDictionary;
 import speakit.dictionary.MockAudioDictionary;
@@ -30,8 +36,9 @@ public class Menu {
 	}	
 	/**
 	 * Despliega el menu principal
+	 * @throws SimpleAudioRecorderException 
 	 */
-	public void display() {
+	public void display() throws SimpleAudioRecorderException {
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader entrada = new BufferedReader (isr);
 		System.out.println("Speak It!");
@@ -70,8 +77,9 @@ public class Menu {
 	 * Despliega el menu para procesar los archivos de texto
 	 * @param entrada
 	 * @throws IOException
+	 * @throws SimpleAudioRecorderException 
 	 */
-	private void displayReadTextSubMenu(BufferedReader entrada) throws IOException
+	private void displayReadTextSubMenu(BufferedReader entrada) throws IOException, SimpleAudioRecorderException
 	{
 		String path;
 		System.out.println(
@@ -85,8 +93,9 @@ public class Menu {
 	 * de audio
 	 * 
 	 * @param path path del archivo a procesar
+	 * @throws SimpleAudioRecorderException 
 	 */
-	public void processTextFile(String path) {
+	public void processTextFile(String path) throws SimpleAudioRecorderException {
 		// TODO Evaluar la opcion de crear una clase manejadora de archivos de entrada
 		File file = new File(path);
 		if (file.exists())
@@ -102,8 +111,9 @@ public class Menu {
 	/** Recibe un File y lo procesa 
 	 * 
 	 * @param file archivo a procesar
+	 * @throws SimpleAudioRecorderException 
 	 */
-	private void doProcessFile(File file) {
+	private void doProcessFile(File file) throws SimpleAudioRecorderException {
 		while(getWordReader().hasNext())		
 		{
 			try {
@@ -152,8 +162,9 @@ public class Menu {
 	 * @param word
 	 * @return
 	 * @throws IOException
+	 * @throws SimpleAudioRecorderException 
 	 */
-	public byte[] getNewAudioWord(String word) throws IOException {
+	public byte[] getNewAudioWord(String word) throws IOException, SimpleAudioRecorderException {
 		char option;
 		boolean recording = true;
 		byte[] newAudioWord = null;
@@ -170,6 +181,10 @@ public class Menu {
 				case 'f':
 				case 'F':
 					//Inicio la captura
+					output=new ByteArrayOutputStream();
+					recorder=new SimpleAudioRecorder(AudioFileFormat.Type.WAVE,output );
+					recorder.init();
+					recorder.startRecording();
 					System.out.println("Grabando nueva palabra. " +
 										"Presione 'i' para finalizar.");
 					newAudioWord = startRecording(entrada);
@@ -180,6 +195,8 @@ public class Menu {
 		newAudioWord = confirmateAudioWord(word, newAudioWord, entrada);
 		return newAudioWord;
 	}
+	ByteArrayOutputStream output=null;
+	SimpleAudioRecorder recorder=null;
 	
 	/**
 	 * confirma que el contenido del audio sea correcto, si no lo es, vuelve a grabarlo
@@ -189,8 +206,9 @@ public class Menu {
 	 * @param entrada La consola para escribir
 	 * @return La nueva palabra en audio o la anterior de confirmarse
 	 * @throws IOException
+	 * @throws SimpleAudioRecorderException 
 	 */
-	private byte[] confirmateAudioWord(String word, byte[] oldAudioWord, BufferedReader entrada) throws IOException{		
+	private byte[] confirmateAudioWord(String word, byte[] oldAudioWord, BufferedReader entrada) throws IOException, SimpleAudioRecorderException{		
 		char option;
 		System.out.println("Verifique la palabra '" + word + "'.");
 		System.out.println("Reproduciendo...");

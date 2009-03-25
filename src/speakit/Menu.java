@@ -5,12 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import speakit.audio.AudioManager;
-import speakit.dictionary.AudioDictionary;
-import speakit.dictionary.AudioDictionaryImpl;
-import speakit.dictionary.files.audiofile.AudioFile;
-import speakit.dictionary.files.audioindexfile.AudioIndexFile;
-import speakit.wordreader.WordReader;
-import speakit.wordreader.WordReaderImpl;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 /**

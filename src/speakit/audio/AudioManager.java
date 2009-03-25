@@ -1,4 +1,4 @@
-package audio;
+package speakit.audio;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

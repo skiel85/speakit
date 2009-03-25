@@ -58,11 +58,12 @@ public class Speakit {
 				String word = wordReader.next();
 				if(!this.dataBase.contains(word)){
 					byte[] audioWord = this.observer.getAudio(word);
-					dataBase.addEntry(word, audioWord);	
+					if(audioWord!=null){
+						dataBase.addEntry(word, audioWord);	
+					}	
 				}else{
 					this.observer.notifyAlreadyHaveIt(word);
 				}
-				
 			}
 			observer.start();
 		} catch (IOException io) {
@@ -87,7 +88,10 @@ public class Speakit {
 				String word = aWordReader.next();
 				if (this.dataBase.contains(word)) {
 					byte[] audioWord = this.dataBase.getAudio(word);
+					System.out.println("Palabra encontrada: " + word);
 					this.observer.playSound(audioWord);
+				}else{
+					System.out.println("Palabra NOOO encontrada: " + word);
 				}
 			}
 			observer.start();

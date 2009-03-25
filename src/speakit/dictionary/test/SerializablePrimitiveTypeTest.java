@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import speakit.dictionary.serialization.SerializableByteArray;
 import speakit.dictionary.serialization.SerializableInteger;
+import speakit.dictionary.serialization.SerializableLong;
 import speakit.dictionary.serialization.SerializablePrimitiveType;
 import speakit.dictionary.serialization.SerializableString;
 
@@ -108,6 +109,7 @@ public class SerializablePrimitiveTypeTest {
 		SerializableString b = new SerializableString("aaaaac");
 		SerializableString c = new SerializableString("aaaaada");
 		SerializableString d = new SerializableString();
+		SerializableString equal2a = new SerializableString("aaaaad");
 		
 		Assert.assertTrue(a.compareTo(b)>0);	
 		Assert.assertTrue(b.compareTo(a)<0);
@@ -122,6 +124,9 @@ public class SerializablePrimitiveTypeTest {
 		Assert.assertTrue(d.compareTo(a)<0);
 		
 		Assert.assertTrue(d.compareTo(d)==0);
+		
+		Assert.assertTrue(a.compareTo(equal2a)==0);
+		Assert.assertTrue(equal2a.compareTo(a)==0);
 	}
 	
 	@Test
@@ -138,6 +143,24 @@ public class SerializablePrimitiveTypeTest {
 		
 		Assert.assertTrue(b.compareTo(c)<0);	
 		Assert.assertTrue(c.compareTo(b)>0);
+	}
+	
+	@Test
+	public void testSerializableIntegerCompareEquals() {
+		SerializablePrimitiveType a = new SerializableInteger(1); 
+		SerializablePrimitiveType b = new SerializableInteger(1);
+		
+		Assert.assertTrue(a.compareTo(b)==0);	
+		Assert.assertTrue(b.compareTo(a)==0); 
+	}
+	
+	@Test
+	public void testSerializableLongCompareEquals() {
+		SerializablePrimitiveType a = new SerializableLong(99991999999L); 
+		SerializablePrimitiveType b = new SerializableLong(99991999999L);
+		
+		Assert.assertTrue(a.compareTo(b)==0);	
+		Assert.assertTrue(b.compareTo(a)==0); 
 	}
 	
 	

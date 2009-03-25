@@ -1,11 +1,8 @@
 package speakit;
 
-import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import com.sun.org.apache.xml.internal.serializer.utils.Utils;
 
 import speakit.audio.AudioManager;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;

@@ -1,16 +1,18 @@
 package speakit;
 
+import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import com.sun.org.apache.xml.internal.serializer.utils.Utils;
 
 import speakit.audio.AudioManager;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 /**
- * Clase Encargada de manejar la interaccion con el usuario.
- * Es la vista de la clase Speakit
- * Conoce las librerias de audio
+ * Clase Encargada de manejar la interaccion con el usuario. Es la vista de la
+ * clase Speakit Conoce las librerias de audio
  */
 public class Menu implements SpeakitObserver {
 	protected AudioManager audioManager;
@@ -40,6 +42,8 @@ public class Menu implements SpeakitObserver {
 		}
 	}
 
+	String pathCache = "1.txt";
+
 	/**
 	 * Despliega el menu para pedir un path
 	 * 
@@ -49,8 +53,25 @@ public class Menu implements SpeakitObserver {
 	 */
 	private String displayReadFilePath(BufferedReader entrada)
 			throws IOException {
-		System.out.println("Ingrese el path a continuación: \n");
-		return entrada.readLine();
+		String path = "";
+
+		System.out.println("Ingrese el path a continuación:");
+		if (isPathCacheAvaliable()) {
+			System.out.println("( Si su archivo es '" + this.pathCache
+					+ "' solo presione ENTER)");
+		}
+		path = entrada.readLine();
+
+		if (isPathCacheAvaliable() &&  path.length()==0) {
+			path = pathCache;
+		} else {
+			pathCache = path;
+		}
+		return path;
+	}
+
+	private boolean isPathCacheAvaliable() {
+		return (!"".equals(pathCache) && pathCache != null);
 	}
 
 	/**

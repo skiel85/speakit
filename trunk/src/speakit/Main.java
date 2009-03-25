@@ -3,32 +3,16 @@ package speakit;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 public class Main {
+	/**
+	 * Lanza el programa principal
+	 * @param args
+	 * @throws SimpleAudioRecorderException
+	 */
 	public static void main(String[] args) throws SimpleAudioRecorderException {
+		Speakit speakit = new Speakit();
 		Menu menu = new Menu();
-		menu.display();
+		menu.setSpeakit(speakit);
+		speakit.launch();
 	}
 	
-
-//	public static void main(String[] args) throws SimpleAudioRecorderException, InterruptedException, SimpleAudioPlayerException, IOException {
-//		String soundFilePath = "prueba.wav";
-//		FileOutputStream file = new FileOutputStream(soundFilePath); 
-//		
-//		SimpleAudioRecorder recorder = new SimpleAudioRecorder(AudioFileFormat.Type.AU, file  );
-//		
-//		recorder.init();
-//		recorder.startRecording( );
-//		Thread.sleep(3000);
-//		recorder.stopRecording();
-//		file.flush();
-//		file.close(); 
-//		
-//		InputStream stream=new FileInputStream(soundFilePath); 
-//		BufferedInputStream fstream = new BufferedInputStream(stream);
-//		
-//		SimpleAudioPlayer player = new SimpleAudioPlayer(fstream);
-//		player.init();
-//		player.startPlaying();
-//		Thread.sleep(3000);
-//		player.stopPlaying();
-//	}
 }

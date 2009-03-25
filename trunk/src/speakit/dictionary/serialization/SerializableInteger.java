@@ -43,7 +43,11 @@ public class SerializableInteger extends SerializablePrimitiveType {
 	@Override
 	protected int compareToSameClass(SerializablePrimitiveType o) {
 		SerializableInteger other = (SerializableInteger)o;
-		return (this.value<other.value)?-1:1;
+		if(this.value==other.value){
+			return 0;
+		}else{
+			return (this.value<other.value)?-1:1;
+		}
 	}
 
 

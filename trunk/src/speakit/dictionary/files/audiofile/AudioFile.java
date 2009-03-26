@@ -14,6 +14,7 @@ public class AudioFile implements RecordFactory {
 	
 	public AudioFile(File file) throws FileNotFoundException {
 		this.recordFile = new RecordFile(file, this);
+		this.currentOffset = file.length();
 	}
 	
 	public byte[] getAudio(long offset) throws IOException {

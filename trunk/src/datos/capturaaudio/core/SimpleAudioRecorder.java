@@ -45,7 +45,6 @@ public class SimpleAudioRecorder extends Thread{
 		}catch(IllegalArgumentException e2){
 			throw new SimpleAudioRecorderException("Verifique que el micrófono esté correctamente instalado.\n" + e2.toString() );
 		}
-		
 		m_audioInputStream = new AudioInputStream(m_line);
 	}
 	

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import speakit.audio.Audio;
 import speakit.audio.AudioManager;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
@@ -11,45 +12,47 @@ import datos.capturaaudio.exception.SimpleAudioRecorderException;
  * Clase Encargada de manejar la interaccion con el usuario. Es la vista de la
  * clase Speakit Conoce las librerias de audio
  */
-public class Menu implements SpeakitObserver {
+public class Menu  {
 	protected AudioManager audioManager;
 	private Speakit speakit;
 
 	public Menu() {
 		audioManager = new AudioManager();
+		speakit = new Speakit();
 	}
 
 	/**
 	 * Despliega el menu para procesar los archivos de texto
 	 * 
-	 * @param entrada
+	 * @throws IOException
+	 * 
+	 * @throws WordNotFoundException
 	 */
-	private void displayReadTextSubMenu(BufferedReader entrada) {
+	private void addDocument() throws IOException {
 		System.out.println("Leer archivo de Texto\n");
 		String path;
-		try {
-			path = displayReadFilePath(entrada);
-			try {
-				this.speakit.processFile(path);
-			} catch (CannotProccessFileSpeakitException e) {
-				System.out.println("No es posible procesar el archivo " + path);
-			}
-		} catch (IOException e1) {
-			System.out.println("Error en la lectura del archivo.");
+		path = displayReadFilePath();
+		TextDocument textDocumentFromFile = speakit
+				.getTextDocumentFromFile(path);
+
+		for (String unknownWord:this.speakit.addDocument(textDocumentFromFile)) {
+			WordAudio audio = getAudio(unknownWord);
+			speakit.addWordAudio(audio);
 		}
+		System.out.println("El documento fué agregado con éxito.");
 	}
 
 	String pathCache = "1.txt";
+	private BufferedReader userInput;
 
 	/**
 	 * Despliega el menu para pedir un path
 	 * 
-	 * @param entrada
+	 * @param this.userInput
 	 * @throws IOException
 	 * @throws SimpleAudioRecorderException
 	 */
-	private String displayReadFilePath(BufferedReader entrada)
-			throws IOException {
+	private String displayReadFilePath() throws IOException {
 		String path = "";
 
 		System.out.println("Ingrese el path a continuación:");
@@ -57,9 +60,9 @@ public class Menu implements SpeakitObserver {
 			System.out.println("( Si su archivo es '" + this.pathCache
 					+ "' solo presione ENTER)");
 		}
-		path = entrada.readLine();
+		path = this.userInput.readLine();
 
-		if (isPathCacheAvaliable() &&  path.length()==0) {
+		if (isPathCacheAvaliable() && path.length() == 0) {
 			path = pathCache;
 		} else {
 			pathCache = path;
@@ -74,29 +77,21 @@ public class Menu implements SpeakitObserver {
 	/**
 	 * Despliega el menu para la reproduccion de los archivos.
 	 * 
-	 * @param entrada
+	 * @param this.userInput
 	 * @throws IOException
 	 */
-	private void displayPlayFileSubMenu(BufferedReader entrada)
-			throws IOException {
-		int opt;
-		System.out.println("Reproducir Archivo\n" + "	1.- Reproducir Archivo\n"
-				+ "\n" + "	0.- Volver");
-		opt = Integer.parseInt(entrada.readLine());
-		switch (opt) {
-		case 1:
-			String path = displayReadFilePath(entrada);
-			try {
-				this.speakit.readFile(path);
-			} catch (CannotProccessFileSpeakitException e) {
-				System.out.println("No es posible reproducir el archivo "
-						+ path);
-			}
-			break;
-		case 0:
-			break;
+	private void playTextDocument() throws IOException {
+		String path = displayReadFilePath();
+		TextDocument textDocumentFromFile = speakit
+				.getTextDocumentFromFile(path);
+		
+		WordAudioDocument audioDocument = this.speakit
+		.convertToAudioDocument(textDocumentFromFile);
+		for (WordAudio word : audioDocument) {
+			System.out.println("Reproduciendo:" + word.getWord());
+			this.playSound(word.getAudio());
 		}
-
+		
 	}
 
 	/**
@@ -107,70 +102,59 @@ public class Menu implements SpeakitObserver {
 	 *            la palabra en formato texto
 	 * @param oldAudioWord
 	 *            la grabacion a confirmar
-	 * @param entrada
-	 *            La consola para escribir
+	 * @param this.userInput La consola para escribir
 	 * @return La nueva palabra en audio o la anterior de confirmarse
 	 * @throws IOException
 	 * @throws SimpleAudioRecorderException
 	 */
-	private byte[] confirmateAudioWord(String word, byte[] oldAudioWord,
-			BufferedReader entrada) throws IOException,
-			SimpleAudioRecorderException {
-		char option;
-		System.out.println("Verifique la palabra '" + word + "'.");
+	private boolean confirmateAudioWord(WordAudio wordAudio)
+			throws IOException, SimpleAudioRecorderException {
+		
+		System.out.println("Verifique la palabra '" + wordAudio.getWord()
+				+ "'.");
 		System.out.println("Reproduciendo...");
 		// Reproduzco el audio grabado
 
-		playSound(oldAudioWord);
+		playSound(wordAudio.getAudio());
 
 		System.out.println("Si está conforme, presione ENTER.\n"
 				+ "De lo contrario presione 'n' e ingresela nuevamente.");
 		while (true) {
-			String line = entrada.readLine();
-			if (line.length() == 1) {
-				option = entrada.readLine().charAt(0);
-			} else {
-				option = 's';
-			}
-
-			switch (option) {
-			case 's':
-			case 'S':
-				return oldAudioWord;
-			case 'n':
-			case 'N':
-				// Inicio nuevamente la captura
-				return getAudio(word);
+			String line = this.userInput.readLine();
+			if(line.length() ==0){
+				return true;
+			}else{
+				return false;
 			}
 		}
 	}
 
-	public void playSound(byte[] sound) {
-		audioManager.play(sound);
+	public void playSound(Audio audio) {
+		// TODO hacer algo con la duracion
+		audioManager.play(audio.getBytes());
 	}
 
 	/**
 	 * Inicia la obtencion de una palabra en formato audio y muestra la opcion
 	 * de detener
 	 * 
-	 * @param entrada
-	 *            la consola donde escribir
+	 * @param this.userInput la consola donde escribir
 	 * @return la palabra en formato audio
 	 * @throws IOException
 	 * @throws SimpleAudioRecorderException
 	 */
-	private byte[] startRecording(BufferedReader entrada) throws IOException,
+	private Audio recordAudio() throws IOException,
 			SimpleAudioRecorderException {
-		audioManager.startRecording();
-		// Inicio grabacion
-		while (true) {
-			entrada.readLine();
-			// recorder.stopRecording();
-			byte[] audioWord = audioManager.stopRecording();
-			System.out.println("Grabación finalizada.");
-			return audioWord;
-		}
-
+		System.out.println("	Presione ENTER para iniciar la captura del audio y ENTER para finalizarla.");
+		this.userInput.readLine();
+		audioManager.startRecording(); 
+		System.out.println("Grabando nueva palabra. "
+				+ "Presione ENTER para finalizar.");
+		this.userInput.readLine();
+		byte[] bytes = audioManager.stopRecording();
+		Audio audio = new Audio(bytes, 0L);
+		System.out.println("Grabación finalizada.");
+		return audio;
 	}
 
 	/**
@@ -183,30 +167,18 @@ public class Menu implements SpeakitObserver {
 	 * @throws IOException
 	 * @throws SimpleAudioRecorderException
 	 */
-	@Override
-	public byte[] getAudio(String word) {
+	public WordAudio getAudio(String word) {
 		try {
-			boolean recording = true;
-			byte[] newAudioWord = null;
-			InputStreamReader isr = new InputStreamReader(System.in);
-			BufferedReader entrada = new BufferedReader(isr);
-			System.out
-					.println("Se ha detectado una nueva palabra.\n"
-							+ "	La palabra '"
-							+ word
-							+ "'"
-							+ " no se encuentra registrada.\n"
-							+ "	Presione ENTER para iniciar la captura del audio y ENTER para finalizarla.");
-			while (recording) {
-				entrada.readLine();
+			WordAudio newAudioWord = null;
+			do {
+				Audio audio = null;
+				System.out.println("Se ha detectado una nueva palabra.\n"
+						+ "	La palabra '" + word + "'"
+						+ " no se encuentra registrada.\n");
+				audio = recordAudio();
+				newAudioWord = new WordAudio(word, audio);
+			} while (!confirmateAudioWord(newAudioWord));
 
-				System.out.println("Grabando nueva palabra. "
-						+ "Presione ENTER para finalizar.");
-				newAudioWord = startRecording(entrada);
-				recording = false;
-
-			}
-			newAudioWord = confirmateAudioWord(word, newAudioWord, entrada);
 			return newAudioWord;
 		} catch (IOException e) {
 			return null;
@@ -218,29 +190,25 @@ public class Menu implements SpeakitObserver {
 	/**
 	 * Despliega el menu principal
 	 * 
+	 * @throws IOException
+	 * 
 	 * @throws SimpleAudioRecorderException
 	 */
-	@Override
-	public void start() {
-		// try {
-		InputStreamReader isr = new InputStreamReader(System.in);
-		BufferedReader entrada = new BufferedReader(isr);
-		while (true) {
+	public void start() throws IOException {
+		speakit.load();
 
-			System.out.println("Speak It!");
-			int opt;
-			System.out.println("Menu Principal\n"
-					+ "	1.- Procesar archivo de Texto\n"
-					+ "	2.- Reproducir Archivo\n" + "\n" + "	0.- Salir");
+		userInput = initializeUserInput();
+		while (true) {
+			displayMainMenu();
 			try {
-				opt = Integer.parseInt(entrada.readLine());
+				int opt = Integer.parseInt(userInput.readLine());
 				switch (opt) {
 				case 1:
-					displayReadTextSubMenu(entrada);
+					addDocument();
 					break;
 
 				case 2:
-					displayPlayFileSubMenu(entrada);
+					playTextDocument();
 					break;
 
 				case 0:
@@ -253,14 +221,28 @@ public class Menu implements SpeakitObserver {
 		}
 	}
 
-	public void setSpeakit(Speakit speakit) {
-		this.speakit = speakit;
-		this.speakit.setObserver(this);
+	private BufferedReader initializeUserInput() {
+		InputStreamReader isr = new InputStreamReader(System.in);
+		BufferedReader input = new BufferedReader(isr);
+		return input;
 	}
 
-	@Override
-	public void notifyAlreadyHaveIt(String word) {
-		System.out.println("Palabra ya indexada: " + word);
+	private void displayMainMenu() {
+		System.out.println("Speak It!");
+		System.out.println("Menu Principal\n"
+				+ "	1.- Procesar archivo de Texto\n"
+				+ "	2.- Reproducir Archivo\n" + "\n" + "	0.- Salir");
 	}
+
+//	@Deprecated
+//	public void setSpeakit(Speakit speakit) {
+//		this.speakit = speakit;
+//		this.speakit.setObserver(this);
+//	}
+
+//	@Override
+//	public void notifyAlreadyHaveIt(String word) {
+//		System.out.println("Palabra ya indexada: " + word);
+//	}
 
 }

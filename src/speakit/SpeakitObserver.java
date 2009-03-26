@@ -1,12 +1,12 @@
 package speakit;
 
+import java.io.IOException;
+
+@Deprecated
 public interface SpeakitObserver {
+ 
 
-	byte[] getAudio(String text);
-
-	void start();
-
-	void playSound(byte[] audioWord);
+	void start() throws IOException; 
 
 	void notifyAlreadyHaveIt(String word);
 

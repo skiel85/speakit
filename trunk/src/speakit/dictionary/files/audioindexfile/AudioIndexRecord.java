@@ -11,24 +11,24 @@ import speakit.dictionary.serialization.SerializableString;
 
 public class AudioIndexRecord implements Record {
 
-	SerializableLong offset;	
+	SerializableLong offset;
 	SerializableString word;
-	
+
 	public AudioIndexRecord() {
 		this.word = new SerializableString();
 		this.offset = new SerializableLong();
 	}
-	
+
 	public AudioIndexRecord(String word, long offset) {
 		this.word = new SerializableString(word);
 		this.offset = new SerializableLong(offset);
 	}
-	
+
 	@Override
 	public int compareTo(Record o) {
-		return this.word.compareTo(((AudioIndexRecord)o).word);
+		return this.word.compareTo(((AudioIndexRecord) o).word);
 	}
-	
+
 	@Override
 	public long deserialize(InputStream stream) throws RecordSerializationException {
 		long byteCount = 0;
@@ -44,15 +44,15 @@ public class AudioIndexRecord implements Record {
 		this.offset.setLong(offset.getLong());
 		return byteCount;
 	}
-	
+
 	public long getOffset() {
 		return this.offset.getLong();
 	}
-	
+
 	public String getWord() {
 		return this.word.getString();
 	}
-	
+
 	@Override
 	public long serialize(OutputStream stream) throws RecordSerializationException {
 		long byteCount = 0;

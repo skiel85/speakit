@@ -4,30 +4,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-
 public class SerializableLong extends SerializablePrimitiveType {
 
 	private long value = 0;
-	
-	public SerializableLong(long value){
+
+	public SerializableLong(long value) {
 		this.value = value;
 	}
-	
-	public SerializableLong(){
+
+	public SerializableLong() {
 		this.value = 0;
 	}
-	
-	public long getLong(){
+
+	public long getLong() {
 		return this.value;
 	}
-	
-	public void setLong(long value){
+
+	public void setLong(long value) {
 		this.value = value;
 	}
 
 	@Override
 	public int getSerializationSize() {
-		return Long.SIZE/BYTE_SIZE;
+		return Long.SIZE / BYTE_SIZE;
 	}
 
 	@Override
@@ -38,15 +37,15 @@ public class SerializableLong extends SerializablePrimitiveType {
 	@Override
 	public void actuallySerialize(OutputStream out) throws IOException {
 		out.write(ByteArrayConverter.toByta(this.value));
-	} 
-	
+	}
+
 	@Override
 	protected int compareToSameClass(SerializablePrimitiveType o) {
-		SerializableLong other = (SerializableLong)o;
-		if(this.value==other.value){
+		SerializableLong other = (SerializableLong) o;
+		if (this.value == other.value) {
 			return 0;
-		}else{
-			return (this.value<other.value)?-1:1;
+		} else {
+			return (this.value < other.value) ? -1 : 1;
 		}
 	}
 }

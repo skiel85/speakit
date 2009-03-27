@@ -1,36 +1,36 @@
 package speakit.dictionary.serialization;
 
-
-
-
 public class SerializableString extends SerializableByteArray {
- 
+
 	private String value;
+
 	public SerializableString(String value) {
 		this.setString(value);
 	}
-	
-	public SerializableString( ) {
+
+	public SerializableString() {
 		this("");
 	}
-	
-	public String getString(){
+
+	public String getString() {
 		return this.value;
 	}
-	public void setString(String value){
-		this.value=value;
+
+	public void setString(String value) {
+		this.value = value;
 	}
-	
-	public byte[] getBytes(){
+
+	public byte[] getBytes() {
 		return this.value.getBytes();
-	} 
-	public void setBytes(byte[] value){
-		this.value= ByteArrayConverter.toString(value);
 	}
-	
+
+	public void setBytes(byte[] value) {
+		this.value = ByteArrayConverter.toString(value);
+	}
+
 	@Override
 	protected int compareToSameClass(SerializablePrimitiveType o) {
-		SerializableString other = (SerializableString)o;
+		SerializableString other = (SerializableString) o;
 		return this.getString().compareTo(other.getString());
 	}
 }

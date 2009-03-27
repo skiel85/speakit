@@ -20,7 +20,7 @@ import speakit.wordreader.WordReaderImpl;
  */
 public class Speakit implements SpeakitInterface {
 
-//	SpeakitObserver observer = null;
+	// SpeakitObserver observer = null;
 
 	private AudioDictionaryImpl dataBase;
 
@@ -30,13 +30,14 @@ public class Speakit implements SpeakitInterface {
 
 	/**
 	 * Abre todos los archivos necesarios y deja listo para su uso.
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	public void load() throws IOException {
 		File file2 = new File("AudioIndexFile.dat");
 		File file = new File("AudioFile.dat");
 		file.setWritable(true);
-		file2.setWritable(true); 
+		file2.setWritable(true);
 		file.createNewFile();
 		file2.createNewFile();
 		audioIndexFile = new AudioIndexFile(file2);
@@ -45,7 +46,7 @@ public class Speakit implements SpeakitInterface {
 	}
 
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {
-		ArrayList<String> words=new ArrayList<String>(); 
+		ArrayList<String> words = new ArrayList<String>();
 		for (String word : doc) {
 			if (!this.dataBase.contains(word)) {
 				words.add(word);
@@ -56,31 +57,30 @@ public class Speakit implements SpeakitInterface {
 
 	public WordAudioDocument convertToAudioDocument(TextDocument doc) throws IOException {
 		WordAudioDocument audio = new WordAudioDocument();
-		for (String word : doc) { 
+		for (String word : doc) {
 			if (this.dataBase.contains(word)) {
-				audio.add(new WordAudio(word, new Audio(this.dataBase.getAudio(word),0L)));
+				audio.add(new WordAudio(word, new Audio(this.dataBase.getAudio(word), 0L)));
 			}
 		}
 		return audio;
 	}
 
 	public void addWordAudio(WordAudio audio) throws IOException {
-		if (!this.dataBase.contains(audio.getWord())) {			
+		if (!this.dataBase.contains(audio.getWord())) {
 			dataBase.addEntry(audio.getWord(), audio.getAudio().getBytes());
 		}
-	} 
-		
-	private WordReader createWordReader(String path)
-			throws FileNotFoundException, IOException {
+	}
+
+	private WordReader createWordReader(String path) throws FileNotFoundException, IOException {
 		return new WordReaderImpl(new FileInputStream(new File(path)));
 	}
 
 	public TextDocument getTextDocumentFromFile(String path) throws FileNotFoundException, IOException {
-		TextDocument document=new TextDocument();
+		TextDocument document = new TextDocument();
 		WordReader wordReader = createWordReader(path);
 		while (wordReader.hasNext()) {
-			document.add(wordReader.next());			 
-		}		
+			document.add(wordReader.next());
+		}
 		return document;
 	}
 

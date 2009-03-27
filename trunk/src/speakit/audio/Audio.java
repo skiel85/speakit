@@ -1,17 +1,17 @@
 package speakit.audio;
 
 public class Audio {
-   
-	private   byte[] bytes;
-	private   long duration;
+
+	private byte[] bytes;
+	private long duration;
 
 	public Audio(byte[] bytes, long duration) {
 		this.bytes = bytes;
-		this.duration = duration; 
+		this.duration = duration;
 	}
 
 	public byte[] getBytes() {
-		return this.bytes; 
+		return this.bytes;
 	}
 
 	public void setDuration(long duration) {

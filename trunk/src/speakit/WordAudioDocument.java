@@ -5,9 +5,9 @@ import java.util.Iterator;
 
 public class WordAudioDocument implements Iterable<WordAudio> {
 
-	private ArrayList<WordAudio> wordAudioList=new ArrayList<WordAudio>(); 
+	private ArrayList<WordAudio> wordAudioList = new ArrayList<WordAudio>();
 
-	public void add(WordAudio wordAudio) { 
+	public void add(WordAudio wordAudio) {
 		this.wordAudioList.add(wordAudio);
 	}
 

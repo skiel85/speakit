@@ -14,8 +14,8 @@ import datos.capturaaudio.exception.SimpleAudioRecorderException;
  * clase Speakit Conoce las librerias de audio
  */
 public class Menu {
-	protected AudioManager	audioManager;
-	private SpeakitInterface			speakit;
+	protected AudioManager audioManager;
+	private SpeakitInterface speakit;
 
 	public Menu() {
 		audioManager = new AudioManager();
@@ -37,15 +37,15 @@ public class Menu {
 
 		for (String unknownWord : this.speakit.addDocument(textDocumentFromFile)) {
 			WordAudio audio = getAudio(unknownWord);
-			if (audio != null && audio.getAudio()!=null) {
+			if (audio != null && audio.getAudio() != null) {
 				speakit.addWordAudio(audio);
 			}
 		}
 		System.out.println("El documento fué agregado con éxito.");
 	}
 
-	String					pathCache	= "1.txt";
-	private BufferedReader	userInput;
+	String pathCache = "1.txt";
+	private BufferedReader userInput;
 
 	/**
 	 * Despliega el menu para pedir un path
@@ -202,17 +202,17 @@ public class Menu {
 			try {
 				int opt = Integer.parseInt(userInput.readLine());
 				switch (opt) {
-					case 1 :
-						addDocument();
-						break;
+				case 1:
+					addDocument();
+					break;
 
-					case 2 :
-						playTextDocument();
-						break;
+				case 2:
+					playTextDocument();
+					break;
 
-					case 0 :
-						System.out.println("Terminado");
-						return;
+				case 0:
+					System.out.println("Terminado");
+					return;
 				}
 			} catch (IOException e) {
 				System.out.println("Error en el menú\n");

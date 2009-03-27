@@ -18,7 +18,7 @@ import speakit.wordreader.WordReaderImpl;
  * Se encarga de manejar el control del programa abstrayéndose de la vista.
  * 
  */
-public class Speakit {
+public class Speakit implements SpeakitInterface {
 
 //	SpeakitObserver observer = null;
 

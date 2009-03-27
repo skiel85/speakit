@@ -6,15 +6,16 @@ import java.io.InputStreamReader;
 
 import speakit.audio.Audio;
 import speakit.audio.AudioManager;
+import speakit.audio.AudioManagerException;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 /**
  * Clase Encargada de manejar la interaccion con el usuario. Es la vista de la
  * clase Speakit Conoce las librerias de audio
  */
-public class Menu  {
-	protected AudioManager audioManager;
-	private Speakit speakit;
+public class Menu {
+	protected AudioManager	audioManager;
+	private SpeakitInterface			speakit;
 
 	public Menu() {
 		audioManager = new AudioManager();
@@ -32,18 +33,19 @@ public class Menu  {
 		System.out.println("Leer archivo de Texto\n");
 		String path;
 		path = displayReadFilePath();
-		TextDocument textDocumentFromFile = speakit
-				.getTextDocumentFromFile(path);
+		TextDocument textDocumentFromFile = speakit.getTextDocumentFromFile(path);
 
-		for (String unknownWord:this.speakit.addDocument(textDocumentFromFile)) {
+		for (String unknownWord : this.speakit.addDocument(textDocumentFromFile)) {
 			WordAudio audio = getAudio(unknownWord);
-			speakit.addWordAudio(audio);
+			if (audio != null && audio.getAudio()!=null) {
+				speakit.addWordAudio(audio);
+			}
 		}
 		System.out.println("El documento fué agregado con éxito.");
 	}
 
-	String pathCache = "1.txt";
-	private BufferedReader userInput;
+	String					pathCache	= "1.txt";
+	private BufferedReader	userInput;
 
 	/**
 	 * Despliega el menu para pedir un path
@@ -57,8 +59,7 @@ public class Menu  {
 
 		System.out.println("Ingrese el path a continuación:");
 		if (isPathCacheAvaliable()) {
-			System.out.println("( Si su archivo es '" + this.pathCache
-					+ "' solo presione ENTER)");
+			System.out.println("( Si su archivo es '" + this.pathCache + "' solo presione ENTER)");
 		}
 		path = this.userInput.readLine();
 
@@ -82,16 +83,14 @@ public class Menu  {
 	 */
 	private void playTextDocument() throws IOException {
 		String path = displayReadFilePath();
-		TextDocument textDocumentFromFile = speakit
-				.getTextDocumentFromFile(path);
-		
-		WordAudioDocument audioDocument = this.speakit
-		.convertToAudioDocument(textDocumentFromFile);
+		TextDocument textDocumentFromFile = speakit.getTextDocumentFromFile(path);
+
+		WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(textDocumentFromFile);
 		for (WordAudio word : audioDocument) {
 			System.out.println("Reproduciendo:" + word.getWord());
 			this.playSound(word.getAudio());
 		}
-		
+
 	}
 
 	/**
@@ -107,31 +106,30 @@ public class Menu  {
 	 * @throws IOException
 	 * @throws SimpleAudioRecorderException
 	 */
-	private boolean confirmateAudioWord(WordAudio wordAudio)
-			throws IOException, SimpleAudioRecorderException {
-		
-		System.out.println("Verifique la palabra '" + wordAudio.getWord()
-				+ "'.");
+	private boolean confirmateAudioWord(WordAudio wordAudio) throws IOException, SimpleAudioRecorderException {
+
+		System.out.println("Verifique la palabra '" + wordAudio.getWord() + "'.");
 		System.out.println("Reproduciendo...");
 		// Reproduzco el audio grabado
 
 		playSound(wordAudio.getAudio());
 
-		System.out.println("Si está conforme, presione ENTER.\n"
-				+ "De lo contrario presione 'n' e ingresela nuevamente.");
+		System.out.println("Si está conforme, presione ENTER.\n" + "De lo contrario presione 'n' e ingresela nuevamente.");
 		while (true) {
 			String line = this.userInput.readLine();
-			if(line.length() ==0){
+			if (line.length() == 0) {
 				return true;
-			}else{
+			} else {
 				return false;
 			}
 		}
 	}
 
 	public void playSound(Audio audio) {
-		// TODO hacer algo con la duracion
-		audioManager.play(audio.getBytes());
+		if (audio != null) {
+			// TODO hacer algo con la duracion
+			audioManager.play(audio.getBytes());
+		}
 	}
 
 	/**
@@ -143,17 +141,20 @@ public class Menu  {
 	 * @throws IOException
 	 * @throws SimpleAudioRecorderException
 	 */
-	private Audio recordAudio() throws IOException,
-			SimpleAudioRecorderException {
+	private Audio recordAudio() throws IOException, SimpleAudioRecorderException {
 		System.out.println("	Presione ENTER para iniciar la captura del audio y ENTER para finalizarla.");
 		this.userInput.readLine();
-		audioManager.startRecording(); 
-		System.out.println("Grabando nueva palabra. "
-				+ "Presione ENTER para finalizar.");
-		this.userInput.readLine();
-		byte[] bytes = audioManager.stopRecording();
-		Audio audio = new Audio(bytes, 0L);
-		System.out.println("Grabación finalizada.");
+		Audio audio = null;
+		try {
+			audioManager.startRecording();
+			System.out.println("Grabando nueva palabra. " + "Presione ENTER para finalizar.");
+			this.userInput.readLine();
+			byte[] bytes = audioManager.stopRecording();
+			audio = new Audio(bytes, 0L);
+			System.out.println("Grabación finalizada.");
+		} catch (AudioManagerException e) {
+			System.out.println("No se puede grabar el audio");
+		}
 		return audio;
 	}
 
@@ -172,9 +173,7 @@ public class Menu  {
 			WordAudio newAudioWord = null;
 			do {
 				Audio audio = null;
-				System.out.println("Se ha detectado una nueva palabra.\n"
-						+ "	La palabra '" + word + "'"
-						+ " no se encuentra registrada.\n");
+				System.out.println("Se ha detectado una nueva palabra.\n" + "	La palabra '" + word + "'" + " no se encuentra registrada.\n");
 				audio = recordAudio();
 				newAudioWord = new WordAudio(word, audio);
 			} while (!confirmateAudioWord(newAudioWord));
@@ -203,17 +202,17 @@ public class Menu  {
 			try {
 				int opt = Integer.parseInt(userInput.readLine());
 				switch (opt) {
-				case 1:
-					addDocument();
-					break;
+					case 1 :
+						addDocument();
+						break;
 
-				case 2:
-					playTextDocument();
-					break;
+					case 2 :
+						playTextDocument();
+						break;
 
-				case 0:
-					System.out.println("Terminado");
-					return;
+					case 0 :
+						System.out.println("Terminado");
+						return;
 				}
 			} catch (IOException e) {
 				System.out.println("Error en el menú\n");
@@ -229,20 +228,18 @@ public class Menu  {
 
 	private void displayMainMenu() {
 		System.out.println("Speak It!");
-		System.out.println("Menu Principal\n"
-				+ "	1.- Procesar archivo de Texto\n"
-				+ "	2.- Reproducir Archivo\n" + "\n" + "	0.- Salir");
+		System.out.println("Menu Principal\n" + "	1.- Procesar archivo de Texto\n" + "	2.- Reproducir Archivo\n" + "\n" + "	0.- Salir");
 	}
 
-//	@Deprecated
-//	public void setSpeakit(Speakit speakit) {
-//		this.speakit = speakit;
-//		this.speakit.setObserver(this);
-//	}
+	// @Deprecated
+	// public void setSpeakit(Speakit speakit) {
+	// this.speakit = speakit;
+	// this.speakit.setObserver(this);
+	// }
 
-//	@Override
-//	public void notifyAlreadyHaveIt(String word) {
-//		System.out.println("Palabra ya indexada: " + word);
-//	}
+	// @Override
+	// public void notifyAlreadyHaveIt(String word) {
+	// System.out.println("Palabra ya indexada: " + word);
+	// }
 
 }

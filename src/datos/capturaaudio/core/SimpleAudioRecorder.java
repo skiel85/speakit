@@ -2,13 +2,13 @@ package datos.capturaaudio.core;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.AudioFileFormat;
 
 import datos.capturaaudio.exception.ForgotInitSimpleAudioRecorderException;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
@@ -42,9 +42,8 @@ public class SimpleAudioRecorder extends Thread{
 			
 		}catch(LineUnavailableException e){
 			throw new SimpleAudioRecorderException(e);
-		}catch(IllegalArgumentException e2){
-			throw new SimpleAudioRecorderException("Verifique que el micrófono esté correctamente instalado.\n" + e2.toString() );
 		}
+		
 		m_audioInputStream = new AudioInputStream(m_line);
 	}
 	
@@ -69,6 +68,7 @@ public class SimpleAudioRecorder extends Thread{
 	public void stopRecording()
 	{
 		m_line.stop();
+		m_line.flush();
 		m_line.close();
 	}
 
@@ -85,7 +85,7 @@ public class SimpleAudioRecorder extends Thread{
 	}
 
 	public OutputStream getOutput(){
-		if(!isAlive())
+		if(!m_line.isActive())
 			return m_output;
 		else
 			return null;

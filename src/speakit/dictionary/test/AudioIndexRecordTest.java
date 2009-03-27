@@ -11,7 +11,7 @@ import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.files.audioindexfile.AudioIndexRecord;
 
 public class AudioIndexRecordTest {
-	
+
 	@Test
 	public void testSerializeAndDeserialize() throws IOException {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -21,7 +21,7 @@ public class AudioIndexRecordTest {
 		} catch (RecordSerializationException e) {
 			Assert.fail();
 		}
-		
+
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
 		AudioIndexRecord deserialized = new AudioIndexRecord();
 		try {

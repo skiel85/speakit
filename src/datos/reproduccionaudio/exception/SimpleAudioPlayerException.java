@@ -1,17 +1,17 @@
 package datos.reproduccionaudio.exception;
 
 @SuppressWarnings("serial")
-public class SimpleAudioPlayerException extends Exception{
+public class SimpleAudioPlayerException extends Exception {
 
-	public SimpleAudioPlayerException(String msg){
+	public SimpleAudioPlayerException(String msg) {
 		super(msg);
 	}
-	
-	public SimpleAudioPlayerException(){
+
+	public SimpleAudioPlayerException() {
 		super("ERROR- SimpleAudioPlayerException");
 	}
-	
-	public SimpleAudioPlayerException(Exception e){
+
+	public SimpleAudioPlayerException(Exception e) {
 		super(e);
 	}
 }

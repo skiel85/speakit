@@ -1,6 +1,5 @@
 package speakit.dictionary.test;
 
-
 import java.io.File;
 import java.io.IOException;
 
@@ -15,7 +14,7 @@ public class AudioIndexFileTest {
 
 	File file;
 	AudioIndexFile sut;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");

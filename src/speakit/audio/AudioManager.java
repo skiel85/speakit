@@ -22,14 +22,10 @@ public class AudioManager {
 			recorder.startRecording();
 		} catch (SimpleAudioRecorderException exc) {
 			recorder = null;
-			throw new AudioManagerException(
-					"No se puede inicializar la grabación. Verifique que el dispositivo de grabación esté correctamente instalado.",
-					exc);
+			throw new AudioManagerException("No se puede inicializar la grabación. Verifique que el dispositivo de grabación esté correctamente instalado.", exc);
 		} catch (Exception ex) {
 			recorder = null;
-			throw new AudioManagerException(
-					"No se puede inicializar la grabación. Verifique que el dispositivo de grabación esté correctamente instalado.",
-					ex);
+			throw new AudioManagerException("No se puede inicializar la grabación. Verifique que el dispositivo de grabación esté correctamente instalado.", ex);
 		}
 	}
 

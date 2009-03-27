@@ -9,25 +9,25 @@ import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.serialization.SerializableByteArray;
 
 public class AudioRecord implements Record {
- 
+
 	SerializableByteArray audio;
-	
-	public AudioRecord() { 
-		this.audio = new SerializableByteArray();		
+
+	public AudioRecord() {
+		this.audio = new SerializableByteArray();
 	}
-	
-	public AudioRecord( byte[] audio) { 
+
+	public AudioRecord(byte[] audio) {
 		this.audio = new SerializableByteArray(audio);
 	}
-	
+
 	public byte[] getAudio() {
 		return this.audio.getBytes();
 	}
-	
+
 	public void setAudio(byte[] audio) {
 		this.audio.setBytes(audio);
 	}
-		
+
 	@Override
 	public long deserialize(InputStream stream) throws RecordSerializationException {
 		try {
@@ -47,12 +47,12 @@ public class AudioRecord implements Record {
 	}
 
 	@Override
-	public int compareTo(Record o) { 
-		if(o instanceof AudioRecord){
-			AudioRecord other=(AudioRecord)o;
-			return this.audio.compareTo(other.audio);	
-		}else{
+	public int compareTo(Record o) {
+		if (o instanceof AudioRecord) {
+			AudioRecord other = (AudioRecord) o;
+			return this.audio.compareTo(other.audio);
+		} else {
 			return this.getClass().toString().compareTo(o.getClass().toString());
-		}		 
+		}
 	}
 }

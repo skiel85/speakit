@@ -4,35 +4,34 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-
 public class SerializableInteger extends SerializablePrimitiveType {
 
-	private int value=0;
-	
-	public SerializableInteger(int value){
-		this.value=value;
+	private int value = 0;
+
+	public SerializableInteger(int value) {
+		this.value = value;
 	}
-	
-	public SerializableInteger(){
-		this.value=0;
+
+	public SerializableInteger() {
+		this.value = 0;
 	}
-	
-	public int getInteger(){
+
+	public int getInteger() {
 		return this.value;
 	}
-	
-	public void setInteger(int value){
+
+	public void setInteger(int value) {
 		this.value = value;
 	}
 
 	@Override
 	public int getSerializationSize() {
-		return Integer.SIZE/BYTE_SIZE;
+		return Integer.SIZE / BYTE_SIZE;
 	}
 
 	@Override
 	public void actuallyDeserialize(InputStream in) throws IOException {
-		this.value= ByteArrayConverter.toInt(readBytes(in));
+		this.value = ByteArrayConverter.toInt(readBytes(in));
 	}
 
 	@Override
@@ -42,13 +41,12 @@ public class SerializableInteger extends SerializablePrimitiveType {
 
 	@Override
 	protected int compareToSameClass(SerializablePrimitiveType o) {
-		SerializableInteger other = (SerializableInteger)o;
-		if(this.value==other.value){
+		SerializableInteger other = (SerializableInteger) o;
+		if (this.value == other.value) {
 			return 0;
-		}else{
-			return (this.value<other.value)?-1:1;
+		} else {
+			return (this.value < other.value) ? -1 : 1;
 		}
 	}
-
 
 }

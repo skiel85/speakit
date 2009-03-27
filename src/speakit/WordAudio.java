@@ -2,15 +2,14 @@ package speakit;
 
 import speakit.audio.Audio;
 
-
 public class WordAudio {
 
 	private Audio audio;
 	private String word;
 
 	public WordAudio(String word, Audio audio) {
-		this.word=word;
-		this.audio=audio;
+		this.word = word;
+		this.audio = audio;
 	}
 
 	public void setAudio(Audio audio) {

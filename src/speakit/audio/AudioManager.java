@@ -13,22 +13,27 @@ import datos.reproduccionaudio.exception.SimpleAudioPlayerException;
 public class AudioManager {
 	ByteArrayOutputStream output = null;
 	SimpleAudioRecorder recorder = null;
-	
-	
-	public void startRecording(){
+
+	public void startRecording() throws AudioManagerException {
 		try {
 			output = new ByteArrayOutputStream();
-			recorder = new SimpleAudioRecorder(AudioFileFormat.Type.AU, output  );					
+			recorder = new SimpleAudioRecorder(AudioFileFormat.Type.AU, output);
 			recorder.init();
-			recorder.startRecording( );
+			recorder.startRecording();
 		} catch (SimpleAudioRecorderException exc) {
-			// resolver la excepcion y lanzar una controlada
+			recorder = null;
+			throw new AudioManagerException(
+					"No se puede inicializar la grabación. Verifique que el dispositivo de grabación esté correctamente instalado.",
+					exc);
+		} catch (Exception ex) {
+			recorder = null;
+			throw new AudioManagerException(
+					"No se puede inicializar la grabación. Verifique que el dispositivo de grabación esté correctamente instalado.",
+					ex);
 		}
-		
-		
 	}
-	
-	public byte[] stopRecording(){
+
+	public byte[] stopRecording() {
 		if (recorder != null) {
 			recorder.stopRecording();
 			recorder = null;
@@ -36,14 +41,14 @@ public class AudioManager {
 		}
 		return null;
 	}
-	
-	public void play(byte[] sound){
-		ByteArrayInputStream input = new ByteArrayInputStream(sound);		
+
+	public void play(byte[] sound) {
+		ByteArrayInputStream input = new ByteArrayInputStream(sound);
 		SimpleAudioPlayer player = new SimpleAudioPlayer(input);
 		try {
 			player.init();
 			player.startPlaying();
-			
+
 			Thread.sleep(1000);
 			player.stopPlaying();
 		} catch (SimpleAudioPlayerException e) {

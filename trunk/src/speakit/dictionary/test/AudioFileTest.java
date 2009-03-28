@@ -52,6 +52,7 @@ public class AudioFileTest {
 		byte[] audio1 = new byte[] { 10, -25, 32, 64, -122, 89, 55, 0, -3, 102 };
 		byte[] audio2 = new byte[] { 4, 82, 36, 25, -30, -120, 78 };
 		byte[] audio3 = new byte[] { 89, 23, 2, -1, 0, 64, 64, 9, -44 };
+		byte[] audio4 = new byte[] { 8, 5, 99 };
 
 		// Archivos de prueba
 		File file = File.createTempFile(this.getClass().getName(), ".dat");
@@ -68,11 +69,13 @@ public class AudioFileTest {
 
 		// Agrego una entrada
 		long offset3 = audioFile2.addAudio(audio3);
+		long offset4 = audioFile2.addAudio(audio4);
 
 		// Obtengo la última entrada agregada y verifico
-		Assert.assertArrayEquals(audio1, audioFile1.getAudio(offset1));
-		Assert.assertArrayEquals(audio2, audioFile1.getAudio(offset2));
-		Assert.assertArrayEquals(audio3, audioFile1.getAudio(offset3));
+		Assert.assertArrayEquals(audio1, audioFile2.getAudio(offset1));
+		Assert.assertArrayEquals(audio2, audioFile2.getAudio(offset2));
+		Assert.assertArrayEquals(audio3, audioFile2.getAudio(offset3));
+		Assert.assertArrayEquals(audio4, audioFile2.getAudio(offset4));
 
 		// Elimino archivos temporales
 		file.delete();

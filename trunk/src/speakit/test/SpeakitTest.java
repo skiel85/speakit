@@ -112,4 +112,41 @@ public class SpeakitTest {
 		Assert.assertArrayEquals(wordAudioCuestion.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertFalse(it.hasNext());
 	}
+	
+	
+	@Test
+	public void testRestartSpeakitAndContinueAddingWords() throws IOException {
+		this.sut = new Speakit();
+		this.sut.load(this.fileSet);
+		
+		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }, 0));
+		WordAudio wordAudioO = new WordAudio("o", new Audio(new byte[] { 3, 8, -65, 54, 82 }, 0));
+		WordAudio wordAudioNo = new WordAudio("no", new Audio(new byte[] { 1, 9, -5, 77, 3 }, 0));
+		WordAudio wordAudioEsa = new WordAudio("esa", new Audio(new byte[] { -91, 34, 65, 88, 82 }, 0));
+		this.sut.addWordAudio(wordAudioSer);
+		this.sut.addWordAudio(wordAudioO);
+		this.sut.addWordAudio(wordAudioNo);
+		this.sut.addWordAudio(wordAudioEsa);
+		
+		this.sut = new Speakit();
+		this.sut.load(this.fileSet);
+
+		WordAudio wordAudioEs = new WordAudio("es", new Audio(new byte[] { 111, 34, -65, 8, 82 }, 0));
+		WordAudio wordAudioLa = new WordAudio("la", new Audio(new byte[] { 112, 0, -65, 65, 82 }, 0));
+		WordAudio wordAudioCuestion = new WordAudio("cuestión", new Audio(new byte[] { 1, -24, -3, 77, 80 }, 0));
+		this.sut.addWordAudio(wordAudioEs);
+		this.sut.addWordAudio(wordAudioLa);
+		this.sut.addWordAudio(wordAudioCuestion);		
+		
+		Iterator<WordAudio> it = this.sut.convertToAudioDocument(createTextDocument("Ser o no ser, esa es la cuestión.")).iterator();
+		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
+		Assert.assertArrayEquals(wordAudioO.getAudio().getBytes(), it.next().getAudio().getBytes());
+		Assert.assertArrayEquals(wordAudioNo.getAudio().getBytes(), it.next().getAudio().getBytes());
+		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
+		Assert.assertArrayEquals(wordAudioEsa.getAudio().getBytes(), it.next().getAudio().getBytes());
+		Assert.assertArrayEquals(wordAudioEs.getAudio().getBytes(), it.next().getAudio().getBytes());
+		Assert.assertArrayEquals(wordAudioLa.getAudio().getBytes(), it.next().getAudio().getBytes());
+		Assert.assertArrayEquals(wordAudioCuestion.getAudio().getBytes(), it.next().getAudio().getBytes());
+		Assert.assertFalse(it.hasNext());
+	}
 }

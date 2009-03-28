@@ -29,26 +29,53 @@ public class Speakit implements SpeakitInterface {
 	private AudioIndexFile audioIndexFile;
 
 	/**
-	 * Abre todos los archivos necesarios y deja listo para su uso.
+	 * Carga Speakit con el conjunto de archivos predeterminado.
 	 * 
 	 * @throws IOException
 	 */
 	public void load() throws IOException {
-		File file2 = new File("AudioIndexFile.dat");
-		File file = new File("AudioFile.dat");
-		file.setWritable(true);
-		file2.setWritable(true);
-		file.createNewFile();
-		file2.createNewFile();
-		audioIndexFile = new AudioIndexFile(file2);
-		audioFile = new AudioFile(file);
+		SpeakitFileSet fileSet = new SpeakitFileSet() {
+			File audioFile;
+			File audioIndexFile;
+
+			{
+				this.audioFile = new File("/AudioFile.dat");
+				this.audioIndexFile = new File("/AudioIndexFile.dat");
+				this.audioFile.setWritable(true);
+				this.audioIndexFile.setWritable(true);
+				this.audioFile.createNewFile();
+				this.audioIndexFile.createNewFile();
+			}
+
+			@Override
+			public File getAudioFile() {
+				return this.audioFile;
+			}
+
+			@Override
+			public File getAudioIndexFile() {
+				return this.audioIndexFile;
+			}
+		};
+
+		this.load(fileSet);
+	}
+
+	/**
+	 * Carga Speakit con el conjunto de archivos especificado.
+	 * 
+	 * @throws IOException
+	 */
+	public void load(SpeakitFileSet fileSet) throws IOException {
+		audioIndexFile = new AudioIndexFile(fileSet.getAudioIndexFile());
+		audioFile = new AudioFile(fileSet.getAudioFile());
 		dataBase = new AudioDictionaryImpl(audioIndexFile, audioFile);
 	}
 
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {
 		ArrayList<String> words = new ArrayList<String>();
 		for (String word : doc) {
-			if (!this.dataBase.contains(word)) {
+			if (!this.dataBase.contains(word) && !words.contains(word)) {
 				words.add(word);
 			}
 		}

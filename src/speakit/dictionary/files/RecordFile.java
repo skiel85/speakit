@@ -25,6 +25,8 @@ public class RecordFile {
 		this.inputStream = new FileInputStream(file);
 		this.outputStream = new FileOutputStream(file, true);
 		this.recordFactory = recordFactory;
+		this.currentReadOffset = 0;
+		this.currentWriteOffset = file.length();
 	}
 
 	public Record readRecord() throws IOException {

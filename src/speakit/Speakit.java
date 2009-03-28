@@ -39,8 +39,8 @@ public class Speakit implements SpeakitInterface {
 			File audioIndexFile;
 
 			{
-				this.audioFile = new File("/AudioFile.dat");
-				this.audioIndexFile = new File("/AudioIndexFile.dat");
+				this.audioFile = new File("AudioFile.dat");
+				this.audioIndexFile = new File("AudioIndexFile.dat");
 				this.audioFile.setWritable(true);
 				this.audioIndexFile.setWritable(true);
 				this.audioFile.createNewFile();

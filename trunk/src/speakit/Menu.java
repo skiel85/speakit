@@ -33,9 +33,12 @@ public class Menu {
 		System.out.println("Leer archivo de Texto\n");
 		String path;
 		path = displayReadFilePath();
-		TextDocument textDocumentFromFile = speakit.getTextDocumentFromFile(path);
+		Iterable<String> wordIterable = this.speakit.addDocument(speakit.getTextDocumentFromFile(path));
 
-		for (String unknownWord : this.speakit.addDocument(textDocumentFromFile)) {
+		if (wordIterable.iterator().hasNext()) {
+			System.out.println("El documento contiene palabras desconocidas, que deberá grabar a continuación.");
+		}
+		for (String unknownWord : wordIterable) {
 			WordAudio audio = getAudio(unknownWord);
 			if (audio != null && audio.getAudio() != null) {
 				speakit.addWordAudio(audio);
@@ -107,14 +110,13 @@ public class Menu {
 	 * @throws SimpleAudioRecorderException
 	 */
 	private boolean confirmateAudioWord(WordAudio wordAudio) throws IOException, SimpleAudioRecorderException {
-
-		System.out.println("Verifique la palabra '" + wordAudio.getWord() + "'.");
-		System.out.println("Reproduciendo...");
+		
+		System.out.print("Reproduciendo...");
 		// Reproduzco el audio grabado
 
 		playSound(wordAudio.getAudio());
 
-		System.out.println("Si está conforme, presione ENTER.\n" + "De lo contrario presione 'n' e ingresela nuevamente.");
+		System.out.println("(ENTER para confirmar. N para volver a grabar)");
 		while (true) {
 			String line = this.userInput.readLine();
 			if (line.length() == 0) {
@@ -142,16 +144,13 @@ public class Menu {
 	 * @throws SimpleAudioRecorderException
 	 */
 	private Audio recordAudio() throws IOException, SimpleAudioRecorderException {
-		System.out.println("	Presione ENTER para iniciar la captura del audio y ENTER para finalizarla.");
-		this.userInput.readLine();
 		Audio audio = null;
 		try {
 			audioManager.startRecording();
-			System.out.println("Grabando nueva palabra. " + "Presione ENTER para finalizar.");
+			System.out.println("Grabando... " + "(ENTER para detener).");
 			this.userInput.readLine();
 			byte[] bytes = audioManager.stopRecording();
 			audio = new Audio(bytes, 0L);
-			System.out.println("Grabación finalizada.");
 		} catch (AudioManagerException e) {
 			System.out.println("No se puede grabar el audio");
 		}
@@ -173,7 +172,8 @@ public class Menu {
 			WordAudio newAudioWord = null;
 			do {
 				Audio audio = null;
-				System.out.println("Se ha detectado una nueva palabra.\n" + "	La palabra '" + word + "'" + " no se encuentra registrada.\n");
+				System.out.println("Palabra '" + word + "'. (ENTER para grabar).");
+				this.userInput.readLine();
 				audio = recordAudio();
 				newAudioWord = new WordAudio(word, audio);
 			} while (!confirmateAudioWord(newAudioWord));

@@ -74,17 +74,17 @@ public class SpeakitTest {
 		WordAudio wordAudio = new WordAudio("esa", new Audio(new byte[] { 1, 34, -65, 77, 82 }, 0));
 		this.sut.addWordAudio(wordAudio);
 		Iterator<String> it = this.sut.addDocument(createTextDocument("Ser o no ser, esa es la cuestión.")).iterator();
-		
+
 		Assert.assertEquals("ser", it.next());
 		Assert.assertEquals("o", it.next());
 		Assert.assertEquals("no", it.next());
 		Assert.assertEquals("es", it.next());
 		Assert.assertEquals("la", it.next());
 		Assert.assertEquals("cuestión", it.next());
-		
+
 		Assert.assertFalse(it.hasNext());
 	}
-	
+
 	@Test
 	public void testConvertToAudioDocument() throws IOException {
 		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }, 0));
@@ -112,13 +112,12 @@ public class SpeakitTest {
 		Assert.assertArrayEquals(wordAudioCuestion.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertFalse(it.hasNext());
 	}
-	
-	
+
 	@Test
 	public void testRestartSpeakitAndContinueAddingWords() throws IOException {
 		this.sut = new Speakit();
 		this.sut.load(this.fileSet);
-		
+
 		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }, 0));
 		WordAudio wordAudioO = new WordAudio("o", new Audio(new byte[] { 3, 8, -65, 54, 82 }, 0));
 		WordAudio wordAudioNo = new WordAudio("no", new Audio(new byte[] { 1, 9, -5, 77, 3 }, 0));
@@ -127,7 +126,7 @@ public class SpeakitTest {
 		this.sut.addWordAudio(wordAudioO);
 		this.sut.addWordAudio(wordAudioNo);
 		this.sut.addWordAudio(wordAudioEsa);
-		
+
 		this.sut = new Speakit();
 		this.sut.load(this.fileSet);
 
@@ -136,8 +135,8 @@ public class SpeakitTest {
 		WordAudio wordAudioCuestion = new WordAudio("cuestión", new Audio(new byte[] { 1, -24, -3, 77, 80 }, 0));
 		this.sut.addWordAudio(wordAudioEs);
 		this.sut.addWordAudio(wordAudioLa);
-		this.sut.addWordAudio(wordAudioCuestion);		
-		
+		this.sut.addWordAudio(wordAudioCuestion);
+
 		Iterator<WordAudio> it = this.sut.convertToAudioDocument(createTextDocument("Ser o no ser, esa es la cuestión.")).iterator();
 		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioO.getAudio().getBytes(), it.next().getAudio().getBytes());

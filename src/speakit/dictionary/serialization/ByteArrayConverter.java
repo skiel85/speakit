@@ -30,7 +30,6 @@ public class ByteArrayConverter {
 	// value+=((long)toInt(b,0))<<32;
 	// return value;
 	// }
-
 	/* ========================= */
 	/* "primitive type --> byte[] data" Methods */
 	/* ========================= */

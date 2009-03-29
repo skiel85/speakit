@@ -1,6 +1,7 @@
 package speakit;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -33,7 +34,13 @@ public class Menu {
 		System.out.println("Leer archivo de Texto\n");
 		String path;
 		path = displayReadFilePath();
-		Iterable<String> wordIterable = this.speakit.addDocument(speakit.getTextDocumentFromFile(path));
+		Iterable<String> wordIterable;
+		try {
+			wordIterable = this.speakit.addDocument(speakit.getTextDocumentFromFile(path));
+		} catch (FileNotFoundException fnf) {
+			System.out.println("No pudo encontrarse el archivo '" + path + "'.");
+			return;
+		}
 
 		if (wordIterable.iterator().hasNext()) {
 			System.out.println("El documento contiene palabras desconocidas, que deberá grabar a continuación.");
@@ -64,7 +71,7 @@ public class Menu {
 			System.out.println("(Si su archivo es '" + this.pathCache + "' sólo presione ENTER)");
 		}
 		path = this.userInput.readLine();
-
+		
 		if (isPathCacheAvaliable() && path.length() == 0) {
 			path = pathCache;
 		} else {
@@ -85,7 +92,13 @@ public class Menu {
 	 */
 	private void playTextDocument() throws IOException {
 		String path = displayReadFilePath();
-		TextDocument textDocumentFromFile = speakit.getTextDocumentFromFile(path);
+		TextDocument textDocumentFromFile;
+		try {
+			textDocumentFromFile = speakit.getTextDocumentFromFile(path);
+		} catch (FileNotFoundException fnf) {
+			System.out.println("El archivo " + path + " no pudo encontrarse.");
+			return;
+		}
 
 		WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(textDocumentFromFile);
 		for (WordAudio word : audioDocument) {

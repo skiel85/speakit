@@ -51,18 +51,17 @@ public class Menu {
 	private BufferedReader userInput;
 
 	/**
-	 * Despliega el menu para pedir un path
+	 * Pide una ruta de archivo al usuario.
 	 * 
-	 * @param this.userInput
 	 * @throws IOException
 	 * @throws SimpleAudioRecorderException
 	 */
 	private String displayReadFilePath() throws IOException {
 		String path = "";
 
-		System.out.println("Ingrese el path a continuación:");
+		System.out.println("Ingrese la ruta a continuación:");
 		if (isPathCacheAvaliable()) {
-			System.out.println("( Si su archivo es '" + this.pathCache + "' solo presione ENTER)");
+			System.out.println("(Si su archivo es '" + this.pathCache + "' sólo presione ENTER)");
 		}
 		path = this.userInput.readLine();
 
@@ -197,25 +196,36 @@ public class Menu {
 		speakit.load();
 
 		userInput = initializeUserInput();
-		while (true) {
-			displayMainMenu();
+
+		displayMainMenu();
+
+		boolean finished = false;
+		while (!finished) {
+			int opt = 0;
 			try {
-				int opt = Integer.parseInt(userInput.readLine());
-				switch (opt) {
-				case 1:
-					addDocument();
-					break;
-
-				case 2:
-					playTextDocument();
-					break;
-
-				case 0:
-					System.out.println("Terminado");
-					return;
-				}
+				opt = Integer.parseInt(userInput.readLine());
 			} catch (IOException e) {
-				System.out.println("Error en el menú\n");
+				System.out.println("Error de E/S al leer la consola.");
+				continue;
+			} catch (NumberFormatException e) {
+				System.out.println("Opción inválida.");
+				continue;
+			}
+
+			switch (opt) {
+			case 1:
+				addDocument();
+				break;
+			case 2:
+				playTextDocument();
+				break;
+			case 0:
+				System.out.println("Terminado.");
+				finished = true;
+				break;
+			default:
+				System.out.println("Opción inválida.\n");
+				break;
 			}
 		}
 	}

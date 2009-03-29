@@ -38,7 +38,7 @@ public class Menu {
 		try {
 			wordIterable = this.speakit.addDocument(speakit.getTextDocumentFromFile(path));
 		} catch (FileNotFoundException fnf) {
-			System.out.println("No pudo encontrarse el archivo '" + path + "'.");
+			showFileNotFoundMessage(path);
 			return;
 		}
 
@@ -52,6 +52,10 @@ public class Menu {
 			}
 		}
 		System.out.println("El documento fué agregado con éxito.");
+	}
+
+	private void showFileNotFoundMessage(String path) {
+		System.out.println("No pudo encontrarse el archivo '" + path + "'.");
 	}
 
 	String pathCache = "1.txt";
@@ -96,7 +100,7 @@ public class Menu {
 		try {
 			textDocumentFromFile = speakit.getTextDocumentFromFile(path);
 		} catch (FileNotFoundException fnf) {
-			System.out.println("El archivo " + path + " no pudo encontrarse.");
+			showFileNotFoundMessage(path);
 			return;
 		}
 

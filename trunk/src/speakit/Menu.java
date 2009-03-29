@@ -110,7 +110,7 @@ public class Menu {
 	 * @throws SimpleAudioRecorderException
 	 */
 	private boolean confirmateAudioWord(WordAudio wordAudio) throws IOException, SimpleAudioRecorderException {
-		
+
 		System.out.print("Reproduciendo...");
 		// Reproduzco el audio grabado
 

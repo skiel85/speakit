@@ -197,10 +197,12 @@ public class Menu {
 
 		userInput = initializeUserInput();
 
-		displayMainMenu();
+		
 
 		boolean finished = false;
 		while (!finished) {
+			displayMainMenu();
+			
 			int opt = 0;
 			try {
 				opt = Integer.parseInt(userInput.readLine());

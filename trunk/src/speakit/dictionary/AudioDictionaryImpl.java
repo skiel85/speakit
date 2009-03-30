@@ -2,6 +2,7 @@ package speakit.dictionary;
 
 import java.io.IOException;
 
+import speakit.audio.Audio;
 import speakit.dictionary.files.audiofile.AudioFile;
 import speakit.dictionary.files.audioindexfile.AudioIndexFile;
 
@@ -15,7 +16,7 @@ public class AudioDictionaryImpl implements AudioDictionary {
 	}
 
 	@Override
-	public void addEntry(String word, byte[] audio) throws IOException {
+	public void addEntry(String word, Audio audio) throws IOException {
 		long offset = this.audioFile.addAudio(audio);
 		this.audioIndexFile.addEntry(word, offset);
 	}
@@ -26,7 +27,7 @@ public class AudioDictionaryImpl implements AudioDictionary {
 	}
 
 	@Override
-	public byte[] getAudio(String word) throws IOException {
+	public Audio getAudio(String word) throws IOException {
 		long offset = this.audioIndexFile.getOffset(word);
 		return this.audioFile.getAudio(offset);
 	}

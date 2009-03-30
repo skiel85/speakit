@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import speakit.audio.Audio;
 import speakit.dictionary.files.Record;
 import speakit.dictionary.files.RecordFactory;
 import speakit.dictionary.files.RecordFile;
@@ -17,14 +18,14 @@ public class AudioFile implements RecordFactory {
 		this.currentOffset = file.length();
 	}
 
-	public byte[] getAudio(long offset) throws IOException {
+	public Audio getAudio(long offset) throws IOException {
 		AudioRecord record = (AudioRecord) this.recordFile.readRecord(offset);
-		return record.getAudio();
+		return new Audio(record.getAudio(),record.getDuration());
 	}
 
-	public long addAudio(byte[] audio) throws IOException {
+	public long addAudio(Audio audio) throws IOException {
 		long oldOffset = this.currentOffset;
-		AudioRecord record = new AudioRecord(audio);
+		AudioRecord record = new AudioRecord(audio.getBytes(),audio.getDuration());
 		this.recordFile.writeRecord(record);
 		this.currentOffset = this.recordFile.getCurrentWriteOffset();
 		return oldOffset;

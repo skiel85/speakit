@@ -86,7 +86,7 @@ public class Speakit implements SpeakitInterface {
 		WordAudioDocument audio = new WordAudioDocument();
 		for (String word : doc) {
 			if (this.dataBase.contains(word)) {
-				audio.add(new WordAudio(word, new Audio(this.dataBase.getAudio(word), 0L)));
+				audio.add(new WordAudio(word, new Audio(this.dataBase.getAudio(word),0L)));
 			}
 		}
 		return audio;

@@ -146,7 +146,7 @@ public class Menu {
 	public void playSound(Audio audio) {
 		if (audio != null) {
 			// TODO hacer algo con la duracion
-			audioManager.play(audio.getBytes());
+			audioManager.play(audio.getBytes(),audio.getDuration());
 		}
 	}
 
@@ -163,10 +163,13 @@ public class Menu {
 		Audio audio = null;
 		try {
 			audioManager.startRecording();
+			long start=System.currentTimeMillis();
 			System.out.println("Grabando... " + "(ENTER para detener).");
 			this.userInput.readLine();
+			long finish=System.currentTimeMillis();
+			long dif=finish-start;
 			byte[] bytes = audioManager.stopRecording();
-			audio = new Audio(bytes, 0L);
+			audio = new Audio(bytes, dif);
 		} catch (AudioManagerException e) {
 			System.out.println("No se puede grabar el audio");
 		}

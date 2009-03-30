@@ -38,14 +38,14 @@ public class AudioManager {
 		return null;
 	}
 
-	public void play(byte[] sound) {
+	public void play(byte[] sound, long duration) {
 		ByteArrayInputStream input = new ByteArrayInputStream(sound);
 		SimpleAudioPlayer player = new SimpleAudioPlayer(input);
 		try {
 			player.init();
 			player.startPlaying();
 
-			Thread.sleep(1000);
+			Thread.sleep(duration);
 			player.stopPlaying();
 		} catch (SimpleAudioPlayerException e) {
 			// TODO Auto-generated catch block

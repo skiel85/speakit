@@ -3,9 +3,9 @@ package speakit.audio;
 public class Audio {
 
 	private byte[] bytes;
-	private long duration;
+	private int duration;
 
-	public Audio(byte[] bytes,long duration) {
+	public Audio(byte[] bytes,int duration) {
 		this.bytes = bytes;
 		this.duration=duration;
 	}
@@ -14,11 +14,11 @@ public class Audio {
 		return this.bytes;
 	}
 
-	public void setDuration(long duration) {
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 
-	public long getDuration() {
+	public int getDuration() {
 		return duration;
 	}
 

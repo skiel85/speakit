@@ -7,17 +7,21 @@ import java.io.OutputStream;
 import speakit.dictionary.files.Record;
 import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.serialization.SerializableByteArray;
+import speakit.dictionary.serialization.SerializableInteger;
 
 public class AudioRecord implements Record {
 
+	private SerializableInteger duration;
 	SerializableByteArray audio;
 
 	public AudioRecord() {
 		this.audio = new SerializableByteArray();
+		this.duration=new SerializableInteger(0);
 	}
 
-	public AudioRecord(byte[] audio) {
+	public AudioRecord(byte[] audio,int duration) {
 		this.audio = new SerializableByteArray(audio);
+		this.duration=new SerializableInteger(duration);
 	}
 
 	public byte[] getAudio() {
@@ -27,11 +31,19 @@ public class AudioRecord implements Record {
 	public void setAudio(byte[] audio) {
 		this.audio.setBytes(audio);
 	}
+	
+	public void setDuration(int duration) {
+		this.duration.setInteger(duration);
+	}
+
+	public int getDuration() {
+		return this.duration.getInteger();
+	}
 
 	@Override
 	public long deserialize(InputStream stream) throws RecordSerializationException {
 		try {
-			return this.audio.deserialize(stream);
+			return this.duration.deserialize(stream) + this.audio.deserialize(stream); 
 		} catch (IOException e) {
 			throw new RecordSerializationException();
 		}
@@ -40,7 +52,7 @@ public class AudioRecord implements Record {
 	@Override
 	public long serialize(OutputStream stream) throws RecordSerializationException {
 		try {
-			return this.audio.serialize(stream);
+			return this.duration.serialize(stream)+ this.audio.serialize(stream);
 		} catch (IOException e) {
 			throw new RecordSerializationException();
 		}
@@ -55,4 +67,5 @@ public class AudioRecord implements Record {
 			return this.getClass().toString().compareTo(o.getClass().toString());
 		}
 	}
+
 }

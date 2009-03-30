@@ -169,7 +169,7 @@ public class Menu {
 			long finish=System.currentTimeMillis();
 			long dif=finish-start;
 			byte[] bytes = audioManager.stopRecording();
-			audio = new Audio(bytes, dif);
+			audio = new Audio(bytes, (int)dif);
 		} catch (AudioManagerException e) {
 			System.out.println("No se puede grabar el audio");
 		}

@@ -2,6 +2,8 @@ package speakit.dictionary;
 
 import java.io.IOException;
 
+import speakit.audio.Audio;
+
 /**
  * Clase Dummy q implementa AudioDictionary
  * 
@@ -11,7 +13,7 @@ import java.io.IOException;
 public class MockAudioDictionary implements AudioDictionary {
 
 	@Override
-	public void addEntry(String word, byte[] audio) throws IOException {
+	public void addEntry(String word, Audio audio) throws IOException {
 		// TODO Auto-generated method stub
 
 	}
@@ -23,7 +25,7 @@ public class MockAudioDictionary implements AudioDictionary {
 	}
 
 	@Override
-	public byte[] getAudio(String word) throws IOException {
+	public Audio getAudio(String word) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

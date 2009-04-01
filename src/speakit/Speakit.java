@@ -6,10 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import speakit.audio.Audio;
 import speakit.dictionary.AudioDictionaryImpl;
 import speakit.dictionary.DictionaryFileSet;
-import speakit.dictionary.files.audioindexfile.AudioIndexFile;
 import speakit.wordreader.WordReader;
 import speakit.wordreader.WordReaderImpl;
 

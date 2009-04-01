@@ -9,29 +9,24 @@ import org.junit.Test;
 
 import speakit.audio.Audio;
 import speakit.dictionary.AudioDictionaryImpl;
-import speakit.dictionary.files.audiofile.AudioFile;
-import speakit.dictionary.files.audioindexfile.AudioIndexFile;
+
 
 public class AudioDictionaryImplTest {
 
-	private AudioDictionaryImpl sut;
-	private File file1;
-	private File file2;
+	private AudioDictionaryImpl	sut;
+	private TestDictionaryFileSet	testFileSet;
+	
+	
 
 	@Before
 	public void setUp() throws Exception {
-		file1 = File.createTempFile(this.getClass().getName(), ".dat");
-		file2 = File.createTempFile(this.getClass().getName(), ".dat");
-
-		AudioFile audioFile = new AudioFile(file1);
-		AudioIndexFile audioIndexFile = new AudioIndexFile(file2);
-		this.sut = new AudioDictionaryImpl(audioIndexFile, audioFile);
+		this.sut = new AudioDictionaryImpl();
+		testFileSet = new TestDictionaryFileSet();
+		this.sut.load(testFileSet);
 	}
-
 	@After
 	public void tearDown() throws Exception {
-		file1.delete();
-		file2.delete();
+		this.testFileSet.destroyFiles();
 	}
 
 	@Test
@@ -62,20 +57,17 @@ public class AudioDictionaryImplTest {
 		File file1 = File.createTempFile(this.getClass().getName(), ".dat");
 		File file2 = File.createTempFile(this.getClass().getName(), ".dat");
 
-		// Cargo el diccionario
-		AudioFile audioFile1 = new AudioFile(file1);
-		AudioIndexFile audioIndexFile1 = new AudioIndexFile(file2);
-		AudioDictionaryImpl audioDictionary1 = new AudioDictionaryImpl(audioIndexFile1, audioFile1);
+		AudioDictionaryImpl audioDictionary1 = new AudioDictionaryImpl();
+		audioDictionary1.load(testFileSet);
 
 		// Agrego 2 entradas
 		audioDictionary1.addEntry("palabra1", audio1);
 		audioDictionary1.addEntry("palabra2", audio2);
 
 		// Recargo el diccionario
-		AudioFile audioFile2 = new AudioFile(file1);
-		AudioIndexFile audioIndexFile2 = new AudioIndexFile(file2);
-		AudioDictionaryImpl audioDictionary2 = new AudioDictionaryImpl(audioIndexFile2, audioFile2);
-
+		AudioDictionaryImpl audioDictionary2 = new AudioDictionaryImpl();
+		audioDictionary2.load(testFileSet);
+		
 		// Agrego una entrada
 		audioDictionary2.addEntry("palabra3", audio3);
 

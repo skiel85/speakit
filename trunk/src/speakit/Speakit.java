@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import speakit.audio.Audio;
 import speakit.dictionary.AudioDictionaryImpl;
-import speakit.dictionary.files.audiofile.AudioFile;
+import speakit.dictionary.DictionaryFileSet;
 import speakit.dictionary.files.audioindexfile.AudioIndexFile;
 import speakit.wordreader.WordReader;
 import speakit.wordreader.WordReaderImpl;
@@ -20,13 +20,7 @@ import speakit.wordreader.WordReaderImpl;
  */
 public class Speakit implements SpeakitInterface {
 
-	// SpeakitObserver observer = null;
-
 	private AudioDictionaryImpl dataBase;
-
-	private AudioFile audioFile;
-
-	private AudioIndexFile audioIndexFile;
 
 	/**
 	 * Carga Speakit con el conjunto de archivos predeterminado.
@@ -34,7 +28,7 @@ public class Speakit implements SpeakitInterface {
 	 * @throws IOException
 	 */
 	public void load() throws IOException {
-		SpeakitFileSet fileSet = new SpeakitFileSet() {
+		DictionaryFileSet fileSet = new DictionaryFileSet() {
 			File audioFile;
 			File audioIndexFile;
 
@@ -66,10 +60,9 @@ public class Speakit implements SpeakitInterface {
 	 * 
 	 * @throws IOException
 	 */
-	public void load(SpeakitFileSet fileSet) throws IOException {
-		audioIndexFile = new AudioIndexFile(fileSet.getAudioIndexFile());
-		audioFile = new AudioFile(fileSet.getAudioFile());
-		dataBase = new AudioDictionaryImpl(audioIndexFile, audioFile);
+	public void load(DictionaryFileSet fileSet) throws IOException {
+		dataBase = new AudioDictionaryImpl();
+		dataBase.load(fileSet);
 	}
 
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {

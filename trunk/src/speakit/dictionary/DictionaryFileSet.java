@@ -1,9 +1,8 @@
-package speakit;
+package speakit.dictionary;
 
 import java.io.File;
 
-public interface SpeakitFileSet {
+public interface DictionaryFileSet {
 	public File getAudioFile();
-
 	public File getAudioIndexFile();
 }

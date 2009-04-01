@@ -12,7 +12,7 @@ import speakit.dictionary.serialization.IntegerField;
 public class AudioRecord implements Record {
 
 	private IntegerField duration;
-	ByteArrayField audio;
+	private ByteArrayField audio;
 
 	public AudioRecord() {
 		this.audio = new ByteArrayField();

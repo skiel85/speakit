@@ -16,15 +16,16 @@ import speakit.Speakit;
 import speakit.TextDocument;
 import speakit.WordAudio;
 import speakit.audio.Audio;
+import speakit.dictionary.test.TestDictionaryFileSet;
 
 public class SpeakitTest {
 
-	private SpeakitTestFileSet fileSet;
+	private TestDictionaryFileSet fileSet;
 	private Speakit sut;
 
 	@Before
 	public void setUp() throws Exception {
-		this.fileSet = new SpeakitTestFileSet();
+		this.fileSet = new TestDictionaryFileSet();
 		this.sut = new Speakit();
 		this.sut.load(this.fileSet);
 	}

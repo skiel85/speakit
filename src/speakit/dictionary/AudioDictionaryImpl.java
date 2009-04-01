@@ -1,5 +1,6 @@
 package speakit.dictionary;
 
+import java.io.File;
 import java.io.IOException;
 
 import speakit.audio.Audio;
@@ -7,12 +8,10 @@ import speakit.dictionary.files.audiofile.AudioFile;
 import speakit.dictionary.files.audioindexfile.AudioIndexFile;
 
 public class AudioDictionaryImpl implements AudioDictionary {
-	private AudioIndexFile audioIndexFile;
-	private AudioFile audioFile;
+	private AudioIndexFile	audioIndexFile;
+	private AudioFile		audioFile;
 
-	public AudioDictionaryImpl(AudioIndexFile audioIndexFile, AudioFile audioFile) {
-		this.audioIndexFile = audioIndexFile;
-		this.audioFile = audioFile;
+	public AudioDictionaryImpl() {
 	}
 
 	@Override
@@ -31,5 +30,42 @@ public class AudioDictionaryImpl implements AudioDictionary {
 		long offset = this.audioIndexFile.getOffset(word);
 		return this.audioFile.getAudio(offset);
 	}
+
+	@Override
+	public void load() throws IOException {
+		DictionaryFileSet fileSet = new DictionaryFileSet() {
+			File	audioFile;
+			File	audioIndexFile;
+
+			{
+				this.audioFile = new File("AudioFile.dat");
+				this.audioIndexFile = new File("AudioIndexFile.dat");
+				this.audioFile.setWritable(true);
+				this.audioIndexFile.setWritable(true);
+				this.audioFile.createNewFile();
+				this.audioIndexFile.createNewFile();
+			}
+
+			@Override
+			public File getAudioFile() {
+				return this.audioFile;
+			}
+
+			@Override
+			public File getAudioIndexFile() {
+				return this.audioIndexFile;
+			}
+		};
+
+		audioIndexFile = new AudioIndexFile(fileSet.getAudioIndexFile());
+		audioFile = new AudioFile(fileSet.getAudioFile());
+	}
+
+	@Override
+	public void load(DictionaryFileSet fileSet) throws IOException {
+		audioIndexFile = new AudioIndexFile(fileSet.getAudioIndexFile());
+		audioFile = new AudioFile(fileSet.getAudioFile());
+	}
+
 
 }

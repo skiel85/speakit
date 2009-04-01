@@ -163,12 +163,12 @@ public class Menu {
 		Audio audio = null;
 		try {
 			audioManager.startRecording();
-			long start=System.currentTimeMillis();
 			System.out.println("Grabando... " + "(ENTER para detener).");
+			long start=System.currentTimeMillis();
 			this.userInput.readLine();
+			byte[] bytes = audioManager.stopRecording();
 			long finish=System.currentTimeMillis();
 			long dif=finish-start;
-			byte[] bytes = audioManager.stopRecording();
 			audio = new Audio(bytes, (int)dif);
 		} catch (AudioManagerException e) {
 			System.out.println("No se puede grabar el audio");
@@ -262,16 +262,4 @@ public class Menu {
 		System.out.println("Speak It!");
 		System.out.println("Menu Principal\n" + "	1.- Procesar archivo de Texto\n" + "	2.- Reproducir Archivo\n" + "\n" + "	0.- Salir");
 	}
-
-	// @Deprecated
-	// public void setSpeakit(Speakit speakit) {
-	// this.speakit = speakit;
-	// this.speakit.setObserver(this);
-	// }
-
-	// @Override
-	// public void notifyAlreadyHaveIt(String word) {
-	// System.out.println("Palabra ya indexada: " + word);
-	// }
-
 }

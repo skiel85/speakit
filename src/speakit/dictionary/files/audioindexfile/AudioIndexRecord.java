@@ -6,22 +6,22 @@ import java.io.OutputStream;
 
 import speakit.dictionary.files.Record;
 import speakit.dictionary.files.RecordSerializationException;
-import speakit.dictionary.serialization.SerializableLong;
-import speakit.dictionary.serialization.SerializableString;
+import speakit.dictionary.serialization.LongField;
+import speakit.dictionary.serialization.StringField;
 
 public class AudioIndexRecord implements Record {
 
-	SerializableLong offset;
-	SerializableString word;
+	LongField offset;
+	StringField word;
 
 	public AudioIndexRecord() {
-		this.word = new SerializableString();
-		this.offset = new SerializableLong();
+		this.word = new StringField();
+		this.offset = new LongField();
 	}
 
 	public AudioIndexRecord(String word, long offset) {
-		this.word = new SerializableString(word);
-		this.offset = new SerializableLong(offset);
+		this.word = new StringField(word);
+		this.offset = new LongField(offset);
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class AudioIndexRecord implements Record {
 	@Override
 	public long deserialize(InputStream stream) throws RecordSerializationException {
 		long byteCount = 0;
-		SerializableString word = new SerializableString();
-		SerializableLong offset = new SerializableLong();
+		StringField word = new StringField();
+		LongField offset = new LongField();
 		try {
 			byteCount += word.deserialize(stream);
 			byteCount += offset.deserialize(stream);

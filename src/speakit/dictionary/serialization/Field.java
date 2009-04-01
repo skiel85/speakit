@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public abstract class SerializablePrimitiveType implements Comparable<SerializablePrimitiveType> {
+public abstract class Field implements Comparable<Field> {
 
 	/**
 	 * Tamaño de un byte expresado en bits
 	 */
 	protected static final int BYTE_SIZE = 8;
 
-	public SerializablePrimitiveType() {
+	public Field() {
 		super();
 	}
 
@@ -87,7 +87,7 @@ public abstract class SerializablePrimitiveType implements Comparable<Serializab
 	public abstract void actuallySerialize(OutputStream in) throws IOException;
 
 	@Override
-	public int compareTo(SerializablePrimitiveType o) {
+	public int compareTo(Field o) {
 		if (this.getClass() == o.getClass()) {
 			return compareToSameClass(o);
 		} else {
@@ -95,5 +95,5 @@ public abstract class SerializablePrimitiveType implements Comparable<Serializab
 		}
 	}
 
-	protected abstract int compareToSameClass(SerializablePrimitiveType o);
+	protected abstract int compareToSameClass(Field o);
 }

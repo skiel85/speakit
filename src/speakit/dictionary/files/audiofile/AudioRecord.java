@@ -6,22 +6,22 @@ import java.io.OutputStream;
 
 import speakit.dictionary.files.Record;
 import speakit.dictionary.files.RecordSerializationException;
-import speakit.dictionary.serialization.SerializableByteArray;
-import speakit.dictionary.serialization.SerializableInteger;
+import speakit.dictionary.serialization.ByteArrayField;
+import speakit.dictionary.serialization.IntegerField;
 
 public class AudioRecord implements Record {
 
-	private SerializableInteger duration;
-	SerializableByteArray audio;
+	private IntegerField duration;
+	ByteArrayField audio;
 
 	public AudioRecord() {
-		this.audio = new SerializableByteArray();
-		this.duration=new SerializableInteger(0);
+		this.audio = new ByteArrayField();
+		this.duration=new IntegerField(0);
 	}
 
 	public AudioRecord(byte[] audio,int duration) {
-		this.audio = new SerializableByteArray(audio);
-		this.duration=new SerializableInteger(duration);
+		this.audio = new ByteArrayField(audio);
+		this.duration=new IntegerField(duration);
 	}
 
 	public byte[] getAudio() {

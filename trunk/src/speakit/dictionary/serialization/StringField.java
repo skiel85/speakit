@@ -1,14 +1,14 @@
 package speakit.dictionary.serialization;
 
-public class SerializableString extends SerializableByteArray {
+public class StringField extends ByteArrayField {
 
 	private String value;
 
-	public SerializableString(String value) {
+	public StringField(String value) {
 		this.setString(value);
 	}
 
-	public SerializableString() {
+	public StringField() {
 		this("");
 	}
 
@@ -29,8 +29,8 @@ public class SerializableString extends SerializableByteArray {
 	}
 
 	@Override
-	protected int compareToSameClass(SerializablePrimitiveType o) {
-		SerializableString other = (SerializableString) o;
+	protected int compareToSameClass(Field o) {
+		StringField other = (StringField) o;
 		return this.getString().compareTo(other.getString());
 	}
 }

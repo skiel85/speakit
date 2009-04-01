@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class SerializableByteArray extends SerializablePrimitiveType {
+public class ByteArrayField extends Field {
 
 	byte[] value;
 
-	public SerializableByteArray(byte[] value) {
+	public ByteArrayField(byte[] value) {
 		this.setBytes(value);
 	}
 
-	public SerializableByteArray() {
+	public ByteArrayField() {
 		this(new byte[] {});
 	}
 
@@ -30,7 +30,7 @@ public class SerializableByteArray extends SerializablePrimitiveType {
 
 	@Override
 	public int getSerializationSize() {
-		return new SerializableInteger(getValueLenght()).getSerializationSize() + getValueLenght();
+		return new IntegerField(getValueLenght()).getSerializationSize() + getValueLenght();
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class SerializableByteArray extends SerializablePrimitiveType {
 	 */
 	@Override
 	public void actuallyDeserialize(InputStream in) throws IOException {
-		SerializableInteger size = new SerializableInteger();
+		IntegerField size = new IntegerField();
 		size.actuallyDeserialize(in);
 		this.setBytes(this.readBytes(in, size.getInteger()));
 	}
@@ -50,13 +50,13 @@ public class SerializableByteArray extends SerializablePrimitiveType {
 	 */
 	@Override
 	public void actuallySerialize(OutputStream out) throws IOException {
-		SerializableInteger size = new SerializableInteger(getValueLenght());
+		IntegerField size = new IntegerField(getValueLenght());
 		size.serialize(out);
 		out.write(this.getBytes());
 	}
 
-	protected int compareToSameClass(SerializablePrimitiveType o) {
-		SerializableByteArray other = (SerializableByteArray) o;
+	protected int compareToSameClass(Field o) {
+		ByteArrayField other = (ByteArrayField) o;
 
 		byte[] thisBytes = this.getBytes();
 		byte[] otherBytes = other.getBytes();

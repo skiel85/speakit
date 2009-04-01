@@ -4,34 +4,34 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class SerializableLong extends SerializablePrimitiveType {
+public class IntegerField extends Field {
 
-	private long value = 0;
+	private int value = 0;
 
-	public SerializableLong(long value) {
+	public IntegerField(int value) {
 		this.value = value;
 	}
 
-	public SerializableLong() {
+	public IntegerField() {
 		this.value = 0;
 	}
 
-	public long getLong() {
+	public int getInteger() {
 		return this.value;
 	}
 
-	public void setLong(long value) {
+	public void setInteger(int value) {
 		this.value = value;
 	}
 
 	@Override
 	public int getSerializationSize() {
-		return Long.SIZE / BYTE_SIZE;
+		return Integer.SIZE / BYTE_SIZE;
 	}
 
 	@Override
 	public void actuallyDeserialize(InputStream in) throws IOException {
-		this.value = ByteArrayConverter.toLong(readBytes(in));
+		this.value = ByteArrayConverter.toInt(readBytes(in));
 	}
 
 	@Override
@@ -40,12 +40,13 @@ public class SerializableLong extends SerializablePrimitiveType {
 	}
 
 	@Override
-	protected int compareToSameClass(SerializablePrimitiveType o) {
-		SerializableLong other = (SerializableLong) o;
+	protected int compareToSameClass(Field o) {
+		IntegerField other = (IntegerField) o;
 		if (this.value == other.value) {
 			return 0;
 		} else {
 			return (this.value < other.value) ? -1 : 1;
 		}
 	}
+
 }

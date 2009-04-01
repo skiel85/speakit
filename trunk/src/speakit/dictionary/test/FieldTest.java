@@ -12,13 +12,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.dictionary.serialization.SerializableByteArray;
-import speakit.dictionary.serialization.SerializableInteger;
-import speakit.dictionary.serialization.SerializableLong;
-import speakit.dictionary.serialization.SerializablePrimitiveType;
-import speakit.dictionary.serialization.SerializableString;
+import speakit.dictionary.serialization.ByteArrayField;
+import speakit.dictionary.serialization.IntegerField;
+import speakit.dictionary.serialization.LongField;
+import speakit.dictionary.serialization.Field;
+import speakit.dictionary.serialization.StringField;
 
-public class SerializablePrimitiveTypeTest {
+public class FieldTest {
 
 	private ByteArrayOutputStream out;
 
@@ -33,28 +33,28 @@ public class SerializablePrimitiveTypeTest {
 
 	@Test
 	public void testCompleteSerialization() {
-		SerializableInteger original = new SerializableInteger(123);
-		SerializableInteger deserialized = new SerializableInteger();
+		IntegerField original = new IntegerField(123);
+		IntegerField deserialized = new IntegerField();
 		serializeAndUnserialize(out, original, deserialized);
 		Assert.assertEquals(original.getInteger(), deserialized.getInteger());
 	}
 
 	@Test
 	public void testCompleteStringSerialization() {
-		SerializableString original = new SerializableString("hola mundo!");
-		SerializableString deserialized = new SerializableString();
+		StringField original = new StringField("hola mundo!");
+		StringField deserialized = new StringField();
 		deserializeAndTest(original, deserialized);
 	}
 
 	@Test
 	public void testCompleteByteArraySerialization() {
-		SerializableByteArray original = new SerializableByteArray("esto es un array de bytes".getBytes());
-		SerializableByteArray deserialized = new SerializableByteArray();
+		ByteArrayField original = new ByteArrayField("esto es un array de bytes".getBytes());
+		ByteArrayField deserialized = new ByteArrayField();
 		serializeAndUnserialize(out, original, deserialized);
 		assertArrayEquals(original.getBytes(), deserialized.getBytes());
 	}
 
-	private static void deserializeAndTest(SerializableString original, SerializableString deserialized) {
+	private static void deserializeAndTest(StringField original, StringField deserialized) {
 		ByteArrayOutputStream out1 = new ByteArrayOutputStream();
 		serializeAndUnserialize(out1, original, deserialized);
 		Assert.assertEquals(original.getSerializationSize(), deserialized.getSerializationSize());
@@ -63,31 +63,31 @@ public class SerializablePrimitiveTypeTest {
 
 	@Test
 	public void testDoubleCompleteStringSerialization() {
-		SerializableString original = new SerializableString("!mundos hola");
-		SerializableString deserialized = new SerializableString();
+		StringField original = new StringField("!mundos hola");
+		StringField deserialized = new StringField();
 		deserializeAndTest(original, deserialized);
-		SerializableString deserialized2 = new SerializableString();
+		StringField deserialized2 = new StringField();
 		deserializeAndTest(deserialized, deserialized2);
 	}
 
 	@Test
 	public void testDoubleCompleteStringSerializationWithValueChange() {
-		SerializableString original = new SerializableString("!mundos hola");
-		SerializableString deserialized = new SerializableString();
+		StringField original = new StringField("!mundos hola");
+		StringField deserialized = new StringField();
 		deserializeAndTest(original, deserialized);
 		deserialized.setString("modific");
-		SerializableString deserialized2 = new SerializableString();
+		StringField deserialized2 = new StringField();
 		deserializeAndTest(deserialized, deserialized2);
 	}
 
 	@Test
-	public void testSerializableByteArrayComparison() {
+	public void testByteArrayFieldComparison() {
 		byte[] bytes1 = new byte[] { 12, 21, 34, 12, 29, 8 };
 		byte[] bytes2 = new byte[] { 12, 21, 11, 12, 29, 8 };
 		byte[] greaterArray = new byte[] { 12, 21, 34, 12, 29, 8, 0 };
 
-		SerializableByteArray a = new SerializableByteArray(bytes1);
-		SerializableByteArray b = new SerializableByteArray(bytes2);
+		ByteArrayField a = new ByteArrayField(bytes1);
+		ByteArrayField b = new ByteArrayField(bytes2);
 
 		Assert.assertEquals(1, a.compareTo(b));
 		Assert.assertEquals(-1, b.compareTo(a));
@@ -99,17 +99,17 @@ public class SerializablePrimitiveTypeTest {
 		Assert.assertEquals(-1, a.compareTo(b));
 		Assert.assertEquals(1, b.compareTo(a));
 
-		Assert.assertTrue(a.compareTo(new SerializableInteger(1)) < 0);
-		Assert.assertTrue(new SerializableInteger(1).compareTo(a) > 0);
+		Assert.assertTrue(a.compareTo(new IntegerField(1)) < 0);
+		Assert.assertTrue(new IntegerField(1).compareTo(a) > 0);
 	}
 
 	@Test
-	public void testSerializableStringComparison() {
-		SerializableString a = new SerializableString("aaaaad");
-		SerializableString b = new SerializableString("aaaaac");
-		SerializableString c = new SerializableString("aaaaada");
-		SerializableString d = new SerializableString();
-		SerializableString equal2a = new SerializableString("aaaaad");
+	public void testStringFieldComparison() {
+		StringField a = new StringField("aaaaad");
+		StringField b = new StringField("aaaaac");
+		StringField c = new StringField("aaaaada");
+		StringField d = new StringField();
+		StringField equal2a = new StringField("aaaaad");
 
 		Assert.assertTrue(a.compareTo(b) > 0);
 		Assert.assertTrue(b.compareTo(a) < 0);
@@ -130,10 +130,10 @@ public class SerializablePrimitiveTypeTest {
 	}
 
 	@Test
-	public void testSerializableIntegerComparison() {
-		SerializableInteger a = new SerializableInteger(1);
-		SerializableInteger b = new SerializableInteger(2);
-		SerializableInteger c = new SerializableInteger(3);
+	public void testIntegerFieldComparison() {
+		IntegerField a = new IntegerField(1);
+		IntegerField b = new IntegerField(2);
+		IntegerField c = new IntegerField(3);
 
 		Assert.assertTrue(a.compareTo(b) < 0);
 		Assert.assertTrue(b.compareTo(a) > 0);
@@ -146,24 +146,24 @@ public class SerializablePrimitiveTypeTest {
 	}
 
 	@Test
-	public void testSerializableIntegerCompareEquals() {
-		SerializablePrimitiveType a = new SerializableInteger(1);
-		SerializablePrimitiveType b = new SerializableInteger(1);
+	public void testIntegerFieldCompareEquals() {
+		Field a = new IntegerField(1);
+		Field b = new IntegerField(1);
 
 		Assert.assertTrue(a.compareTo(b) == 0);
 		Assert.assertTrue(b.compareTo(a) == 0);
 	}
 
 	@Test
-	public void testSerializableLongCompareEquals() {
-		SerializablePrimitiveType a = new SerializableLong(99991999999L);
-		SerializablePrimitiveType b = new SerializableLong(99991999999L);
+	public void testLongFieldCompareEquals() {
+		Field a = new LongField(99991999999L);
+		Field b = new LongField(99991999999L);
 
 		Assert.assertTrue(a.compareTo(b) == 0);
 		Assert.assertTrue(b.compareTo(a) == 0);
 	}
 
-	private static void serializeAndUnserialize(ByteArrayOutputStream out, SerializablePrimitiveType original, SerializablePrimitiveType deserialized) {
+	private static void serializeAndUnserialize(ByteArrayOutputStream out, Field original, Field deserialized) {
 		try {
 			original.serialize(out);
 		} catch (IOException e) {

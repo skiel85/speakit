@@ -20,11 +20,6 @@
 	<property name="main-class"  value="speakit/Main"/>
 	<property name="lib.dir"     value="lib"/>
 
-
-
-
-
-
 	<target name="init">
 		<!-- Create the time stamp -->
 		<tstamp/>
@@ -34,20 +29,11 @@
 
 	<target name="compile" depends="init" description="compile the source" >
 		<!-- Compile the java code from ${src} into ${build} -->
-		<javac srcdir="${src}" destdir="${build}" encoding="8859_1" classpathref="classpath"/>
+		<javac srcdir="${src}" destdir="${build}" encoding="8859_1"/>
 	</target>
 
-	<!--<target name="dist" depends="compile"
-	        description="generate the distribution" >
-	    
-	    <mkdir dir="${dist}/lib"/>
-
-	    
-	    <jar jarfile="${dist}/lib/SpeakIt-${DSTAMP}.jar" basedir="${build}"/>
-	  </target>-->
-
 	<target name="jar" depends="compile">
-		<!-- Create the distribution directory -->
+		<!-- Create the distribution directory and build the jar file -->
 		<mkdir dir="${dist}/lib"/>
 		<jar destfile="${dist}/lib/${ant.project.name}-${DSTAMP}.jar" basedir="${build}">
 			<manifest>
@@ -58,12 +44,13 @@
 
 
 	<target name="run" depends="jar">
+		<!-- Compile and starts the SpeakIt application -->
 		<java jar="${dist}/lib/${ant.project.name}-${DSTAMP}.jar" fork="true"/>
 	</target>
 
 
 
-	<target name="junit" depends="jar">
+	<!--<target name="junit" depends="jar">
 		<junit printsummary="yes">
 			<classpath>
 				<path id="classpath">
@@ -85,13 +72,13 @@
 			</batchtest>
 
 		</junit>
-	</target>
+	</target>-->
 
-	<target name="clean"
-	        description="clean up" >
+	<target name="clean" description="clean up" >
 		<!-- Delete the ${build} and ${dist} directory trees -->
 		<delete dir="${build}"/>
 		<delete dir="${dist}"/>
+		<delete dir="bin"/>
 	</target>
 
 

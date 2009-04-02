@@ -75,7 +75,7 @@ public class Menu {
 			System.out.println("(Si su archivo es '" + this.pathCache + "' sólo presione ENTER)");
 		}
 		path = this.userInput.readLine();
-		
+
 		if (isPathCacheAvaliable() && path.length() == 0) {
 			path = pathCache;
 		} else {
@@ -106,7 +106,7 @@ public class Menu {
 
 		WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(textDocumentFromFile);
 		for (WordAudio word : audioDocument) {
-//			System.out.println("Reproduciendo:" + word.getWord());
+			// System.out.println("Reproduciendo:" + word.getWord());
 			this.playSound(word);
 		}
 
@@ -215,12 +215,10 @@ public class Menu {
 
 		userInput = initializeUserInput();
 
-		
-
 		boolean finished = false;
 		while (!finished) {
 			displayMainMenu();
-			
+
 			int opt = 0;
 			try {
 				opt = Integer.parseInt(userInput.readLine());

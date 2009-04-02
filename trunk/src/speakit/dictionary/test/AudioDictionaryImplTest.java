@@ -10,13 +10,10 @@ import org.junit.Test;
 import speakit.audio.Audio;
 import speakit.dictionary.AudioDictionaryImpl;
 
-
 public class AudioDictionaryImplTest {
 
-	private AudioDictionaryImpl	sut;
-	private TestDictionaryFileSet	testFileSet;
-	
-	
+	private AudioDictionaryImpl sut;
+	private TestDictionaryFileSet testFileSet;
 
 	@Before
 	public void setUp() throws Exception {
@@ -24,6 +21,7 @@ public class AudioDictionaryImplTest {
 		testFileSet = new TestDictionaryFileSet();
 		this.sut.load(testFileSet);
 	}
+
 	@After
 	public void tearDown() throws Exception {
 		this.testFileSet.destroyFiles();
@@ -34,7 +32,7 @@ public class AudioDictionaryImplTest {
 		String word = "hola";
 		byte[] sound = new byte[] { 10, -25, 32, 64, -122, 89 };
 		Audio audio = new Audio(sound);
-		
+
 		this.sut.addEntry(word, audio);
 		Audio retrievedAudio = this.sut.getAudio(word);
 
@@ -48,10 +46,10 @@ public class AudioDictionaryImplTest {
 		byte[] sound2 = new byte[] { 4, 82, 36, 25, -30, -120, 78 };
 		byte[] sound3 = new byte[] { 89, 23, 2, -1, 0, 64, 64, 9, -44 };
 
-		Audio audio1=new Audio(sound1);
-		Audio audio2=new Audio(sound2);
-		Audio audio3=new Audio(sound3);
-		
+		Audio audio1 = new Audio(sound1);
+		Audio audio2 = new Audio(sound2);
+		Audio audio3 = new Audio(sound3);
+
 		// Archivos de prueba
 		File file1 = File.createTempFile(this.getClass().getName(), ".dat");
 		File file2 = File.createTempFile(this.getClass().getName(), ".dat");
@@ -66,7 +64,7 @@ public class AudioDictionaryImplTest {
 		// Recargo el diccionario
 		AudioDictionaryImpl audioDictionary2 = new AudioDictionaryImpl();
 		audioDictionary2.load(testFileSet);
-		
+
 		// Agrego una entrada
 		audioDictionary2.addEntry("palabra3", audio3);
 

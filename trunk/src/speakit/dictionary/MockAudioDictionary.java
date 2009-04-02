@@ -33,13 +33,13 @@ public class MockAudioDictionary implements AudioDictionary {
 	@Override
 	public void load() throws IOException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void load(DictionaryFileSet fileSet) throws IOException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

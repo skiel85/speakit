@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import speakit.dictionary.files.Record;
 import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.serialization.ByteArrayField;
-import speakit.dictionary.serialization.IntegerField;
 
 public class AudioRecord implements Record {
 
@@ -32,7 +31,7 @@ public class AudioRecord implements Record {
 	@Override
 	public long deserialize(InputStream stream) throws RecordSerializationException {
 		try {
-			return this.audio.deserialize(stream); 
+			return this.audio.deserialize(stream);
 		} catch (IOException e) {
 			throw new RecordSerializationException();
 		}

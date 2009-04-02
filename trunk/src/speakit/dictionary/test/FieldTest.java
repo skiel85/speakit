@@ -13,9 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.dictionary.serialization.ByteArrayField;
+import speakit.dictionary.serialization.Field;
 import speakit.dictionary.serialization.IntegerField;
 import speakit.dictionary.serialization.LongField;
-import speakit.dictionary.serialization.Field;
 import speakit.dictionary.serialization.StringField;
 
 public class FieldTest {

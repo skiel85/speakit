@@ -8,8 +8,8 @@ import speakit.dictionary.files.audiofile.AudioFile;
 import speakit.dictionary.files.audioindexfile.AudioIndexFile;
 
 public class AudioDictionaryImpl implements AudioDictionary {
-	private AudioIndexFile	audioIndexFile;
-	private AudioFile		audioFile;
+	private AudioIndexFile audioIndexFile;
+	private AudioFile audioFile;
 
 	public AudioDictionaryImpl() {
 	}
@@ -34,8 +34,8 @@ public class AudioDictionaryImpl implements AudioDictionary {
 	@Override
 	public void load() throws IOException {
 		DictionaryFileSet fileSet = new DictionaryFileSet() {
-			File	audioFile;
-			File	audioIndexFile;
+			File audioFile;
+			File audioIndexFile;
 
 			{
 				this.audioFile = new File("AudioFile.dat");
@@ -66,6 +66,5 @@ public class AudioDictionaryImpl implements AudioDictionary {
 		audioIndexFile = new AudioIndexFile(fileSet.getAudioIndexFile());
 		audioFile = new AudioFile(fileSet.getAudioFile());
 	}
-
 
 }

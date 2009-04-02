@@ -5,14 +5,13 @@ import java.io.IOException;
 
 import speakit.dictionary.DictionaryFileSet;
 
-public class TestDictionaryFileSet implements DictionaryFileSet{
-	File	audioFile;
-	File	audioIndexFile; 
+public class TestDictionaryFileSet implements DictionaryFileSet {
+	File audioFile;
+	File audioIndexFile;
 
-	public TestDictionaryFileSet() throws IOException
-	{ 
+	public TestDictionaryFileSet() throws IOException {
 		this.audioFile = File.createTempFile(this.getClass().getName(), ".dat");
-		this.audioIndexFile =  File.createTempFile(this.getClass().getName(), ".dat");
+		this.audioIndexFile = File.createTempFile(this.getClass().getName(), ".dat");
 
 		this.audioFile.setWritable(true);
 		this.audioIndexFile.setWritable(true);
@@ -29,13 +28,13 @@ public class TestDictionaryFileSet implements DictionaryFileSet{
 	public File getAudioIndexFile() {
 		return this.audioIndexFile;
 	}
-	
-	public void close(){
+
+	public void close() {
 		audioFile.delete();
 		audioIndexFile.delete();
 	}
-	
-	public void destroyFiles(){
+
+	public void destroyFiles() {
 		audioFile.delete();
 		audioIndexFile.delete();
 	}

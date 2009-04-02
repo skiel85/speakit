@@ -11,8 +11,8 @@ import speakit.dictionary.serialization.StringField;
 
 public class AudioIndexRecord implements Record {
 
-	private LongField	offset;
-	private StringField	word;
+	private LongField offset;
+	private StringField word;
 
 	public AudioIndexRecord() {
 		this.word = new StringField();

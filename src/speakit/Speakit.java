@@ -85,7 +85,7 @@ public class Speakit implements SpeakitInterface {
 
 	public void addWordAudio(WordAudio audio) throws IOException {
 		if (!this.dataBase.contains(audio.getWord())) {
-			dataBase.addEntry(audio.getWord(),audio.getAudio());
+			dataBase.addEntry(audio.getWord(), audio.getAudio());
 		}
 	}
 

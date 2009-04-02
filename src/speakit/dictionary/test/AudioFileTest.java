@@ -29,7 +29,7 @@ public class AudioFileTest {
 	@Test
 	public void testAddAndGetAudio() throws IOException {
 		byte[] sound = new byte[] { 10, -25, 32, 64, -122, 89 };
-		this.sut.addAudio(new Audio(sound,123));
+		this.sut.addAudio(new Audio(sound));
 		Assert.assertArrayEquals(sound, this.sut.getAudio(0).getBytes());
 	}
 
@@ -38,9 +38,9 @@ public class AudioFileTest {
 		byte[] sound1 = new byte[] { 10, -25, 32, 64, -122, 89, 55, 0, -3, 102 };
 		byte[] sound2 = new byte[] { 4, 82, 36, 25, -30, -120, 78 };
 		byte[] sound3 = new byte[] { 89, 23, 2, -1, 0, 64, 64, 9, -44 };
-		Audio audio1=new Audio(sound1,022);
-		Audio audio2=new Audio(sound2,2230);
-		Audio audio3=new Audio(sound3,43232);
+		Audio audio1=new Audio(sound1);
+		Audio audio2=new Audio(sound2);
+		Audio audio3=new Audio(sound3);
 		
 		long offset1 = this.sut.addAudio(audio1);
 		long offset2 = this.sut.addAudio(audio2);
@@ -57,8 +57,7 @@ public class AudioFileTest {
 	}
 
 	private void assertAudioEquals(Audio audio1, Audio audio) {
-		Assert.assertArrayEquals(audio1.getBytes(),audio.getBytes());
-		Assert.assertEquals(audio1.getDuration(),audio.getDuration());		
+		Assert.assertArrayEquals(audio1.getBytes(),audio.getBytes());	
 	}
 
 	@Test
@@ -69,10 +68,10 @@ public class AudioFileTest {
 		byte[] sound3 = new byte[] { 89, 23, 2, -1, 0, 64, 64, 9, -44 };
 		byte[] sound4 = new byte[] { 8, 5, 99 };
 
-		Audio audio1=new Audio(sound1,12345);
-		Audio audio2=new Audio(sound2,23456);
-		Audio audio3=new Audio(sound3,87654);
-		Audio audio4=new Audio(sound4,8778);
+		Audio audio1=new Audio(sound1);
+		Audio audio2=new Audio(sound2);
+		Audio audio3=new Audio(sound3);
+		Audio audio4=new Audio(sound4);
 		
 		// Archivos de prueba
 		File file = File.createTempFile(this.getClass().getName(), ".dat");

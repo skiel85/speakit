@@ -33,13 +33,12 @@ public class AudioDictionaryImplTest {
 	public void testAddAndRetrieve() throws Exception {
 		String word = "hola";
 		byte[] sound = new byte[] { 10, -25, 32, 64, -122, 89 };
-		Audio audio = new Audio(sound,55);
+		Audio audio = new Audio(sound);
 		
 		this.sut.addEntry(word, audio);
 		Audio retrievedAudio = this.sut.getAudio(word);
 
 		Assert.assertArrayEquals(audio.getBytes(), retrievedAudio.getBytes());
-		Assert.assertEquals(audio.getDuration(), retrievedAudio.getDuration());
 	}
 
 	@Test
@@ -49,9 +48,9 @@ public class AudioDictionaryImplTest {
 		byte[] sound2 = new byte[] { 4, 82, 36, 25, -30, -120, 78 };
 		byte[] sound3 = new byte[] { 89, 23, 2, -1, 0, 64, 64, 9, -44 };
 
-		Audio audio1=new Audio(sound1,10);
-		Audio audio2=new Audio(sound2,1);
-		Audio audio3=new Audio(sound3,9898984);
+		Audio audio1=new Audio(sound1);
+		Audio audio2=new Audio(sound2);
+		Audio audio3=new Audio(sound3);
 		
 		// Archivos de prueba
 		File file1 = File.createTempFile(this.getClass().getName(), ".dat");
@@ -73,7 +72,6 @@ public class AudioDictionaryImplTest {
 
 		// Obtengo la última entrada agregada y verifico
 		Assert.assertArrayEquals(audio3.getBytes(), audioDictionary2.getAudio("palabra3").getBytes());
-		Assert.assertEquals(audio3.getDuration(), audioDictionary2.getAudio("palabra3").getDuration());
 
 		// Elimino archivos temporales
 		file1.delete();

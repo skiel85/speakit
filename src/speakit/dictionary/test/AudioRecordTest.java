@@ -17,7 +17,7 @@ public class AudioRecordTest {
 		byte[] audio = new byte[] { 10, -25, 32, 64, -122, 89, 55, 0, -3, 102 };
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		AudioRecord record = new AudioRecord(audio,654654);
+		AudioRecord record = new AudioRecord(audio);
 		try {
 			record.serialize(outputStream);
 		} catch (RecordSerializationException e) {
@@ -33,7 +33,6 @@ public class AudioRecordTest {
 		}
 
 		Assert.assertArrayEquals(record.getAudio(), deserialized.getAudio());
-		Assert.assertEquals(record.getDuration(), deserialized.getDuration());
 	}
 
 }

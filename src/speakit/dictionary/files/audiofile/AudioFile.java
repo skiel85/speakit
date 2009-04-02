@@ -20,12 +20,12 @@ public class AudioFile implements RecordFactory {
 
 	public Audio getAudio(long offset) throws IOException {
 		AudioRecord record = (AudioRecord) this.recordFile.readRecord(offset);
-		return new Audio(record.getAudio(),record.getDuration());
+		return new Audio(record.getAudio());
 	}
 
 	public long addAudio(Audio audio) throws IOException {
 		long oldOffset = this.currentOffset;
-		AudioRecord record = new AudioRecord(audio.getBytes(),audio.getDuration());
+		AudioRecord record = new AudioRecord(audio.getBytes());
 		this.recordFile.writeRecord(record);
 		this.currentOffset = this.recordFile.getCurrentWriteOffset();
 		return oldOffset;

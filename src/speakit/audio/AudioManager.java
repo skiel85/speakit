@@ -45,7 +45,8 @@ public class AudioManager {
 			player.init();
 			player.startPlaying();
 
-			Thread.sleep(duration);
+			//Thread.sleep(duration);
+			player.join();
 			player.stopPlaying();
 		} catch (SimpleAudioPlayerException e) {
 			// TODO Auto-generated catch block

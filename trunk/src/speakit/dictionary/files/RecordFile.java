@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * Archivo de registros.
+ */
 public class RecordFile {
 	private InputStream inputStream;
 	private OutputStream outputStream;
@@ -21,6 +24,11 @@ public class RecordFile {
 	 * this.outputStream = outputStream; this.recordFactory = recordFactory; }
 	 */
 
+	/**
+	 * Construye un archivo de registros a partir de un archivo y una fabrica de
+	 * registros. Se utiliza la fábrica de registros, para crear los registros
+	 * que se van a deserializar.
+	 */
 	public RecordFile(File file, RecordFactory recordFactory) throws FileNotFoundException {
 		this.inputStream = new FileInputStream(file);
 		this.outputStream = new FileOutputStream(file, true);
@@ -29,6 +37,13 @@ public class RecordFile {
 		this.currentWriteOffset = file.length();
 	}
 
+	/**
+	 * Lee el registro siguiente y lo devuelve. El archivo de registros queda
+	 * posicionado en el registro siguiente.
+	 * 
+	 * @return El registro siguiente.
+	 * @throws IOException
+	 */
 	public Record readRecord() throws IOException {
 		Record record = recordFactory.createRecord();
 		long bytesRead;
@@ -44,12 +59,26 @@ public class RecordFile {
 		return null;
 	}
 
+	/**
+	 * Lee el registro ubicado en el offset indicado. El archivo de registros
+	 * queda posicionado en el registro siguiente.
+	 * 
+	 * @return El registro siguiente.
+	 * @throws IOException
+	 */
 	public Record readRecord(long offset) throws IOException {
 		this.resetReadOffset();
 		this.inputStream.skip(offset);
 		return this.readRecord();
 	}
 
+	/**
+	 * Escribe un registro al final del archivo de registros.
+	 * 
+	 * @param record
+	 *            Registro a escribir.
+	 * @throws IOException
+	 */
 	public void writeRecord(Record record) throws IOException {
 		long bytesWritten;
 		try {
@@ -62,6 +91,12 @@ public class RecordFile {
 		}
 	}
 
+	/**
+	 * Indica si ya no hay más registros que leer.
+	 * 
+	 * @return Verdadero si no hay mas registros. Falso en caso contrario.
+	 * @throws IOException
+	 */
 	public boolean eof() throws IOException {
 		return (this.inputStream.available() == 0);
 	}

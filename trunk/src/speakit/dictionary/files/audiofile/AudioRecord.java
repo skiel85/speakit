@@ -8,26 +8,51 @@ import speakit.dictionary.files.Record;
 import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.serialization.ByteArrayField;
 
+/**
+ * Registro de audio.
+ */
 public class AudioRecord implements Record {
 
 	private ByteArrayField audio;
 
+	/**
+	 * Construye un nuevo registro de audio.
+	 */
 	public AudioRecord() {
 		this.audio = new ByteArrayField();
 	}
 
+	/**
+	 * Construye un nuevo registro de audio a partir de un arreglo de bytes.
+	 * 
+	 * @param audio
+	 *            Arreglo de bytes que contiene al audio.
+	 */
 	public AudioRecord(byte[] audio) {
 		this.audio = new ByteArrayField(audio);
 	}
 
+	/**
+	 * Obtiene los bytes del audio.
+	 * 
+	 * @return
+	 */
 	public byte[] getAudio() {
 		return this.audio.getBytes();
 	}
 
+	/**
+	 * Establece los bytes del audio.
+	 * 
+	 * @param audio
+	 */
 	public void setAudio(byte[] audio) {
 		this.audio.setBytes(audio);
 	}
 
+	/**
+	 * Deserializa un registro de audio.
+	 */
 	@Override
 	public long deserialize(InputStream stream) throws RecordSerializationException {
 		try {
@@ -37,6 +62,9 @@ public class AudioRecord implements Record {
 		}
 	}
 
+	/**
+	 * Serializa un registro de audio.
+	 */
 	@Override
 	public long serialize(OutputStream stream) throws RecordSerializationException {
 		try {
@@ -46,6 +74,9 @@ public class AudioRecord implements Record {
 		}
 	}
 
+	/**
+	 * Compara un registro de audio con otro.
+	 */
 	@Override
 	public int compareTo(Record o) {
 		if (o instanceof AudioRecord) {

@@ -106,8 +106,8 @@ public class Menu {
 
 		WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(textDocumentFromFile);
 		for (WordAudio word : audioDocument) {
-			System.out.println("Reproduciendo:" + word.getWord());
-			this.playSound(word.getAudio());
+//			System.out.println("Reproduciendo:" + word.getWord());
+			this.playSound(word);
 		}
 
 	}
@@ -130,7 +130,7 @@ public class Menu {
 		System.out.print("Reproduciendo...");
 		// Reproduzco el audio grabado
 
-		playSound(wordAudio.getAudio());
+		playSound(wordAudio);
 
 		System.out.println("(ENTER para confirmar. N para volver a grabar)");
 		while (true) {
@@ -143,10 +143,11 @@ public class Menu {
 		}
 	}
 
-	public void playSound(Audio audio) {
-		if (audio != null) {
+	public void playSound(WordAudio wordAudio) {
+		if (wordAudio.getAudio() != null) {
+			System.out.println(wordAudio.getWord() + "," + wordAudio.getAudio().getDuration() + ","+ wordAudio.getAudio().getBytes().length);
 			// TODO hacer algo con la duracion
-			audioManager.play(audio.getBytes(),audio.getDuration());
+			audioManager.play(wordAudio.getAudio().getBytes(),wordAudio.getAudio().getDuration());
 		}
 	}
 

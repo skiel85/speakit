@@ -11,17 +11,14 @@ import speakit.dictionary.serialization.IntegerField;
 
 public class AudioRecord implements Record {
 
-	private IntegerField duration;
 	private ByteArrayField audio;
 
 	public AudioRecord() {
 		this.audio = new ByteArrayField();
-		this.duration=new IntegerField(0);
 	}
 
-	public AudioRecord(byte[] audio,int duration) {
+	public AudioRecord(byte[] audio) {
 		this.audio = new ByteArrayField(audio);
-		this.duration=new IntegerField(duration);
 	}
 
 	public byte[] getAudio() {
@@ -31,19 +28,11 @@ public class AudioRecord implements Record {
 	public void setAudio(byte[] audio) {
 		this.audio.setBytes(audio);
 	}
-	
-	public void setDuration(int duration) {
-		this.duration.setInteger(duration);
-	}
-
-	public int getDuration() {
-		return this.duration.getInteger();
-	}
 
 	@Override
 	public long deserialize(InputStream stream) throws RecordSerializationException {
 		try {
-			return this.duration.deserialize(stream) + this.audio.deserialize(stream); 
+			return this.audio.deserialize(stream); 
 		} catch (IOException e) {
 			throw new RecordSerializationException();
 		}
@@ -52,7 +41,7 @@ public class AudioRecord implements Record {
 	@Override
 	public long serialize(OutputStream stream) throws RecordSerializationException {
 		try {
-			return this.duration.serialize(stream)+ this.audio.serialize(stream);
+			return this.audio.serialize(stream);
 		} catch (IOException e) {
 			throw new RecordSerializationException();
 		}

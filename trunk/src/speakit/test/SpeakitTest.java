@@ -72,7 +72,7 @@ public class SpeakitTest {
 
 	@Test
 	public void testAddWordAndGetUnknownWords() throws IOException {
-		WordAudio wordAudio = new WordAudio("esa", new Audio(new byte[] { 1, 34, -65, 77, 82 }, 0));
+		WordAudio wordAudio = new WordAudio("esa", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
 		this.sut.addWordAudio(wordAudio);
 		Iterator<String> it = this.sut.addDocument(createTextDocument("Ser o no ser, esa es la cuestión.")).iterator();
 
@@ -88,13 +88,13 @@ public class SpeakitTest {
 
 	@Test
 	public void testConvertToAudioDocument() throws IOException {
-		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }, 0));
-		WordAudio wordAudioO = new WordAudio("o", new Audio(new byte[] { 3, 8, -65, 54, 82 }, 0));
-		WordAudio wordAudioNo = new WordAudio("no", new Audio(new byte[] { 1, 9, -5, 77, 3 }, 0));
-		WordAudio wordAudioEsa = new WordAudio("esa", new Audio(new byte[] { -91, 34, 65, 88, 82 }, 0));
-		WordAudio wordAudioEs = new WordAudio("es", new Audio(new byte[] { 111, 34, -65, 8, 82 }, 0));
-		WordAudio wordAudioLa = new WordAudio("la", new Audio(new byte[] { 112, 0, -65, 65, 82 }, 0));
-		WordAudio wordAudioCuestion = new WordAudio("cuestión", new Audio(new byte[] { 1, -24, -3, 77, 80 }, 0));
+		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
+		WordAudio wordAudioO = new WordAudio("o", new Audio(new byte[] { 3, 8, -65, 54, 82 }));
+		WordAudio wordAudioNo = new WordAudio("no", new Audio(new byte[] { 1, 9, -5, 77, 3 }));
+		WordAudio wordAudioEsa = new WordAudio("esa", new Audio(new byte[] { -91, 34, 65, 88, 82 }));
+		WordAudio wordAudioEs = new WordAudio("es", new Audio(new byte[] { 111, 34, -65, 8, 82 }));
+		WordAudio wordAudioLa = new WordAudio("la", new Audio(new byte[] { 112, 0, -65, 65, 82 }));
+		WordAudio wordAudioCuestion = new WordAudio("cuestión", new Audio(new byte[] { 1, -24, -3, 77, 80 }));
 		this.sut.addWordAudio(wordAudioSer);
 		this.sut.addWordAudio(wordAudioO);
 		this.sut.addWordAudio(wordAudioNo);
@@ -119,10 +119,10 @@ public class SpeakitTest {
 		this.sut = new Speakit();
 		this.sut.load(this.fileSet);
 
-		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }, 0));
-		WordAudio wordAudioO = new WordAudio("o", new Audio(new byte[] { 3, 8, -65, 54, 82 }, 0));
-		WordAudio wordAudioNo = new WordAudio("no", new Audio(new byte[] { 1, 9, -5, 77, 3 }, 0));
-		WordAudio wordAudioEsa = new WordAudio("esa", new Audio(new byte[] { -91, 34, 65, 88, 82 }, 0));
+		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
+		WordAudio wordAudioO = new WordAudio("o", new Audio(new byte[] { 3, 8, -65, 54, 82 }));
+		WordAudio wordAudioNo = new WordAudio("no", new Audio(new byte[] { 1, 9, -5, 77, 3 }));
+		WordAudio wordAudioEsa = new WordAudio("esa", new Audio(new byte[] { -91, 34, 65, 88, 82 }));
 		this.sut.addWordAudio(wordAudioSer);
 		this.sut.addWordAudio(wordAudioO);
 		this.sut.addWordAudio(wordAudioNo);
@@ -131,9 +131,9 @@ public class SpeakitTest {
 		this.sut = new Speakit();
 		this.sut.load(this.fileSet);
 
-		WordAudio wordAudioEs = new WordAudio("es", new Audio(new byte[] { 111, 34, -65, 8, 82 }, 0));
-		WordAudio wordAudioLa = new WordAudio("la", new Audio(new byte[] { 112, 0, -65, 65, 82 }, 0));
-		WordAudio wordAudioCuestion = new WordAudio("cuestión", new Audio(new byte[] { 1, -24, -3, 77, 80 }, 0));
+		WordAudio wordAudioEs = new WordAudio("es", new Audio(new byte[] { 111, 34, -65, 8, 82 }));
+		WordAudio wordAudioLa = new WordAudio("la", new Audio(new byte[] { 112, 0, -65, 65, 82 }));
+		WordAudio wordAudioCuestion = new WordAudio("cuestión", new Audio(new byte[] { 1, -24, -3, 77, 80 }));
 		this.sut.addWordAudio(wordAudioEs);
 		this.sut.addWordAudio(wordAudioLa);
 		this.sut.addWordAudio(wordAudioCuestion);

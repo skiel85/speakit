@@ -145,7 +145,7 @@ public class Menu {
 
 	public void playSound(WordAudio wordAudio) {
 		if (wordAudio.getAudio() != null) {
-			System.out.println(wordAudio.getWord() + "," + wordAudio.getAudio().getDuration() + ","+ wordAudio.getAudio().getBytes().length);
+			System.out.println("Reproduciendo: " + wordAudio.getWord());
 			// TODO hacer algo con la duracion
 			audioManager.play(wordAudio.getAudio().getBytes(),wordAudio.getAudio().getDuration());
 		}

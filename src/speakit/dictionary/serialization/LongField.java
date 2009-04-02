@@ -36,7 +36,7 @@ public class LongField extends Field {
 
 	@Override
 	public void actuallySerialize(OutputStream out) throws IOException {
-		out.write(ByteArrayConverter.toByta(this.value));
+		out.write(ByteArrayConverter.toByteArray(this.value));
 	}
 
 	@Override

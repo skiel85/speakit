@@ -10,10 +10,17 @@ import datos.capturaaudio.exception.SimpleAudioRecorderException;
 import datos.reproduccionaudio.core.SimpleAudioPlayer;
 import datos.reproduccionaudio.exception.SimpleAudioPlayerException;
 
+/**
+ * Administra la salida y la entrada de audio.
+ */
 public class AudioManager {
 	ByteArrayOutputStream output = null;
 	SimpleAudioRecorder recorder = null;
 
+	/**
+	 * Comienza la grabación del audio (asíncrono).
+	 * @throws AudioManagerException
+	 */
 	public void startRecording() throws AudioManagerException {
 		try {
 			output = new ByteArrayOutputStream();
@@ -29,6 +36,10 @@ public class AudioManager {
 		}
 	}
 
+	/**
+	 * Detiene la grabación del audio.
+	 * @return El arreglo de bytes que contienen el sonido.
+	 */
 	public byte[] stopRecording() {
 		if (recorder != null) {
 			recorder.stopRecording();
@@ -38,6 +49,10 @@ public class AudioManager {
 		return null;
 	}
 
+	/**
+	 * Reproduce un audio sincrónicamente (devuelve el control cuando termina).
+	 * @param sound Audio a reproducir.
+	 */
 	public void play(byte[] sound) {
 		ByteArrayInputStream input = new ByteArrayInputStream(sound);
 		SimpleAudioPlayer player = new SimpleAudioPlayer(input);

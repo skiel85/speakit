@@ -14,11 +14,12 @@ import datos.reproduccionaudio.exception.SimpleAudioPlayerException;
  * Administra la salida y la entrada de audio.
  */
 public class AudioManager {
-	ByteArrayOutputStream output = null;
-	SimpleAudioRecorder recorder = null;
+	ByteArrayOutputStream	output		= null;
+	SimpleAudioRecorder		recorder	= null;
 
 	/**
 	 * Comienza la grabación del audio (asíncrono).
+	 * 
 	 * @throws AudioManagerException
 	 */
 	public void startRecording() throws AudioManagerException {
@@ -38,6 +39,7 @@ public class AudioManager {
 
 	/**
 	 * Detiene la grabación del audio.
+	 * 
 	 * @return El arreglo de bytes que contienen el sonido.
 	 */
 	public byte[] stopRecording() {
@@ -51,22 +53,27 @@ public class AudioManager {
 
 	/**
 	 * Reproduce un audio sincrónicamente (devuelve el control cuando termina).
-	 * @param sound Audio a reproducir.
+	 * 
+	 * @param sound
+	 *            Audio a reproducir.
 	 */
 	public void play(byte[] sound) {
-		ByteArrayInputStream input = new ByteArrayInputStream(sound);
-		SimpleAudioPlayer player = new SimpleAudioPlayer(input);
-		try {
-			player.init();
-			player.startPlaying();
-			player.join();
-			player.stopPlaying();
-		} catch (SimpleAudioPlayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (sound.length > 0) {
+			ByteArrayInputStream input = new ByteArrayInputStream(sound);
+			SimpleAudioPlayer player = new SimpleAudioPlayer(input);
+			try {
+				player.init();
+				player.startPlaying();
+				player.join();
+				player.stopPlaying();
+			} catch (SimpleAudioPlayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+
 	}
 }

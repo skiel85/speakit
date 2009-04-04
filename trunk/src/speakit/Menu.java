@@ -105,11 +105,9 @@ public class Menu {
 		}
 
 		WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(textDocumentFromFile);
-		for (WordAudio word : audioDocument) {
-			// System.out.println("Reproduciendo:" + word.getWord());
-			this.playSound(word);
+		while(audioDocument.hasNext()){
+			this.playSound(audioDocument.next());
 		}
-
 	}
 
 	/**

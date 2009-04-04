@@ -102,7 +102,7 @@ public class SpeakitTest {
 		this.sut.addWordAudio(wordAudioEs);
 		this.sut.addWordAudio(wordAudioLa);
 		this.sut.addWordAudio(wordAudioCuestion);
-		Iterator<WordAudio> it = this.sut.convertToAudioDocument(createTextDocument("Ser o no ser, esa es la cuestión.")).iterator();
+		Iterator<WordAudio> it = this.sut.convertToAudioDocument(createTextDocument("Ser o no ser, esa es la cuestión."));
 		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioO.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioNo.getAudio().getBytes(), it.next().getAudio().getBytes());
@@ -138,7 +138,7 @@ public class SpeakitTest {
 		this.sut.addWordAudio(wordAudioLa);
 		this.sut.addWordAudio(wordAudioCuestion);
 
-		Iterator<WordAudio> it = this.sut.convertToAudioDocument(createTextDocument("Ser o no ser, esa es la cuestión.")).iterator();
+		Iterator<WordAudio> it = this.sut.convertToAudioDocument(createTextDocument("Ser o no ser, esa es la cuestión."));
 		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioO.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioNo.getAudio().getBytes(), it.next().getAudio().getBytes());

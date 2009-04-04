@@ -3,6 +3,7 @@ package speakit.dictionary;
 import java.io.IOException;
 
 import speakit.audio.Audio;
+import speakit.dictionary.files.audiofile.WordNotFoundException;
 
 /**
  * Diccionario de audio. A partir de una palabra obtiene su representación
@@ -56,5 +57,5 @@ public interface AudioDictionary {
 	 * @return Bytes del audio de la palabra.
 	 * @throws IOException
 	 */
-	public Audio getAudio(String word) throws IOException;
+	public Audio getAudio(String word) throws IOException,WordNotFoundException;
 }

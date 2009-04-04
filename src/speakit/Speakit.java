@@ -73,14 +73,8 @@ public class Speakit implements SpeakitInterface {
 		return words;
 	}
 
-	public WordAudioDocument convertToAudioDocument(TextDocument doc) throws IOException {
-		WordAudioDocument audio = new WordAudioDocument();
-		for (String word : doc) {
-			if (this.dataBase.contains(word)) {
-				audio.add(new WordAudio(word, this.dataBase.getAudio(word)));
-			}
-		}
-		return audio;
+	public WordAudioDocument convertToAudioDocument(TextDocument doc) throws IOException { 
+		return new WordAudioDocument(this.dataBase,doc); 
 	}
 
 	public void addWordAudio(WordAudio audio) throws IOException {

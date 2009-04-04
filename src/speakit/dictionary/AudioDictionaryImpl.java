@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import speakit.audio.Audio;
 import speakit.dictionary.files.audiofile.AudioFile;
+import speakit.dictionary.files.audiofile.WordNotFoundException;
 import speakit.dictionary.files.audioindexfile.AudioIndexFile;
 
 public class AudioDictionaryImpl implements AudioDictionary {
@@ -26,7 +27,7 @@ public class AudioDictionaryImpl implements AudioDictionary {
 	}
 
 	@Override
-	public Audio getAudio(String word) throws IOException {
+	public Audio getAudio(String word) throws IOException, WordNotFoundException {
 		long offset = this.audioIndexFile.getOffset(word);
 		return this.audioFile.getAudio(offset);
 	}

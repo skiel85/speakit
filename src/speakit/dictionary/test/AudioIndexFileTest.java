@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.dictionary.files.audiofile.WordNotFoundException;
 import speakit.dictionary.files.audioindexfile.AudioIndexFile;
 
 public class AudioIndexFileTest {
@@ -27,7 +28,7 @@ public class AudioIndexFileTest {
 	}
 
 	@Test
-	public void testAddAndGetAudio() throws IOException {
+	public void testAddAndGetAudio() throws IOException, WordNotFoundException {
 		this.sut.addEntry("hola", 88761);
 		Assert.assertEquals(88761, this.sut.getOffset("hola"));
 	}

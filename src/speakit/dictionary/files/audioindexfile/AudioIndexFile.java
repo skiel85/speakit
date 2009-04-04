@@ -7,6 +7,7 @@ import java.io.IOException;
 import speakit.dictionary.files.Record;
 import speakit.dictionary.files.RecordFactory;
 import speakit.dictionary.files.RecordFile;
+import speakit.dictionary.files.audiofile.WordNotFoundException;
 
 /**
  * Representa un archivo de registros de índice del archivo de registros de
@@ -70,8 +71,9 @@ public class AudioIndexFile implements RecordFactory {
 	 * @return Offset del audio de la palabra en el archivo de registros de
 	 *         audio.
 	 * @throws IOException
+	 * @throws WordNotFoundException 
 	 */
-	public long getOffset(String word) throws IOException {
+	public long getOffset(String word) throws IOException, WordNotFoundException {
 		recordFile.resetReadOffset();// TODO: hacer una prueba de esto
 		while (!this.recordFile.eof()) {
 			AudioIndexRecord record = (AudioIndexRecord) this.recordFile.readRecord();
@@ -79,7 +81,7 @@ public class AudioIndexFile implements RecordFactory {
 				return record.getOffset();
 			}
 		}
-		throw new RuntimeException("No se encontró la palabra en el índice.");
+		throw new WordNotFoundException(word);
 	}
 
 	/**

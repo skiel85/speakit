@@ -7,7 +7,6 @@ import java.util.Iterator;
 import speakit.audio.Audio;
 import speakit.dictionary.AudioDictionary;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class WordAudioDocument implements Iterator<WordAudio> {
 
@@ -48,8 +47,7 @@ public class WordAudioDocument implements Iterator<WordAudio> {
 		
 	}
 	@Override
-	public void remove() {
-		throw new NotImplementedException();
+	public void remove() { 
 	}
 
 }

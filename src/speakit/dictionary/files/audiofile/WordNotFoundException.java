@@ -15,5 +15,10 @@ public class WordNotFoundException extends Exception {
 		super(notFoundWord, arg1);
 		this.notFoundWord = notFoundWord; 
 	}
+	
+	@Override
+	public String toString() {
+		return "No se encuentra la palabra: " + this.notFoundWord + ".\n" + super.toString();
+	}
 
 }

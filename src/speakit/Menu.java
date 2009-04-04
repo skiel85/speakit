@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import speakit.audio.Audio;
 import speakit.audio.AudioManager;
 import speakit.audio.AudioManagerException;
+import speakit.dictionary.files.audiofile.WordNotFoundException;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 /**

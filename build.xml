@@ -19,6 +19,10 @@
 	<property name="dictionaryTests"  location="src/speakit/wordreader/test"/>
 	<property name="main-class"  value="speakit/Main"/>
 	<property name="lib.dir"     value="lib"/>
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar"/>
+	</path>
+	
 
 	<target name="init">
 		<!-- Create the time stamp -->
@@ -29,7 +33,7 @@
 
 	<target name="compile" depends="init" description="compile the source" >
 		<!-- Compile the java code from ${src} into ${build} -->
-		<javac srcdir="${src}" destdir="${build}" encoding="8859_1"/>
+		<javac srcdir="${src}" destdir="${build}" encoding="8859_1" classpathref="classpath"/>
 	</target>
 
 	<target name="jar" depends="compile">
@@ -47,8 +51,6 @@
 		<!-- Compile and starts the SpeakIt application -->
 		<java jar="${dist}/lib/${ant.project.name}-${DSTAMP}.jar" fork="true"/>
 	</target>
-
-
 
 	<!--<target name="junit" depends="jar">
 		<junit printsummary="yes">

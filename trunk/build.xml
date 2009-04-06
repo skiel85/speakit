@@ -14,9 +14,6 @@
 	<property name="src" location="src"/>
 	<property name="build" location="build"/>
 	<property name="dist"  location="dist"/>
-	<property name="tests"  location="src/speakit/test"/>
-	<property name="wordReaderTests"  location="src/speakit/dictionary/test"/>
-	<property name="dictionaryTests"  location="src/speakit/wordreader/test"/>
 	<property name="main-class"  value="speakit/Main"/>
 	<property name="lib.dir"     value="lib"/>
 	<path id="classpath">

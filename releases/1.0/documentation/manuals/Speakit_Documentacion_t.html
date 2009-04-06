@@ -1,0 +1,1432 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html class="pageview">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<base target="_top">
+<style type="text/css">
+  
+
+/* default css */
+
+table {
+  font-size: 1em;
+  line-height: inherit;
+  border-collapse: collapse;
+}
+
+
+tr {
+  
+  text-align: left;
+  
+}
+
+
+div, address, ol, ul, li, option, select {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+p {
+  margin: 0px;
+}
+
+
+pre {
+  font-family: Courier New;
+  white-space: pre-wrap;
+  margin:0;
+}
+
+body {
+  margin: 6px;
+  padding: 0px;
+  font-family: Verdana, sans-serif;
+  font-size: 10pt;
+  background-color: #ffffff;
+}
+
+
+img {
+  -moz-force-broken-image-icon: 1;
+}
+
+@media screen {
+  html.pageview {
+    background-color: #f3f3f3 !important;
+  }
+
+  
+
+  body {
+    min-height: 1100px;
+    
+    counter-reset: __goog_page__;
+  }
+  * html body {
+    height: 1100px;
+  }
+  .pageview body {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 2px solid #bbb;
+    border-bottom: 2px solid #bbb;
+    width: 648px !important;
+    margin: 15px auto 25px;
+    padding: 40px 50px;
+  }
+  /* IE6 */
+  * html {
+    overflow-y: scroll;
+  }
+  * html.pageview body {
+    overflow-x: auto;
+  }
+  /* Prevent repaint errors when scrolling in Safari. This "Star-7" css hack
+     targets Safari 3.1, but not WebKit nightlies and presumably Safari 4.
+     That's OK because this bug is fixed in WebKit nightlies/Safari 4 :-). */
+  html*#wys_frame::before {
+    content: '\A0';
+    position: fixed;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    top: 0;
+    left: 0;
+  }
+  
+  
+
+  
+    .writely-callout-data {
+      display: none;
+      *display: inline-block;
+      *width: 0;
+      *height: 0;
+      *overflow: hidden;
+    }
+    .writely-footnote-marker {
+      background-image: url('MISSING');
+      background-color: transparent;
+      background-repeat: no-repeat;
+      width: 7px;
+      overflow: hidden;
+      height: 16px;
+      vertical-align: top;
+
+      
+      -moz-user-select: none;
+    }
+    .editor .writely-footnote-marker {
+      cursor: move;
+    }
+    .writely-footnote-marker-highlight {
+      background-position: -15px 0;
+      -moz-user-select: text;
+    }
+    .writely-footnote-hide-selection ::-moz-selection, .writely-footnote-hide-selection::-moz-selection {
+      background: transparent;
+    }
+    .writely-footnote-hide-selection ::selection, .writely-footnote-hide-selection::selection {
+      background: transparent;
+    }
+    .writely-footnote-hide-selection {
+      cursor: move;
+    }
+
+    
+    .editor .writely-comment-yellow {
+      background-color: #FF9;
+      background-position: -240px 0;
+    }
+    .editor .writely-comment-yellow-hover {
+      background-color: #FF0;
+      background-position: -224px 0;
+    }
+    .editor .writely-comment-blue {
+      background-color: #C0D3FF;
+      background-position: -16px 0;
+    }
+    .editor .writely-comment-blue-hover {
+      background-color: #6292FE;
+      background-position: 0 0;
+    }
+    .editor .writely-comment-orange {
+      background-color: #FFDEAD;
+      background-position: -80px 0;
+    }
+    .editor .writely-comment-orange-hover {
+      background-color: #F90;
+      background-position: -64px 0;
+    }
+    .editor .writely-comment-green {
+      background-color: #99FBB3;
+      background-position: -48px 0;
+    }
+    .editor .writely-comment-green-hover {
+      background-color: #00F442;
+      background-position: -32px 0;
+    }
+    .editor .writely-comment-cyan {
+      background-color: #CFF;
+      background-position: -208px 0;
+    }
+    .editor .writely-comment-cyan-hover {
+      background-color: #0FF;
+      background-position: -192px 0;
+    }
+    .editor .writely-comment-purple {
+      background-color: #EBCCFF;
+      background-position: -144px 0;
+    }
+    .editor .writely-comment-purple-hover {
+      background-color: #90F;
+      background-position: -128px 0;
+    }
+    .editor .writely-comment-magenta {
+      background-color: #FCF;
+      background-position: -112px 0;
+    }
+    .editor .writely-comment-magenta-hover {
+      background-color: #F0F;
+      background-position: -96px 0;
+    }
+    .editor .writely-comment-red {
+      background-color: #FFCACA;
+      background-position: -176px 0;
+    }
+    .editor .writely-comment-red-hover {
+      background-color: #FF7A7A;
+      background-position: -160px 0;
+    }
+
+    .editor .writely-comment-marker {
+      background-image: url('MISSING');
+      background-color: transparent;
+      padding-right: 11px;
+      background-repeat: no-repeat;
+      width: 16px;
+      height: 16px;
+      -moz-user-select: none;
+    }
+
+    .editor .writely-comment-hidden {
+      padding: 0;
+      background: none;
+    }
+    .editor .writely-comment-marker-hidden {
+      background: none;
+      padding: 0;
+      width: 0;
+    }
+    .editor .writely-comment-none {
+      opacity: .2;
+      filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+      -moz-opacity: .2;
+    }
+    .editor .writely-comment-none-hover {
+      opacity: .2;
+      filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+      -moz-opacity: .2;
+    }
+  
+
+
+  
+  .br_fix br:not(:-moz-last-node):not(:-moz-first-node) {
+    
+    position:relative;
+    
+    left: -1ex
+    
+  }
+  
+  .br_fix br+br {
+    position: static !important
+  }
+}
+
+h6 { font-size: 8pt }
+h5 { font-size: 8pt }
+h4 { font-size: 10pt }
+h3 { font-size: 12pt }
+h2 { font-size: 14pt }
+h1 { font-size: 18pt }
+
+blockquote {padding: 10px; border: 1px #DDD dashed }
+
+a img {border: 0}
+
+.pb {
+  border-width: 0;
+  page-break-after: always;
+  /* We don't want this to be resizeable, so enforce a width and height
+     using !important */
+  height: 1px !important;
+  width: 100% !important;
+}
+
+.editor .pb {
+  border-top: 1px dashed #C0C0C0;
+  border-bottom: 1px dashed #C0C0C0;
+}
+
+div.google_header, div.google_footer {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+
+/* Table of contents */
+.editor div.writely-toc {
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+}
+.writely-toc > ol {
+  padding-left: 3em;
+  font-weight: bold;
+}
+ol.writely-toc-subheading {
+  padding-left: 1em;
+  font-weight: normal;
+}
+/* IE6 only */
+* html writely-toc ol {
+  list-style-position: inside;
+}
+.writely-toc-none {
+  list-style-type: none;
+}
+.writely-toc-decimal {
+  list-style-type: decimal;
+}
+.writely-toc-upper-alpha {
+  list-style-type: upper-alpha;
+}
+.writely-toc-lower-alpha {
+  list-style-type: lower-alpha;
+}
+.writely-toc-upper-roman {
+  list-style-type: upper-roman;
+}
+.writely-toc-lower-roman {
+  list-style-type: lower-roman;
+}
+.writely-toc-disc {
+  list-style-type: disc;
+}
+
+/* Ordered lists converted to numbered lists can preserve ordered types, and
+   vice versa. This is confusing, so disallow it */
+ul[type="i"], ul[type="I"], ul[type="1"], ul[type="a"], ul[type="A"] {
+  list-style-type: disc;
+}
+
+ol[type="disc"], ol[type="circle"], ol[type="square"] {
+  list-style-type: decimal;
+}
+
+/* end default css */
+
+
+  /* default print css */
+  
+  @media print {
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    div.google_header, div.google_footer {
+      display: block;
+      min-height: 0;
+      border: none;
+    }
+
+    div.google_header {
+      flow: static(header);
+    }
+
+    /* used to insert page numbers */
+    div.google_header::before, div.google_footer::before {
+      position: absolute;
+      top: 0;
+    }
+
+    div.google_footer {
+      flow: static(footer);
+    }
+
+    /* always consider this element at the start of the doc */
+    div#google_footer {
+      flow: static(footer, start);
+    }
+
+    span.google_pagenumber {
+      content: counter(page);
+    }
+
+    span.google_pagecount {
+      content: counter(pages);
+    }
+
+
+    callout.google_footnote {
+      
+      display: prince-footnote;
+      footnote-style-position: inside;
+      /* These styles keep the footnote from taking on the style of the text
+         surrounding the footnote marker. They can be overridden in the
+         document CSS. */
+      color: #000;
+      font-family: Verdana;
+      font-size: 10.0pt;
+      font-weight: normal;
+    }
+
+    /* Table of contents */
+    #WritelyTableOfContents a::after {
+      content: leader('.') target-counter(attr(href), page);
+    }
+
+    #WritelyTableOfContents a {
+      text-decoration: none;
+      color: black;
+    }
+  }
+
+  @page {
+    @top {
+      content: flow(header);
+    }
+    @bottom {
+      content: flow(footer);
+    }
+    @footnotes {
+      border-top: solid black thin;
+      padding-top: 8pt;
+    }
+  }
+  /* end default print css */
+
+
+/* custom css */
+
+
+/* end custom css */
+
+/* ui edited css */
+
+body {
+  font-family: Verdana;
+  
+  font-size: 10.0pt;
+  line-height: normal;
+  background-color: #ffffff;
+}
+/* end ui edited css */
+
+
+/* editor CSS */
+.editor a:visited {color: #551A8B}
+.editor table.zeroBorder {border: 1px dotted gray}
+.editor table.zeroBorder td {border: 1px dotted gray}
+.editor table.zeroBorder th {border: 1px dotted gray}
+
+
+.editor div.google_header, .editor div.google_footer {
+  border: 2px #DDDDDD dashed;
+  position: static;
+  width: 100%;
+  min-height: 2em;
+}
+
+.editor .misspell {background-color: yellow}
+
+.editor .writely-comment {
+  font-size: 9pt;
+  line-height: 1.4;
+  padding: 1px;
+  border: 1px dashed #C0C0C0
+}
+
+
+/* end editor CSS */
+
+</style>
+
+  
+  <title>Speakit - Documentación técnica</title>
+
+</head>
+
+<body
+    
+    
+    revision="dfc5sc8b_124hqjfw9gv:937">
+
+    
+    
+    
+<div style=TEXT-ALIGN:left>
+  <div style=TEXT-ALIGN:center>
+    <font size=6>SPEAKIT!</font><br>
+  </div>
+  <br>
+</div>
+<div style=TEXT-ALIGN:left>
+</div>
+<b>
+<div style=TEXT-ALIGN:center>
+  <div style=TEXT-ALIGN:left>
+  </div>
+  <div class=writely-toc id=WritelyTableOfContents style=TEXT-ALIGN:left toctype=decimal+upper-alpha>
+    <ol class=writely-toc-decimal>
+      <li>
+        <a href=#Arquitectura_del_sistema_prime_9783002771437168 target=_self>Arquitectura del sistema (primer etapa).</a>
+        <ol class="writely-toc-subheading writely-toc-upper-alpha" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#speakit_audio_0282233179723017_33195771649479866 target=_self>speakit.audio</a>
+          </li>
+          <li>
+            <a href=#speakit_wordreader_91763689400_5825007986277342 target=_self>speakit.wordreader</a>
+          </li>
+          <li>
+            <a href=#speakit_dictionary_22133887218_001521020196378231 target=_self>speakit.dictionary</a>
+          </li>
+          <li>
+            <a href=#speakit_Speakit_52240522539436_19256030302494764 target=_self>speakit.Speakit</a>
+          </li>
+          <li>
+            <a href=#speakit_Menu_640852585340546_4_3960645543411374 target=_self>speakit.Menu</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href=#Arquitectura_del_sistema_otras_7489580037072301 target=_self>Arquitectura del sistema (otras etapas)</a>
+      </li>
+      <li>
+        <a href=#Organizaci_n_de_Archivos_34062_16695357766002417 target=_self>Organización de Archivos</a>
+        <ol class="writely-toc-subheading writely-toc-upper-alpha" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#Definici_n_Conceptual_de_Datos_6796297021210194 target=_self>Definición Conceptual de Datos:</a>
+          </li>
+          <li>
+            <a href=#Definici_n_L_gica_de_Datos_323_4842892000451684 target=_self>Definición Lógica de Datos:</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href=#Soluciones_descartadas_2421954_5222777398303151 target=_self>Soluciones descartadas</a>
+        <ol class="writely-toc-subheading writely-toc-upper-alpha" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#Grabaci_n_y_reproducci_n_42781_5091099189594388 target=_self>Grabación y reproducción</a>
+          </li>
+          <li>
+            <a href=#Palabras_no_encontradas_741248_5428218245506287 target=_self>Palabras no encontradas</a>
+          </li>
+          <li>
+            <a href=#Separaci_n_vista_modelo_844864_5885447142645717 target=_self>Separación vista - modelo</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href=#Diagramas_de_Secuencia_de_la_a_10911996196955442 target=_self>Diagramas de Secuencia de la aplicación</a>
+        <ol class="writely-toc-subheading writely-toc-upper-alpha" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#Agregar_un_nuevo_documento_544_5970969768241048 target=_self>Agregar un nuevo documento</a>
+          </li>
+          <li>
+            <a href=#Almacenar_una_nueva_palabra_42_4556261273100972 target=_self>Almacenar una nueva palabra</a>
+          </li>
+          <li>
+            <a href=#Agregar_entrada_al_repositorio_6921658478677273 target=_self>Agregar entrada al repositorio</a>
+          </li>
+          <li>
+            <a href=#Persistir_un_registro_87211650_7803853610530496 target=_self>Persistir un registro</a>
+          </li>
+          <li>
+            <a href=#Serializacion_de_un_campo_9493_08751723542809486 target=_self>Serializacion de un campo</a>
+          </li>
+          <li>
+            <a href=#Reproducci_n_de_un_archivo_819_5257835481315851 target=_self>Reproducción de un archivo</a>
+          </li>
+          <li>
+            <a href=#Generaci_n_de_un_archivo_a_rep_969247579574585 target=_self>Generación de un archivo a reproducir</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href=#Instrucciones_de_uso_716181763 target=_self>Instrucciones de uso</a>
+        <ol class="writely-toc-subheading writely-toc-upper-alpha" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#Instalaci_n_del_sistema_958589_6101691499352455 target=_self>Instalación del sistema</a>
+          </li>
+          <li>
+            <a href=#Utilizaci_n_del_sistema_212234_7736953115090728 target=_self>Utilización del sistema</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href=#Ejemplos_16892574797842375_306 target=_self>Ejemplos</a>
+      </li>
+    </ol>
+  </div>
+  <span style=FONT-WEIGHT:normal><font size=5>
+  <div style=TEXT-ALIGN:center>
+    <br>
+  </div>
+  DOCUMENTACIÓN TÉCNICA</font></span><br>
+</div>
+</b>
+<div>
+  &nbsp;
+</div>
+<div>
+  <h1>
+    <a id=Arquitectura_del_sistema_prime_9783002771437168 name=Arquitectura_del_sistema_prime_9783002771437168></a> Arquitectura del sistema (primer etapa).<br>
+  </h1>
+  <p>
+    &nbsp;
+  </p>
+  <p>
+    El sistema consta de 5 módulos bien diferenciados, a saber:<br>
+    -Un módulo de audio.<br>
+    -Un módulo lector de palabras.<br>
+    -Un módulo de acceso a datos.<br>
+    -Un módulo de modelo de negocio.<br>
+    -Un módulo de interfaz de usuario.
+  </p>
+  <p>
+    <br>
+  </p>
+  <p>
+  </p>
+  <div>
+    <p style="TEXT-ALIGN:left; MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+      <b>Diagrama que ilustra las dependencias entre componentes.</b><br>
+    </p>
+  </div>
+  <br>
+  <div>
+    <img src=Speakit_Documentacion_t_images/dc6m444d_916r9hqjdr_b.png style="WIDTH:648px; HEIGHT:353.831px">
+  </div>
+  <h2>
+    <a id=speakit_audio_0282233179723017_33195771649479866 name=speakit_audio_0282233179723017_33195771649479866></a> speakit.audio<br>
+  </h2>
+  <p>
+    <br>
+  </p>
+  <p>
+  </p>
+  <div id=e00c style=TEXT-ALIGN:left>
+    El módulo de audio tiene la funcionalidad de grabar o de reproducir audio. Está implementado en el paquete speakit.audio, y consiste en una clase proxy que encapsula las funcionalidades del paquete de audio provisto por la cátedra. Tiene funciones para reproducir un objeto Audio, o grabar un objeto Audio.<br>
+  </div>
+  <div id=e00c style=TEXT-ALIGN:left>
+    <br>
+  </div>
+  <div id=e00c style=TEXT-ALIGN:left>
+    <div id=fni5 style=TEXT-ALIGN:left>
+      <img src=Speakit_Documentacion_t_images/dc6m444d_942kn765gw_b.jpg style="WIDTH:648px; HEIGHT:576.799px">
+    </div>
+  </div>
+  <div id=e00c style=TEXT-ALIGN:left>
+    <br>
+  </div>
+  <div id=e00c style=TEXT-ALIGN:left>
+    <br>
+  </div>
+  <h2>
+    <a id=speakit_wordreader_91763689400_5825007986277342 name=speakit_wordreader_91763689400_5825007986277342></a> speakit.wordreader<br>
+  </h2>
+  <p>
+  </p>
+  <p>
+    &nbsp;
+  </p>
+  <p>
+    El módulo lector de palabras (paquete speakit.wordreader), lee las palabras de un documento de texto. Para poder hacer esto, realiza tareas de limpieza, que eliminan caracteres de puntuación, y otros caracteres no latinos, colapsa los espacios, y convierte en minúsculas. Luego de ese tratamiento, devuelve un iterador de palabras.
+  </p>
+  <p>
+    <br>
+  </p>
+  <p>
+  </p>
+  <div id=und7 style=TEXT-ALIGN:left>
+    <img src=Speakit_Documentacion_t_images/dc6m444d_9538gnq3gg_b.jpg style="WIDTH:569px; HEIGHT:313px">
+  </div>
+  <div id=und7 style=TEXT-ALIGN:left>
+    <br>
+  </div>
+  <p>
+    <br>
+  </p>
+  <p>
+    <br>
+  </p>
+  <h2>
+    <a id=speakit_dictionary_22133887218_001521020196378231 name=speakit_dictionary_22133887218_001521020196378231></a> speakit.dictionary<br>
+  </h2>
+  <p>
+    &nbsp;
+  </p>
+  <p>
+    El módulo de acceso a datos, contiene primitivas para poder obtener el audio de palabras grabadas en los archivos binarios del sistema. Este módulo viene implementado en el paquete speakit.dictionary. Contiene 2 submódulos. Un módulo para el acceso al archivo de audio y un módulo para el acceso al archivo que indiza el archivo de audio.<br>
+  </p>
+  <p>
+    <br>
+  </p>
+  <p>
+  </p>
+  <div id=knma style=TEXT-ALIGN:left>
+    <img src=Speakit_Documentacion_t_images/dc6m444d_96d9xh2jfx_b.jpg style="WIDTH:648px; HEIGHT:558.405px">
+  </div>
+  <div id=knma style=TEXT-ALIGN:left>
+    <br>
+  </div>
+  <p>
+  </p>
+  <p>
+    <br>
+  </p>
+  <h2>
+    <a id=speakit_Speakit_52240522539436_19256030302494764 name=speakit_Speakit_52240522539436_19256030302494764></a> speakit.Speakit<br>
+  </h2>
+  <p>
+    <br>
+  </p>
+  <p>
+    El módulo del modelo de negocio, simbolizado por la clase Speakit, integra los demás módulos. Tiene la función de agregar un documento (función pensada para la siguiente etapa, que ahora se limita a devolver las palabras desconocidas), agregar palabra, y convertir un documento de texto en un documento de audio.
+  </p>
+  <p>
+    <br>
+  </p>
+  <p>
+  </p>
+  <div id=jjfc style=TEXT-ALIGN:left>
+    <img src=Speakit_Documentacion_t_images/dc6m444d_97ng2p9gdq_b.jpg style="WIDTH:444px; HEIGHT:522px">
+  </div>
+  <br>
+  <p>
+  </p>
+  <p>
+    <br>
+  </p>
+  <h2>
+    <a id=speakit_Menu_640852585340546_4_3960645543411374 name=speakit_Menu_640852585340546_4_3960645543411374></a> speakit.Menu<br>
+  </h2>
+  <p>
+    <br>
+  </p>
+  <p>
+    El módulo de interfaz de usuario es el menú, y el que gestiona el control del programa, el que le da instrucciones a Speakit para obtener o guardar una palabra, muestra textos en pantalla, permite la entrada del usuario, y utiliza al módulo de audio para grabar y reproducir sonido.
+  </p>
+  <p>
+    <br>
+  </p>
+  <p>
+  </p>
+  <div id=yuvo style=TEXT-ALIGN:left>
+    <img src=Speakit_Documentacion_t_images/dc6m444d_99dcd2ktcz_b.jpg style="WIDTH:608px; HEIGHT:335px">
+  </div>
+  <br>
+  <p>
+  </p>
+  <h1>
+    <a id=Arquitectura_del_sistema_otras_7489580037072301 name=Arquitectura_del_sistema_otras_7489580037072301></a> Arquitectura del sistema (otras etapas)<br>
+  </h1>
+  <p style=TEXT-ALIGN:left>
+  </p>
+  El sistema Speakit, actualmente permite ingresar un documento de texto, grabar todas las palabras que no estén registradas, y agregarlas a un diccionario que asocia palabras con su audio, y también permite reproducir las palabras contenidas en un documento.<br>
+  <p style=TEXT-ALIGN:left>
+    <br>
+    Speakit será expandido en la siguiente etapa para agregar la funcionalidad de guardar los documentos y poder buscarlos. En una etapa posterior estos documentos y los audios se guardarán en forma comprimida.
+  </p>
+  <p style=TEXT-ALIGN:left>
+    <br>
+  </p>
+  <p style=TEXT-ALIGN:left>
+  </p>
+  <div id=qph6 style=TEXT-ALIGN:left>
+    <img src=Speakit_Documentacion_t_images/dc6m444d_101hsqxmfhk_b.png style="WIDTH:648px; HEIGHT:367.615px">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+  </div>
+  <p style=TEXT-ALIGN:left>
+    <br>
+    El módulo Speakit, conservará la función de agregar el audio de una palabra. Además tendrá la función de agregar un documento. Esta función realizará su tarea valiéndose del módulo documents. Podrá almacenar documentos a pesar de que el módulo dictionary no contenga todas sus palabras. También tendrá la función de obtener todas las palabras desconocidas de los documentos almacenados, lo cual servirá para grabar nuevas palabras.<br>
+  </p>
+  <p style=TEXT-ALIGN:left>
+    <br>
+  </p>
+  <p style=TEXT-ALIGN:left>
+    Los módulos <i>speakit.audio</i>, <i>speakit.wordreader </i>y <i>speakit.dictionary </i>se mantendrán. Se agregará un módulo <i>speakit.documents</i>. Los demás módulos se modificarán de la siguiente forma:<br>
+    <br>
+    <i> dictionary </i>no cambiará, mientras que los módulos de los cuales depende serán cambiados. Por ejemplo, audiofile dejará de utilizar el módulo recordfile actual (de implementación secuencial), y utilizará uno nuevo, que implemente la organización en bloques. Esto es conveniente para permitir la modificación de los registros de audio, sin necesidad de reestructurar el archivo.&nbsp;&nbsp;<i>audioindexfile </i>cambiará para estar implementado con un árbol B#. El árbol B# será otro módulo, que a su vez utilizará el mismo módulo <i>recordfile </i>que utiliza&nbsp;<i>audiofile </i>para implementar su persistencia.<br>
+    <br>
+    El módulo <i>documents </i>tendrá la funcionalidad de guardar, y buscar los documentos de texto guardados. Los documentos agregados, serán comprimidos con el módulo compression, y serán guardados luego con el módulo <i>documentsstorage</i>. La búsqueda de textos se implementará en el módulo <i>ftrs</i>, y una vez encontrado el documento, será recuperado mediante su clave del módulo <i>documentsstorage</i>.
+  </p>
+</div>
+<div>
+  <br>
+</div>
+<h1>
+  <a id=Organizaci_n_de_Archivos_34062_16695357766002417 name=Organizaci_n_de_Archivos_34062_16695357766002417></a> Organización de Archivos
+</h1>
+<div>
+  <font size=2> El sistema maneja dos archivos de datos, el archivo de audio, y el archivo de índice. </font>
+</div>
+<div>
+  <font size=2> El archivo de audio (AudioFile), es un archivo de datos maestro, aquí se guardan físicamente todos los sonidos grabados por el usuario en forma de registros. </font>
+</div>
+<div>
+  <font size=2> El archivo de índice (AudioIndexFile), registra la asociación entre palabras y&nbsp;</font><font size=2>registros del archivo de audio</font><font size=2>.</font>
+</div>
+<div>
+  <span style=FONT-FAMILY:Arial>
+  <div>
+    <span style=FONT-FAMILY:Verdana>En ambos ficheros, los registros son de longitud variable y quedan almacenados uno a continuación del otro, es decir, no existen estructuras de bloques.</span><br>
+  </div>
+  <div>
+    <br>
+  </div>
+  </span>
+</div>
+<h2>
+  <a id=Definici_n_Conceptual_de_Datos_6796297021210194 name=Definici_n_Conceptual_de_Datos_6796297021210194></a> Definición Conceptual de Datos:
+</h2>
+<div>
+  <div>
+    <table border=0 bordercolor=#000000 cellpadding=3 cellspacing=0 class=zeroBorder id=h7:1 width=100%>
+      <tbody>
+      <tr>
+        <td>
+          <div>
+            AudioFile: AudioRecord((offset)i,audio)<br>
+          </div>
+          <div>
+            AudioIndexFile: AudioIndexRecord((word)i,(offset)ie)
+          </div>
+        </td>
+        <td>
+          <div>
+            Referencias:&nbsp;<br>
+          </div>
+          <div>
+            <div>
+              <div>
+                &nbsp;&nbsp; &nbsp;i = identificador
+              </div>
+              <div>
+                &nbsp;&nbsp; &nbsp;ie = identificador externo
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <font size=1> Aclaración: el campo offset del AudioRecord, en realidad no existe fisicamente en cada registro, pero como es la forma de identificarlo, lo quisimos expresar en la definición conceptual.</font>
+</div>
+<div>
+  <h2>
+    <a id=Definici_n_L_gica_de_Datos_323_4842892000451684 name=Definici_n_L_gica_de_Datos_323_4842892000451684></a> Definición Lógica de Datos:<br>
+  </h2>
+  <div>
+    AudioFile: AudioRecord(longAudio: integer, audio: byte array)<br>
+  </div>
+</div>
+<div>
+  AudioIndexFile: AudioIndexRecord(offset: long, longWord: integer, word: string)
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <h1>
+    <a id=Soluciones_descartadas_2421954_5222777398303151 name=Soluciones_descartadas_2421954_5222777398303151></a><b><font size=5>Soluciones descartadas</font></b>
+  </h1>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <h2>
+    <a id=Grabaci_n_y_reproducci_n_42781_5091099189594388 name=Grabaci_n_y_reproducci_n_42781_5091099189594388></a><font size=4>Grabación y reproducción</font>
+  </h2>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  El proyecto requiere que reproduzcamos el audio grabado, para esto la cátedra nos proveyó de un módulo que realiza esta tarea. Nosotros debíamos hacer que las palabras se reprodujeran una a continuacion de la otra, en serie, pero el módulo de audio estaba diseñado como un thread que se iniciaba cuando se le enviaba un sonido y moría cuando terminaba de reproducir, lo que nos indicaba que debíamos hacer alguna operación entre threads para que el hilo principal se detuviera hasta finalizar cada palabra.
+</div>
+<div>
+  Intentamos hacer operaciones entre threads y no lo logramos. Llegamos a la conclusión de que el thread de reproducción nunca finalizaba. Entonces optamos por una solución casera, pero no menos ingeniosa, de modificar la sección del programa que se encargaba de la grabación para que, ademas de grabar audio, registrara el tiempo durante el cual el usuario había estado hablando. Esto lo almacenábamos como un campo más dentro de cada registro del archivo de sonidos. Luego al reproducir utilizabamos esa información para dormir al hilo principal mientras el de reproducción corría.
+</div>
+<div>
+  Esta solución funcionó muy bien, pero el manejo de concurrencia no era muy elegante.
+</div>
+<div>
+  Unos dias después, la cátedra envió una nueva versión de la librería de sonido, e hicimos otro intento por manejar la concurrencia de forma apropiada, modificamos el código para que el thread principal invocara al método <i>join</i> del objeto que reproducía, esto funcionó correctamente, el hilo principal esperó a que el hilo de sonido muriera, tal como queríamos.
+</div>
+<div>
+  Esta última solución fué mucho mas simple que la primera, por lo que deshicimos todo lo anterior y lo redujimos a una sola linea de código.
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <h2>
+    <a id=Palabras_no_encontradas_741248_5428218245506287 name=Palabras_no_encontradas_741248_5428218245506287></a><font size=4>Palabras no encontradas</font>
+  </h2>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  Para obtener las palabras no reconocidas de un documento de texto se nos ocurrió definir una hipótesis: <i>Sólo son válidos dentro del sistema los documentos cuyas palabras tengan su representación sonora registrada</i>. Entonces, cuando agregabamos un documento con palabras nuevas, el documento no cumplía con la hipótesis por lo que el sistema arrojaba una excepción indicando la palabra que era desconocida, el menú la captaba y le pedía al usuario que la grabe, luego el programa principal reintentaba ingresar el documento, el sistema volvía a arrojar una excepción. Así sucesivamente hasta que todas las palabras estén grabadas. Esto funcionaba pero tenía algunos problemas.
+</div>
+<div>
+  <ul>
+    <li>
+      <i>Conceptual</i>: Un documento con palabras nuevas no es un caso excepcional, es una funcionalidad del sistema, por lo que no es correcto arrojar una excepción por eso.&nbsp;<br>
+    </li>
+    <li>
+      <i>Performance</i>: Cada vez que intentabamos agregar un documento, el sistema recorría todas las palabras del mismo en busca de alguna desconocida. Esto requería que cada intento de agregarlo leíamos archivo, lo correcto sería hacer una sola pasada.<br>
+    </li>
+    <li>
+      <i>Mal uso de excepciones</i>: Utilizabamos las excepciones para controlar el flujo del programa, esto es una mala práctica.<br>
+    </li>
+    <li>
+      <i>Funcional</i>: No debería ser un inválido que algunas palabras de un documento no estén registradas, en todo caso, a la hora de reproducirlo no se escucharían y se continuaría con la siguiente. La hipótesis era demasiado restrictiva.<br>
+    </li>
+  </ul>
+  Finalmente nos decidimos por eliminar esta hipótesis y devolver las palabras desconocidas en el mismo método que agrega un documento. Si bien al usuario inmediatamente se le pide que grabe las palabras, el documento ya queda en el sistema. Si la interfaz lo permitiera se podría abortar la grabación de palabras dejando así un documento, con algunas palabras desconocidas, en un estado totalmente consistente.
+  <ul>
+  </ul>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <h2>
+    <a id=Separaci_n_vista_modelo_844864_5885447142645717 name=Separaci_n_vista_modelo_844864_5885447142645717></a><font size=4>Separación vista - modelo</font>
+  </h2>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  Queríamos independizar lo maximo posible el modelo de la vista y pensamos tener una clase que se maneje el flujo del programa y la logica de negocio, y otra de la vista. La que se encargaba del flujo del programa, llamada speakit, exponía sólo dos primitivas; una para agregar y otra para reproducir un documento. Para comunicarse con el usuario pensamos en un patrón observador. La clase main creaba a speakit y le pasaba como observador al menú, este respondería a eventos que le indicaba si debia mostrar el menu de presentacion, solicitar que el usuario grabe un audio, reproducir un sonido, etc...&nbsp;
+</div>
+<div>
+  Esta solución era extremadamente compleja de programar ( desarrollamos solo una parte), y hacía inentendible el código, pues el modelo debía encargarse del flujo del programa y ademas de comunicarse con los módulos de datos.
+</div>
+<div>
+  Descartamos esta solucion e hicimos que la clase que se encargue del flujo del programa y la que se comunique con el usuario sea la misma y que el modelo sólo maneje a los módulos de datos. Eliminamos el patrón observador y dejamos al modelo como una clase que provee servicios tales como agregar un documento de textos devolviendo las palabras desconocidas, y obtener un documento de audio a partir de uno de textos.
+</div>
+<div id=qhir style=TEXT-ALIGN:left>
+</div>
+<br>
+<h1>
+  <a id=Diagramas_de_Secuencia_de_la_a_10911996196955442 name=Diagramas_de_Secuencia_de_la_a_10911996196955442></a> Diagramas de Secuencia de la aplicación
+</h1>
+<h2 class=MsoNormal>
+  <a id=Agregar_un_nuevo_documento_544_5970969768241048 name=Agregar_un_nuevo_documento_544_5970969768241048></a>Agregar un nuevo documento<br>
+</h2>
+<p class=MsoNormal>
+  Escenario: “Se agrega un documento de texto, el cual contiene algunas palabras desconocidas.”
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  Secuencia resultante:<br>
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  El usuario envía el&nbsp; mensaje “addDocument” al menú incluyendo path del documento a procesar.
+</p>
+<p class=MsoNormal>
+  El menú envia el mensaje “getTextDocumentFromFile” con el path del documento como parametro a speakit, recibiendo como respuesta un TextDocument , wordIterable, incluyendo las palabras desconocidas.
+</p>
+<p class=MsoNormal>
+  Se inicia un loop, q se ejecuta mientras wordIterable contenga palabras.
+</p>
+<p class=MsoNormal>
+  El menú le pide a wordIterable la siguiente palabra desconocida
+</p>
+<p class=MsoNormal>
+  El menú se envia un auto mensaje “getAudio()”&nbsp; pasandose la palabra desconocida como parametro, obteniendo como respuesta wordAudio, que corresponde al audio de la palabra consultada.
+</p>
+<p class=MsoNormal>
+  El menú envía el mensaje “addWordAudio” a speakit pasandole a wordAudio como parametro
+</p>
+<p class=MsoNormal>
+  Finaliza el loop.
+</p>
+<p class=MsoNormal>
+  Finaliza la secuencia.
+</p>
+<p class=MsoNormal>
+  &nbsp;
+</p>
+<p class=MsoNormal>
+</p>
+<div id=qhir style=TEXT-ALIGN:left>
+  <img src=Speakit_Documentacion_t_images/ddbqgjs4_0hk5xx4g4_b.jpg style="WIDTH:648px; HEIGHT:356.176px">
+</div>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  &nbsp;<br>
+</p>
+<h2 class=MsoNormal>
+  <a id=Almacenar_una_nueva_palabra_42_4556261273100972 name=Almacenar_una_nueva_palabra_42_4556261273100972></a>Almacenar una nueva palabra<br>
+</h2>
+<p class=MsoNormal>
+  Escenario: “Almacenando una nueva palabra en el sistema”
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  Secuencia resultante:
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  El menú envía a speakit el mensaje “addWordAudio” con la nueva palabra registrada como parámetro (audio).
+</p>
+<p class=MsoNormal>
+  Speakit envía el mensaje “getWord” a &nbsp;audio, recibiendo como respuesta el String q representa a la palabra en texto.
+</p>
+<p class=MsoNormal>
+  Speakit envía el mensaje “getAudio” a &nbsp;audio, recibiendo como respuesta una cadena de bytes q representa a la palabra en formato audio.
+</p>
+<p class=MsoNormal>
+  Speakit envía el mensaje “addEntry” a database pasándole como parámetros el string y la cadena de bytes.
+</p>
+<p class=MsoNormal>
+  Database envía el mensaje “addAudio” a audioFile con la cadena de bytes como parámetro, recibiendo como respuesta el offset a la posición correspondiente&nbsp; a la palabra recién agregada.
+</p>
+<p class=MsoNormal>
+  Database envía el mensaje “addEntry” a audioIndexFile, pasándole como parámetros el string representante de la palabra y el offset q le corresponde.
+</p>
+<p class=MsoNormal>
+  &nbsp;
+</p>
+<p class=MsoNormal>
+  Fin de la secuencia.<br>
+</p>
+<p class=MsoNormal>
+</p>
+<div id=bc:o style=TEXT-ALIGN:left>
+  <img src=Speakit_Documentacion_t_images/ddbqgjs4_1cxm588g5_b.jpg style="WIDTH:648px; HEIGHT:293.768px">
+</div>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  &nbsp;
+</p>
+<h2 class=MsoNormal>
+  <a id=Agregar_entrada_al_repositorio_6921658478677273 name=Agregar_entrada_al_repositorio_6921658478677273></a>Agregar entrada al repositorio<br>
+</h2>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  Escenario: “El AudioDictionary agrega una nueva entrada al repositorio de palabras almacenadas en formato audio.”
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  Secuencia resultante:
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  El AudioDictionary envía el mensaje “addAudio” al audioFile, pasándole como parámetro el audio a grabar.
+</p>
+<p class=MsoNormal>
+  El audioFile obtiene la cadena de bytes que representa al audio mediante el mensaje “getBytes”
+</p>
+<p class=MsoNormal>
+  El audioFile crea una nueva instancia de AudioRecord, pasándole por parámetro la cadena de bytes anteriormente obtenida del objeto audio.
+</p>
+<p class=MsoNormal>
+  El audioFile envía el mensaje “writeRecord” al recordFile, pasándole como parámetro la nueva instancia de AudioRecord creada.
+</p>
+<p class=MsoNormal>
+  El audioFile envía el mensaje “getCurrentWriteOffset” al recordFile, obteniendo como respuesta la posición del registro en el archivo de registros.
+</p>
+<p class=MsoNormal>
+  El audioFile actualiza el valor del offset.
+</p>
+<p class=MsoNormal>
+  Fin de la secuencia.<br>
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+</p>
+<div id=cq6v style=TEXT-ALIGN:left>
+  <img src=Speakit_Documentacion_t_images/ddbqgjs4_2fh9955dd_b.jpg style="WIDTH:648px; HEIGHT:384.984px">
+</div>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  &nbsp;<br>
+</p>
+<h2 class=MsoNormal>
+  <a id=Persistir_un_registro_87211650_7803853610530496 name=Persistir_un_registro_87211650_7803853610530496></a>Persistir un registro<br>
+</h2>
+<p class=MsoNormal>
+  Escenario:”Una instancia de RecordFile recibe el mensaje “writeRecord” con el registro de tipo AudioRecord a escribir como parámetro y se encarga de persistirlo en el archivo de registros correspondiente”.
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  Secuencia resultante:
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  El audioFile envía el mensaje “writeRecord” a recordFile, pasándole como parámetro el registro a escribir.
+</p>
+<p class=MsoNormal>
+  RecordFile envía el mensaje “serialize” al record, pasándole como parámetro el OutputStream donde se escriben físicamente los registros.
+</p>
+<p class=MsoNormal>
+  El record deriva el mensaje “serialize” al byteArrayField que representa la porción de audio que contiene.
+</p>
+<p class=MsoNormal>
+  El byteArrayField se envía el mensaje “actuallySerialize”, encargado de la serialización propiamente dicha del registro.
+</p>
+<p class=MsoNormal>
+  El byteArrayField obtiene de sí mismo el tamaño insumido en la serialización del registro, a través del mensaje “getSerializationSize” enviándolo como valor de retorno al mensaje serialize enviado anteriormente por el record.
+</p>
+<p class=MsoNormal>
+  El record envía el valor recibido del byteArray como respuesta al mensaje serialize enviado por el recordFile.
+</p>
+<p class=MsoNormal>
+  El recordFile actualiza el valor del currentWriteOffset.
+</p>
+<p class=MsoNormal>
+  &nbsp;<br>
+</p>
+<p class=MsoNormal>
+</p>
+<div id=xi4c style=TEXT-ALIGN:left>
+  <img src=Speakit_Documentacion_t_images/ddbqgjs4_3c37sp5hd_b.jpg style="WIDTH:648px; HEIGHT:397.853px">
+</div>
+<p>
+  &nbsp;
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<h2 class=MsoNormal>
+  <a id=Serializacion_de_un_campo_9493_08751723542809486 name=Serializacion_de_un_campo_9493_08751723542809486></a>Serializacion de un campo<br>
+</h2>
+<p class=MsoNormal>
+  Escenario:”Serialización de un campo del tipo ByteFieldArray”
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  Secuencia resultante:
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  El byteArrayField se envía a sí mismo el mensaje “actuallySerialize”, pasándose como parámetro el outputStream donde escribir.
+</p>
+<p class=MsoNormal>
+  El byteArrayField obtiene el tamaño a escribir a través del mensaje “getValueLength”
+</p>
+<p class=MsoNormal>
+  El byteArrayField crea una nueva instancia de la clase IntegerField, pasándole como parámetro el tamaño a escribir.
+</p>
+<p class=MsoNormal>
+  El byteArrayField envía el mensaje “serialize” al integerField, pasándole como parámetro el outputStream donde escribir.
+</p>
+<p class=MsoNormal>
+  El byteArrayField se envía el mensaje “getBytes”, obteniendo así la cadena de bytes a escribir.
+</p>
+<p class=MsoNormal>
+  El byteArrayField le envía al outpuStream el mensaje “write” con la cadena de bytes como parámetro.<br>
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+</p>
+<div id=xpmw style=TEXT-ALIGN:left>
+  <img src=Speakit_Documentacion_t_images/ddbqgjs4_4dhz2n7f7_b.jpg style="WIDTH:640px; HEIGHT:547px">
+</div>
+<p>
+  &nbsp;
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  &nbsp;
+</p>
+<h2>
+  <a id=Reproducci_n_de_un_archivo_819_5257835481315851 name=Reproducci_n_de_un_archivo_819_5257835481315851></a>Reproducción de un archivo
+</h2>
+<p class=MsoNormal>
+  Escenario:”El usuario solicita la reproduccion de un archivo de texto que se encuentra previamente procesado por la aplicación”
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  Secuencia resultante:
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  El usuario, a través de la interface de la aplicación, envía el mensaje “playTextDocument” al menú.
+</p>
+<p class=MsoNormal>
+  El menu envía el mensaje “getTextDocumentFromFile” a speakit, pasandole como parametro el path del archivo a reproducir. Speakit devuelve una instancia de TextDocument q representa al archivo solicitado.
+</p>
+<p class=MsoNormal>
+  El menu envia a speakit el mensaje “convertToAudioDocument”, pasandole como parametro el textDocument, y recibiendo como respuesta una representacion del archivo que contiene el audio equivalente a cada palabra
+</p>
+<p class=MsoNormal>
+  Se inicia un loop que se ejecuta mientras wordAudioDocument contenga palabras.
+</p>
+<p class=MsoNormal>
+  El menu obtiene la siguiente palabra del wordAudioDocument.
+</p>
+<p class=MsoNormal>
+  El menú obtiene la cadena de bytes correspondiente al audio mediante el mensaje “getBytes”
+</p>
+<p class=MsoNormal>
+  El menú se envia el mensaje “playSound” pasandose como parametro la cadena de bytes.
+</p>
+<p class=MsoNormal>
+  Finaliza el loop.
+</p>
+<p class=MsoNormal>
+  Finaliza la secuencia.
+</p>
+<p class=MsoNormal>
+  &nbsp;<br>
+</p>
+<p class=MsoNormal>
+</p>
+<div id=tufz style=TEXT-ALIGN:left>
+  <img src=Speakit_Documentacion_t_images/ddbqgjs4_7w65899d6_b.jpg style="WIDTH:648px; HEIGHT:290.338px">
+</div>
+<p class=MsoNormal>
+  <br>
+</p>
+<h2 class=MsoNormal>
+  <a id=Generaci_n_de_un_archivo_a_rep_969247579574585 name=Generaci_n_de_un_archivo_a_rep_969247579574585></a>Generación de un archivo a reproducir<br>
+</h2>
+<p class=MsoNormal>
+  Escenario: “Se solicita la reproduccion de un documento, representado como un TextDocument, con todas las palabras registradas en el sistema.”
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  Secuencia resultante:
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  El menú envia el mensaje “convertToAudioDocument” a speakit, con el textDocument a recuperar.
+</p>
+<p class=MsoNormal>
+  Speakit crea una nueva instancia de la clase WordAudioDocument.
+</p>
+<p class=MsoNormal>
+  Speakit obtiene un iterador del textDocument.
+</p>
+<p class=MsoNormal>
+  Se inicia un loop que se ejecuta mientras textDocument tenga palabras.
+</p>
+<p class=MsoNormal>
+  Speakit obtiene un string representando a la siguiente palabra del textDocument
+</p>
+<p class=MsoNormal>
+  Speakit envia el mensaje “getAudio” a la instancia de AudioDictionary, obteniendo como respuesta la instancia de audio correspondiente.
+</p>
+<p class=MsoNormal>
+  Speakit crea una nueva instancia de wordAudio pasandole como parametro el string y el audio que representan a la palabra.
+</p>
+<p class=MsoNormal>
+  Speakit agrega la instancia de wordAudio al wordAudioDocument.
+</p>
+<p class=MsoNormal>
+  Finaliza el loop.
+</p>
+<p class=MsoNormal>
+  Speakit devuelve la instancia de wordAudioDocument como respuesta al mensaje enviado por el menú.
+</p>
+<p class=MsoNormal>
+  &nbsp;
+</p>
+<div id=s_ll style=TEXT-ALIGN:left>
+  <img src=Speakit_Documentacion_t_images/ddbqgjs4_6gmb5xshh_b.jpg style="WIDTH:648px; HEIGHT:336.51px">
+</div>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<p class=MsoNormal>
+  <br>
+</p>
+<div>
+  <hr size=2>
+  <p>
+    <br>
+  </p>
+  <p style=TEXT-ALIGN:center>
+    MANUAL DE USUARIO
+  </p>
+  <p>
+    <br>
+  </p>
+  <h1>
+    <a id=Instrucciones_de_uso_716181763 name=Instrucciones_de_uso_716181763></a>Instrucciones de uso<br>
+  </h1>
+  <h2>
+    <a id=Instalaci_n_del_sistema_958589_6101691499352455 name=Instalaci_n_del_sistema_958589_6101691499352455></a><u>Instalación del sistema</u>
+  </h2>
+  Para instalar y correr el sistema se requiere de la herramienta&nbsp;<b>Apache Ant</b>. Esta herramienta puede conseguirse mediante el gestor de paquetes de su distribución de Linux o descargandolo de la página&nbsp;<b>http://ant.apache.org</b>&nbsp;. Si se elige esta última opción se deben seguir las instrucciones de instalación de la herramienta proporcionadas en la página.<br>
+  <br>
+  Para compilar o correr la aplicación, utilizando la consola del sistema operativo, ingresar al directorio&nbsp;<b>speakit</b>&nbsp;y ejecutar alguno de los siguientes comandos:<br>
+  <br>
+  <b>ant clean -&nbsp;</b>Usando este comando se borran las carpetas utilizadas para compilar y distribuir la aplicación.<br>
+  <br>
+  <b>ant compile -</b>&nbsp;Con este comando se compila la aplicación, generando los archivos .class dentro de la carpeta&nbsp;<b>build&nbsp;</b>del proyecto.<br>
+  <br>
+  <b>ant run</b>&nbsp;- Al ejecutar este comando se compila y se ejecuta la aplicación.<br>
+  <br>
+  <b>ant -&nbsp;</b>Si se ejecuta el comando ant, sin utilizar ningún parametro, por default se ejecuta el comando&nbsp;<b>ant run</b>.<br>
+  <br>
+  <br>
+  <h2>
+    <a id=Utilizaci_n_del_sistema_212234_7736953115090728 name=Utilizaci_n_del_sistema_212234_7736953115090728></a> <u>Utilización del sistema</u>
+  </h2>
+  Al iniciar la aplicación podemos ver la siguiente pantalla:<br>
+  <br>
+  <div id=pw2o style=TEXT-ALIGN:left>
+    <img src=Speakit_Documentacion_t_images/dgsb86tc_1d4vhq7cr_b.png style="WIDTH:488px; HEIGHT:253px">
+  </div>
+  <br>
+  <br>
+  Aqui tenemos 3 opciones:<br>
+  <br>
+  -&nbsp;<b>Procesar archivo de Texto</b>: En este módulo el sistema pregunta por un archivo de texto para ser leido. Si el archivo está dentro de la carpeta de la aplicación no es necesario ingresar la ruta al mismo, solo se debe ingresar el nombre. Una vez ingresado el nombre del archivo, el sistema reconoce las palabras que ya están agregadas al diccionario y las que no se encuentren en este, se requerirá que sean grabadas por el usuario. Luego de grabar cada palabra el sistema reproducirá la palabra, preguntará al usuario si la palabra se grabó correctamente y dará la posibilidad de regrabarla si asi lo desea el usuario.<br>
+  <br>
+  <div id=hs:v style=TEXT-ALIGN:left>
+    <img src=Speakit_Documentacion_t_images/dgsb86tc_2gtpkj3hm_b.png style="WIDTH:510px; HEIGHT:325px">
+  </div>
+  <div id=pqii style=TEXT-ALIGN:left>
+    <img src=Speakit_Documentacion_t_images/dgsb86tc_3ctn3khfh_b.png style="WIDTH:641px; HEIGHT:354px">
+  </div>
+  <br>
+  Si se ingresa un nombre de archivo que el sistema no puede encontrar, se emitirá un mensaje de error y la aplicación volvera al menu inicial.<br>
+  <div id=d3vo style=TEXT-ALIGN:left>
+    <img src=Speakit_Documentacion_t_images/dgsb86tc_4c777h8f3_b.png style="WIDTH:510px; HEIGHT:327px">
+  </div>
+  <br>
+  -&nbsp;<b>Reproducir Archivo</b>: Con esta opción podemos reproducir las palabras grabadas con anterioridad en la aplicación. Se solicitará nuevamente el nombre del archivo ingresado y el sistema indicará por pantalla las palabras a reproducir consecutivamente y se escuchará su audio a continuación.<br>
+  <br>
+  <div id=pwp2 style=TEXT-ALIGN:left>
+    <img src=Speakit_Documentacion_t_images/dgsb86tc_5f7c3w42x_b.png style="WIDTH:560px; HEIGHT:467px">
+  </div>
+  <br>
+  Si se intenta reproducir un archivo, que contenga algunas palabras que no han sido grabadas con anterioridad el sistema lo indicara encerrando las palabras no grabadas entre corchetes y reproduciendo unicamente las que si se encuentran en el diccionario de audio.<br>
+  <br>
+  <div id=kkup style=TEXT-ALIGN:left>
+    <img src=Speakit_Documentacion_t_images/dgsb86tc_6gsgw4gdc_b.png style="WIDTH:613px; HEIGHT:452px">
+  </div>
+  <br>
+  -&nbsp;<b>Salir</b>: Esta opción permite salir de&nbsp;<b>SpeakIt</b>.<br>
+  <br>
+  <h1>
+    <a id=Ejemplos_16892574797842375_306 name=Ejemplos_16892574797842375_306></a><u>Ejemplos</u>
+  </h1>
+  Junto a la distribución del sistema se incluyen unos documentos de ejemplos y los archivos binarios correspondientes (llamados AudioFile.dat y AudioFileIndex.dat). Para poder usar efectivamente estos ejemplos se deben colocar (junto a los binarios) dentro de la carpeta raiz del proyecto.<br>
+  De estos documentos de ejemplos, el documento "ejemplo1.txt" ya ha sido grabado por nosotros, por lo que las palabras de este ya pertenecen al diccionario de audio. Los demás documentos quedan a disposición de ser utilizados en la evaluacion del trabajo práctico.<br>
+  El detalle del contenido de los archivos de ejemplo es el siguiente:<br>
+  <br>
+  <b>ejemplo1.txt</b>:&nbsp;<i>En física, la mecánica cuántica (conocida también como mecánica ondulatoria) es una de las ramas principales de la física que explica el comportamiento de la materia. Su campo de aplicación pretende ser universal, pero es en el mundo de lo pequeño donde sus predicciones divergen radicalmente de la llamada física clásica.&nbsp;</i><br>
+  &nbsp;<br>
+  <b>ejemplo2.txt</b>:&nbsp;<i>La mecánica cuántica es la última de las grandes ramas de la física. Comienza a principios del siglo XX, en el momento en que dos de las teorías que intentaban explicar lo que nos rodea, la ley de gravitación universal y la teoría electromagnética clásica, se volvían insuficientes para explicar ciertos fenómenos.&nbsp;</i><br>
+  &nbsp;<br>
+  <b>ejemplo3.txt</b>:&nbsp;<i>La teoría electromagnética generaba un problema cuando intentaba explicar la emisión de radiación de cualquier objeto en equilibrio, llamada radiación térmica, que es la que proviene de la vibración microscópica de las partículas que lo componen. Pues bien, usando las ecuaciones de la electrodinámica clásica, la energía que emitía esta radiación térmica daba infinito si se suman todas las frecuencias que emitía el objeto, con ilógico resultado para los físicos.&nbsp;</i><br>
+  &nbsp;<br>
+  <b>ejemplo4.txt</b>:&nbsp;<i>La mecánica cuántica rompe con cualquier paradigma de la física hasta ese momento, con ella se descubre que el mundo atómico no se comporta como esperaríamos. Los conceptos de incertidumbre, indeterminación o cuantización son introducidos por primera vez aquí.&nbsp;</i><br>
+  &nbsp;<br>
+  <b>ejemplo5.txt</b>:&nbsp;<i>Además la mecánica cuántica es la teoría científica que ha proporcionado las predicciones experimentales más exactas hasta el momento, a pesar de estar sujeta a las probabilidades.&nbsp;</i><br>
+  <br>
+  Los resultados esperados, al utilizar alguno de estos documentos teniendo en cuenta que las palabras del primer documento ya estan grabadas, serian los siguientes:<br>
+  <br>
+  <b>resultados para el ejemplo2.txt:</b>
+  <div>
+    El sistema deberia pedir que se ingresen sólo las siguientes palabras:&nbsp;<i>última grandes comienza a principios del siglo XX momento dos teorías intentaban explicar nos rodea ley gravitación y teoría electromagnética se volvían insuficientes para ciertos fenómenos<br>
+    <br>
+    </i><b>resultados para el ejemplo3.txt</b>:
+  </div>
+  <div>
+    El sistema deberia pedir que se ingresen sólo las siguientes palabras:&nbsp;<i>teoría electromagnética generaba un problema cuando intentaba explicar emisión radiación cualquier objeto equilibrio térmica proviene vibración microscópica partículas componen pues bien usando ecuaciones electrodinámica energía emitía esta daba infinito si se suman todas frecuencias con ilógico resultado para los físicos</i><br>
+    &nbsp;<br>
+    <b>resultados para el ejemplo4.txt</b>:
+  </div>
+  <div>
+    El sistema deberia pedir que se ingresen sólo las siguientes palabras:&nbsp;<i>rompe con cualquier paradigma hasta ese momento se descubre atómico no comporta esperaríamos los conceptos incertidumbre indeterminación o cuantización son introducidos por primera vez aquí</i><br>
+    &nbsp;<br>
+    <b>resultados para el ejemplo5.txt</b>:
+  </div>
+  <div>
+    El sistema deberia pedir que se ingresen sólo las siguientes palabras:&nbsp;<i>además teoría científica ha proporcionado experimentales más exactas hasta momento a pesar estar sujeta probabilidades<br>
+    <br>
+    </i>Obviamente, el sistema pedira ingresar estas palabras siempre y cuando el unico documento leido hasta el momento haya sido el primero, ya que si se lee alguno mas entonces las palabras que aparezcan en este no seran requeridas para ser ingresadas en futuros documentos.<br>
+  </div>
+</div>
+<br></body>
+</html>

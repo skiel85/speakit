@@ -4,6 +4,6 @@ Organizacion de directorios
 -Los archivos de ejemplo que se incluyen son 5 documentos de textos mas los archivos de sistema que contienen el audio y el índice de palabras, estos 2 ultimos estan dentro de speakit-binarios.zip. Las instrucciones de como organizarlos se encuentran en el manual principal.
 *Carpeta lib: librerias necesarias requeridas por el ant.
 *Carpeta src: código fuente de Speakit.
-
+*Archivo "build.xml": necesario para compilar y ejecutar Speakit con Ant.
 
 

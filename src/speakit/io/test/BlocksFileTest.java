@@ -9,9 +9,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.io.BlocksFile;
+import speakit.io.BasicBlocksFile;
+import speakit.io.BasicBlocksFileImpl;
 import speakit.io.BlocksFileOverflowException;
-import speakit.io.SimpleBlocksFile;
 import speakit.io.WrongBlockNumberException;
 
 public class BlocksFileTest {
@@ -20,16 +20,16 @@ public class BlocksFileTest {
 
 	File						file;
 
-	BlocksFile					sut;
+	BasicBlocksFile					sut;
 
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		SimpleBlocksFile createdFile;
-		createdFile = new SimpleBlocksFile(this.file);
+		BasicBlocksFile createdFile;
+		createdFile = new BasicBlocksFileImpl(this.file);
 		createdFile.create(BLOCK_SIZE);
 
-		sut = new SimpleBlocksFile(this.file);
+		sut = new BasicBlocksFileImpl(this.file);
 		sut.load();
 	}
 

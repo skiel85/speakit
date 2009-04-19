@@ -7,7 +7,7 @@ import java.io.IOException;
  * Maneja un archivo directo organizado en bloques de tamaño configurable.
  * 
  */
-public interface BlocksFile {
+public interface BasicBlocksFile {
 
 	/**
 	 * Crea un bloque nuevo al final del archivo y devuelve el id

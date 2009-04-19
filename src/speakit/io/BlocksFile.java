@@ -55,5 +55,5 @@ public interface BlocksFile {
 	 * @param content
 	 * @throws IOException 
 	 */
-	void write(int blockNumber, byte[] content) throws IOException;
+	void write(int blockNumber, byte[] content) throws IOException,BlocksFileOverflowException;
 }

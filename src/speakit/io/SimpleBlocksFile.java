@@ -128,7 +128,10 @@ public class SimpleBlocksFile  implements BlocksFile {
 	} 
 
 	@Override
-	public void write(int blockNumber, byte[] content) throws IOException {
+	public void write(int blockNumber, byte[] content) throws IOException,BlocksFileOverflowException {
+		if(content.length>this.blockSize){
+			throw new BlocksFileOverflowException(this.blockSize,content.length);
+		}
 		writeBlockOnPosition(getBlockPosition(blockNumber), content);
 	}
 

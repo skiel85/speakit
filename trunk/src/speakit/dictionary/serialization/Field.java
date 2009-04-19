@@ -11,10 +11,6 @@ public abstract class Field implements Comparable<Field> {
 	 */
 	protected static final int BYTE_SIZE = 8;
 
-	public Field() {
-		super();
-	}
-
 	/**
 	 * Lee una tantos bytes como la cantidad de bytes necesarios para
 	 * serializarse
@@ -35,8 +31,8 @@ public abstract class Field implements Comparable<Field> {
 	 * @return
 	 * @throws IOException
 	 */
-	protected byte[] readBytes(InputStream in, int lenght) throws IOException {
-		byte[] data = new byte[lenght];
+	protected byte[] readBytes(InputStream in, int length) throws IOException {
+		byte[] data = new byte[length];
 		in.read(data);
 		return data;
 	}
@@ -76,7 +72,7 @@ public abstract class Field implements Comparable<Field> {
 	 * @param out
 	 * @throws IOException
 	 */
-	public abstract void actuallyDeserialize(InputStream out) throws IOException;
+	protected abstract void actuallyDeserialize(InputStream out) throws IOException;
 
 	/**
 	 * Persiste el objeto como bytes
@@ -84,7 +80,7 @@ public abstract class Field implements Comparable<Field> {
 	 * @param in
 	 * @throws IOException
 	 */
-	public abstract void actuallySerialize(OutputStream in) throws IOException;
+	protected abstract void actuallySerialize(OutputStream in) throws IOException;
 
 	@Override
 	public int compareTo(Field o) {

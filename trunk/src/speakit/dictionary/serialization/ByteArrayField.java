@@ -38,7 +38,7 @@ public class ByteArrayField extends Field {
 	 * bytes para hidratar el string
 	 */
 	@Override
-	public void actuallyDeserialize(InputStream in) throws IOException {
+	protected void actuallyDeserialize(InputStream in) throws IOException {
 		IntegerField size = new IntegerField();
 		size.actuallyDeserialize(in);
 		this.setBytes(this.readBytes(in, size.getInteger()));
@@ -49,7 +49,7 @@ public class ByteArrayField extends Field {
 	 * del string
 	 */
 	@Override
-	public void actuallySerialize(OutputStream out) throws IOException {
+	protected void actuallySerialize(OutputStream out) throws IOException {
 		IntegerField size = new IntegerField(getValueLenght());
 		size.serialize(out);
 		out.write(this.getBytes());

@@ -30,12 +30,12 @@ public class IntegerField extends Field {
 	}
 
 	@Override
-	public void actuallyDeserialize(InputStream in) throws IOException {
+	protected void actuallyDeserialize(InputStream in) throws IOException {
 		this.value = ByteArrayConverter.toInt(readBytes(in));
 	}
 
 	@Override
-	public void actuallySerialize(OutputStream out) throws IOException {
+	protected void actuallySerialize(OutputStream out) throws IOException {
 		out.write(ByteArrayConverter.toByteArray(this.value));
 	}
 

@@ -12,6 +12,7 @@ import org.junit.Test;
 import speakit.io.BlocksFile;
 import speakit.io.BlocksFileOverflowException;
 import speakit.io.SimpleBlocksFile;
+import speakit.io.WrongBlockNumberException;
 
 public class BlocksFileTest {
 
@@ -60,7 +61,7 @@ public class BlocksFileTest {
 	}
 
 	@Test
-	public void testWriteAndRead() throws IOException, BlocksFileOverflowException {
+	public void testWriteAndRead() throws Exception {
 		sut.appendBlock();
 		byte[] content = new byte[]{1, 5, 3};
 		int newBlockNumber = sut.appendBlock();
@@ -76,22 +77,59 @@ public class BlocksFileTest {
 	 * de lo soportado
 	 * 
 	 * @throws IOException
+	 * @throws BlocksFileOverflowException
 	 */
 	@Test
-	public void testWriteWithOverflow() throws IOException {
-		byte[] content = new byte[sut.getBlockSize() + 1];
+	public void testWriteWithOverflow() throws Exception {
+		int overflowBlockSize = sut.getBlockSize() + sut.getBlockSize() / 2;
+		byte[] content = new byte[overflowBlockSize];
 		int newBlockNumber = sut.appendBlock();
 		try {
 			sut.write(newBlockNumber, content);
-			Assert.fail("Se esperaba excepción");
+			Assert.fail("Se esperaba excepción indicando que el bloque no entra");
 		} catch (BlocksFileOverflowException e) {
+			// creo un bloque con el tamaño necesario para que entre utilzando
+			// la informacion de la excepcion
+			int blockSize = overflowBlockSize - e.getOverflowLenght();
+			content = new byte[blockSize];
 
+			// deberia funcionar bien
+			sut.write(newBlockNumber, content);
+
+			// creo un bloque con un byte mas que el bloque que entra
+			int littleOverflowSize = blockSize + 1;
+			content = new byte[littleOverflowSize];
+			try {
+				sut.write(littleOverflowSize, content);
+				Assert.fail("Se esperaba excepción indicando que el bloque no entra");
+			} catch (BlocksFileOverflowException ex) {
+
+			}
 		}
+
 	}
 
-	// TODO: que arroje excepcion si el numero de bloque pasado no existe o es
-	// incorrecto
-	
+	@Test
+	public void testCantUseOutOfBoundsBlocks() throws IOException, WrongBlockNumberException, BlocksFileOverflowException {
+		byte[] content = new byte[sut.getBlockSize()];
+		try {
+			sut.write(0, content);
+			Assert.fail("Se esperaba excepción");
+		} catch (WrongBlockNumberException e) {
+
+		}
+		// luego de agregar un bloque, el bloque 0 debe estar disponible
+		sut.appendBlock();
+		sut.write(0, content);
+		
+		try {
+			sut.read(1);
+			Assert.fail("Se esperaba excepción");
+		} catch (WrongBlockNumberException e) {
+
+		}		
+	}
+
 	// TODO: Si bien hoy el header del archivo se guarda solo
 	// la primera vez, puede ser que mas adelante no. Entonces probar que luego
 	// de escribir algo en el archivo(ejemplo: apendear un bloque), que el

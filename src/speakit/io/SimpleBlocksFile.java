@@ -47,6 +47,10 @@ public class SimpleBlocksFile  implements BlocksFile {
 		//Graba el header
 		saveHeader();
 	}
+	
+	private int getActualBlockNumberFromUserBlockNumber(int userBlockNumber){
+		return userBlockNumber+this.HEADER_BLOCK_QTY;
+	}
 
 	/**
 	 * Calcula la posición física del comienzo del bloque a partir de un numero de bloque
@@ -54,8 +58,8 @@ public class SimpleBlocksFile  implements BlocksFile {
 	 * @return
 	 * @throws IOException
 	 */
-	private long getBlockPosition(int blockNumber) throws IOException{
-		return ((long)HEADER_BLOCK_QTY + (long)blockNumber) * this.getBlockSize();
+	private long getActualPositioFromUserBlockNumber(int blockNumber) throws IOException{
+		return ((long)getActualBlockNumberFromUserBlockNumber(blockNumber)) * this.getBlockSize();
 	}
 
 	@Override
@@ -106,13 +110,40 @@ public class SimpleBlocksFile  implements BlocksFile {
 	}
 
 	@Override
-	public byte[] read(int blockNumber) throws IOException {		
+	public byte[] read(int blockNumber) throws IOException {
+		validateBlockNumber(blockNumber);
 		byte[] content = new byte[this.blockSize];
 		//posiciona el archivo en la posicion donde comienza el bloque
-		randomFile.seek(getBlockPosition(blockNumber));
+		randomFile.seek(getActualPositioFromUserBlockNumber(blockNumber));
 		//lee los bytes
 		randomFile.read(content,0,this.blockSize);
 		return content;
+	}
+
+	
+	@Override
+	public void write(int blockNumber, byte[] content) throws IOException,BlocksFileOverflowException, WrongBlockNumberException {
+		if(content.length>this.blockSize){
+			throw new BlocksFileOverflowException(this.blockSize,content.length);
+		}
+		validateBlockNumber(blockNumber);
+		writeBlockOnPosition(getActualPositioFromUserBlockNumber(blockNumber), content);
+	}
+	
+	protected void validateBlockNumber(int blockNumber) throws IOException, WrongBlockNumberException{
+		int actualBlockNumber = getActualBlockNumberFromUserBlockNumber(blockNumber);
+		if(!(actualBlockNumber>=0  & blockNumber<=getLastBlockNumber())){
+			throw new WrongBlockNumberException(blockNumber);
+		}		
+	}
+
+	private void writeBlockOnPosition(long position, byte[] content) throws IOException {
+		//rellena con ceros el array de bytes
+		randomFile.seek(position);
+		//completo el array para que mida lo mismo que el bloque
+		byte[] contentWithRightPadding = paddingRight(content,this.blockSize);
+		//lo escribo
+		randomFile.write(contentWithRightPadding,0,this.blockSize);
 	}
 
 	/**
@@ -126,24 +157,6 @@ public class SimpleBlocksFile  implements BlocksFile {
 		randomFile.seek(0L);
 		randomFile.write(headerContentStream.toByteArray());
 	} 
-
-	@Override
-	public void write(int blockNumber, byte[] content) throws IOException,BlocksFileOverflowException {
-		if(content.length>this.blockSize){
-			throw new BlocksFileOverflowException(this.blockSize,content.length);
-		}
-		writeBlockOnPosition(getBlockPosition(blockNumber), content);
-	}
-
-	private void writeBlockOnPosition(long position, byte[] content) throws IOException {
-		//rellena con ceros el array de bytes
-		randomFile.seek(position);
-		//completo el array para que mida lo mismo que el bloque
-		byte[] contentWithRightPadding = paddingRight(content,this.blockSize);
-		//lo escribo
-		randomFile.write(contentWithRightPadding,0,this.blockSize);
-	}
-
 	 
 
 }

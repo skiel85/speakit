@@ -2,6 +2,7 @@ package speakit.io;
 
 import java.io.IOException;
 
+
 /**
  * Maneja un archivo directo organizado en bloques de tamaño configurable.
  * 
@@ -55,5 +56,5 @@ public interface BlocksFile {
 	 * @param content
 	 * @throws IOException 
 	 */
-	void write(int blockNumber, byte[] content) throws IOException,BlocksFileOverflowException;
+	void write(int blockNumber, byte[] content) throws IOException,BlocksFileOverflowException,WrongBlockNumberException;
 }

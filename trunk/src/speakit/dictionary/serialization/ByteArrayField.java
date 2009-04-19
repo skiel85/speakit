@@ -21,7 +21,11 @@ public class ByteArrayField extends Field {
 	}
 
 	public void setBytes(byte[] value) {
-		this.value = value;
+		if (value==null){
+			this.value = new byte[]{};
+		}else{
+			this.value = value;
+		}
 	}
 
 	public int getValueLenght() {

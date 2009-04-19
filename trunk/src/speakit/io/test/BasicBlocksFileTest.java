@@ -129,6 +129,13 @@ public class BasicBlocksFileTest {
 
 		}		
 	}
+	
+	@Test
+	public void testBlockCount() throws IOException{
+		Assert.assertEquals(0,this.sut.getBlockCount());
+		this.sut.appendBlock();
+		Assert.assertEquals(1,this.sut.getBlockCount());
+	}
 
 	// TODO: Si bien hoy el header del archivo se guarda solo
 	// la primera vez, puede ser que mas adelante no. Entonces probar que luego

@@ -12,7 +12,7 @@ public abstract class Field implements Comparable<Field> {
 	protected static final int BYTE_SIZE = 8;
 
 	/**
-	 * Lee una tantos bytes como la cantidad de bytes necesarios para
+	 * Lee tantos bytes como la cantidad de bytes necesarios para
 	 * serializarse
 	 * 
 	 * @param in

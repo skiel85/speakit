@@ -6,13 +6,14 @@ import java.io.IOException;
 import speakit.dictionary.files.RecordFactory;
 import speakit.dictionary.files.SecuentialRecordFile;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
+import speakit.dictionary.serialization.StringField;
 
 /**
  * Representa un archivo de registros de índice del archivo de registros de
  * audio.
  */
 public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
-	private SecuentialRecordFile<AudioIndexRecord> recordFile;
+	private SecuentialRecordFile<AudioIndexRecord, StringField> recordFile;
 
 	/**
 	 * Construye un nuevo archivo de registros de índice.
@@ -22,7 +23,7 @@ public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
 	 * @throws IOException
 	 */
 	public AudioIndexFile(File file) throws IOException {
-		this.recordFile = new SecuentialRecordFile<AudioIndexRecord>(file, this);
+		this.recordFile = new SecuentialRecordFile<AudioIndexRecord, StringField>(file, this);
 	}
 
 	/**
@@ -50,14 +51,7 @@ public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
 	 * @throws IOException
 	 */
 	public boolean contains(String word) throws IOException {
-		this.recordFile.resetReadOffset();
-		while (!this.recordFile.eof()) {
-			AudioIndexRecord record = this.recordFile.readRecord();
-			if (record.getWord().compareTo(word) == 0) {
-				return true;
-			}
-		}
-		return false;
+		return this.recordFile.contains(new StringField(word));
 	}
 
 	/**
@@ -72,14 +66,7 @@ public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
 	 * @throws WordNotFoundException
 	 */
 	public long getOffset(String word) throws IOException, WordNotFoundException {
-		recordFile.resetReadOffset();// TODO: hacer una prueba de esto
-		while (!this.recordFile.eof()) {
-			AudioIndexRecord record = this.recordFile.readRecord();
-			if (record.getWord().compareTo(word) == 0) {
-				return record.getOffset();
-			}
-		}
-		throw new WordNotFoundException(word);
+		return this.recordFile.getRecord(new StringField(word)).getOffset();
 	}
 
 	/**

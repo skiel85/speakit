@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Enumeration;
 
+import speakit.dictionary.serialization.Field;
 import speakit.io.RandomAccessFileInputStream;
 import speakit.io.RandomAccessFileOutputStream;
 
 /**
  * Archivo de registros.
  */
-public class SecuentialRecordFile<RECTYPE extends Record<?>> implements RecordFile<RECTYPE>, Enumeration<RECTYPE> {
+public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE>, Enumeration<RECTYPE> {
 	private RandomAccessFile randomAccessFile;
 	private RandomAccessFileInputStream inputStream;
 	private RandomAccessFileOutputStream outputStream;
@@ -62,6 +63,30 @@ public class SecuentialRecordFile<RECTYPE extends Record<?>> implements RecordFi
 		this.resetReadOffset();
 		this.inputStream.skip(offset);
 		return this.readRecord();
+	}
+
+	/** Obtiene un registro a partir de su clave. 
+	 * 
+	 * @param key Clave a buscar.
+	 * @return Registro con la clave buscada.
+	 * @throws IOException
+	 */
+	@Override
+	public RECTYPE getRecord(KEYTYPE key) throws IOException {
+		this.resetReadOffset();
+		while (!this.eof()) {
+			RECTYPE record = this.readRecord();
+			if (record.compareToKey(key) == 0) {
+				return record;
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public boolean contains(KEYTYPE key) throws IOException {
+		RECTYPE record = this.getRecord(key);
+		return (record != null);
 	}
 
 	/**

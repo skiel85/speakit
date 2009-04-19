@@ -19,6 +19,11 @@ public class AudioRecord extends Record<LongField> {
 		this.setKey(this.offset);
 		this.addField(this.audio);
 	}
+	
+	@Override
+	public void notifyOffsetChanged(long offset) {
+		this.offset.setLong(offset);
+	}
 
 	/**
 	 * Construye un nuevo registro de audio a partir de un arreglo de bytes.

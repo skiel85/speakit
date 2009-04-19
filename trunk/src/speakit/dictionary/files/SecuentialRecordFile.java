@@ -42,6 +42,7 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 	public RECTYPE readRecord() throws IOException {
 		RECTYPE record = recordFactory.createRecord();
 		try {
+			record.notifyOffsetChanged(this.inputStream.getPosition());
 			record.deserialize(this.inputStream);
 			return record;
 		} catch (RecordSerializationException e) {
@@ -62,7 +63,9 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 	public RECTYPE readRecord(long offset) throws IOException {
 		this.resetReadOffset();
 		this.inputStream.skip(offset);
-		return this.readRecord();
+		RECTYPE record = this.readRecord();
+		record.notifyOffsetChanged(offset);
+		return record;
 	}
 
 	/** Obtiene un registro a partir de su clave. 
@@ -74,8 +77,11 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 	@Override
 	public RECTYPE getRecord(KEYTYPE key) throws IOException {
 		this.resetReadOffset();
+		long offset = 0;
 		while (!this.eof()) {
+			offset = this.inputStream.getPosition();
 			RECTYPE record = this.readRecord();
+			record.notifyOffsetChanged(offset);
 			if (record.compareToKey(key) == 0) {
 				return record;
 			}
@@ -98,6 +104,7 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 	 */
 	public void insertRecord(RECTYPE record) throws IOException {
 		try {
+			record.notifyOffsetChanged(this.outputStream.getPosition());
 			record.serialize(this.outputStream);
 		} catch (RecordSerializationException e) {
 			// TODO Resolver que hacer cuando una excepcion es lanzada en

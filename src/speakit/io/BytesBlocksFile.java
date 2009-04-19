@@ -2,12 +2,13 @@ package speakit.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * Es un archivo de bloques que extiene la funcionalidad de BlocksFile agregando la posibilidad de eliminar bloques y de crear nuevos reutilizando eliminados
  *
  */
-public class BytesBlocksFile implements BlocksFile {
+public class BytesBlocksFile implements BlocksFile,Iterable<BytesBlock> {
 
 	private BasicBlocksFile bbfile;
 	
@@ -71,7 +72,7 @@ public class BytesBlocksFile implements BlocksFile {
 	 * @return
 	 * @throws IOException
 	 */
-	private BytesBlock getBlock(int blockNumber) throws IOException {
+	public BytesBlock getBlock(int blockNumber) throws IOException {
 		BytesBlock block = new BytesBlock(blockNumber);
 		block.deserialize(this.bbfile.read(block.getBlockNumber()));
 		return block;
@@ -110,5 +111,11 @@ public class BytesBlocksFile implements BlocksFile {
 	public void saveBlock( BytesBlock block) throws IOException{
 		byte[] blockSerialization = block.serialize();
 		this.bbfile.write(block.getBlockNumber(), blockSerialization);
+	}
+
+
+	@Override
+	public Iterator<BytesBlock> iterator() {
+		return new BytesBlocksFileIterator(this);
 	} 
 }

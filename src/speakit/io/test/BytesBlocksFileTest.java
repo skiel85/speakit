@@ -2,6 +2,7 @@ package speakit.io.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 import junit.framework.Assert;
 
@@ -19,7 +20,7 @@ public class BytesBlocksFileTest {
 
 	File						file;
 
-	BytesBlocksFile					sut;
+	BytesBlocksFile				sut;
 
 	@Before
 	public void setUp() throws Exception {
@@ -36,23 +37,45 @@ public class BytesBlocksFileTest {
 	public void tearDown() throws Exception {
 		this.file.delete();
 	}
-	
-	@Test 
-	public void testCreationGivesConsecutiveBlockNumbers() throws IOException{
-		BytesBlock first=sut.getNewBlock();
-		BytesBlock second=sut.getNewBlock();		 
-		Assert.assertEquals(first.getBlockNumber()+1, second.getBlockNumber());
+
+	@Test
+	public void testCreationGivesConsecutiveBlockNumbers() throws IOException {
+		BytesBlock first = sut.getNewBlock();
+		BytesBlock second = sut.getNewBlock();
+		Assert.assertEquals(first.getBlockNumber() + 1, second.getBlockNumber());
 	}
-	
-	@Test 
-	public void testReutilizesRemovedBlock() throws IOException{ 
+
+	@Test
+	public void testReutilizesRemovedBlock() throws IOException {
 		sut.getNewBlock();
-		BytesBlock second=sut.getNewBlock(); 
+		BytesBlock second = sut.getNewBlock();
 		sut.getNewBlock();
 		sut.removeBlock(second);
-		//verifico que reutiliza el bloque "second" eliminado
+		// verifico que reutiliza el bloque "second" eliminado
 		Assert.assertEquals(second.getBlockNumber(), sut.getNewBlock().getBlockNumber());
 	}
 
-	
+	@Test
+	public void testIteratesOnlyOverActiveBlocks() throws IOException {
+		BytesBlock first = sut.getNewBlock();
+		BytesBlock second = sut.getNewBlock();
+		BytesBlock third = sut.getNewBlock();
+		sut.removeBlock(third);
+		BytesBlock fourth = sut.getNewBlock();
+		BytesBlock fifth = sut.getNewBlock();
+		sut.removeBlock(fifth);
+		
+		Iterator<BytesBlock> iterator = sut.iterator();
+//		Assert.assertEquals(true,iterator.hasNext());
+		Assert.assertEquals(first.getBlockNumber(),iterator.next().getBlockNumber());
+//		Assert.assertEquals(true,iterator.hasNext());
+		Assert.assertEquals(second.getBlockNumber(),iterator.next().getBlockNumber());
+//		Assert.assertEquals(true,iterator.hasNext());
+		Assert.assertEquals(fourth.getBlockNumber(),iterator.next().getBlockNumber());
+		//para probar que no tire excepcion
+		iterator.next();
+//		Assert.assertEquals(false,iterator.hasNext());
+		
+	}
+
 }

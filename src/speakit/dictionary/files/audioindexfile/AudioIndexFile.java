@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import speakit.dictionary.files.RecordFactory;
-import speakit.dictionary.files.RecordFile;
+import speakit.dictionary.files.SecuentialRecordFile;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
 
 /**
@@ -12,7 +12,7 @@ import speakit.dictionary.files.audiofile.WordNotFoundException;
  * audio.
  */
 public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
-	private RecordFile<AudioIndexRecord> recordFile;
+	private SecuentialRecordFile<AudioIndexRecord> recordFile;
 
 	/**
 	 * Construye un nuevo archivo de registros de índice.
@@ -22,7 +22,7 @@ public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
 	 * @throws IOException
 	 */
 	public AudioIndexFile(File file) throws IOException {
-		this.recordFile = new RecordFile<AudioIndexRecord>(file, this);
+		this.recordFile = new SecuentialRecordFile<AudioIndexRecord>(file, this);
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
 	 */
 	public void addEntry(String word, long offset) throws IOException {
 		AudioIndexRecord record = new AudioIndexRecord(word, offset);
-		this.recordFile.writeRecord(record);
+		this.recordFile.insertRecord(record);
 	}
 
 	/**

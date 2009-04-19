@@ -5,13 +5,13 @@ import java.io.IOException;
 
 import speakit.audio.Audio;
 import speakit.dictionary.files.RecordFactory;
-import speakit.dictionary.files.RecordFile;
+import speakit.dictionary.files.SecuentialRecordFile;
 
 /**
  * Representa un archivo de registros de audio.
  */
 public class AudioFile implements RecordFactory<AudioRecord> {
-	private RecordFile<AudioRecord> recordFile;
+	private SecuentialRecordFile<AudioRecord> recordFile;
 	private long currentOffset;
 
 	/**
@@ -22,7 +22,7 @@ public class AudioFile implements RecordFactory<AudioRecord> {
 	 * @throws IOException 
 	 */
 	public AudioFile(File file) throws IOException {
-		this.recordFile = new RecordFile<AudioRecord>(file , this);
+		this.recordFile = new SecuentialRecordFile<AudioRecord>(file , this);
 		this.currentOffset = file.length();
 	}
 
@@ -50,7 +50,7 @@ public class AudioFile implements RecordFactory<AudioRecord> {
 	public long addAudio(Audio audio) throws IOException {
 		long oldOffset = this.currentOffset;
 		AudioRecord record = new AudioRecord(audio.getBytes());
-		this.recordFile.writeRecord(record);
+		this.recordFile.insertRecord(record);
 		this.currentOffset = this.recordFile.getCurrentWriteOffset();
 		return oldOffset;
 	}

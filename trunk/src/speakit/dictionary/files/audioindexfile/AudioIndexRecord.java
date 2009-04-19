@@ -7,7 +7,7 @@ import speakit.dictionary.serialization.StringField;
 /**
  * Registro de índice del archivo de registros de audio.
  */
-public class AudioIndexRecord extends Record {
+public class AudioIndexRecord extends Record<StringField> {
 
 	private StringField word = new StringField();
 	private LongField offset = new LongField();

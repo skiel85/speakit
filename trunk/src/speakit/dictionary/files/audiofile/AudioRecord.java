@@ -7,7 +7,7 @@ import speakit.dictionary.serialization.LongField;
 /**
  * Registro de audio.
  */
-public class AudioRecord extends Record {
+public class AudioRecord extends Record<LongField> {
 
 	private LongField offset = new LongField();
 	private ByteArrayField audio = new ByteArrayField();

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import speakit.dictionary.files.RecordFactory;
+import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.files.SecuentialRecordFile;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
 import speakit.dictionary.serialization.StringField;
@@ -35,8 +36,9 @@ public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
 	 *            Offset del archivo de registros de audio donde se encuentra el
 	 *            audio de la palabra.
 	 * @throws IOException
+	 * @throws RecordSerializationException 
 	 */
-	public void addEntry(String word, long offset) throws IOException {
+	public void addEntry(String word, long offset) throws IOException, RecordSerializationException {
 		AudioIndexRecord record = new AudioIndexRecord(word, offset);
 		this.recordFile.insertRecord(record);
 	}

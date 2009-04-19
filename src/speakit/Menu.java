@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import speakit.audio.Audio;
 import speakit.audio.AudioManager;
 import speakit.audio.AudioManagerException;
+import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
@@ -28,10 +29,11 @@ public class Menu {
 	 * Despliega el menu para procesar los archivos de texto
 	 * 
 	 * @throws IOException
+	 * @throws RecordSerializationException 
 	 * 
 	 * @throws WordNotFoundException
 	 */
-	private void addDocument() throws IOException {
+	private void addDocument() throws IOException, RecordSerializationException {
 		System.out.println("Leer archivo de Texto\n");
 		String path;
 		path = displayReadFilePath();
@@ -206,10 +208,11 @@ public class Menu {
 	 * Despliega el menu principal
 	 * 
 	 * @throws IOException
+	 * @throws RecordSerializationException 
 	 * 
 	 * @throws SimpleAudioRecorderException
 	 */
-	public void start() throws IOException {
+	public void start() throws IOException, RecordSerializationException {
 		speakit.load();
 
 		userInput = initializeUserInput();

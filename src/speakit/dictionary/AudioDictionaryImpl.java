@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import speakit.audio.Audio;
+import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.files.audiofile.AudioFile;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
 import speakit.dictionary.files.audioindexfile.AudioIndexFile;
@@ -16,7 +17,7 @@ public class AudioDictionaryImpl implements AudioDictionary {
 	}
 
 	@Override
-	public void addEntry(String word, Audio audio) throws IOException {
+	public void addEntry(String word, Audio audio) throws IOException, RecordSerializationException {
 		long offset = this.audioFile.addAudio(audio);
 		this.audioIndexFile.addEntry(word, offset);
 	}

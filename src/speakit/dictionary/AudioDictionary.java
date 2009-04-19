@@ -3,6 +3,7 @@ package speakit.dictionary;
 import java.io.IOException;
 
 import speakit.audio.Audio;
+import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
 
 /**
@@ -35,8 +36,9 @@ public interface AudioDictionary {
 	 * @param audio
 	 *            Bytes del audio a insertar.
 	 * @throws IOException
+	 * @throws RecordSerializationException 
 	 */
-	public void addEntry(String word, Audio audio) throws IOException;
+	public void addEntry(String word, Audio audio) throws IOException, RecordSerializationException;
 
 	/**
 	 * Verifica si una palabra está contenida en el diccionario.

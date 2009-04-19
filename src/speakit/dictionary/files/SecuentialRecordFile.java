@@ -101,16 +101,11 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 	 * @param record
 	 *            Registro a escribir.
 	 * @throws IOException
+	 * @throws RecordSerializationException 
 	 */
-	public void insertRecord(RECTYPE record) throws IOException {
-		try {
+	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
 			record.notifyOffsetChanged(this.outputStream.getPosition());
 			record.serialize(this.outputStream);
-		} catch (RecordSerializationException e) {
-			// TODO Resolver que hacer cuando una excepcion es lanzada en
-			// RecordFile.writeRecord
-			e.printStackTrace();
-		}
 	}
 
 	/**

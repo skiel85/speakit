@@ -2,6 +2,8 @@ package speakit;
 
 import java.io.IOException;
 
+import speakit.dictionary.files.RecordSerializationException;
+
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 public class Main {
@@ -11,8 +13,9 @@ public class Main {
 	 * @param args
 	 * @throws SimpleAudioRecorderException
 	 * @throws IOException
+	 * @throws RecordSerializationException 
 	 */
-	public static void main(String[] args) throws SimpleAudioRecorderException, IOException {
+	public static void main(String[] args) throws SimpleAudioRecorderException, IOException, RecordSerializationException {
 		Menu menu = new Menu();
 		menu.start();
 	}

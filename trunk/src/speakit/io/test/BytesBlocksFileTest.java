@@ -9,26 +9,26 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.io.BasicBlocksFile;
-import speakit.io.BlocksFile;
+import speakit.io.BasicBlocksFile; 
 import speakit.io.BytesBlock;
+import speakit.io.BytesBlocksFile;
 
-public class BlocksFileTest {
+public class BytesBlocksFileTest {
 
 	private static final int	BLOCK_SIZE	= 256;
 
 	File						file;
 
-	BlocksFile					sut;
+	BytesBlocksFile					sut;
 
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
 		BasicBlocksFile createdFile;
-		createdFile = new BlocksFile(this.file);
+		createdFile = new BytesBlocksFile(this.file);
 		createdFile.create(BLOCK_SIZE);
 
-		sut = new BlocksFile(this.file);
+		sut = new BytesBlocksFile(this.file);
 		sut.load();
 	}
 

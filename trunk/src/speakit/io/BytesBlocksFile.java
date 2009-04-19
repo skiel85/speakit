@@ -9,11 +9,11 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * Es un archivo de bloques que extiene la funcionalidad de BasicBlocksFile agregando la posibilidad de eliminar bloques y de crear nuevos reutilizando eliminados
  *
  */
-public class BlocksFile implements BasicBlocksFile {
+public class BytesBlocksFile implements BasicBlocksFile {
 
 	private BasicBlocksFile bfile;
 	
-	public BlocksFile(File file) {
+	public BytesBlocksFile(File file) {
 		bfile=new BasicBlocksFileImpl(file);
 	}
 
@@ -68,12 +68,24 @@ public class BlocksFile implements BasicBlocksFile {
 		return prepareNewBlock(this.getBlock(bfile.appendBlock()));
 	}
 	
+	/**
+	 * Limplia el bloque, lo marca como no eliminado, lo guarda y lo devuelve
+	 * @param block
+	 * @return
+	 * @throws IOException
+	 */
 	private BytesBlock prepareNewBlock(BytesBlock block) throws IOException{
 		block.prepareAsNew();
 		this.saveBlock(block);
 		return block;
 	}
 	
+	/**
+	 * Obtiene un bloque del archivo
+	 * @param blockNumber
+	 * @return
+	 * @throws IOException
+	 */
 	private BytesBlock getBlock(int blockNumber) throws IOException {
 		BytesBlock block = new BytesBlock(blockNumber);
 		block.deserialize(this.bfile.read(block.getBlockNumber()));

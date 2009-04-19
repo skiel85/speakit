@@ -10,11 +10,11 @@ import speakit.io.RandomAccessFileOutputStream;
 /**
  * Archivo de registros.
  */
-public class RecordFile {
+public class RecordFile<RECTYPE extends Record> {
 	private RandomAccessFile randomAccessFile;
 	private RandomAccessFileInputStream inputStream;
 	private RandomAccessFileOutputStream outputStream;
-	private RecordFactory recordFactory;
+	private RecordFactory<RECTYPE> recordFactory;
 
 	/**
 	 * Construye un archivo de registros a partir de un archivo y una fabrica de
@@ -23,7 +23,7 @@ public class RecordFile {
 	 * 
 	 * @throws IOException
 	 */
-	public RecordFile(File file, RecordFactory recordFactory) throws IOException {
+	public RecordFile(File file, RecordFactory<RECTYPE> recordFactory) throws IOException {
 		this.recordFactory = recordFactory;
 		this.randomAccessFile = new RandomAccessFile(file, "rw");
 		this.inputStream = new RandomAccessFileInputStream(this.randomAccessFile);
@@ -37,8 +37,8 @@ public class RecordFile {
 	 * @return El registro siguiente.
 	 * @throws IOException
 	 */
-	public Record readRecord() throws IOException {
-		Record record = recordFactory.createRecord();
+	public RECTYPE readRecord() throws IOException {
+		RECTYPE record = recordFactory.createRecord();
 		try {
 			record.deserialize(this.inputStream);
 			return record;
@@ -57,7 +57,7 @@ public class RecordFile {
 	 * @return El registro siguiente.
 	 * @throws IOException
 	 */
-	public Record readRecord(long offset) throws IOException {
+	public RECTYPE readRecord(long offset) throws IOException {
 		this.resetReadOffset();
 		this.inputStream.skip(offset);
 		return this.readRecord();
@@ -70,7 +70,7 @@ public class RecordFile {
 	 *            Registro a escribir.
 	 * @throws IOException
 	 */
-	public void writeRecord(Record record) throws IOException {
+	public void writeRecord(RECTYPE record) throws IOException {
 		try {
 			record.serialize(this.outputStream);
 		} catch (RecordSerializationException e) {

@@ -1,19 +1,17 @@
 package speakit.dictionary.files.audiofile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import speakit.audio.Audio;
-import speakit.dictionary.files.Record;
 import speakit.dictionary.files.RecordFactory;
 import speakit.dictionary.files.RecordFile;
 
 /**
  * Representa un archivo de registros de audio.
  */
-public class AudioFile implements RecordFactory {
-	private RecordFile recordFile;
+public class AudioFile implements RecordFactory<AudioRecord> {
+	private RecordFile<AudioRecord> recordFile;
 	private long currentOffset;
 
 	/**
@@ -24,7 +22,7 @@ public class AudioFile implements RecordFactory {
 	 * @throws IOException 
 	 */
 	public AudioFile(File file) throws IOException {
-		this.recordFile = new RecordFile(file , this);
+		this.recordFile = new RecordFile<AudioRecord>(file , this);
 		this.currentOffset = file.length();
 	}
 
@@ -62,7 +60,7 @@ public class AudioFile implements RecordFactory {
 	 * interfaz RecordFactory.
 	 */
 	@Override
-	public Record createRecord() {
+	public AudioRecord createRecord() {
 		return new AudioRecord();
 	}
 }

@@ -3,6 +3,8 @@ package speakit;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import speakit.dictionary.files.RecordSerializationException;
+
 public interface SpeakitInterface {
 
 	/**
@@ -23,8 +25,9 @@ public interface SpeakitInterface {
 
 	/**
 	 * Registra un WordAudio en el sistema. Indexa la palabra con el audio
+	 * @throws RecordSerializationException 
 	 */
-	public abstract void addWordAudio(WordAudio audio) throws IOException;
+	public abstract void addWordAudio(WordAudio audio) throws IOException, RecordSerializationException;
 
 	/**
 	 * Este es un metodo utilitario que crea un TextDocument a partir de un path

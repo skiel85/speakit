@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.audio.Audio;
+import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.files.audiofile.AudioFile;
 
 public class AudioFileTest {
@@ -27,14 +28,14 @@ public class AudioFileTest {
 	}
 
 	@Test
-	public void testAddAndGetAudio() throws IOException {
+	public void testAddAndGetAudio() throws IOException, RecordSerializationException {
 		byte[] sound = new byte[] { 10, -25, 32, 64, -122, 89 };
 		this.sut.addAudio(new Audio(sound));
 		Assert.assertArrayEquals(sound, this.sut.getAudio(0).getBytes());
 	}
 
 	@Test
-	public void testAddSomeAudiosAndGetOne() throws IOException {
+	public void testAddSomeAudiosAndGetOne() throws IOException, RecordSerializationException {
 		byte[] sound1 = new byte[] { 10, -25, 32, 64, -122, 89, 55, 0, -3, 102 };
 		byte[] sound2 = new byte[] { 4, 82, 36, 25, -30, -120, 78 };
 		byte[] sound3 = new byte[] { 89, 23, 2, -1, 0, 64, 64, 9, -44 };

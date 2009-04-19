@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import speakit.audio.Audio;
 import speakit.dictionary.files.RecordFactory;
+import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.files.SecuentialRecordFile;
 import speakit.dictionary.serialization.LongField;
 
@@ -45,8 +46,9 @@ public class AudioFile implements RecordFactory<AudioRecord> {
 	 *            Audio que se agregará.
 	 * @return Offset donde se agregó el audio.
 	 * @throws IOException
+	 * @throws RecordSerializationException 
 	 */
-	public long addAudio(Audio audio) throws IOException {
+	public long addAudio(Audio audio) throws IOException, RecordSerializationException {
 		AudioRecord record = new AudioRecord(audio.getBytes());
 		this.recordFile.insertRecord(record);
 		return record.getOffset();

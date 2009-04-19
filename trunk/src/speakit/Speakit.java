@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import speakit.dictionary.AudioDictionaryImpl;
 import speakit.dictionary.DictionaryFileSet;
+import speakit.dictionary.files.RecordSerializationException;
 import speakit.wordreader.WordReader;
 import speakit.wordreader.WordReaderImpl;
 
@@ -77,7 +78,7 @@ public class Speakit implements SpeakitInterface {
 		return new WordAudioDocument(this.dataBase,doc); 
 	}
 
-	public void addWordAudio(WordAudio audio) throws IOException {
+	public void addWordAudio(WordAudio audio) throws IOException, RecordSerializationException {
 		if (!this.dataBase.contains(audio.getWord())) {
 			dataBase.addEntry(audio.getWord(), audio.getAudio());
 		}

@@ -16,6 +16,7 @@ import speakit.Speakit;
 import speakit.TextDocument;
 import speakit.WordAudio;
 import speakit.audio.Audio;
+import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.test.TestDictionaryFileSet;
 
 public class SpeakitTest {
@@ -71,7 +72,7 @@ public class SpeakitTest {
 	}
 
 	@Test
-	public void testAddWordAndGetUnknownWords() throws IOException {
+	public void testAddWordAndGetUnknownWords() throws IOException, RecordSerializationException {
 		WordAudio wordAudio = new WordAudio("esa", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
 		this.sut.addWordAudio(wordAudio);
 		Iterator<String> it = this.sut.addDocument(createTextDocument("Ser o no ser, esa es la cuestión.")).iterator();
@@ -87,7 +88,7 @@ public class SpeakitTest {
 	}
 
 	@Test
-	public void testConvertToAudioDocument() throws IOException {
+	public void testConvertToAudioDocument() throws IOException, RecordSerializationException {
 		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
 		WordAudio wordAudioO = new WordAudio("o", new Audio(new byte[] { 3, 8, -65, 54, 82 }));
 		WordAudio wordAudioNo = new WordAudio("no", new Audio(new byte[] { 1, 9, -5, 77, 3 }));
@@ -115,7 +116,7 @@ public class SpeakitTest {
 	}
 
 	@Test
-	public void testRestartSpeakitAndContinueAddingWords() throws IOException {
+	public void testRestartSpeakitAndContinueAddingWords() throws IOException, RecordSerializationException {
 		this.sut = new Speakit();
 		this.sut.load(this.fileSet);
 

@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import speakit.io.BasicBlocksFile;
 import speakit.io.BasicBlocksFileImpl;
+import speakit.io.BlocksFile;
 import speakit.io.BlocksFileOverflowException;
 import speakit.io.WrongBlockNumberException;
 
@@ -25,7 +26,7 @@ public class BasicBlocksFileTest {
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		BasicBlocksFile createdFile;
+		BlocksFile createdFile;
 		createdFile = new BasicBlocksFileImpl(this.file);
 		createdFile.create(BLOCK_SIZE);
 

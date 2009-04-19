@@ -8,8 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.io.BasicBlocksFile;
 import speakit.io.BasicBlocksFileImpl;
+import speakit.io.BlocksFile;
 
 public class BasicBlocksFileCreationTest { 
 
@@ -17,7 +17,7 @@ public class BasicBlocksFileCreationTest {
 
 		File						file;
 
-		private BasicBlocksFile	createdFile;
+		private BlocksFile	createdFile;
 
 		@Before
 		public void setUp() throws Exception {

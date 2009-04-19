@@ -13,7 +13,6 @@ import speakit.dictionary.serialization.LongField;
  */
 public class AudioFile implements RecordFactory<AudioRecord> {
 	private SecuentialRecordFile<AudioRecord, LongField> recordFile;
-	private long currentOffset;
 
 	/**
 	 * Crea un archivo de registros de audio.
@@ -24,7 +23,6 @@ public class AudioFile implements RecordFactory<AudioRecord> {
 	 */
 	public AudioFile(File file) throws IOException {
 		this.recordFile = new SecuentialRecordFile<AudioRecord, LongField>(file , this);
-		this.currentOffset = file.length();
 	}
 
 	/**
@@ -36,7 +34,7 @@ public class AudioFile implements RecordFactory<AudioRecord> {
 	 * @throws IOException
 	 */
 	public Audio getAudio(long offset) throws IOException {
-		AudioRecord record = (AudioRecord) this.recordFile.readRecord(offset);
+		AudioRecord record = this.recordFile.readRecord(offset);
 		return new Audio(record.getAudio());
 	}
 
@@ -49,11 +47,9 @@ public class AudioFile implements RecordFactory<AudioRecord> {
 	 * @throws IOException
 	 */
 	public long addAudio(Audio audio) throws IOException {
-		long oldOffset = this.currentOffset;
 		AudioRecord record = new AudioRecord(audio.getBytes());
 		this.recordFile.insertRecord(record);
-		this.currentOffset = this.recordFile.getCurrentWriteOffset();
-		return oldOffset;
+		return record.getOffset();
 	}
 
 	/**

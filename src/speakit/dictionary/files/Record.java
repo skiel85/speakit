@@ -15,6 +15,10 @@ public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>
 	private KEYTYPE key;
 	private ArrayList<Field> fields = new ArrayList<Field>();
 
+	public void notifyOffsetChanged(long offset) {
+		
+	}
+	
 	/**
 	 * Establece el campo clave.
 	 * 

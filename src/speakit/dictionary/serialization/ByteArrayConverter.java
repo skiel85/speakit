@@ -85,4 +85,12 @@ public class ByteArrayConverter {
 	public static String toString(byte[] data) {
 		return (data == null) ? null : new String(data);
 	}
+	
+	public static boolean toBoolean(byte[] data) {
+		return (data == null) ? false : (data[0]==1);
+	}
+	
+	public static byte[] toByteArray(boolean data) {
+		return new byte[]{(byte) ((data==true)?1:0)};
+	}
 }

@@ -12,6 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.dictionary.serialization.BooleanField;
 import speakit.dictionary.serialization.ByteArrayField;
 import speakit.dictionary.serialization.Field;
 import speakit.dictionary.serialization.IntegerField;
@@ -45,6 +46,15 @@ public class FieldTest {
 		StringField deserialized = new StringField();
 		deserializeAndTest(original, deserialized);
 	}
+	
+	@Test
+	public void testCompleteBooleanSerialization() {
+		BooleanField original1 = new BooleanField(true);
+		BooleanField original2 = new BooleanField(false);
+		BooleanField deserialized = new BooleanField();
+		deserializeAndTest(original1, deserialized);
+		deserializeAndTest(original2, deserialized);
+	}
 
 	@Test
 	public void testCompleteByteArraySerialization() {
@@ -59,6 +69,13 @@ public class FieldTest {
 		serializeAndUnserialize(out1, original, deserialized);
 		Assert.assertEquals(original.getSerializationSize(), deserialized.getSerializationSize());
 		Assert.assertEquals(original.getString(), deserialized.getString());
+	}
+	
+	private static void deserializeAndTest(BooleanField original, BooleanField deserialized) {
+		ByteArrayOutputStream out1 = new ByteArrayOutputStream();
+		serializeAndUnserialize(out1, original, deserialized);
+		Assert.assertEquals(original.getSerializationSize(), deserialized.getSerializationSize());
+		Assert.assertEquals(original.getBoolean(), deserialized.getBoolean());
 	}
 
 	@Test

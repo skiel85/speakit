@@ -156,6 +156,14 @@ public class BasicBlocksFileImpl  implements BasicBlocksFile {
 		blockSizeField.serialize(headerContentStream);
 		randomFile.seek(0L);
 		randomFile.write(headerContentStream.toByteArray());
+	}
+
+	/**
+	 * Devuelve la cantidad de bloques de usuario que hay en el archivo
+	 */
+	@Override
+	public int getBlockCount() throws IOException {
+		return getActualBlockNumberFromUserBlockNumber(getLastBlockNumber());
 	} 
 	 
 

@@ -3,7 +3,6 @@ package speakit.dictionary.files.audioindexfile;
 import java.io.File;
 import java.io.IOException;
 
-import speakit.dictionary.files.Record;
 import speakit.dictionary.files.RecordFactory;
 import speakit.dictionary.files.RecordFile;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
@@ -12,8 +11,8 @@ import speakit.dictionary.files.audiofile.WordNotFoundException;
  * Representa un archivo de registros de índice del archivo de registros de
  * audio.
  */
-public class AudioIndexFile implements RecordFactory {
-	private RecordFile recordFile;
+public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
+	private RecordFile<AudioIndexRecord> recordFile;
 
 	/**
 	 * Construye un nuevo archivo de registros de índice.
@@ -23,7 +22,7 @@ public class AudioIndexFile implements RecordFactory {
 	 * @throws IOException
 	 */
 	public AudioIndexFile(File file) throws IOException {
-		this.recordFile = new RecordFile(file, this);
+		this.recordFile = new RecordFile<AudioIndexRecord>(file, this);
 	}
 
 	/**
@@ -53,7 +52,7 @@ public class AudioIndexFile implements RecordFactory {
 	public boolean contains(String word) throws IOException {
 		this.recordFile.resetReadOffset();
 		while (!this.recordFile.eof()) {
-			AudioIndexRecord record = (AudioIndexRecord) this.recordFile.readRecord();
+			AudioIndexRecord record = this.recordFile.readRecord();
 			if (record.getWord().compareTo(word) == 0) {
 				return true;
 			}
@@ -75,7 +74,7 @@ public class AudioIndexFile implements RecordFactory {
 	public long getOffset(String word) throws IOException, WordNotFoundException {
 		recordFile.resetReadOffset();// TODO: hacer una prueba de esto
 		while (!this.recordFile.eof()) {
-			AudioIndexRecord record = (AudioIndexRecord) this.recordFile.readRecord();
+			AudioIndexRecord record = this.recordFile.readRecord();
 			if (record.getWord().compareTo(word) == 0) {
 				return record.getOffset();
 			}
@@ -88,7 +87,7 @@ public class AudioIndexFile implements RecordFactory {
 	 * RecordFactory.
 	 */
 	@Override
-	public Record createRecord() {
+	public AudioIndexRecord createRecord() {
 		return new AudioIndexRecord();
 	}
 }

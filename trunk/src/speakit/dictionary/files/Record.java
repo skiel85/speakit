@@ -82,4 +82,11 @@ public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>
 	public int compareTo(Record<KEYTYPE> o) {
 		return this.key.compareTo(o.key);
 	}
+	
+	/**
+	 * Compara la clave de un registro con un campo.
+	 */
+	public int compareToKey(KEYTYPE key) {
+		return this.key.compareTo(key);
+	}
 }

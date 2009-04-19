@@ -3,53 +3,38 @@ package speakit.io;
 import java.io.File;
 import java.io.IOException;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 /**
- * Es un archivo de bloques que extiene la funcionalidad de BasicBlocksFile agregando la posibilidad de eliminar bloques y de crear nuevos reutilizando eliminados
+ * Es un archivo de bloques que extiene la funcionalidad de BlocksFile agregando la posibilidad de eliminar bloques y de crear nuevos reutilizando eliminados
  *
  */
-public class BytesBlocksFile implements BasicBlocksFile {
+public class BytesBlocksFile implements BlocksFile {
 
-	private BasicBlocksFile bfile;
+	private BasicBlocksFile bbfile;
 	
 	public BytesBlocksFile(File file) {
-		bfile=new BasicBlocksFileImpl(file);
+		bbfile=new BasicBlocksFileImpl(file);
 	}
 
 
 	@Override
 	public void create(int blockSize) throws IOException {
-		bfile.create(blockSize);
+		bbfile.create(blockSize);
 	}
 
 	@Override
 	public int getBlockSize() {
-		return bfile.getBlockSize();
+		return bbfile.getBlockSize();
 	}
 
 	@Override
 	public long getFileSize() throws IOException {
-		return bfile.getFileSize();
+		return bbfile.getFileSize();
 	}
 
 	@Override
 	public void load() throws IOException {
-		bfile.load();
-	}
-
-	@Deprecated
-	@Override
-	public byte[] read(int blockNumber) throws IOException {
-		return bfile.read(blockNumber);
-	}
-
-	@Deprecated
-	@Override
-	public void write(int blockNumber, byte[] content) throws IOException, BlocksFileOverflowException, WrongBlockNumberException {
-		bfile.write(blockNumber, content);
-	}
-	
+		bbfile.load();
+	} 
 	
 
 	/**
@@ -58,14 +43,14 @@ public class BytesBlocksFile implements BasicBlocksFile {
 	 * @throws IOException
 	 */
 	public BytesBlock getNewBlock() throws IOException {
-		int blockCount = this.bfile.getBlockCount();
+		int blockCount = this.bbfile.getBlockCount();
 		for(int i = 0;i<blockCount;i++){
 			BytesBlock block = this.getBlock(i);
 			if (block.getIsRemoved()){ 
 				return prepareNewBlock(block);
 			}
 		}
-		return prepareNewBlock(this.getBlock(bfile.appendBlock()));
+		return prepareNewBlock(this.getBlock(bbfile.appendBlock()));
 	}
 	
 	/**
@@ -88,17 +73,10 @@ public class BytesBlocksFile implements BasicBlocksFile {
 	 */
 	private BytesBlock getBlock(int blockNumber) throws IOException {
 		BytesBlock block = new BytesBlock(blockNumber);
-		block.deserialize(this.bfile.read(block.getBlockNumber()));
+		block.deserialize(this.bbfile.read(block.getBlockNumber()));
 		return block;
-	}
-
-
-	@Deprecated 
-	@Override
-	public int appendBlock() throws IOException {
-		return bfile.appendBlock();
-	}
-
+	} 
+	
 	/**
 	 * Marca un bloque como eliminado
 	 * @param block
@@ -131,13 +109,6 @@ public class BytesBlocksFile implements BasicBlocksFile {
 	 */
 	public void saveBlock( BytesBlock block) throws IOException{
 		byte[] blockSerialization = block.serialize();
-		this.bfile.write(block.getBlockNumber(), blockSerialization);
-	}
-	
-	@Deprecated 
-	@Override
-	public int getBlockCount() {
-		throw new NotImplementedException();
-	}
-
+		this.bbfile.write(block.getBlockNumber(), blockSerialization);
+	} 
 }

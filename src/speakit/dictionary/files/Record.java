@@ -11,8 +11,8 @@ import speakit.dictionary.serialization.Field;
  * Representa un registro. Un objeto serializable y comparable.
  * 
  */
-public class Record implements Comparable<Record> {
-	private Field key;
+public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>> {
+	private KEYTYPE key;
 	private ArrayList<Field> fields = new ArrayList<Field>();
 
 	/**
@@ -21,7 +21,7 @@ public class Record implements Comparable<Record> {
 	 * @param key
 	 *            Campo clave a establecer.
 	 */
-	protected void setKey(Field key) {
+	protected void setKey(KEYTYPE key) {
 		this.key = key;
 	}
 
@@ -79,7 +79,7 @@ public class Record implements Comparable<Record> {
 	 * Compara un registro con otro.
 	 */
 	@Override
-	public int compareTo(Record o) {
+	public int compareTo(Record<KEYTYPE> o) {
 		return this.key.compareTo(o.key);
 	}
 }

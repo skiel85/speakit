@@ -11,7 +11,7 @@ import speakit.io.RandomAccessFileOutputStream;
 /**
  * Archivo de registros.
  */
-public class SecuentialRecordFile<RECTYPE extends Record> implements RecordFile<RECTYPE>, Enumeration<RECTYPE> {
+public class SecuentialRecordFile<RECTYPE extends Record<?>> implements RecordFile<RECTYPE>, Enumeration<RECTYPE> {
 	private RandomAccessFile randomAccessFile;
 	private RandomAccessFileInputStream inputStream;
 	private RandomAccessFileOutputStream outputStream;

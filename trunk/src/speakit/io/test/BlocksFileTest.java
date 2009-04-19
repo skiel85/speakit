@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.io.BlocksFile;
+import speakit.io.BlocksFileOverflowException;
 import speakit.io.SimpleBlocksFile;
 
 public class BlocksFileTest {
@@ -18,14 +19,17 @@ public class BlocksFileTest {
 
 	File						file;
 
-	private SimpleBlocksFile	createdFile;
+	BlocksFile					sut;
 
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		this.createdFile = new SimpleBlocksFile(this.file);
-		this.createdFile.create(BLOCK_SIZE);
+		SimpleBlocksFile createdFile;
+		createdFile = new SimpleBlocksFile(this.file);
+		createdFile.create(BLOCK_SIZE);
 
+		sut = new SimpleBlocksFile(this.file);
+		sut.load();
 	}
 
 	@After
@@ -34,15 +38,7 @@ public class BlocksFileTest {
 	}
 
 	@Test
-	public void testBlockSizeAfterCreated() throws IOException {
-		Assert.assertEquals(BLOCK_SIZE, createdFile.getBlockSize());
-		Assert.assertEquals(BLOCK_SIZE, createdFile.getFileSize());
-	}
-
-	@Test
 	public void testBlockSizeAfterLoaded() throws IOException {
-		BlocksFile sut = new SimpleBlocksFile(this.file);
-		sut.load();
 		Assert.assertEquals(BLOCK_SIZE, sut.getBlockSize());
 	}
 
@@ -51,11 +47,10 @@ public class BlocksFileTest {
 	 * archivo
 	 * 
 	 * @throws IOException
+	 * @throws BlocksFileNotCreatedOrLoadedException
 	 */
 	@Test
 	public void testAppend() throws IOException {
-		BlocksFile sut = new SimpleBlocksFile(this.file);
-		sut.load();
 		int blockNumber = sut.appendBlock();
 		Assert.assertEquals(sut.getBlockSize() * 2, sut.getFileSize());
 		Assert.assertEquals(0, blockNumber);
@@ -65,24 +60,39 @@ public class BlocksFileTest {
 	}
 
 	@Test
-	public void testWriteAndRead() throws IOException {
-		BlocksFile sut = new SimpleBlocksFile(this.file);
-		sut.load(); 	
+	public void testWriteAndRead() throws IOException, BlocksFileOverflowException {
 		sut.appendBlock();
 		byte[] content = new byte[]{1, 5, 3};
 		int newBlockNumber = sut.appendBlock();
 		sut.write(newBlockNumber, content);
-		//meto un bloque en el medio para verificar que utilice el número de bloque
+		// meto un bloque en el medio para verificar que utilice el número de
+		// bloque
 		sut.write(sut.appendBlock(), new byte[]{23});
-		Assert.assertArrayEquals(content,Arrays.copyOf(sut.read(newBlockNumber),3)); 
+		Assert.assertArrayEquals(content, Arrays.copyOf(sut.read(newBlockNumber), 3));
 	}
 
-	// TODO: probar que arroje blockoverflowexception si se intenta escribir mas
-	// bytes de lo soportado
-	// TODO: que arroje excepcion si el numero de bloque pasado no existe o es incorrecto
-	// TODO: que la clase lance excepcion si se quiere usar un
-	// método antes de creala o cargarla, cosa que es inválido.
-	// TODO: prueba pendiente. Si bien hoy el header del archivo se guarda solo
+	/**
+	 * probar que arroje blockoverflowexception si se intenta escribir mas bytes
+	 * de lo soportado
+	 * 
+	 * @throws IOException
+	 */
+	@Test
+	public void testWriteWithOverflow() throws IOException {
+		byte[] content = new byte[sut.getBlockSize() + 1];
+		int newBlockNumber = sut.appendBlock();
+		try {
+			sut.write(newBlockNumber, content);
+			Assert.fail("Se esperaba excepción");
+		} catch (BlocksFileOverflowException e) {
+
+		}
+	}
+
+	// TODO: que arroje excepcion si el numero de bloque pasado no existe o es
+	// incorrecto
+	
+	// TODO: Si bien hoy el header del archivo se guarda solo
 	// la primera vez, puede ser que mas adelante no. Entonces probar que luego
 	// de escribir algo en el archivo(ejemplo: apendear un bloque), que el
 	// header se guarde bien, es decir que haga un seek(0) y no se escriba en

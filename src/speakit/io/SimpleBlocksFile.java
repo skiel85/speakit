@@ -5,22 +5,33 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Arrays;
 
 import speakit.dictionary.serialization.IntegerField;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class SimpleBlocksFile  implements BlocksFile {
-	private RandomAccessFile randomFile;
-	private final File	file;
 	private int	blockSize;
+	private final File	file;
+	private int HEADER_BLOCK_QTY = 1;
 
+	private RandomAccessFile randomFile;
+	
 	public SimpleBlocksFile(File file) {
 		this.file = file;
 	} 
 
 	@Override
 	public int appendBlock() throws IOException {
-		throw new NotImplementedException();
+		//me posiciono al final del archivo 
+		this.randomFile.seek(this.getFileSize());
+		//escribo un bloque vacío
+		this.randomFile.write(new byte[this.blockSize], 0, this.blockSize);
+		//devuelvo el numero del último bloque
+		return getLastBlockNumber();
+	}
+
+	private int getLastBlockNumber() throws IOException {
+		return ((int)(this.getFileSize()/this.getBlockSize()) - HEADER_BLOCK_QTY - 1);
 	}
 
 	/**
@@ -30,20 +41,21 @@ public class SimpleBlocksFile  implements BlocksFile {
 	public void create(int blockSize) throws IOException{
 		this.blockSize=blockSize;
 		randomFile=new RandomAccessFile(file,"rw");
+		//escribo el primer bloque
 		
+		randomFile.write(new byte[this.blockSize]);
 		//Graba el header
 		saveHeader();
 	}
 
 	/**
-	 * Graba el tamaño de bloque
+	 * Calcula la posición física del comienzo del bloque a partir de un numero de bloque
+	 * @param blockNumber
+	 * @return
 	 * @throws IOException
 	 */
-	private void saveHeader() throws IOException {
-		IntegerField blockSizeField = new IntegerField(this.blockSize);
-		ByteArrayOutputStream headerContentStream = new ByteArrayOutputStream(this.blockSize);
-		blockSizeField.serialize(headerContentStream);
-		randomFile.write(headerContentStream.toByteArray());
+	private long getBlockPosition(int blockNumber) throws IOException{
+		return ((long)HEADER_BLOCK_QTY + (long)blockNumber) * this.getBlockSize();
 	}
 
 	@Override
@@ -52,10 +64,10 @@ public class SimpleBlocksFile  implements BlocksFile {
 	}
 
 	@Override
-	public byte[] getBytes(int blockNumber) {
-		throw new NotImplementedException();
+	public long getFileSize() throws IOException {
+		return this.randomFile.length();
 	}
-
+	
 	/**
 	 * Abre el archivo y lee los primeros bytes de control para obtener el header
 	 */
@@ -64,30 +76,69 @@ public class SimpleBlocksFile  implements BlocksFile {
 		randomFile=new RandomAccessFile(file,"rw");
 		loadHeader();	
 	}
-
+	
 	/**
-	 *  Carga el tamaño de bloque
+	 * Lee el encabezado carga el tamaño de bloque
 	 * @throws IOException
 	 */
 	private void loadHeader() throws IOException {
-		//Obtiene el tamaño de bloque
+		//creo un campo entero para deserializar el numero de bloque desde el archivo
 		IntegerField blockSizeField = new IntegerField();
+		//creo un array de un tamaño justo para que entre el contenido de la serializacion de un campo entero
 		byte[] content=new byte[blockSizeField.getSerializationSize()];
-		randomFile.read(content,0,content.length);  
+		//leo tantos bytes del archivo como indique el tamaño le array 
+		randomFile.read(content,0,content.length);
+		//deserializo el campo entero que contiene el numero de bloque
 		blockSizeField.deserialize(new ByteArrayInputStream(content));
 		
 		//Graba el tamaño de bloque
 		this.blockSize=blockSizeField.getInteger();
 	}
-
-	@Override
-	public void setBytes(int blockNumber, byte[] content) {
-		throw new NotImplementedException();
+	
+	/**
+	 * A partir de un array devuelve otro con el tamaño pedido. Si el tamaño nuevo es mayor que el tamaño del array original se completa con ceros, y si es menor se recorta.
+	 * @param content
+	 * @param toSize
+	 * @return
+	 */
+	private byte[] paddingRight(byte[] content, int toSize){
+		return Arrays.copyOf(content, toSize);
 	}
 
 	@Override
-	public long getSize() {
-		throw new NotImplementedException();
+	public byte[] read(int blockNumber) throws IOException {		
+		byte[] content = new byte[this.blockSize];
+		//posiciona el archivo en la posicion donde comienza el bloque
+		randomFile.seek(getBlockPosition(blockNumber));
+		//lee los bytes
+		randomFile.read(content,0,this.blockSize);
+		return content;
+	}
+
+	/**
+	 * Graba el encabezado, incluye el tamaño de bloque
+	 * @throws IOException
+	 */
+	private void saveHeader() throws IOException {
+		IntegerField blockSizeField = new IntegerField(this.blockSize);
+		ByteArrayOutputStream headerContentStream = new ByteArrayOutputStream(this.blockSize);
+		blockSizeField.serialize(headerContentStream);
+		randomFile.seek(0L);
+		randomFile.write(headerContentStream.toByteArray());
+	} 
+
+	@Override
+	public void write(int blockNumber, byte[] content) throws IOException {
+		writeBlockOnPosition(getBlockPosition(blockNumber), content);
+	}
+
+	private void writeBlockOnPosition(long position, byte[] content) throws IOException {
+		//rellena con ceros el array de bytes
+		randomFile.seek(position);
+		//completo el array para que mida lo mismo que el bloque
+		byte[] contentWithRightPadding = paddingRight(content,this.blockSize);
+		//lo escribo
+		randomFile.write(contentWithRightPadding,0,this.blockSize);
 	}
 
 	 

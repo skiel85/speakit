@@ -29,6 +29,23 @@ public class RandomAccessFileOutputStream extends OutputStream {
 	}
 
 	/**
+	 * Constructor para crear un OutputStream que escribirá a partir de la
+	 * posición indicada sobreescribiendo.
+	 * 
+	 * @param randomAccessFile
+	 *            El archivo de donde leer los datos.
+	 * @param startPosition
+	 *            La posición donde comienza este stream.
+	 * @param length
+	 *            El largo de este InputStream.
+	 */
+	public RandomAccessFileOutputStream(RandomAccessFile randomAccessFile, long startPosition) {
+		this.file = randomAccessFile;
+		this.startPosition = startPosition;
+		this.currentPosition = startPosition;
+	}
+
+	/**
 	 * Obtiene la posición actual en el archivo.
 	 * 
 	 * @return Posición actual en el archivo.
@@ -52,6 +69,7 @@ public class RandomAccessFileOutputStream extends OutputStream {
 	public void write(byte[] b, int offset, int length) throws IOException {
 		file.seek(currentPosition);
 		file.write(b, offset, length);
+		currentPosition += length;
 	}
 
 	/**

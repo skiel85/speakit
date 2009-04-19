@@ -21,10 +21,10 @@ public class AudioFile implements RecordFactory {
 	 * 
 	 * @param file
 	 *            Archivo.
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
-	public AudioFile(File file) throws FileNotFoundException {
-		this.recordFile = new RecordFile(file, this);
+	public AudioFile(File file) throws IOException {
+		this.recordFile = new RecordFile(file , this);
 		this.currentOffset = file.length();
 	}
 

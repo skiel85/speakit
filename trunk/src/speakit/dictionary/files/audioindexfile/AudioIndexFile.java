@@ -1,7 +1,6 @@
 package speakit.dictionary.files.audioindexfile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import speakit.dictionary.files.Record;
@@ -21,9 +20,9 @@ public class AudioIndexFile implements RecordFactory {
 	 * 
 	 * @param file
 	 *            Archivo.
-	 * @throws FileNotFoundException
+	 * @throws IOException
 	 */
-	public AudioIndexFile(File file) throws FileNotFoundException {
+	public AudioIndexFile(File file) throws IOException {
 		this.recordFile = new RecordFile(file, this);
 	}
 
@@ -71,7 +70,7 @@ public class AudioIndexFile implements RecordFactory {
 	 * @return Offset del audio de la palabra en el archivo de registros de
 	 *         audio.
 	 * @throws IOException
-	 * @throws WordNotFoundException 
+	 * @throws WordNotFoundException
 	 */
 	public long getOffset(String word) throws IOException, WordNotFoundException {
 		recordFile.resetReadOffset();// TODO: hacer una prueba de esto

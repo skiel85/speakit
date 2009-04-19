@@ -12,7 +12,21 @@ public class RandomAccessFileInputStream extends InputStream {
 	private RandomAccessFile file;
 	private long startPosition;
 	private long currentPosition;
-	private long endPosition;
+	private long markPosition;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param randomAccessFile
+	 *            El archivo de donde leer los datos.
+	 * @throws IOException
+	 */
+	public RandomAccessFileInputStream(RandomAccessFile randomAccessFile) throws IOException {
+		this.file = randomAccessFile;
+		this.startPosition = 0;
+		this.currentPosition = 0;
+		this.markPosition = 0;
+	}
 
 	/**
 	 * Constructor.
@@ -24,13 +38,13 @@ public class RandomAccessFileInputStream extends InputStream {
 	 * @param length
 	 *            El largo de este InputStream.
 	 */
-	public RandomAccessFileInputStream(RandomAccessFile randomAccessFile, long startPosition, long length) {
+	public RandomAccessFileInputStream(RandomAccessFile randomAccessFile, long startPosition) {
 		this.file = randomAccessFile;
 		this.startPosition = startPosition;
 		this.currentPosition = startPosition;
-		this.endPosition = this.currentPosition + length;
+		this.markPosition = startPosition;
 	}
-	
+
 	/**
 	 * Obtiene la posición actual en el archivo.
 	 * 
@@ -53,7 +67,11 @@ public class RandomAccessFileInputStream extends InputStream {
 	 * {@inheritDoc}
 	 */
 	public int available() {
-		return (int) (endPosition - currentPosition);
+		try {
+			return (int) (file.length() - currentPosition);
+		} catch (IOException e) {
+			return 0;
+		}
 	}
 
 	/**
@@ -70,7 +88,7 @@ public class RandomAccessFileInputStream extends InputStream {
 	public int read() throws IOException {
 		synchronized (file) {
 			int retval = -1;
-			if (currentPosition < endPosition) {
+			if (this.available() > 0) {
 				file.seek(currentPosition);
 				currentPosition++;
 				retval = file.read();
@@ -113,4 +131,29 @@ public class RandomAccessFileInputStream extends InputStream {
 		currentPosition += amountSkipped;
 		return amountSkipped;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean markSupported() {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void mark(int readLimit) {
+		this.markPosition = this.currentPosition;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void reset() {
+		this.currentPosition = this.markPosition;
+	}
+
 }

@@ -11,7 +11,7 @@ import org.junit.Test;
 import speakit.io.BasicBlocksFile;
 import speakit.io.BasicBlocksFileImpl;
 
-public class BlocksFileCreationTest { 
+public class BasicBlocksFileCreationTest { 
 
 		private static final int	BLOCK_SIZE	= 512;
 

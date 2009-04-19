@@ -14,7 +14,7 @@ import speakit.io.BasicBlocksFileImpl;
 import speakit.io.BlocksFileOverflowException;
 import speakit.io.WrongBlockNumberException;
 
-public class BlocksFileTest {
+public class BasicBlocksFileTest {
 
 	private static final int	BLOCK_SIZE	= 256;
 

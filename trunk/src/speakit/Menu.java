@@ -10,6 +10,9 @@ import speakit.audio.AudioManager;
 import speakit.audio.AudioManagerException;
 import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
+import speakit.documentstorage.DocumentList;
+import speakit.ftrs.FTRS;
+import speakit.wordreader.TextCleaner;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 /**
@@ -108,6 +111,7 @@ public class Menu {
 		}
 
 		WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(textDocumentFromFile);
+		System.out.println("Se va a reproducir el siguiente documento");
 		while(audioDocument.hasNext()){
 			this.playSound(audioDocument.next());
 		}
@@ -146,7 +150,7 @@ public class Menu {
 
 	public void playSound(WordAudio wordAudio) {
 		if (wordAudio.getAudio() != null) {
-			System.out.println("Reproduciendo: " + wordAudio.getWord());
+			System.out.print(wordAudio.getWord() + " ");
 			// TODO hacer algo con la duracion
 			audioManager.play(wordAudio.getAudio().getBytes());
 		}
@@ -209,6 +213,7 @@ public class Menu {
 	 * 
 	 * @throws IOException
 	 * @throws RecordSerializationException 
+	 * @throws NotFoundDocumentListException 
 	 * 
 	 * @throws SimpleAudioRecorderException
 	 */
@@ -239,6 +244,9 @@ public class Menu {
 			case 2:
 				playTextDocument();
 				break;
+			case 3: 
+				doConsultation();
+				break;
 			case 0:
 				System.out.println("Terminado.");
 				finished = true;
@@ -250,6 +258,89 @@ public class Menu {
 		}
 	}
 
+	private void doConsultation() throws IOException {
+		String [] wordsOfConsultation;
+		String consultation = "";
+		DocumentList documentList;
+		FTRS ftrs = new FTRS();
+		System.out.println("Ingrese la consulta");
+		consultation = this.userInput.readLine();
+		TextCleaner cleaner = new TextCleaner();
+		wordsOfConsultation = cleaner.getWords(consultation);
+		/* aca hay que hacer un metodo que tome a este array de terminos 
+		 * y devuelva el array ordenado por peso global para luego poder
+		 * devolver la lista de documentos del termino con mayor
+		 * peso global.
+		 * Una vez que tengo ese array ordenado segun peso global, llamo al 
+		 * metodo getDocumntsFor() de FTRS para obtener todos los documentos
+		 */
+		
+		documentList = ftrs.getDocumentsFor(wordsOfConsultation[0]);
+		
+			//hay que ver que hacer en este caso
+		
+		/* deberia saber la cantidad de documentos que me devuelve para ver 
+		 * si tengo que pedir al siguiente termino sus documentos dependiendo
+		 * de la cantidad de documentos que desee obtener.
+		 * Luego debo mostrar los documentos que son resultado de la consulta
+		 * con algun metodo que separe documentList en documentos
+		 * y preguntarle al usuario si desea reproducirlos.
+		 */
+		showResults(documentList);
+		showOptions();
+		
+		
+	}
+
+	private void showResults(DocumentList documentList) {
+		System.out.println("El resultado de la consulta es el siguiente:");
+		//metodo que muestre documentos
+		
+	}
+
+	private void showOptions() throws IOException {
+		System.out.println("Si desea reproducir algun documento presione 1");
+		System.out.println("A continuacion se le pedira que ingrese la ruta");
+		System.out.println("Para realizar una nueva consulta presione 2");
+		System.out.println("Para ir al menu principal presione 0");
+		chooseOption();
+	}
+
+	
+	private void chooseOption() throws IOException {
+		int opt = 0;
+		boolean option = false;
+		
+		while(!option){
+		  try {
+			opt = Integer.parseInt(userInput.readLine());
+		  } catch (IOException e) {
+			System.out.println("Error de E/S al leer la consola.");
+		    continue;
+		  } catch (NumberFormatException e) {
+			System.out.println("Opción inválida.");
+			continue;
+		  }
+		  option = true;
+		}
+		switch (opt) {
+		
+		case 1:
+			playTextDocument();
+			break;
+		case 2: 
+			doConsultation();
+			break;
+		case 0:
+			displayMainMenu();
+			break;
+		default:
+			System.out.println("Opción inválida.\n");
+			break;
+		}
+		
+	}
+
 	private BufferedReader initializeUserInput() {
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader input = new BufferedReader(isr);
@@ -258,6 +349,6 @@ public class Menu {
 
 	private void displayMainMenu() {
 		System.out.println("Speak It!");
-		System.out.println("Menu Principal\n" + "	1.- Procesar archivo de Texto\n" + "	2.- Reproducir Archivo\n" + "\n" + "	0.- Salir");
+		System.out.println("Menu Principal\n" + "	1.- Procesar archivo de Texto\n" + "	2.- Reproducir Archivo\n" + "\n" + "	3.- Realizar una consulta\n" + "\n" + "	0.- Salir");
 	}
 }

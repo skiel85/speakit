@@ -12,15 +12,17 @@ public class FTRS implements FTRSInterface {
 	@Override
 	public DocumentList getDocumentsFor(String word) {
 		Index index = getIndex();
-		if (index.exists(word)) {
+		if(index.exists(word)){
 			InversedList inversedList = index.getInversedList(word);
 			DocumentRepository repository = getDocumentRepository();
 			DocumentList result = repository.getDocumentList(inversedList);
 			return result;
-		}
-		else
-		//TODO Lanzar excepcion de lista no encontrada? devolver null?
+		}else{
 			return null;
+		}
+		
+		
+		
 	}
 
 	private DocumentRepository getDocumentRepository() {

@@ -15,5 +15,8 @@ public class TextDocument implements Iterable<String> {
 	public void add(String word) {
 		words.add(word);
 	}
-
+	
+	public ArrayList<String> getRelevantTerms(){
+		return words;
+	}
 }

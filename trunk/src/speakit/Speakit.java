@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import speakit.dictionary.AudioDictionaryImpl;
 import speakit.dictionary.DictionaryFileSet;
 import speakit.dictionary.files.RecordSerializationException;
+import speakit.ftrs.index.Index;
+import speakit.ftrs.index.IndexRecord;
+import speakit.ftrs.index.Indexer;
 import speakit.wordreader.WordReader;
 import speakit.wordreader.WordReaderImpl;
 
@@ -20,6 +23,7 @@ import speakit.wordreader.WordReaderImpl;
 public class Speakit implements SpeakitInterface {
 
 	private AudioDictionaryImpl dataBase;
+	private Index index;
 
 	/**
 	 * Carga Speakit con el conjunto de archivos predeterminado.
@@ -65,6 +69,7 @@ public class Speakit implements SpeakitInterface {
 	}
 
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {
+		indexDocument(doc);
 		ArrayList<String> words = new ArrayList<String>();
 		for (String word : doc) {
 			if (!this.dataBase.contains(word) && !words.contains(word)) {
@@ -74,6 +79,17 @@ public class Speakit implements SpeakitInterface {
 		return words;
 	}
 
+	/**
+	 * Procesa el documento para poder recuperarlo mediante el modulo FTRS
+	 * @param doc Documento a Indexar
+	 */
+	private void indexDocument(TextDocument doc) {
+		ArrayList<String> terms = doc.getRelevantTerms();
+		Indexer indexer = new Indexer();
+		indexer.indexTerms(index, terms);
+	}
+
+	
 	public WordAudioDocument convertToAudioDocument(TextDocument doc) throws IOException { 
 		return new WordAudioDocument(this.dataBase,doc); 
 	}

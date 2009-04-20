@@ -8,7 +8,7 @@ public class BlocksFileOverflowException extends BlocksFileException {
 	private final int			actualDataLength;
 
 	public BlocksFileOverflowException(int blockSize, int actualDataLength) {
-		super();
+		super("");
 		this.blockSize = blockSize;
 		this.actualDataLength = actualDataLength;
 		overflowLenght = actualDataLength - blockSize;
@@ -20,6 +20,6 @@ public class BlocksFileOverflowException extends BlocksFileException {
 
 	@Override
 	public String getMessage() {
-		return super.getMessage() + "Se esperaban como máximo: " + blockSize + " pero se recibieron: " + actualDataLength + ". " + this.overflowLenght + " bytes en overflow.";
+		return super.getMessage() + "Se esperaban como máximo: " + blockSize + " pero se recibieron: " + actualDataLength + ". Bytes en overflow: " + this.overflowLenght;
 	}
 }

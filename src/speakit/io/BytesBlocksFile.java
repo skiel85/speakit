@@ -51,7 +51,7 @@ public class BytesBlocksFile implements BlocksFile,Iterable<BytesBlock> {
 				return prepareNewBlock(block);
 			}
 		}
-		return prepareNewBlock(this.getBlock(bbfile.appendBlock()));
+		return prepareNewBlock(this.createBlock(bbfile.appendBlock()));
 	}
 	
 	/**
@@ -73,9 +73,17 @@ public class BytesBlocksFile implements BlocksFile,Iterable<BytesBlock> {
 	 * @throws IOException
 	 */
 	public BytesBlock getBlock(int blockNumber) throws IOException {
-		BytesBlock block = new BytesBlock(blockNumber);
-		block.deserialize(this.bbfile.read(block.getBlockNumber()));
+		BytesBlock block = createBlock(blockNumber);
+		byte[] serializationData = this.bbfile.read(block.getBlockNumber());
+		if(serializationData.length>0){
+			block.deserialize(serializationData);	
+		}
 		return block;
+	}
+
+
+	protected BytesBlock createBlock(int blockNumber) {
+		return new BytesBlock(blockNumber);
 	} 
 	
 	/**
@@ -117,5 +125,7 @@ public class BytesBlocksFile implements BlocksFile,Iterable<BytesBlock> {
 	@Override
 	public Iterator<BytesBlock> iterator() {
 		return new BytesBlocksFileIterator(this);
-	} 
+	}
+	
+	
 }

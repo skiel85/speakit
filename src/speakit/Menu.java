@@ -151,7 +151,6 @@ public class Menu {
 	public void playSound(WordAudio wordAudio) {
 		if (wordAudio.getAudio() != null) {
 			System.out.print(wordAudio.getWord() + " ");
-			// TODO hacer algo con la duracion
 			audioManager.play(wordAudio.getAudio().getBytes());
 		}
 	}
@@ -275,7 +274,7 @@ public class Menu {
 		 * metodo getDocumntsFor() de FTRS para obtener todos los documentos
 		 */
 		
-		documentList = ftrs.getDocumentsFor(wordsOfConsultation[0]);
+		documentList = ftrs.search(wordsOfConsultation[0]);
 		
 			//hay que ver que hacer en este caso
 		

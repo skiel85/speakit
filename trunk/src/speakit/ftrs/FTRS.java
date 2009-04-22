@@ -1,5 +1,7 @@
 package speakit.ftrs;
 
+import java.util.ArrayList;
+
 import speakit.documentstorage.DocumentList;
 import speakit.documentstorage.DocumentRepository;
 import speakit.ftrs.index.Index;
@@ -31,6 +33,12 @@ public class FTRS implements FTRSInterface {
 	}
 
 	private Index getIndex() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InversedList getRankedList(ArrayList<InversedList> inversedLists) {
 		// TODO Auto-generated method stub
 		return null;
 	}

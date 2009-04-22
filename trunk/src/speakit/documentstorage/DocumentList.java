@@ -1,5 +1,8 @@
 package speakit.documentstorage;
 
-public class DocumentList {
+import java.util.ArrayList;
 
+public class DocumentList {
+	protected ArrayList<Document> documents;
+	
 }

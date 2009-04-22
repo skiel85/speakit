@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import speakit.audio.Audio;
 import speakit.audio.AudioManager;
@@ -349,5 +350,14 @@ public class Menu {
 	private void displayMainMenu() {
 		System.out.println("Speak It!");
 		System.out.println("Menu Principal\n" + "	1.- Procesar archivo de Texto\n" + "	2.- Reproducir Archivo\n" + "\n" + "	3.- Realizar una consulta\n" + "\n" + "	0.- Salir");
+	}
+
+		
+	/**
+	 * Muestra una preview del documento
+	 * @param preview
+	 */
+	protected void showPreview(ArrayList<String> preview){
+		//TODO Implementar. 
 	}
 }

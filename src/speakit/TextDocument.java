@@ -19,4 +19,9 @@ public class TextDocument implements Iterable<String> {
 	public ArrayList<String> getRelevantTerms(){
 		return words;
 	}
+	
+	public ArrayList<String> getPreview() {
+		ArrayList<String> preview = new ArrayList<String>(words.subList(0, 20));
+		return preview;
+	}
 }

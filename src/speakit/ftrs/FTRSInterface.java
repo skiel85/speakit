@@ -1,6 +1,9 @@
 package speakit.ftrs;
 
+import java.util.ArrayList;
+
 import speakit.documentstorage.DocumentList;
+import speakit.ftrs.index.InversedList;
 
 public interface FTRSInterface {
 	/**
@@ -11,4 +14,5 @@ public interface FTRSInterface {
 	 */
 	public DocumentList search(String word) ;
 	
-}
+	public InversedList getRankedList(ArrayList<InversedList> inversedLists);
+}	

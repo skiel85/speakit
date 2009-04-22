@@ -9,6 +9,6 @@ public interface FTRSInterface {
 	 * @param word palabra presente en le consulta
 	 * @return DocumentList
 	 */
-	public DocumentList getDocumentsFor(String word) ;
+	public DocumentList search(String word) ;
 	
 }

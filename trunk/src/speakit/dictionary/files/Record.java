@@ -1,5 +1,7 @@
 package speakit.dictionary.files;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -92,5 +94,16 @@ public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>
 	 */
 	public int compareToKey(KEYTYPE key) {
 		return this.key.compareTo(key);
+	}
+
+	public byte[] serialize() throws IOException, RecordSerializationException {
+		ByteArrayOutputStream out=new ByteArrayOutputStream();
+		this.serialize(out);
+		return out.toByteArray();
+	}
+
+	public void deserialize(byte[] data) throws IOException, RecordSerializationException {
+		ByteArrayInputStream in = new ByteArrayInputStream(data); 
+		this.deserialize(in);
 	}
 }

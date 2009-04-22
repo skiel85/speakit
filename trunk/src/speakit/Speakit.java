@@ -23,7 +23,7 @@ import speakit.wordreader.WordReaderImpl;
 public class Speakit implements SpeakitInterface {
 
 	private AudioDictionaryImpl dataBase;
-	private Index index;
+	private Index index = new Index();
 
 	/**
 	 * Carga Speakit con el conjunto de archivos predeterminado.

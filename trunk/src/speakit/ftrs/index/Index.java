@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Index {
 	
-	protected ArrayList<IndexRecord> records; 
+	protected ArrayList<IndexRecord> records = new ArrayList<IndexRecord>(); 
 	
 	public boolean exists(String word)
 	{

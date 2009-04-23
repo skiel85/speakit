@@ -36,7 +36,7 @@ public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
 	 *            Offset del archivo de registros de audio donde se encuentra el
 	 *            audio de la palabra.
 	 * @throws IOException
-	 * @throws RecordSerializationException 
+	 * @throws RecordSerializationException
 	 */
 	public void addEntry(String word, long offset) throws IOException, RecordSerializationException {
 		AudioIndexRecord record = new AudioIndexRecord(word, offset);

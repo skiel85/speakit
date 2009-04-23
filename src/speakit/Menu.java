@@ -33,7 +33,7 @@ public class Menu {
 	 * Despliega el menu para procesar los archivos de texto
 	 * 
 	 * @throws IOException
-	 * @throws RecordSerializationException 
+	 * @throws RecordSerializationException
 	 * 
 	 * @throws WordNotFoundException
 	 */
@@ -113,7 +113,7 @@ public class Menu {
 
 		WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(textDocumentFromFile);
 		System.out.println("Se va a reproducir el siguiente documento");
-		while(audioDocument.hasNext()){
+		while (audioDocument.hasNext()) {
 			this.playSound(audioDocument.next());
 		}
 	}
@@ -212,8 +212,8 @@ public class Menu {
 	 * Despliega el menu principal
 	 * 
 	 * @throws IOException
-	 * @throws RecordSerializationException 
-	 * @throws NotFoundDocumentListException 
+	 * @throws RecordSerializationException
+	 * @throws NotFoundDocumentListException
 	 * 
 	 * @throws SimpleAudioRecorderException
 	 */
@@ -244,7 +244,7 @@ public class Menu {
 			case 2:
 				playTextDocument();
 				break;
-			case 3: 
+			case 3:
 				doConsultation();
 				break;
 			case 0:
@@ -259,7 +259,7 @@ public class Menu {
 	}
 
 	private void doConsultation() throws IOException {
-		String [] wordsOfConsultation;
+		String[] wordsOfConsultation;
 		String consultation = "";
 		DocumentList documentList;
 		FTRS ftrs = new FTRS();
@@ -267,35 +267,35 @@ public class Menu {
 		consultation = this.userInput.readLine();
 		TextCleaner cleaner = new TextCleaner();
 		wordsOfConsultation = cleaner.getWords(consultation);
-		/* aca hay que hacer un metodo que tome a este array de terminos 
-		 * y devuelva el array ordenado por peso global para luego poder
-		 * devolver la lista de documentos del termino con mayor
-		 * peso global.
-		 * Una vez que tengo ese array ordenado segun peso global, llamo al 
-		 * metodo getDocumntsFor() de FTRS para obtener todos los documentos
+		/*
+		 * aca hay que hacer un metodo que tome a este array de terminos y
+		 * devuelva el array ordenado por peso global para luego poder devolver
+		 * la lista de documentos del termino con mayor peso global. Una vez que
+		 * tengo ese array ordenado segun peso global, llamo al metodo
+		 * getDocumntsFor() de FTRS para obtener todos los documentos
 		 */
-		
+
 		documentList = ftrs.search(wordsOfConsultation[0]);
-		
-			//hay que ver que hacer en este caso
-		
-		/* deberia saber la cantidad de documentos que me devuelve para ver 
-		 * si tengo que pedir al siguiente termino sus documentos dependiendo
-		 * de la cantidad de documentos que desee obtener.
-		 * Luego debo mostrar los documentos que son resultado de la consulta
-		 * con algun metodo que separe documentList en documentos
-		 * y preguntarle al usuario si desea reproducirlos.
+
+		// hay que ver que hacer en este caso
+
+		/*
+		 * deberia saber la cantidad de documentos que me devuelve para ver si
+		 * tengo que pedir al siguiente termino sus documentos dependiendo de la
+		 * cantidad de documentos que desee obtener. Luego debo mostrar los
+		 * documentos que son resultado de la consulta con algun metodo que
+		 * separe documentList en documentos y preguntarle al usuario si desea
+		 * reproducirlos.
 		 */
 		showResults(documentList);
 		showOptions();
-		
-		
+
 	}
 
 	private void showResults(DocumentList documentList) {
 		System.out.println("El resultado de la consulta es el siguiente:");
-		//metodo que muestre documentos
-		
+		// metodo que muestre documentos
+
 	}
 
 	private void showOptions() throws IOException {
@@ -306,29 +306,28 @@ public class Menu {
 		chooseOption();
 	}
 
-	
 	private void chooseOption() throws IOException {
 		int opt = 0;
 		boolean option = false;
-		
-		while(!option){
-		  try {
-			opt = Integer.parseInt(userInput.readLine());
-		  } catch (IOException e) {
-			System.out.println("Error de E/S al leer la consola.");
-		    continue;
-		  } catch (NumberFormatException e) {
-			System.out.println("Opción inválida.");
-			continue;
-		  }
-		  option = true;
+
+		while (!option) {
+			try {
+				opt = Integer.parseInt(userInput.readLine());
+			} catch (IOException e) {
+				System.out.println("Error de E/S al leer la consola.");
+				continue;
+			} catch (NumberFormatException e) {
+				System.out.println("Opción inválida.");
+				continue;
+			}
+			option = true;
 		}
 		switch (opt) {
-		
+
 		case 1:
 			playTextDocument();
 			break;
-		case 2: 
+		case 2:
 			doConsultation();
 			break;
 		case 0:
@@ -338,7 +337,7 @@ public class Menu {
 			System.out.println("Opción inválida.\n");
 			break;
 		}
-		
+
 	}
 
 	private BufferedReader initializeUserInput() {
@@ -352,12 +351,12 @@ public class Menu {
 		System.out.println("Menu Principal\n" + "	1.- Procesar archivo de Texto\n" + "	2.- Reproducir Archivo\n" + "\n" + "	3.- Realizar una consulta\n" + "\n" + "	0.- Salir");
 	}
 
-		
 	/**
 	 * Muestra una preview del documento
+	 * 
 	 * @param preview
 	 */
-	protected void showPreview(ArrayList<String> preview){
-		//TODO Implementar. 
+	protected void showPreview(ArrayList<String> preview) {
+		// TODO Implementar.
 	}
 }

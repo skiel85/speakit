@@ -11,31 +11,30 @@ import org.junit.Test;
 import speakit.io.BasicBlocksFileImpl;
 import speakit.io.BlocksFile;
 
-public class BasicBlocksFileCreationTest { 
+public class BasicBlocksFileCreationTest {
 
-		private static final int	BLOCK_SIZE	= 512;
+	private static final int BLOCK_SIZE = 512;
 
-		File						file;
+	File file;
 
-		private BlocksFile	createdFile;
+	private BlocksFile createdFile;
 
-		@Before
-		public void setUp() throws Exception {
-			this.file = File.createTempFile(this.getClass().getName(), ".dat");
-			this.createdFile = new BasicBlocksFileImpl(this.file);
-			this.createdFile.create(BLOCK_SIZE);
-		}
-
-		@After
-		public void tearDown() throws Exception {
-			this.file.delete();
-		}
-
-		@Test
-		public void testBlockSizeAfterCreated() throws IOException {
-			Assert.assertEquals(BLOCK_SIZE, createdFile.getBlockSize());
-			Assert.assertEquals(BLOCK_SIZE, createdFile.getFileSize());
-		}
-
+	@Before
+	public void setUp() throws Exception {
+		this.file = File.createTempFile(this.getClass().getName(), ".dat");
+		this.createdFile = new BasicBlocksFileImpl(this.file);
+		this.createdFile.create(BLOCK_SIZE);
 	}
 
+	@After
+	public void tearDown() throws Exception {
+		this.file.delete();
+	}
+
+	@Test
+	public void testBlockSizeAfterCreated() throws IOException {
+		Assert.assertEquals(BLOCK_SIZE, createdFile.getBlockSize());
+		Assert.assertEquals(BLOCK_SIZE, createdFile.getFileSize());
+	}
+
+}

@@ -16,11 +16,11 @@ import speakit.io.BytesBlocksFile;
 
 public class BytesBlocksFileTest {
 
-	private static final int	BLOCK_SIZE	= 256;
+	private static final int BLOCK_SIZE = 256;
 
-	File						file;
+	File file;
 
-	BytesBlocksFile				sut;
+	BytesBlocksFile sut;
 
 	@Before
 	public void setUp() throws Exception {
@@ -64,18 +64,18 @@ public class BytesBlocksFileTest {
 		BytesBlock fourth = sut.getNewBlock();
 		BytesBlock fifth = sut.getNewBlock();
 		sut.removeBlock(fifth);
-		
+
 		Iterator<BytesBlock> iterator = sut.iterator();
-//		Assert.assertEquals(true,iterator.hasNext());
-		Assert.assertEquals(first.getBlockNumber(),iterator.next().getBlockNumber());
-//		Assert.assertEquals(true,iterator.hasNext());
-		Assert.assertEquals(second.getBlockNumber(),iterator.next().getBlockNumber());
-//		Assert.assertEquals(true,iterator.hasNext());
-		Assert.assertEquals(fourth.getBlockNumber(),iterator.next().getBlockNumber());
-		//para probar que no tire excepcion
+		// Assert.assertEquals(true,iterator.hasNext());
+		Assert.assertEquals(first.getBlockNumber(), iterator.next().getBlockNumber());
+		// Assert.assertEquals(true,iterator.hasNext());
+		Assert.assertEquals(second.getBlockNumber(), iterator.next().getBlockNumber());
+		// Assert.assertEquals(true,iterator.hasNext());
+		Assert.assertEquals(fourth.getBlockNumber(), iterator.next().getBlockNumber());
+		// para probar que no tire excepcion
 		iterator.next();
-//		Assert.assertEquals(false,iterator.hasNext());
-		
+		// Assert.assertEquals(false,iterator.hasNext());
+
 	}
 
 }

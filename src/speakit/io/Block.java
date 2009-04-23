@@ -1,6 +1,5 @@
 package speakit.io;
 
-
 import speakit.dictionary.files.Record;
 import speakit.dictionary.serialization.ByteArrayField;
 import speakit.dictionary.serialization.IntegerField;
@@ -8,7 +7,7 @@ import speakit.dictionary.serialization.IntegerField;
 public class Block extends Record<IntegerField> {
 	private IntegerField blockNumber = new IntegerField();
 	private ByteArrayField content = new ByteArrayField();
-	
+
 	public Block(int blockNumber) {
 		this.setKey(this.blockNumber);
 		this.addField(this.content);
@@ -28,8 +27,7 @@ public class Block extends Record<IntegerField> {
 	}
 
 	public void clear() {
-		this.content.setBytes(new byte[]{});
+		this.content.setBytes(new byte[] {});
 	}
-	
-	
+
 }

@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class BooleanField extends Field {
-	private boolean	value	= false;
+	private boolean value = false;
 
 	public BooleanField(boolean value) {
 		this.value = value;
@@ -41,7 +41,7 @@ public class BooleanField extends Field {
 	@Override
 	protected int compareToSameClass(Field o) {
 		BooleanField other = (BooleanField) o;
-		
+
 		if (this.value == other.value) {
 			return 0;
 		} else {

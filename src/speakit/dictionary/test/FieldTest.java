@@ -46,7 +46,7 @@ public class FieldTest {
 		StringField deserialized = new StringField();
 		deserializeAndTest(original, deserialized);
 	}
-	
+
 	@Test
 	public void testCompleteBooleanSerialization() {
 		BooleanField original1 = new BooleanField(true);
@@ -70,7 +70,7 @@ public class FieldTest {
 		Assert.assertEquals(original.getSerializationSize(), deserialized.getSerializationSize());
 		Assert.assertEquals(original.getString(), deserialized.getString());
 	}
-	
+
 	private static void deserializeAndTest(BooleanField original, BooleanField deserialized) {
 		ByteArrayOutputStream out1 = new ByteArrayOutputStream();
 		serializeAndUnserialize(out1, original, deserialized);

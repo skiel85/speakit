@@ -17,11 +17,11 @@ import speakit.io.WrongBlockNumberException;
 
 public class BasicBlocksFileTest {
 
-	private static final int	BLOCK_SIZE	= 256;
+	private static final int BLOCK_SIZE = 256;
 
-	File						file;
+	File file;
 
-	BasicBlocksFile					sut;
+	BasicBlocksFile sut;
 
 	@Before
 	public void setUp() throws Exception {
@@ -64,12 +64,12 @@ public class BasicBlocksFileTest {
 	@Test
 	public void testWriteAndRead() throws Exception {
 		sut.appendBlock();
-		byte[] content = new byte[]{1, 5, 3};
+		byte[] content = new byte[] { 1, 5, 3 };
 		int newBlockNumber = sut.appendBlock();
 		sut.write(newBlockNumber, content);
 		// meto un bloque en el medio para verificar que utilice el número de
 		// bloque
-		sut.write(sut.appendBlock(), new byte[]{23});
+		sut.write(sut.appendBlock(), new byte[] { 23 });
 		Assert.assertArrayEquals(content, Arrays.copyOf(sut.read(newBlockNumber), 3));
 	}
 
@@ -122,20 +122,20 @@ public class BasicBlocksFileTest {
 		// luego de agregar un bloque, el bloque 0 debe estar disponible
 		sut.appendBlock();
 		sut.write(0, content);
-		
+
 		try {
 			sut.read(1);
 			Assert.fail("Se esperaba excepción");
 		} catch (WrongBlockNumberException e) {
 
-		}		
+		}
 	}
-	
+
 	@Test
-	public void testBlockCount() throws IOException{
-		Assert.assertEquals(0,this.sut.getBlockCount());
+	public void testBlockCount() throws IOException {
+		Assert.assertEquals(0, this.sut.getBlockCount());
 		this.sut.appendBlock();
-		Assert.assertEquals(1,this.sut.getBlockCount());
+		Assert.assertEquals(1, this.sut.getBlockCount());
 	}
 
 	// TODO: Si bien hoy el header del archivo se guarda solo

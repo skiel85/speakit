@@ -14,8 +14,8 @@ import datos.reproduccionaudio.exception.SimpleAudioPlayerException;
  * Administra la salida y la entrada de audio.
  */
 public class AudioManager {
-	ByteArrayOutputStream	output		= null;
-	SimpleAudioRecorder		recorder	= null;
+	ByteArrayOutputStream output = null;
+	SimpleAudioRecorder recorder = null;
 
 	/**
 	 * Comienza la grabación del audio (asíncrono).

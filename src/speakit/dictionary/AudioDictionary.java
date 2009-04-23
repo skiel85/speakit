@@ -36,7 +36,7 @@ public interface AudioDictionary {
 	 * @param audio
 	 *            Bytes del audio a insertar.
 	 * @throws IOException
-	 * @throws RecordSerializationException 
+	 * @throws RecordSerializationException
 	 */
 	public void addEntry(String word, Audio audio) throws IOException, RecordSerializationException;
 
@@ -59,5 +59,5 @@ public interface AudioDictionary {
 	 * @return Bytes del audio de la palabra.
 	 * @throws IOException
 	 */
-	public Audio getAudio(String word) throws IOException,WordNotFoundException;
+	public Audio getAudio(String word) throws IOException, WordNotFoundException;
 }

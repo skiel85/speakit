@@ -11,20 +11,19 @@ public class FTRS implements FTRSInterface {
 
 	protected DocumentRepository repository;
 	protected Index index;
+
 	@Override
 	public DocumentList search(String word) {
 		Index index = getIndex();
-		if(index.exists(word)){
+		if (index.exists(word)) {
 			InversedList inversedList = index.getInversedList(word);
 			DocumentRepository repository = getDocumentRepository();
 			DocumentList result = repository.getDocumentList(inversedList);
 			return result;
-		}else{
+		} else {
 			return null;
 		}
-		
-		
-		
+
 	}
 
 	private DocumentRepository getDocumentRepository() {

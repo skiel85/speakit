@@ -12,10 +12,9 @@ public class Main {
 	 * @param args
 	 * @throws SimpleAudioRecorderException
 	 * @throws IOException
-	 * @throws RecordSerializationException 
-	 
+	 * @throws RecordSerializationException
 	 */
-	public static void main(String[] args) throws SimpleAudioRecorderException, IOException, RecordSerializationException{
+	public static void main(String[] args) throws SimpleAudioRecorderException, IOException, RecordSerializationException {
 		Menu menu = new Menu();
 		menu.start();
 	}

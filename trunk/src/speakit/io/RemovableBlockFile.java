@@ -2,6 +2,7 @@ package speakit.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 import speakit.dictionary.files.RecordSerializationException;
 
@@ -30,7 +31,8 @@ public class RemovableBlockFile extends BlockFile {
 		for (int i = 0; i < blockCount; i++) {
 			block = (RemovableBlock) this.getBlock(i);
 			if (block.isRemoved()) {
-				clearBlock(block);
+				block.setRemoved(false);
+				this.clearBlock(block);
 				return block;
 			}
 		}
@@ -70,10 +72,8 @@ public class RemovableBlockFile extends BlockFile {
 		removeBlock((RemovableBlock) this.getBlock(blockNumber));
 	}
 
-	//	
-	// @Override
-	// public Iterator<Block> iterator() {
-	// return new BytesBlocksFileIterator(this);
-	// }
+	public Iterator<RemovableBlock> iterator() throws RecordSerializationException {
+		return new RemovableBlockFileIterator(this);
+	}
 
 }

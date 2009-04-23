@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import speakit.dictionary.files.RecordSerializationException;
 import speakit.io.BlocksFile;
-import speakit.io.BytesBlock;
 import speakit.io.BytesBlocksFile;
 import speakit.io.RemovableBlock;
 import speakit.io.RemovableBlockFile;
@@ -58,9 +57,8 @@ public class RemovableBlockFileTest {
 		Assert.assertEquals(second.getBlockNumber(), sut.getNewBlock().getBlockNumber());
 	}
 
-	/*
 	@Test
-	public void testIteratesOnlyOverActiveBlocks() throws IOException {
+	public void testIteratesOnlyOverActiveBlocks() throws IOException, RecordSerializationException {
 		RemovableBlock first = (RemovableBlock) sut.getNewBlock();
 		RemovableBlock second = (RemovableBlock) sut.getNewBlock();
 		RemovableBlock third = (RemovableBlock) sut.getNewBlock();
@@ -69,7 +67,7 @@ public class RemovableBlockFileTest {
 		RemovableBlock fifth = (RemovableBlock) sut.getNewBlock();
 		sut.removeBlock(fifth);
 
-		Iterator<BytesBlock> iterator = sut.iterator();
+		Iterator<RemovableBlock> iterator = sut.iterator();
 		// Assert.assertEquals(true,iterator.hasNext());
 		Assert.assertEquals(first.getBlockNumber(), iterator.next().getBlockNumber());
 		// Assert.assertEquals(true,iterator.hasNext());
@@ -80,6 +78,5 @@ public class RemovableBlockFileTest {
 		iterator.next();
 		// Assert.assertEquals(false,iterator.hasNext());
 	}
-	*/
 
 }

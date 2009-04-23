@@ -14,7 +14,6 @@ public class RemovableBlockFile extends BlockFile {
 
 	public RemovableBlockFile(File file) {
 		super(file);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

@@ -10,7 +10,7 @@ import org.junit.Test;
 import speakit.dictionary.files.RecordSerializationException;
 import speakit.io.RemovableBlock;
 
-public class BlockTest {
+public class RemovableBlockTest {
 
 	@Before
 	public void setUp() throws Exception {

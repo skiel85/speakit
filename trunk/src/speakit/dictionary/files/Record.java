@@ -18,9 +18,9 @@ public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>
 	private ArrayList<Field> fields = new ArrayList<Field>();
 
 	public void notifyOffsetChanged(long offset) {
-		
+
 	}
-	
+
 	/**
 	 * Establece el campo clave.
 	 * 
@@ -88,7 +88,7 @@ public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>
 	public int compareTo(Record<KEYTYPE> o) {
 		return this.key.compareTo(o.key);
 	}
-	
+
 	/**
 	 * Compara la clave de un registro con un campo.
 	 */
@@ -97,13 +97,13 @@ public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>
 	}
 
 	public byte[] serialize() throws IOException, RecordSerializationException {
-		ByteArrayOutputStream out=new ByteArrayOutputStream();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		this.serialize(out);
 		return out.toByteArray();
 	}
 
 	public void deserialize(byte[] data) throws IOException, RecordSerializationException {
-		ByteArrayInputStream in = new ByteArrayInputStream(data); 
+		ByteArrayInputStream in = new ByteArrayInputStream(data);
 		this.deserialize(in);
 	}
 }

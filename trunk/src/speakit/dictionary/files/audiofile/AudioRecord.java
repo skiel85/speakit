@@ -19,7 +19,7 @@ public class AudioRecord extends Record<LongField> {
 		this.setKey(this.offset);
 		this.addField(this.audio);
 	}
-	
+
 	@Override
 	public void notifyOffsetChanged(long offset) {
 		this.offset.setLong(offset);

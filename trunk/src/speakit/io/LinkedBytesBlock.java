@@ -17,13 +17,13 @@ import speakit.dictionary.serialization.IntegerField;
  */
 public class LinkedBytesBlock extends BytesBlock {
 
-	private int		nextBlockNumber;
-	private byte[]	content;
+	private int nextBlockNumber;
+	private byte[] content;
 
 	public LinkedBytesBlock(int blockNumber) {
 		super(blockNumber);
 		nextBlockNumber = -1;
-		content = new byte[]{};
+		content = new byte[] {};
 	}
 
 	public void setNextBlockNumber(int nextBlockNumber) {
@@ -48,7 +48,7 @@ public class LinkedBytesBlock extends BytesBlock {
 	public void setBytes(byte[] content) {
 		this.content = content;
 		if (this.content == null) {
-			this.content = new byte[]{};
+			this.content = new byte[] {};
 		}
 	}
 
@@ -84,21 +84,24 @@ public class LinkedBytesBlock extends BytesBlock {
 
 	/**
 	 * copia todo el contenido desde otro bloque
+	 * 
 	 * @param other
 	 * @throws IOException
 	 */
-	public void copyFrom(LinkedBytesBlock other) throws IOException{
+	public void copyFrom(LinkedBytesBlock other) throws IOException {
 		deserialize(other.serialize());
 	}
 
 	/**
-	 * elimina de content los bytes que indique en overflowLength y copia los bytes eliminados en un bloque pasado como parametro
+	 * elimina de content los bytes que indique en overflowLength y copia los
+	 * bytes eliminados en un bloque pasado como parametro
+	 * 
 	 * @param overflowLength
 	 * @param writeOn
 	 * @return
 	 */
-	public LinkedBytesBlock truncateOverflow(int overflowLength,LinkedBytesBlock writeOn) {
-		this.nextBlockNumber=writeOn.getBlockNumber();
+	public LinkedBytesBlock truncateOverflow(int overflowLength, LinkedBytesBlock writeOn) {
+		this.nextBlockNumber = writeOn.getBlockNumber();
 		writeOn.content = Arrays.copyOfRange(this.content, this.content.length - overflowLength, this.content.length);
 		this.content = Arrays.copyOf(this.content, this.content.length - overflowLength);
 		return writeOn;
@@ -106,6 +109,7 @@ public class LinkedBytesBlock extends BytesBlock {
 
 	/**
 	 * Concatena al content el contenido del bloque siguiente
+	 * 
 	 * @param nextBlock
 	 * @throws IOException
 	 */
@@ -113,7 +117,6 @@ public class LinkedBytesBlock extends BytesBlock {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		out.write(this.content);
 		out.write(nextBlock.content);
-		this.content=out.toByteArray();
+		this.content = out.toByteArray();
 	}
 }
-

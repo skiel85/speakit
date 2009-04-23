@@ -15,11 +15,11 @@ public class TextDocument implements Iterable<String> {
 	public void add(String word) {
 		words.add(word);
 	}
-	
-	public ArrayList<String> getRelevantTerms(){
+
+	public ArrayList<String> getRelevantTerms() {
 		return words;
 	}
-	
+
 	public ArrayList<String> getPreview() {
 		ArrayList<String> preview = new ArrayList<String>(words.subList(0, 20));
 		return preview;

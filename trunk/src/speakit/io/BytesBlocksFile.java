@@ -5,17 +5,17 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * Es un archivo de bloques que extiene la funcionalidad de BlocksFile agregando la posibilidad de eliminar bloques y de crear nuevos reutilizando eliminados
- *
+ * Es un archivo de bloques que extiene la funcionalidad de BlocksFile agregando
+ * la posibilidad de eliminar bloques y de crear nuevos reutilizando eliminados
+ * 
  */
-public class BytesBlocksFile implements BlocksFile,Iterable<BytesBlock> {
+public class BytesBlocksFile implements BlocksFile, Iterable<BytesBlock> {
 
 	private BasicBlocksFile bbfile;
-	
-	public BytesBlocksFile(File file) {
-		bbfile=new BasicBlocksFileImpl(file);
-	}
 
+	public BytesBlocksFile(File file) {
+		bbfile = new BasicBlocksFileImpl(file);
+	}
 
 	@Override
 	public void create(int blockSize) throws IOException {
@@ -35,39 +35,42 @@ public class BytesBlocksFile implements BlocksFile,Iterable<BytesBlock> {
 	@Override
 	public void load() throws IOException {
 		bbfile.load();
-	} 
-	
+	}
 
 	/**
-	 * Crea un bloque nuevo. Si hay bloques eliminados se reutilizan, sino se agrega uno al final.
+	 * Crea un bloque nuevo. Si hay bloques eliminados se reutilizan, sino se
+	 * agrega uno al final.
+	 * 
 	 * @return
 	 * @throws IOException
 	 */
 	public BytesBlock getNewBlock() throws IOException {
 		int blockCount = this.bbfile.getBlockCount();
-		for(int i = 0;i<blockCount;i++){
+		for (int i = 0; i < blockCount; i++) {
 			BytesBlock block = this.getBlock(i);
-			if (block.getIsRemoved()){ 
+			if (block.getIsRemoved()) {
 				return prepareNewBlock(block);
 			}
 		}
 		return prepareNewBlock(this.createBlock(bbfile.appendBlock()));
 	}
-	
+
 	/**
 	 * Limplia el bloque, lo marca como no eliminado, lo guarda y lo devuelve
+	 * 
 	 * @param block
 	 * @return
 	 * @throws IOException
 	 */
-	private BytesBlock prepareNewBlock(BytesBlock block) throws IOException{
+	private BytesBlock prepareNewBlock(BytesBlock block) throws IOException {
 		block.prepareAsNew();
 		this.saveBlock(block);
 		return block;
 	}
-	
+
 	/**
 	 * Obtiene un bloque del archivo
+	 * 
 	 * @param blockNumber
 	 * @return
 	 * @throws IOException
@@ -75,19 +78,19 @@ public class BytesBlocksFile implements BlocksFile,Iterable<BytesBlock> {
 	public BytesBlock getBlock(int blockNumber) throws IOException {
 		BytesBlock block = createBlock(blockNumber);
 		byte[] serializationData = this.bbfile.read(block.getBlockNumber());
-		if(serializationData.length>0){
-			block.deserialize(serializationData);	
+		if (serializationData.length > 0) {
+			block.deserialize(serializationData);
 		}
 		return block;
 	}
 
-
 	protected BytesBlock createBlock(int blockNumber) {
 		return new BytesBlock(blockNumber);
-	} 
-	
+	}
+
 	/**
 	 * Marca un bloque como eliminado
+	 * 
 	 * @param block
 	 * @throws BlocksFileOverflowException
 	 * @throws WrongBlockNumberException
@@ -97,9 +100,10 @@ public class BytesBlocksFile implements BlocksFile,Iterable<BytesBlock> {
 		block.setIsRemoved(true);
 		saveBlock(block);
 	}
-	
+
 	/**
 	 * Marca un bloque como eliminado
+	 * 
 	 * @param block
 	 * @throws BlocksFileOverflowException
 	 * @throws WrongBlockNumberException
@@ -110,22 +114,21 @@ public class BytesBlocksFile implements BlocksFile,Iterable<BytesBlock> {
 		block.setIsRemoved(true);
 		saveBlock(block);
 	}
-	
+
 	/**
 	 * Guarda un bloque en el archivo
+	 * 
 	 * @param block
 	 * @throws IOException
 	 */
-	public void saveBlock( BytesBlock block) throws IOException{
+	public void saveBlock(BytesBlock block) throws IOException {
 		byte[] blockSerialization = block.serialize();
 		this.bbfile.write(block.getBlockNumber(), blockSerialization);
 	}
-
 
 	@Override
 	public Iterator<BytesBlock> iterator() {
 		return new BytesBlocksFileIterator(this);
 	}
-	
-	
+
 }

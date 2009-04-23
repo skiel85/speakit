@@ -20,10 +20,10 @@ public class AudioFile implements RecordFactory<AudioRecord> {
 	 * 
 	 * @param file
 	 *            Archivo.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public AudioFile(File file) throws IOException {
-		this.recordFile = new SecuentialRecordFile<AudioRecord, LongField>(file , this);
+		this.recordFile = new SecuentialRecordFile<AudioRecord, LongField>(file, this);
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class AudioFile implements RecordFactory<AudioRecord> {
 	 *            Audio que se agregará.
 	 * @return Offset donde se agregó el audio.
 	 * @throws IOException
-	 * @throws RecordSerializationException 
+	 * @throws RecordSerializationException
 	 */
 	public long addAudio(Audio audio) throws IOException, RecordSerializationException {
 		AudioRecord record = new AudioRecord(audio.getBytes());

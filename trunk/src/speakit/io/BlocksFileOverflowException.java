@@ -2,10 +2,10 @@ package speakit.io;
 
 public class BlocksFileOverflowException extends BlocksFileException {
 
-	private static final long	serialVersionUID	= 1L;
-	private int					overflowLenght		= 0;
-	private final int			blockSize;
-	private final int			actualDataLength;
+	private static final long serialVersionUID = 1L;
+	private int overflowLenght = 0;
+	private final int blockSize;
+	private final int actualDataLength;
 
 	public BlocksFileOverflowException(int blockSize, int actualDataLength) {
 		super("");

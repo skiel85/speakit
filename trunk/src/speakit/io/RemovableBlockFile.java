@@ -64,16 +64,16 @@ public class RemovableBlockFile extends BlockFile {
 	 * @throws BlocksFileOverflowException
 	 * @throws WrongBlockNumberException
 	 * @throws IOException
-	 * @throws RecordSerializationException 
+	 * @throws RecordSerializationException
 	 */
 	public void removeBlock(int blockNumber) throws BlocksFileOverflowException, WrongBlockNumberException, IOException, RecordSerializationException {
 		removeBlock((RemovableBlock) this.getBlock(blockNumber));
 	}
 
-//	
-//	 @Override
-//	public Iterator<Block> iterator() {
-//		return new BytesBlocksFileIterator(this);
-//	}
+	//	
+	// @Override
+	// public Iterator<Block> iterator() {
+	// return new BytesBlocksFileIterator(this);
+	// }
 
 }

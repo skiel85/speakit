@@ -25,7 +25,8 @@ public interface SpeakitInterface {
 
 	/**
 	 * Registra un WordAudio en el sistema. Indexa la palabra con el audio
-	 * @throws RecordSerializationException 
+	 * 
+	 * @throws RecordSerializationException
 	 */
 	public abstract void addWordAudio(WordAudio audio) throws IOException, RecordSerializationException;
 

@@ -21,9 +21,9 @@ public class ByteArrayField extends Field {
 	}
 
 	public void setBytes(byte[] value) {
-		if (value==null){
-			this.value = new byte[]{};
-		}else{
+		if (value == null) {
+			this.value = new byte[] {};
+		} else {
 			this.value = value;
 		}
 	}

@@ -68,9 +68,11 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 		return record;
 	}
 
-	/** Obtiene un registro a partir de su clave. 
+	/**
+	 * Obtiene un registro a partir de su clave.
 	 * 
-	 * @param key Clave a buscar.
+	 * @param key
+	 *            Clave a buscar.
 	 * @return Registro con la clave buscada.
 	 * @throws IOException
 	 */
@@ -88,7 +90,7 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 		}
 		return null;
 	}
-	
+
 	@Override
 	public boolean contains(KEYTYPE key) throws IOException {
 		RECTYPE record = this.getRecord(key);
@@ -101,11 +103,11 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 	 * @param record
 	 *            Registro a escribir.
 	 * @throws IOException
-	 * @throws RecordSerializationException 
+	 * @throws RecordSerializationException
 	 */
 	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
-			record.notifyOffsetChanged(this.outputStream.getPosition());
-			record.serialize(this.outputStream);
+		record.notifyOffsetChanged(this.outputStream.getPosition());
+		record.serialize(this.outputStream);
 	}
 
 	/**

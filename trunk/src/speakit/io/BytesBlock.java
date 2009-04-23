@@ -9,9 +9,9 @@ import speakit.dictionary.serialization.ByteArrayField;
 
 public class BytesBlock {
 
-	private boolean	removed;
-	private byte[]	content;
-	private int		blockNumber;
+	private boolean removed;
+	private byte[] content;
+	private int blockNumber;
 
 	public BytesBlock(int blockNumber) {
 		this.blockNumber = blockNumber;
@@ -23,7 +23,7 @@ public class BytesBlock {
 
 	public void setBytes(byte[] content) {
 		if (content == null) {
-			this.content = new byte[]{};
+			this.content = new byte[] {};
 		} else {
 			this.content = content;
 		}
@@ -68,6 +68,6 @@ public class BytesBlock {
 
 	public void prepareAsNew() {
 		this.removed = false;
-		this.content = new byte[]{};
+		this.content = new byte[] {};
 	}
 }

@@ -60,28 +60,29 @@ public class BlockFile {
 	 * 
 	 * @return
 	 * @throws IOException
-	 * @throws RecordSerializationException 
+	 * @throws RecordSerializationException
 	 */
 	public Block getNewBlock() throws IOException, RecordSerializationException {
-		return getBlock( this.file.appendBlock());
+		return getBlock(this.file.appendBlock());
 	}
-	
+
 	/**
 	 * Obtiene un bloque del archivo
+	 * 
 	 * @param blockNumber
 	 * @return
 	 * @throws IOException
-	 * @throws RecordSerializationException 
+	 * @throws RecordSerializationException
 	 */
 	public Block getBlock(int blockNumber) throws IOException, RecordSerializationException {
 		Block block = this.createBlock(blockNumber);
 		block.deserialize(this.file.read(blockNumber));
 		return block;
 	}
-	
 
 	/**
 	 * Crea un nuevo bloque
+	 * 
 	 * @param blockNumber
 	 * @return
 	 */
@@ -93,7 +94,7 @@ public class BlockFile {
 	 * Guarda un bloque en el archivo
 	 * 
 	 * @param block
-	 * @throws IOException 
+	 * @throws IOException
 	 * @throws RecordSerializationException
 	 */
 	public void saveBlock(Block block) throws IOException, RecordSerializationException {
@@ -105,15 +106,16 @@ public class BlockFile {
 	protected int getBlockCount() throws IOException {
 		return this.file.getBlockCount();
 	}
-	
+
 	/**
 	 * Limplia el bloque, lo marca como no eliminado, lo guarda y lo devuelve
+	 * 
 	 * @param block
 	 * @return
 	 * @throws IOException
-	 * @throws RecordSerializationException 
+	 * @throws RecordSerializationException
 	 */
-	protected Block clearBlock(Block block) throws IOException, RecordSerializationException{
+	protected Block clearBlock(Block block) throws IOException, RecordSerializationException {
 		block.clear();
 		this.saveBlock(block);
 		return block;

@@ -10,7 +10,6 @@ import speakit.dictionary.AudioDictionaryImpl;
 import speakit.dictionary.DictionaryFileSet;
 import speakit.dictionary.files.RecordSerializationException;
 import speakit.ftrs.index.Index;
-import speakit.ftrs.index.IndexRecord;
 import speakit.ftrs.index.Indexer;
 import speakit.wordreader.WordReader;
 import speakit.wordreader.WordReaderImpl;
@@ -81,7 +80,9 @@ public class Speakit implements SpeakitInterface {
 
 	/**
 	 * Procesa el documento para poder recuperarlo mediante el modulo FTRS
-	 * @param doc Documento a Indexar
+	 * 
+	 * @param doc
+	 *            Documento a Indexar
 	 */
 	private void indexDocument(TextDocument doc) {
 		ArrayList<String> terms = doc.getRelevantTerms();
@@ -89,9 +90,8 @@ public class Speakit implements SpeakitInterface {
 		indexer.indexTerms(index, terms);
 	}
 
-	
-	public WordAudioDocument convertToAudioDocument(TextDocument doc) throws IOException { 
-		return new WordAudioDocument(this.dataBase,doc); 
+	public WordAudioDocument convertToAudioDocument(TextDocument doc) throws IOException {
+		return new WordAudioDocument(this.dataBase, doc);
 	}
 
 	public void addWordAudio(WordAudio audio) throws IOException, RecordSerializationException {

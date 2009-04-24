@@ -2,44 +2,29 @@ package speakit.ftrs;
 
 import java.util.ArrayList;
 
+import speakit.TextDocument;
+import speakit.documentstorage.Document;
 import speakit.documentstorage.DocumentList;
-import speakit.documentstorage.DocumentRepository;
-import speakit.ftrs.index.Index;
-import speakit.ftrs.index.InversedList;
+import speakit.ftrs.index.InvertedList;
 
-public class FTRS implements FTRSInterface {
-
-	protected DocumentRepository repository;
-	protected Index index;
-
-	@Override
-	public DocumentList search(String word) {
-		Index index = getIndex();
-		if (index.exists(word)) {
-			InversedList inversedList = index.getInversedList(word);
-			DocumentRepository repository = getDocumentRepository();
-			DocumentList result = repository.getDocumentList(inversedList);
-			return result;
-		} else {
-			return null;
-		}
-
-	}
-
-	private DocumentRepository getDocumentRepository() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Index getIndex() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public InversedList getRankedList(ArrayList<InversedList> inversedLists) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+public interface FTRS {
+	/**
+	 * Devuelve un listado con los documentos q contienen la palabra pasada como
+	 * parametro
+	 * 
+	 * @param word
+	 *            palabra presente en le consulta
+	 * @return DocumentList
+	 */
+	public DocumentList search(String word);
+	
+	public InvertedList getRankedList(ArrayList<InvertedList> invertedLists);
+	
+	/**
+	 * Indexa una lista de documentos
+	 * @param documentList
+	 */
+	public void indexDocuments(ArrayList<TextDocument> documentList);
+	
+	public void indexDocuments(TextDocument textDocument);
 }

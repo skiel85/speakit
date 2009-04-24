@@ -12,7 +12,7 @@ import speakit.audio.AudioManagerException;
 import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
 import speakit.documentstorage.DocumentList;
-import speakit.ftrs.FTRS;
+import speakit.ftrs.FTRSImpl;
 import speakit.wordreader.TextCleaner;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
@@ -262,7 +262,7 @@ public class Menu {
 		String[] wordsOfConsultation;
 		String consultation = "";
 		DocumentList documentList;
-		FTRS ftrs = new FTRS();
+		FTRSImpl ftrs = new FTRSImpl();
 		System.out.println("Ingrese la consulta");
 		consultation = this.userInput.readLine();
 		TextCleaner cleaner = new TextCleaner();

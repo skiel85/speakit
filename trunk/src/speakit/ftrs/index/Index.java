@@ -4,17 +4,19 @@ import java.util.ArrayList;
 
 public class Index {
 
-	protected ArrayList<IndexRecord> records = new ArrayList<IndexRecord>();
+	protected ArrayList<IndexRecord> records;
 
 	public boolean exists(String word) {
 		return false;
 	}
 
-	public InversedList getInversedList(String word) {
+	public InvertedList getInversedList(String word) {
 		return null;
 	}
 
-	public void updateAppearances(ArrayList<IndexRecord> records) {
-		this.records.addAll(records);
+	public void updateRecords(ArrayList<IndexRecord> records) {
+		//aca deberia, en el modelo final, agregarse las entradas, 
+		//en el modelo de prueba, por lo menos, mergearse las coleccioness
+		this.records = records;
 	}
 }

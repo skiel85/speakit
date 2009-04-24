@@ -1,8 +1,8 @@
 package speakit.documentstorage;
 
-import speakit.ftrs.index.InversedList;
+import speakit.ftrs.index.InvertedList;
 
 public interface DocumentRepository {
 
-	public DocumentList getDocumentList(InversedList inversedList);
+	public DocumentList getDocumentList(InvertedList invertedList);
 }

@@ -3,11 +3,13 @@ package speakit.compression.test;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.compression.FrontCodingCompressor;
 import speakit.compression.FrontCodedWord;;
 
+@Ignore
 public class FrontCodingCompressorTest {
 
 	private FrontCodingCompressor compressor;

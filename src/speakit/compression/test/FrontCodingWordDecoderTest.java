@@ -4,11 +4,13 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.compression.FrontCodedWord;
 import speakit.compression.FrontCodingWordDecoder; 
 
+@Ignore
 public class FrontCodingWordDecoderTest {
 
 	private FrontCodingWordDecoder decoder;

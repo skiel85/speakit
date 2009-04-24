@@ -14,7 +14,7 @@ import speakit.dictionary.files.audiofile.AudioFile;
 public class Document {
 	protected TextDocument textDocument;
 	protected AudioFile audioDocument;
-
+	
 	public TextDocument asTextDocument() {
 		return textDocument;
 	}

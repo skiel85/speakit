@@ -24,4 +24,9 @@ public class TextDocument implements Iterable<String> {
 		ArrayList<String> preview = new ArrayList<String>(words.subList(0, 20));
 		return preview;
 	}
+
+	public int getId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

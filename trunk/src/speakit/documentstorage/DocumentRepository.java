@@ -1,8 +1,15 @@
 package speakit.documentstorage;
 
-import speakit.ftrs.index.InvertedList;
+import speakit.TextDocument;
 
-public interface DocumentRepository {
+//TODO implementar esta clase
+public class DocumentRepository {
 
-	public DocumentList getDocumentList(InvertedList invertedList);
+	public TextDocument getDocumentById(Long docId){
+		return new TextDocument();		
+	}
+	
+	public Long store(TextDocument newDoc){
+		return 0L;		
+	}
 }

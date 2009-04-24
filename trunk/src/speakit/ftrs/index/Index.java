@@ -10,7 +10,7 @@ public class Index {
 		return false;
 	}
 
-	public InvertedList getInversedList(String word) {
+	public InvertedList getInvertedList(String word) {
 		return null;
 	}
 

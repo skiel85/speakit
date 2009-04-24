@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import speakit.dictionary.AudioDictionaryImpl;
 import speakit.dictionary.DictionaryFileSet;
 import speakit.dictionary.files.RecordSerializationException;
+import speakit.documentstorage.DocumentRepository;
 import speakit.ftrs.FTRS;
 import speakit.ftrs.FTRSImpl;
 import speakit.wordreader.WordReader;
@@ -23,6 +24,7 @@ public class Speakit implements SpeakitInterface {
 
 	private AudioDictionaryImpl dataBase;
 	private FTRS ftrs = new FTRSImpl();
+	private DocumentRepository repository=new DocumentRepository();
 
 	/**
 	 * Carga Speakit con el conjunto de archivos predeterminado.
@@ -89,8 +91,8 @@ public class Speakit implements SpeakitInterface {
 	 *            Documento a Indexar
 	 */
 	private void indexDocument(TextDocument doc) {
-		FTRS ftrs = getFTRS();
-		ftrs.indexDocuments(doc);
+		this.ftrs.indexDocuments(doc);
+		this.repository.store(doc);
 	}
 
 	public WordAudioDocument convertToAudioDocument(TextDocument doc) throws IOException {

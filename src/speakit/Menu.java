@@ -11,9 +11,8 @@ import speakit.audio.AudioManager;
 import speakit.audio.AudioManagerException;
 import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
-import speakit.documentstorage.DocumentList;
-import speakit.ftrs.FTRSImpl;
-import speakit.wordreader.TextCleaner;
+import speakit.documentstorage.TextDocumentList;
+import speakit.ftrs.FTRS;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 /**
@@ -67,6 +66,7 @@ public class Menu {
 
 	String pathCache = "1.txt";
 	private BufferedReader userInput;
+	private FTRS ftrs;
 
 	/**
 	 * Pide una ruta de archivo al usuario.
@@ -261,12 +261,11 @@ public class Menu {
 	private void doConsultation() throws IOException {
 		String[] wordsOfConsultation;
 		String consultation = "";
-		DocumentList documentList;
-		FTRSImpl ftrs = new FTRSImpl();
+		TextDocumentList documentList;
+		
 		System.out.println("Ingrese la consulta");
 		consultation = this.userInput.readLine();
-		TextCleaner cleaner = new TextCleaner();
-		wordsOfConsultation = cleaner.getWords(consultation);
+		TextDocument searchText = new TextDocument();
 		/*
 		 * aca hay que hacer un metodo que tome a este array de terminos y
 		 * devuelva el array ordenado por peso global para luego poder devolver
@@ -275,7 +274,7 @@ public class Menu {
 		 * getDocumntsFor() de FTRS para obtener todos los documentos
 		 */
 
-		documentList = ftrs.search(wordsOfConsultation[0]);
+		documentList = ftrs.search(searchText);
 
 		// hay que ver que hacer en este caso
 
@@ -292,7 +291,7 @@ public class Menu {
 
 	}
 
-	private void showResults(DocumentList documentList) {
+	private void showResults(TextDocumentList documentList) {
 		System.out.println("El resultado de la consulta es el siguiente:");
 		// metodo que muestre documentos
 

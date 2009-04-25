@@ -14,6 +14,7 @@ public class LinkedBlock extends RemovableBlock {
 	public LinkedBlock(int blockNumber) {
 		super(blockNumber);
 		this.addField(nextBlockNumber);
+		this.clear();
 	}
 
 	public void setNextBlockNumber(int nextBlockNumber) {

@@ -7,9 +7,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.io.LinkedBytesBlock;
+import speakit.io.LinkedBlock;
 
-public class LinkedBytesBlockTest {
+public class LinkedBlockTest {
 
 	@Before
 	public void setUp() throws Exception {
@@ -21,18 +21,18 @@ public class LinkedBytesBlockTest {
 
 	@Test
 	public void testInitialState() throws IOException {
-		LinkedBytesBlock block = new LinkedBytesBlock(0);
+		LinkedBlock block = new LinkedBlock(0);
 		Assert.assertEquals(-1, block.getNextBlockNumber());
-		Assert.assertEquals(false, block.getIsRemoved());
-		Assert.assertArrayEquals(new byte[] {}, block.getBytes());
+		Assert.assertEquals(false, block.isRemoved());
+		Assert.assertArrayEquals(new byte[] {}, block.getContent());
 	}
 
 	@Test
 	public void testSerialization1() throws IOException {
 		byte[] testBytes = new byte[] { 1, 31, 32, 76 };
-		LinkedBytesBlock block = new LinkedBytesBlock(0);
-		block.setBytes(testBytes);
-		block.setIsRemoved(true);
+		LinkedBlock block = new LinkedBlock(0);
+		block.setContent(testBytes);
+		block.setRemoved(true);
 		block.setNextBlockNumber(1);
 		serializeUnserializeAndTest(block);
 	}
@@ -40,9 +40,9 @@ public class LinkedBytesBlockTest {
 	@Test
 	public void testSerialization2() throws IOException {
 		byte[] testBytes = new byte[1000];
-		LinkedBytesBlock block = new LinkedBytesBlock(4);
-		block.setBytes(testBytes);
-		block.setIsRemoved(false);
+		LinkedBlock block = new LinkedBlock(4);
+		block.setContent(testBytes);
+		block.setRemoved(false);
 		block.setNextBlockNumber(12);
 		serializeUnserializeAndTest(block);
 	}
@@ -50,19 +50,19 @@ public class LinkedBytesBlockTest {
 	@Test
 	public void testSerialization3() throws IOException {
 		byte[] testBytes = null;
-		LinkedBytesBlock block = new LinkedBytesBlock(4);
-		block.setBytes(testBytes);
-		block.setIsRemoved(false);
+		LinkedBlock block = new LinkedBlock(4);
+		block.setContent(testBytes);
+		block.setRemoved(false);
 		block.setNextBlockNumber(12);
 		serializeUnserializeAndTest(block);
 	}
 
-	private void serializeUnserializeAndTest(LinkedBytesBlock block) throws IOException {
-		LinkedBytesBlock deserializedBlock = new LinkedBytesBlock(0);
+	private void serializeUnserializeAndTest(LinkedBlock block) throws IOException {
+		LinkedBlock deserializedBlock = new LinkedBlock(0);
 		deserializedBlock.deserialize(block.serialize());
-		Assert.assertEquals(block.getIsRemoved(), deserializedBlock.getIsRemoved());
+		Assert.assertEquals(block.isRemoved(), deserializedBlock.isRemoved());
 		Assert.assertEquals(block.getNextBlockNumber(), deserializedBlock.getNextBlockNumber());
-		Assert.assertArrayEquals(block.getBytes(), deserializedBlock.getBytes());
+		Assert.assertArrayEquals(block.getContent(), deserializedBlock.getContent());
 	}
 
 	// TODO: crear a partir de un bloque deserializado y probar que se levante

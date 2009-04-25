@@ -9,14 +9,14 @@ import java.util.Arrays;
 
 import speakit.dictionary.serialization.IntegerField;
 
-public class BasicBlocksFileImpl implements BasicBlocksFile {
+public class BasicBlockFileImpl implements BasicBlockFile {
 	private int blockSize;
 	private final File file;
 	private int HEADER_BLOCK_QTY = 1;
 
 	private RandomAccessFile randomFile;
 
-	public BasicBlocksFileImpl(File file) {
+	public BasicBlockFileImpl(File file) {
 		this.file = file;
 	}
 

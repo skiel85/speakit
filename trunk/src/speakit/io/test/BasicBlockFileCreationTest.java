@@ -8,21 +8,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.io.BasicBlocksFileImpl;
-import speakit.io.BlocksFile;
+import speakit.io.BasicBlockFile;
+import speakit.io.BasicBlockFileImpl;
 
-public class BasicBlocksFileCreationTest {
+public class BasicBlockFileCreationTest {
 
 	private static final int BLOCK_SIZE = 512;
 
 	File file;
 
-	private BlocksFile createdFile;
+	private BasicBlockFile createdFile;
 
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		this.createdFile = new BasicBlocksFileImpl(this.file);
+		this.createdFile = new BasicBlockFileImpl(this.file);
 		this.createdFile.create(BLOCK_SIZE);
 	}
 

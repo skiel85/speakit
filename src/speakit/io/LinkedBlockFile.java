@@ -24,7 +24,7 @@ public class LinkedBlockFile extends RemovableBlockFile {
 			// TODO: aquí verificar que si tiene nextBlockNumber>0, esto querría
 			// decir que se guardó sin necesidad de bloques nuevos
 			// en ese caso habría que eliminar en cascada los bloques siguientes
-		} catch (BlocksFileOverflowException ex) {
+		} catch (BlockFileOverflowException ex) {
 			// Solo trabaja con bloques de tipo LinkedBytesBlock
 			LinkedBlock startBlock = new LinkedBlock(block.getBlockNumber());
 			startBlock.copyFrom((LinkedBlock) block);

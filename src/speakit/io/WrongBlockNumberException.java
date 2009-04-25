@@ -1,6 +1,6 @@
 package speakit.io;
 
-public class WrongBlockNumberException extends BlocksFileException {
+public class WrongBlockNumberException extends BlockFileException {
 
 	/**
 	 * 

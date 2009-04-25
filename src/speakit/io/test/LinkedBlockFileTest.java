@@ -9,9 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.io.Block;
-import speakit.io.BlocksFile;
+import speakit.io.BlockFile;
 import speakit.io.LinkedBlockFile;
-import speakit.io.MultiBlocksFile;
 
 public class LinkedBlockFileTest {
 
@@ -24,8 +23,8 @@ public class LinkedBlockFileTest {
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		BlocksFile createdFile;
-		createdFile = new MultiBlocksFile(this.file);
+		BlockFile createdFile;
+		createdFile = (BlockFile) new LinkedBlockFile(this.file);
 		createdFile.create(BLOCK_SIZE);
 
 		sut = new LinkedBlockFile(this.file);

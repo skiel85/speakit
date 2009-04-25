@@ -72,8 +72,12 @@ public class RemovableBlockFile extends BlockFile {
 		removeBlock((RemovableBlock) this.getBlock(blockNumber));
 	}
 
-	public Iterator<RemovableBlock> iterator() throws RecordSerializationException {
-		return new RemovableBlockFileIterator(this);
+	public Iterator<Block> iterator() {
+		try {
+			return new RemovableBlockFileIterator(this);
+		} catch (RecordSerializationException e) {
+			return null;
+		}
 	}
 
 }

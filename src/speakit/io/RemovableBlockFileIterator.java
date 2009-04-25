@@ -6,7 +6,7 @@ import java.util.Iterator;
 import speakit.dictionary.files.RecordSerializationException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class RemovableBlockFileIterator implements Iterator<RemovableBlock> {
+public class RemovableBlockFileIterator implements Iterator<Block> {
 
 	private final RemovableBlockFile	bytesBlocksFile;
 	private int							current		= 0;
@@ -28,7 +28,7 @@ public class RemovableBlockFileIterator implements Iterator<RemovableBlock> {
 	}
 
 	@Override
-	public RemovableBlock next() {
+	public Block next() {
 		RemovableBlock currentBlock;
 		do {
 			currentBlock = this.nextBlock;

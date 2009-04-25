@@ -3,10 +3,11 @@ package speakit.io;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 import speakit.dictionary.files.RecordSerializationException;
 
-public class BlockFile {
+public class BlockFile implements Iterable<Block> {
 
 	private BasicBlocksFileImpl file;
 
@@ -119,5 +120,10 @@ public class BlockFile {
 		block.clear();
 		this.saveBlock(block);
 		return block;
+	}
+
+	@Override
+	public Iterator<Block> iterator() {
+		return new BlockFileIterator(this);
 	}
 }

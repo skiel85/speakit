@@ -5,13 +5,13 @@ import java.util.Iterator;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class BytesBlocksFileIterator implements Iterator<BytesBlock> {
+public class BlockFileIterator implements Iterator<Block> {
 
-	private final BytesBlocksFile bytesBlocksFile;
+	private final BlockFile bytesBlocksFile;
 	private int current = 0;
-	private BytesBlock nextBlock = null;
+	private Block nextBlock = null;
 
-	public BytesBlocksFileIterator(BytesBlocksFile bytesBlocksFile) {
+	public BlockFileIterator(BlockFile bytesBlocksFile) {
 		this.bytesBlocksFile = bytesBlocksFile;
 		this.current = 0;
 		try {
@@ -27,17 +27,15 @@ public class BytesBlocksFileIterator implements Iterator<BytesBlock> {
 	}
 
 	@Override
-	public BytesBlock next() {
-		BytesBlock currentBlock;
-		do {
-			currentBlock = this.nextBlock;
-			this.current++;
-			try {
-				this.nextBlock = bytesBlocksFile.getBlock(current);
-			} catch (IOException e) {
-				this.nextBlock = null;
-			}
-		} while (currentBlock != null && currentBlock.getIsRemoved());
+	public Block next() {
+		Block currentBlock;
+		currentBlock = this.nextBlock;
+		this.current++;
+		try {
+			this.nextBlock = bytesBlocksFile.getBlock(current);
+		} catch (IOException e) {
+			this.nextBlock = null;
+		}
 		return currentBlock;
 	}
 

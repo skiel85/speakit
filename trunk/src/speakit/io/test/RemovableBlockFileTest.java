@@ -11,8 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.dictionary.files.RecordSerializationException;
-import speakit.io.BlocksFile;
-import speakit.io.BytesBlocksFile;
+import speakit.io.Block;
 import speakit.io.RemovableBlock;
 import speakit.io.RemovableBlockFile;
 
@@ -27,8 +26,8 @@ public class RemovableBlockFileTest {
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		BlocksFile createdFile;
-		createdFile = new BytesBlocksFile(this.file);
+		RemovableBlockFile createdFile;
+		createdFile = new RemovableBlockFile(this.file);
 		createdFile.create(BLOCK_SIZE);
 
 		sut = new RemovableBlockFile(this.file);
@@ -67,7 +66,7 @@ public class RemovableBlockFileTest {
 		RemovableBlock fifth = (RemovableBlock) sut.getNewBlock();
 		sut.removeBlock(fifth);
 
-		Iterator<RemovableBlock> iterator = sut.iterator();
+		Iterator<Block> iterator = sut.iterator();
 		// Assert.assertEquals(true,iterator.hasNext());
 		Assert.assertEquals(first.getBlockNumber(), iterator.next().getBlockNumber());
 		// Assert.assertEquals(true,iterator.hasNext());

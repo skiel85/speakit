@@ -12,11 +12,11 @@ import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.serialization.Field;
 
 public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE> {
-	private BytesBlocksFile blocksFile;
+	private BlockFile blocksFile;
 	private RecordFactory<RECTYPE> recordFactory;
 
 	public DirectRecordFile(File file, RecordFactory<RECTYPE> recordFactory) {
-		this.blocksFile = new BytesBlocksFile(file);
+		this.blocksFile = new LinkedBlockFile(file);
 		this.recordFactory = recordFactory;
 	}
 
@@ -36,7 +36,7 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 
 	@Override
 	public RECTYPE getRecord(KEYTYPE key) throws IOException, RecordSerializationException {
-		for (BytesBlock block : this.blocksFile) {
+		for (Block block : this.blocksFile) {
 			RECTYPE record = this.getRecord(key, block);
 			if (record != null) {
 				return record;
@@ -46,12 +46,12 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 	}
 
 	public RECTYPE getRecord(KEYTYPE key, int blockNumber) throws IOException, RecordSerializationException {
-		BytesBlock block = this.blocksFile.getBlock(blockNumber);
+		Block block = this.blocksFile.getBlock(blockNumber);
 		return this.getRecord(key, block);
 	}
 
-	private RECTYPE getRecord(KEYTYPE key, BytesBlock block) throws IOException, RecordSerializationException {
-		ByteArrayInputStream is = new ByteArrayInputStream(block.getBytes());
+	private RECTYPE getRecord(KEYTYPE key, Block block) throws IOException, RecordSerializationException {
+		ByteArrayInputStream is = new ByteArrayInputStream(block.getContent());
 
 		while (is.available() > 0) {
 			RECTYPE record = this.recordFactory.createRecord();
@@ -68,8 +68,8 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		record.serialize(os);
 
-		BytesBlock block = this.blocksFile.getNewBlock();
-		block.setBytes(os.toByteArray());
+		Block block = this.blocksFile.getNewBlock();
+		block.setContent(os.toByteArray());
 		this.blocksFile.saveBlock(block);
 	}
 

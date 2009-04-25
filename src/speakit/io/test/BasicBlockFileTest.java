@@ -9,28 +9,27 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.io.BasicBlocksFile;
-import speakit.io.BasicBlocksFileImpl;
-import speakit.io.BlocksFile;
+import speakit.io.BasicBlockFile;
+import speakit.io.BasicBlockFileImpl;
 import speakit.io.BlocksFileOverflowException;
 import speakit.io.WrongBlockNumberException;
 
-public class BasicBlocksFileTest {
+public class BasicBlockFileTest {
 
 	private static final int BLOCK_SIZE = 256;
 
 	File file;
 
-	BasicBlocksFile sut;
+	BasicBlockFile sut;
 
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		BlocksFile createdFile;
-		createdFile = new BasicBlocksFileImpl(this.file);
+		BasicBlockFile createdFile;
+		createdFile = new BasicBlockFileImpl(this.file);
 		createdFile.create(BLOCK_SIZE);
 
-		sut = new BasicBlocksFileImpl(this.file);
+		sut = new BasicBlockFileImpl(this.file);
 		sut.load();
 	}
 

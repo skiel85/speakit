@@ -9,10 +9,10 @@ import speakit.dictionary.files.RecordSerializationException;
 
 public class BlockFile implements Iterable<Block> {
 
-	private BasicBlocksFileImpl file;
+	private BasicBlockFileImpl file;
 
 	public BlockFile(File file) {
-		this.file = new BasicBlocksFileImpl(file);
+		this.file = new BasicBlockFileImpl(file);
 	}
 
 	/**

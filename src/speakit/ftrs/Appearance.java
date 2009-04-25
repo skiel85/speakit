@@ -1,7 +1,7 @@
 package speakit.ftrs;
 
 
-public class Appearance {
+public class Appearance implements Comparable<Appearance>{
 	private int termId;
 	private int document;
 	
@@ -22,5 +22,11 @@ public class Appearance {
 	 */
 	public int getDocument() {
 		return document;
+	}
+
+	@Override
+	public int compareTo(Appearance o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

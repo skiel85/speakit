@@ -12,20 +12,21 @@ public class IndexRecordGenerator {
 	private ArrayList<TextDocument> docs;
 	private InvertedListGenerator invertedListGenerator;
 	private ArrayList<Term> lexicon;
-	
+
 	public IndexRecordGenerator() {
 		docs = new ArrayList<TextDocument>();
 		invertedListGenerator = new InvertedListGenerator();
 		lexicon = new ArrayList<Term>();
 	}
+
 	public void addDocuments(ArrayList<TextDocument> documentList) {
-		
+
 	}
-	
+
 	public void addSingleDocument(TextDocument textDocument) {
 		docs.add(textDocument);
 	}
-	
+
 	public ArrayList<IndexRecord> generateNewRegisters() {
 		ArrayList<IndexRecord> result = new ArrayList<IndexRecord>();
 		getInvertedListGenerator().processTextDocuments(getDocuments(), getLexicon());
@@ -36,23 +37,26 @@ public class IndexRecordGenerator {
 		}
 		return result;
 	}
+
 	/**
 	 * @return the docs
 	 */
 	public ArrayList<TextDocument> getDocuments() {
 		return docs;
 	}
+
 	/**
 	 * @return the invertedListGenerator
 	 */
 	public InvertedListGenerator getInvertedListGenerator() {
 		return invertedListGenerator;
 	}
+
 	/**
 	 * @return the lexicon
 	 */
 	public ArrayList<Term> getLexicon() {
 		return lexicon;
 	}
-	
+
 }

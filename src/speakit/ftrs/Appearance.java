@@ -1,10 +1,9 @@
 package speakit.ftrs;
 
-
-public class Appearance implements Comparable<Appearance>{
+public class Appearance implements Comparable<Appearance> {
 	private int termId;
 	private int document;
-	
+
 	public Appearance(int termId, int document) {
 		this.termId = termId;
 		this.document = document;

@@ -24,18 +24,16 @@ public class FrontCodingWordDecoderTest {
 	public void tearDown() throws Exception {
 
 	}
- 
 
 	@Test
 	public void testLargeText() {
 		"codo codazo codearse codera cordon corazon".split(" ");
 
-		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 0,"codo")), "codo");
-		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 3,"azo")), "codazo");
-		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 3,"earse")), "codearse");
-		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 4,"ra")), "codera");
-		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 2,"don")), "cordon");
-		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 4,"ura")), "cordura");
+		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 0, "codo")), "codo");
+		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 3, "azo")), "codazo");
+		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 3, "earse")), "codearse");
+		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 4, "ra")), "codera");
+		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 2, "don")), "cordon");
+		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 4, "ura")), "cordura");
 	}
 }
-

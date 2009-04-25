@@ -14,7 +14,7 @@ import speakit.dictionary.serialization.StringField;
  * audio.
  */
 public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
-	private SecuentialRecordFile<AudioIndexRecord, StringField>	recordFile;
+	private SecuentialRecordFile<AudioIndexRecord, StringField> recordFile;
 
 	/**
 	 * Construye un nuevo archivo de registros de índice.
@@ -67,7 +67,7 @@ public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
 	 * @throws IOException
 	 * @throws WordNotFoundException
 	 */
-	public long getOffset(String word) throws IOException, WordNotFoundException{
+	public long getOffset(String word) throws IOException, WordNotFoundException {
 		AudioIndexRecord record = this.recordFile.getRecord(new StringField(word));
 		if (record == null) {
 			throw new WordNotFoundException(word);

@@ -44,7 +44,7 @@ public class FrontCodingWordEncoderTest {
 	public void testEncodeDifferentWords() {
 		String word1 = "alarma";
 		String word2 = "videocable";
-		
+
 		testEncode(encoder.encode(word1), (short) 0, word1);
 		testEncode(encoder.encode(word2), (short) 0, word2);
 	}
@@ -77,8 +77,7 @@ public class FrontCodingWordEncoderTest {
 		testEncode(encoder.encode("cordura"), (short) 4, "ura");
 	}
 
-	private void testEncode(FrontCodedWord wordencoded, short matchingChars,
-			String end) {
+	private void testEncode(FrontCodedWord wordencoded, short matchingChars, String end) {
 		Assert.assertEquals(wordencoded.getMatchingCharacters(), matchingChars);
 		Assert.assertEquals(wordencoded.getEndingCharacters(), end);
 	}

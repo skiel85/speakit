@@ -2,7 +2,7 @@ package speakit.compression;
 
 public class FrontCodingWordDecoder {
 
-	public String decode(FrontCodedWord codedWord){
+	public String decode(FrontCodedWord codedWord) {
 		return codedWord.getEndingCharacters();
 	}
 }

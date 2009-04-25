@@ -38,8 +38,7 @@ public interface BasicBlockFile {
 	 * @throws IOException
 	 */
 	public abstract void load() throws IOException;
-	
-	
+
 	/**
 	 * Crea un bloque nuevo al final del archivo y devuelve el id
 	 * 

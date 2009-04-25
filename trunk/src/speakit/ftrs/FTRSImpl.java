@@ -20,7 +20,7 @@ public class FTRSImpl implements FTRS {
 
 	@Override
 	public TextDocumentList search(TextDocument searchText) {
-		RankedSearchEngine searchEngine = new RankedSearchEngine(this.index,
+		/*RankedSearchEngine searchEngine = new RankedSearchEngine(this.index,
 				10, 0);
 		List<Long> documentIds = searchEngine.search(this.applyFilters(searchText));
 
@@ -29,6 +29,8 @@ public class FTRSImpl implements FTRS {
 			result.add(repository.getDocumentById(docId));
 		}
 		return result;
+		*/
+		return null;
 	}
 
 	private DocumentRepository getDocumentRepository() {
@@ -58,7 +60,8 @@ public class FTRSImpl implements FTRS {
 	public void indexDocuments(TextDocument textDocument) {
 		IndexRecordGenerator generator = new IndexRecordGenerator();
 		//a modo de prueba, agrego un document, este metodo seguramente no tenga sentido
-		generator.addSingleDocument(textDocument);
+		TextDocument cleanDocument = applyFilters(textDocument);
+		generator.addSingleDocument(cleanDocument);
 		ArrayList<IndexRecord> records = generator.generateNewRegisters();
 		getIndex().updateRecords(records);
 	}

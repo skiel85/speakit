@@ -131,9 +131,9 @@ public class BasicBlockFileImpl implements BasicBlockFile {
 	}
 
 	@Override
-	public void write(int blockNumber, byte[] content) throws IOException, BlocksFileOverflowException, WrongBlockNumberException {
+	public void write(int blockNumber, byte[] content) throws IOException, BlockFileOverflowException, WrongBlockNumberException {
 		if (content.length > this.blockSize) {
-			throw new BlocksFileOverflowException(this.blockSize, content.length);
+			throw new BlockFileOverflowException(this.blockSize, content.length);
 		}
 		validateBlockNumber(blockNumber);
 		writeBlockOnPosition(getActualPositioFromUserBlockNumber(blockNumber), content);

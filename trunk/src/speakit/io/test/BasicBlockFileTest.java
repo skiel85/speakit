@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import speakit.io.BasicBlockFile;
 import speakit.io.BasicBlockFileImpl;
-import speakit.io.BlocksFileOverflowException;
+import speakit.io.BlockFileOverflowException;
 import speakit.io.WrongBlockNumberException;
 
 public class BasicBlockFileTest {
@@ -77,7 +77,7 @@ public class BasicBlockFileTest {
 	 * de lo soportado
 	 * 
 	 * @throws IOException
-	 * @throws BlocksFileOverflowException
+	 * @throws BlockFileOverflowException
 	 */
 	@Test
 	public void testWriteWithOverflow() throws Exception {
@@ -87,7 +87,7 @@ public class BasicBlockFileTest {
 		try {
 			sut.write(newBlockNumber, content);
 			Assert.fail("Se esperaba excepción indicando que el bloque no entra");
-		} catch (BlocksFileOverflowException e) {
+		} catch (BlockFileOverflowException e) {
 			// creo un bloque con el tamaño necesario para que entre utilzando
 			// la informacion de la excepcion
 			int blockSize = overflowBlockSize - e.getOverflowLenght();
@@ -102,7 +102,7 @@ public class BasicBlockFileTest {
 			try {
 				sut.write(littleOverflowSize, content);
 				Assert.fail("Se esperaba excepción indicando que el bloque no entra");
-			} catch (BlocksFileOverflowException ex) {
+			} catch (BlockFileOverflowException ex) {
 
 			}
 		}
@@ -110,7 +110,7 @@ public class BasicBlockFileTest {
 	}
 
 	@Test
-	public void testCantUseOutOfBoundsBlocks() throws IOException, WrongBlockNumberException, BlocksFileOverflowException {
+	public void testCantUseOutOfBoundsBlocks() throws IOException, WrongBlockNumberException, BlockFileOverflowException {
 		byte[] content = new byte[sut.getBlockSize()];
 		try {
 			sut.write(0, content);

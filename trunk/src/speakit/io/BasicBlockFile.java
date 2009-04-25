@@ -64,7 +64,7 @@ public interface BasicBlockFile {
 	 * @param content
 	 * @throws IOException
 	 */
-	void write(int blockNumber, byte[] content) throws IOException, BlocksFileOverflowException, WrongBlockNumberException;
+	void write(int blockNumber, byte[] content) throws IOException, BlockFileOverflowException, WrongBlockNumberException;
 
 	/**
 	 * Devuelve la cantidad de bloques del archivo

@@ -49,12 +49,12 @@ public class RemovableBlockFile extends BlockFile {
 	 * Marca un bloque como eliminado
 	 * 
 	 * @param block
-	 * @throws BlocksFileOverflowException
+	 * @throws BlockFileOverflowException
 	 * @throws WrongBlockNumberException
 	 * @throws IOException
 	 * @throws RecordSerializationException
 	 */
-	public void removeBlock(RemovableBlock block) throws BlocksFileOverflowException, WrongBlockNumberException, IOException, RecordSerializationException {
+	public void removeBlock(RemovableBlock block) throws BlockFileOverflowException, WrongBlockNumberException, IOException, RecordSerializationException {
 		block.setRemoved(true);
 		saveBlock(block);
 	}
@@ -63,12 +63,12 @@ public class RemovableBlockFile extends BlockFile {
 	 * Marca un bloque como eliminado
 	 * 
 	 * @param block
-	 * @throws BlocksFileOverflowException
+	 * @throws BlockFileOverflowException
 	 * @throws WrongBlockNumberException
 	 * @throws IOException
 	 * @throws RecordSerializationException
 	 */
-	public void removeBlock(int blockNumber) throws BlocksFileOverflowException, WrongBlockNumberException, IOException, RecordSerializationException {
+	public void removeBlock(int blockNumber) throws BlockFileOverflowException, WrongBlockNumberException, IOException, RecordSerializationException {
 		removeBlock((RemovableBlock) this.getBlock(blockNumber));
 	}
 

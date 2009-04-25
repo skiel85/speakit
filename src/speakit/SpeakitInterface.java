@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import speakit.dictionary.files.RecordSerializationException;
+import speakit.documentstorage.TextDocumentList;
 
 public interface SpeakitInterface {
 
@@ -35,5 +36,7 @@ public interface SpeakitInterface {
 	 * de un archivo
 	 */
 	public abstract TextDocument getTextDocumentFromFile(String path) throws FileNotFoundException, IOException;
+
+	public abstract TextDocumentList search(TextDocument searchText) throws IOException;
 
 }

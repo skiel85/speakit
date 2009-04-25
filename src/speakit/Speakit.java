@@ -1,7 +1,6 @@
 package speakit;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,10 +9,9 @@ import speakit.dictionary.AudioDictionaryImpl;
 import speakit.dictionary.DictionaryFileSet;
 import speakit.dictionary.files.RecordSerializationException;
 import speakit.documentstorage.DocumentRepository;
+import speakit.documentstorage.TextDocumentList;
 import speakit.ftrs.FTRS;
 import speakit.ftrs.FTRSImpl;
-import speakit.wordreader.WordReader;
-import speakit.wordreader.WordReaderImpl;
 
 /**
  * 
@@ -24,7 +22,7 @@ public class Speakit implements SpeakitInterface {
 
 	private AudioDictionaryImpl dataBase;
 	private FTRS ftrs = new FTRSImpl();
-	private DocumentRepository repository=new DocumentRepository();
+	private DocumentRepository repository;
 
 	/**
 	 * Carga Speakit con el conjunto de archivos predeterminado.
@@ -53,7 +51,7 @@ public class Speakit implements SpeakitInterface {
 			@Override
 			public File getAudioIndexFile() {
 				return this.audioIndexFile;
-			}
+			} 
 		};
 
 		this.load(fileSet);
@@ -67,10 +65,16 @@ public class Speakit implements SpeakitInterface {
 	public void load(DictionaryFileSet fileSet) throws IOException {
 		dataBase = new AudioDictionaryImpl();
 		dataBase.load(fileSet);
+		
+		repository = new DocumentRepository();
+		repository.load(createFile("DocumentRepository.dat"));
 	}
 
-	private FTRS getFTRS() {
-		return ftrs;
+	private File createFile(String path) throws IOException {
+		File file = new File(path);
+		file.setWritable(true);
+		file.createNewFile();
+		return file;
 	}
 	
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {
@@ -89,8 +93,10 @@ public class Speakit implements SpeakitInterface {
 	 * 
 	 * @param doc
 	 *            Documento a Indexar
+	 * @throws RecordSerializationException 
+	 * @throws IOException 
 	 */
-	private void indexDocument(TextDocument doc) {
+	private void indexDocument(TextDocument doc) throws IOException, RecordSerializationException {
 		this.ftrs.indexDocuments(doc);
 		this.repository.store(doc);
 	}
@@ -105,17 +111,15 @@ public class Speakit implements SpeakitInterface {
 		}
 	}
 
-	private WordReader createWordReader(String path) throws FileNotFoundException, IOException {
-		return new WordReaderImpl(new FileInputStream(new File(path)));
+	public TextDocument getTextDocumentFromFile(String path) throws FileNotFoundException, IOException {				
+		TextDocument document = new TextDocument();
+		document.loadFromFile(new File(path));
+		return document;
 	}
 
-	public TextDocument getTextDocumentFromFile(String path) throws FileNotFoundException, IOException {
-		TextDocument document = new TextDocument();
-		WordReader wordReader = createWordReader(path);
-		while (wordReader.hasNext()) {
-			document.add(wordReader.next());
-		}
-		return document;
+	@Override
+	public TextDocumentList search(TextDocument searchText) throws IOException {
+		return this.ftrs.search(searchText);
 	}
 
 }

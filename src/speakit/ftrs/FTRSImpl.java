@@ -1,7 +1,7 @@
 package speakit.ftrs;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import speakit.TextDocument;
 import speakit.documentstorage.DocumentRepository;
@@ -19,23 +19,22 @@ public class FTRSImpl implements FTRS {
 	}
 
 	@Override
-	public TextDocumentList search(TextDocument searchText) {
+	public TextDocumentList search(TextDocument searchText) throws IOException {
 		/*RankedSearchEngine searchEngine = new RankedSearchEngine(this.index,
 				10, 0);
 		List<Long> documentIds = searchEngine.search(this.applyFilters(searchText));
 
 		TextDocumentList result = new TextDocumentList();
 		for (Long docId : documentIds) {
-			result.add(repository.getDocumentById(docId));
+			result.add(repository.getById(docId));
 		}
 		return result;
 		*/
 		return null;
 	}
 
-	private DocumentRepository getDocumentRepository() {
-		// TODO Auto-generated method stub
-		return null;
+	public DocumentRepository getDocumentRepository() {
+		return repository;
 	}
 	
 	/**

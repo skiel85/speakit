@@ -1,6 +1,5 @@
 package speakit.compression;
 
-import speakit.compression.FrontCodedWord;
 
 public class FrontCodingCompressor {
 

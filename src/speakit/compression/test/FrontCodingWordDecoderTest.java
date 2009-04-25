@@ -8,7 +8,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.compression.FrontCodedWord;
-import speakit.compression.FrontCodingWordDecoder; 
+import speakit.compression.FrontCodingWordDecoder;
 
 @Ignore
 public class FrontCodingWordDecoderTest {

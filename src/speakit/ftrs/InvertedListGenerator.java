@@ -1,7 +1,6 @@
 package speakit.ftrs;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import speakit.TextDocument;
 import speakit.ftrs.index.InvertedList;
@@ -19,7 +18,7 @@ public class InvertedListGenerator {
 	public void processTextDocuments(ArrayList<TextDocument> documents,
 			ArrayList<Term> lexicon) {
 		for (TextDocument doc : documents) {
-			for (String word : doc) {
+			for (@SuppressWarnings("unused") String word : doc) {
 				Appearance app = new Appearance(1, doc.getId());
 				getStorage().addAppeareance(app);
 			}

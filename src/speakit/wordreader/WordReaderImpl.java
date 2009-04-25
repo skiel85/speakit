@@ -13,9 +13,17 @@ public class WordReaderImpl implements WordReader {
 		InputStreamReader reader = new InputStreamReader(inputStream);
 		char[] buffer = new char[(int) inputStream.available()];
 		reader.read(buffer);
+ 
+		process(new String(buffer));
+	}
+	
+	public WordReaderImpl(String text)   {
+		process(text);
+	}
 
+	private void process(String text) {
 		TextCleaner cleaner = new TextCleaner();
-		this.words = cleaner.getWords(new String(buffer));
+		this.words = cleaner.getWords(text);
 		this.currentIndex = 0;
 	}
 

@@ -16,4 +16,5 @@ public interface DictionaryFileSet {
 	 * Archivo de índice del archivo de datos de audio.
 	 */
 	public File getAudioIndexFile();
+ 
 }

@@ -8,9 +8,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class RemovableBlockFileIterator implements Iterator<RemovableBlock> {
 
-	private final RemovableBlockFile bytesBlocksFile;
-	private int current = 0;
-	private RemovableBlock nextBlock = null;
+	private final RemovableBlockFile	bytesBlocksFile;
+	private int							current		= 0;
+	private RemovableBlock				nextBlock	= null;
 
 	public RemovableBlockFileIterator(RemovableBlockFile bytesBlocksFile) throws RecordSerializationException {
 		this.bytesBlocksFile = bytesBlocksFile;
@@ -35,9 +35,9 @@ public class RemovableBlockFileIterator implements Iterator<RemovableBlock> {
 			this.current++;
 			try {
 				this.nextBlock = (RemovableBlock) bytesBlocksFile.getBlock(current);
-			} catch (IOException e) {
-				this.nextBlock = null;
 			} catch (RecordSerializationException e) {
+				this.nextBlock = null;
+			} catch (IOException e) {
 				this.nextBlock = null;
 			}
 		} while (currentBlock != null && currentBlock.isRemoved());

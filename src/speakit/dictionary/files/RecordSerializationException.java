@@ -1,6 +1,8 @@
 package speakit.dictionary.files;
 
-public class RecordSerializationException extends Exception {
+import java.io.IOException;
+
+public class RecordSerializationException extends IOException {
 
 	/**
 	 * 

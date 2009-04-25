@@ -2,8 +2,10 @@ package speakit.ftrs.index;
 
 import java.util.ArrayList;
 
+//TODO implementar
 public class InvertedList {
 	
+	@SuppressWarnings("unused")
 	private ArrayList<InvertedListItem> items;
 	
 	public InvertedList(ArrayList<InvertedListItem> items) {

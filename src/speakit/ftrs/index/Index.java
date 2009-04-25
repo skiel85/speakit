@@ -2,6 +2,7 @@ package speakit.ftrs.index;
 
 import java.util.ArrayList;
 
+//TODO implementar
 public class Index {
 
 	protected ArrayList<IndexRecord> records;

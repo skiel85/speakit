@@ -1,7 +1,5 @@
 package speakit.documentstorage;
 
-import java.util.ArrayList;
-
 import speakit.TextDocument;
 import speakit.dictionary.files.audiofile.AudioFile;
 
@@ -12,9 +10,9 @@ import speakit.dictionary.files.audiofile.AudioFile;
  * 
  */
 public class Document {
-	protected TextDocument textDocument;
-	protected AudioFile audioDocument;
-	
+	protected TextDocument	textDocument;
+	protected AudioFile		audioDocument;
+
 	public TextDocument asTextDocument() {
 		return textDocument;
 	}
@@ -23,7 +21,7 @@ public class Document {
 		return audioDocument;
 	}
 
-	public ArrayList<String> getPreview() {
+	public String getPreview() {
 		return textDocument.getPreview();
 	}
 }

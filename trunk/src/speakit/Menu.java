@@ -65,8 +65,7 @@ public class Menu {
 	}
 
 	String pathCache = "1.txt";
-	private BufferedReader userInput;
-	private FTRS ftrs;
+	private BufferedReader userInput; 
 
 	/**
 	 * Pide una ruta de archivo al usuario.
@@ -259,7 +258,9 @@ public class Menu {
 	}
 
 	private void doConsultation() throws IOException {
+		@SuppressWarnings("unused")
 		String[] wordsOfConsultation;
+		@SuppressWarnings("unused")
 		String consultation = "";
 		TextDocumentList documentList;
 		
@@ -274,7 +275,7 @@ public class Menu {
 		 * getDocumntsFor() de FTRS para obtener todos los documentos
 		 */
 
-		documentList = ftrs.search(searchText);
+		documentList = speakit.search(searchText);
 
 		// hay que ver que hacer en este caso
 

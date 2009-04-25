@@ -43,15 +43,15 @@ public class DocumentRepositoryTest {
 		Long id1 = this.sut.store(new TextDocument(text1));
 		Long id2 = this.sut.store(new TextDocument(text2));
 		Long id3 = this.sut.store(new TextDocument(text3));
-		Assert.assertEquals(text2, this.sut.getById(id2).getText());		
+		Assert.assertEquals(text2, this.sut.getById(id2).getText());
 		Assert.assertEquals(text3, this.sut.getById(id3).getText());
 		Assert.assertEquals(text1, this.sut.getById(id1).getText());
 		String text4 = "Vita de Michelangelo Buonarroti, escrita en 1553 por Ascanio Condivi, pintor y discípulo de Miguel Ángel, que recoge los datos facilitados por el mismo Buonarroti.";
 		Long id4 = this.sut.store(new TextDocument(text4));
 		Assert.assertEquals(text4, this.sut.getById(id4).getText());
 		Assert.assertEquals(text1, this.sut.getById(id1).getText());
-		Assert.assertEquals(text2, this.sut.getById(id2).getText());		
-		Assert.assertEquals(text3, this.sut.getById(id3).getText());		
+		Assert.assertEquals(text2, this.sut.getById(id2).getText());
+		Assert.assertEquals(text3, this.sut.getById(id3).getText());
 		Assert.assertEquals(text4, this.sut.getById(id4).getText());
 	}
 }

@@ -1,6 +1,5 @@
 package speakit.compression;
 
-
 public class FrontCodingCompressor {
 
 	public FrontCodedWord[] compress(String[] strings) {

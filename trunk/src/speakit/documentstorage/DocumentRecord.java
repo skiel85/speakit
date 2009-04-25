@@ -5,7 +5,7 @@ import speakit.dictionary.serialization.LongField;
 import speakit.dictionary.serialization.StringField;
 
 public class DocumentRecord extends Record<LongField> {
-	
+
 	private LongField offset = new LongField();
 	private StringField text = new StringField();
 
@@ -68,6 +68,5 @@ public class DocumentRecord extends Record<LongField> {
 	public void setText(String text) {
 		this.text.setString(text);
 	}
-
 
 }

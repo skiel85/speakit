@@ -18,13 +18,13 @@ public class ByteArrayConverter {
 		}
 		// el & 0xff es para limpiar posible basura en memoria
 		return (0xff & (b[0 + offset])) << 24 | // XXXX XXXX|0000 0000|0000
-												// 0000|0000 0000
+				// 0000|0000 0000
 				(0xff & (b[1 + offset])) << 16 | // 0000 0000|XXXX XXXX|0000
-													// 0000|0000 0000
+				// 0000|0000 0000
 				(0xff & (b[2 + offset])) << 8 | // 0000 0000|0000 0000|XXXX
-												// XXXX|0000 0000
+				// XXXX|0000 0000
 				(0xff & (b[3 + offset])) << 0; // 0000 0000|0000 0000|0000
-												// 0000|XXXX XXXX
+		// 0000|XXXX XXXX
 
 	}
 

@@ -6,10 +6,11 @@ import java.util.Collections;
 public class MockAppearanceStorageImpl implements AppearanceStorage {
 
 	protected ArrayList<Appearance> appearances;
-	
+
 	public MockAppearanceStorageImpl() {
 		appearances = new ArrayList<Appearance>();
 	}
+
 	@Override
 	public void addAppeareance(Appearance app) {
 		appearances.add(app);

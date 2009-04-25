@@ -13,11 +13,11 @@ public class WordReaderImpl implements WordReader {
 		InputStreamReader reader = new InputStreamReader(inputStream);
 		char[] buffer = new char[(int) inputStream.available()];
 		reader.read(buffer);
- 
+
 		process(new String(buffer));
 	}
-	
-	public WordReaderImpl(String text)   {
+
+	public WordReaderImpl(String text) {
 		process(text);
 	}
 

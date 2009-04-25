@@ -51,7 +51,7 @@ public class Speakit implements SpeakitInterface {
 			@Override
 			public File getAudioIndexFile() {
 				return this.audioIndexFile;
-			} 
+			}
 		};
 
 		this.load(fileSet);
@@ -65,7 +65,7 @@ public class Speakit implements SpeakitInterface {
 	public void load(DictionaryFileSet fileSet) throws IOException {
 		dataBase = new AudioDictionaryImpl();
 		dataBase.load(fileSet);
-		
+
 		repository = new DocumentRepository();
 		repository.load(createFile("DocumentRepository.dat"));
 	}
@@ -76,7 +76,7 @@ public class Speakit implements SpeakitInterface {
 		file.createNewFile();
 		return file;
 	}
-	
+
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {
 		indexDocument(doc);
 		ArrayList<String> words = new ArrayList<String>();
@@ -93,8 +93,8 @@ public class Speakit implements SpeakitInterface {
 	 * 
 	 * @param doc
 	 *            Documento a Indexar
-	 * @throws RecordSerializationException 
-	 * @throws IOException 
+	 * @throws RecordSerializationException
+	 * @throws IOException
 	 */
 	private void indexDocument(TextDocument doc) throws IOException, RecordSerializationException {
 		this.ftrs.indexDocuments(doc);
@@ -111,7 +111,7 @@ public class Speakit implements SpeakitInterface {
 		}
 	}
 
-	public TextDocument getTextDocumentFromFile(String path) throws FileNotFoundException, IOException {				
+	public TextDocument getTextDocumentFromFile(String path) throws FileNotFoundException, IOException {
 		TextDocument document = new TextDocument();
 		document.loadFromFile(new File(path));
 		return document;

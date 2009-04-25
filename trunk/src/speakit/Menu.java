@@ -12,7 +12,6 @@ import speakit.audio.AudioManagerException;
 import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.files.audiofile.WordNotFoundException;
 import speakit.documentstorage.TextDocumentList;
-import speakit.ftrs.FTRS;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 /**
@@ -65,7 +64,7 @@ public class Menu {
 	}
 
 	String pathCache = "1.txt";
-	private BufferedReader userInput; 
+	private BufferedReader userInput;
 
 	/**
 	 * Pide una ruta de archivo al usuario.
@@ -263,7 +262,7 @@ public class Menu {
 		@SuppressWarnings("unused")
 		String consultation = "";
 		TextDocumentList documentList;
-		
+
 		System.out.println("Ingrese la consulta");
 		consultation = this.userInput.readLine();
 		TextDocument searchText = new TextDocument();

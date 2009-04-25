@@ -25,12 +25,12 @@ public class FrontCodingCompressorTest {
 	}
 
 	@Test
-	public void testEncodeDecode(){
-		String[] textToCompress = new String[]{"codo","codazo","codearse","codera","cordon","cordura"};
+	public void testEncodeDecode() {
+		String[] textToCompress = new String[] { "codo", "codazo", "codearse", "codera", "cordon", "cordura" };
 		FrontCodedWord[] frontCodedWords = compressor.compress(textToCompress);
 		String[] descompressedText = compressor.decompress(frontCodedWords);
-		
+
 		Assert.assertArrayEquals(textToCompress, descompressedText);
-		
+
 	}
 }

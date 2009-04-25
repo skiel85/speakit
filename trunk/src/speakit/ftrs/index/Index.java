@@ -16,8 +16,8 @@ public class Index {
 	}
 
 	public void updateRecords(ArrayList<IndexRecord> records) {
-		//aca deberia, en el modelo final, agregarse las entradas, 
-		//en el modelo de prueba, por lo menos, mergearse las coleccioness
+		// aca deberia, en el modelo final, agregarse las entradas,
+		// en el modelo de prueba, por lo menos, mergearse las coleccioness
 		this.records = records;
 	}
 }

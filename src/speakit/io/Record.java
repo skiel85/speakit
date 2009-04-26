@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-import speakit.dictionary.serialization.Field;
 
 /**
  * Representa un registro. Un objeto serializable y comparable.

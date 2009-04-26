@@ -1,4 +1,4 @@
-package speakit.dictionary.serialization;
+package speakit.io;
 
 import java.io.IOException;
 import java.io.InputStream;

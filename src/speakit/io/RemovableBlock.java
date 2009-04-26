@@ -1,6 +1,5 @@
 package speakit.io;
 
-import speakit.dictionary.serialization.BooleanField;
 
 public class RemovableBlock extends Block {
 

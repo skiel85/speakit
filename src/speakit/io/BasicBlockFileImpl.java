@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
 
-import speakit.dictionary.serialization.IntegerField;
 
 public class BasicBlockFileImpl implements BasicBlockFile {
 	private int blockSize;

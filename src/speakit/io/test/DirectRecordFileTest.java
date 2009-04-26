@@ -39,8 +39,8 @@ public class DirectRecordFileTest {
 		this.sut.insertRecord(record);
 		AudioIndexRecord retrievedRecord = this.sut.getRecord(key);
 		Assert.assertNotNull(retrievedRecord);
-		Assert.assertEquals(retrievedRecord.getWord(), record.getWord());
-		Assert.assertEquals(retrievedRecord.getOffset(), record.getOffset());
+		Assert.assertEquals(record.getWord(), retrievedRecord.getWord());
+		Assert.assertEquals(record.getOffset(), retrievedRecord.getOffset());
 	}
 
 	@Test
@@ -51,8 +51,26 @@ public class DirectRecordFileTest {
 		this.sut.insertRecord(record, blockNumber);
 		AudioIndexRecord retrievedRecord = this.sut.getRecord(key, blockNumber);
 		Assert.assertNotNull(retrievedRecord);
-		Assert.assertEquals(retrievedRecord.getWord(), record.getWord());
-		Assert.assertEquals(retrievedRecord.getOffset(), record.getOffset());
+		Assert.assertEquals(record.getWord(), retrievedRecord.getWord());
+		Assert.assertEquals(record.getOffset(), retrievedRecord.getOffset());
+	}
+
+	@Test
+	public void testAddVariousAndRetrieveRecordFromBlock() throws IOException, RecordSerializationException {
+		int blockNumber = this.sut.createBlock();
+		AudioIndexRecord record1 = new AudioIndexRecord("www", 1234);
+		AudioIndexRecord record2 = new AudioIndexRecord("xxx", 5678);
+		AudioIndexRecord record3 = new AudioIndexRecord("yyy", 9012);
+		AudioIndexRecord record4 = new AudioIndexRecord("zzz", 3456);
+		this.sut.insertRecord(record1, blockNumber);
+		this.sut.insertRecord(record2, blockNumber);
+		this.sut.insertRecord(record3, blockNumber);
+		this.sut.insertRecord(record4, blockNumber);
+		StringField key = new StringField("yyy");
+		AudioIndexRecord retrievedRecord = this.sut.getRecord(key, blockNumber);
+		Assert.assertNotNull(retrievedRecord);
+		Assert.assertEquals(record3.getWord(), retrievedRecord.getWord());
+		Assert.assertEquals(record3.getOffset(), retrievedRecord.getOffset());
 	}
 
 	@After

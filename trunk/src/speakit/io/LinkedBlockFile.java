@@ -3,7 +3,6 @@ package speakit.io;
 import java.io.File;
 import java.io.IOException;
 
-
 public class LinkedBlockFile extends RemovableBlockFile {
 
 	public LinkedBlockFile(File file) {
@@ -31,7 +30,7 @@ public class LinkedBlockFile extends RemovableBlockFile {
 			// primero hay qye ver si el blockActual no tiene un siguiente, en
 			// ese caso usar el siguiente
 			LinkedBlock nextBlock = null;
-			if (startBlock.getNextBlockNumber() > 0) {
+			if (startBlock.getNextBlockNumber() >= 0) {
 				nextBlock = (LinkedBlock) this.getBlock(startBlock.getNextBlockNumber());
 			} else {
 				nextBlock = (LinkedBlock) this.getNewBlock();
@@ -59,12 +58,12 @@ public class LinkedBlockFile extends RemovableBlockFile {
 	@Override
 	public Block getBlock(int blockNumber) throws IOException, RecordSerializationException {
 		LinkedBlock startBlock = (LinkedBlock) super.getBlock(blockNumber);
-		if (startBlock.getNextBlockNumber() > 0) {
+		if (startBlock.getNextBlockNumber() >= 0) {
 			LinkedBlock current = startBlock;
 			do {
 				current = (LinkedBlock) super.getBlock(current.getNextBlockNumber());
 				startBlock.appendNextBlockContent(current);
-			} while (current.getNextBlockNumber() > 0);
+			} while (current.getNextBlockNumber() >= 0);
 		}
 		return startBlock;
 	}

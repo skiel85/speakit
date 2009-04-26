@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import speakit.TextDocument;
 import speakit.ftrs.index.InvertedList;
-import speakit.ftrs.index.Term;
 
 public class InvertedListGenerator {
 
@@ -19,16 +18,14 @@ public class InvertedListGenerator {
 	 * @param lexicon
 	 *            Lexico
 	 */
-	public void processTextDocuments(ArrayList<TextDocument> documents, ArrayList<Term> lexicon) {
+	public void processTextDocuments(ArrayList<TextDocument> documents, Lexicon lexicon) {
 		for (TextDocument doc : documents) {
-			for (@SuppressWarnings("unused")
-			String word : doc) {
-				Appearance app = new Appearance(1, doc.getId());
+			for (String word : doc) {
+				int termId = lexicon.getAppearanceOrder(word);
+				Appearance app = new Appearance(termId, doc.getId());
 				getStorage().addAppeareance(app);
 			}
 		}
-		// para cada textDocument
-		// almacenar el listado de apariciones secuencialmente (Term.id, doc.id)
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import speakit.TextDocument;
 import speakit.ftrs.index.Index;
+import speakit.ftrs.index.IndexRecord;
 import speakit.ftrs.index.InvertedList;
 
 //TODO Terminar de implementar
@@ -16,19 +17,19 @@ public class RankedSearchEngine {
 
 	public RankedSearchEngine(Index index, int documentsLimit, int minTermFrecuency) {
 		this.index = index;
-		documentsLimit = 10;
-		minTermFrecuency = 0;
+		this.documentsLimit = documentsLimit;
+		this.minTermFrecuency = minTermFrecuency;
 	}
 
 	/**
 	 * Ejecuta una busqueda rankeada
 	 * */
-	ArrayList<Long> search(TextDocument searchText) {
+	public ArrayList<Long> search(TextDocument query) {
 		// Obtiene la lista de listas invertidas del índice para la busqueda
 		// actual
-		ArrayList<InvertedList> InvertedLists = getInvertedLists(searchText);
+		ArrayList<InvertedList> invertedLists = getInvertedLists(query);
 		// Ordena la lista de listas invertidas segun importancia del término
-		ArrayList<InvertedList> orderedInvertedLists = sortByTermImportance(InvertedLists);
+		ArrayList<InvertedList> orderedInvertedLists = sortByTermImportance(invertedLists);
 		// Arma la lista rankeada
 		ArrayList<Long> resultDocumentIDs = makeRankedList(orderedInvertedLists);
 		return resultDocumentIDs;
@@ -76,12 +77,12 @@ public class RankedSearchEngine {
 	/**
 	 * Obtiene la lista de listas invertidas para cada termino de la busqueda
 	 * */
-	private ArrayList<InvertedList> getInvertedLists(TextDocument searchText) {
+	private ArrayList<InvertedList> getInvertedLists(TextDocument query) {
 		ArrayList<InvertedList> documentsForEachTerm = new ArrayList<InvertedList>();
-		for (String word : searchText) {
-			InvertedList listForWord = this.index.getInvertedList(word);
-			if (listForWord != null) {
-				documentsForEachTerm.add(listForWord);
+		for (String word : query) {
+			IndexRecord indexRecord = this.index.getDocumentsFor(word);
+			if (indexRecord != null) {
+				documentsForEachTerm.add(indexRecord.getInvertedList());
 			}
 		}
 		return documentsForEachTerm;

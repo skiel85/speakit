@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 //TODO implementar
 public class InvertedList {
-
-	@SuppressWarnings("unused")
+ 
 	private ArrayList<InvertedListItem> items;
 
+	public InvertedList(){
+		items=new ArrayList<InvertedListItem>();
+	}
+	
 	public InvertedList(ArrayList<InvertedListItem> items) {
 		this.items = items;
 	}
@@ -23,7 +26,15 @@ public class InvertedList {
 	}
 
 	public ArrayList<Long> getDocuments() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Long> ids = new ArrayList<Long>();
+		for (InvertedListItem item : items) {
+			ids.add(item.getDocumentId());
+		}
+		return ids;
+	}
+	
+	public InvertedList add(InvertedListItem item){
+		this.items.add(item);
+		return this;
 	}
 }

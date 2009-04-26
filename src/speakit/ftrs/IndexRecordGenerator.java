@@ -11,20 +11,29 @@ import speakit.ftrs.index.Term;
 public class IndexRecordGenerator {
 	private ArrayList<TextDocument> docs;
 	private InvertedListGenerator invertedListGenerator;
-	private ArrayList<Term> lexicon;
+	private Lexicon lexicon;
 
 	public IndexRecordGenerator() {
 		docs = new ArrayList<TextDocument>();
 		invertedListGenerator = new InvertedListGenerator();
-		lexicon = new ArrayList<Term>();
+		lexicon = new Lexicon();
 	}
 
 	public void addDocuments(ArrayList<TextDocument> documentList) {
 
 	}
-
-	public void addSingleDocument(TextDocument textDocument) {
-		docs.add(textDocument);
+	/**
+	 * Recibe un documento conteniendo solo los terminos relevantes, con los filtros aplicados
+	 * y lo pre procesa para generar los regstros del indice.
+	 * @param cleanTextDocument
+	 */
+	public void addSingleDocument(TextDocument cleanTextDocument) {
+		docs.add(cleanTextDocument);
+		Iterator<String> it = cleanTextDocument.iterator();
+		while (it.hasNext()) {
+			String word = (String) it.next();
+			getLexicon().add(word);
+		}
 	}
 
 	public ArrayList<IndexRecord> generateNewRegisters() {
@@ -55,7 +64,7 @@ public class IndexRecordGenerator {
 	/**
 	 * @return the lexicon
 	 */
-	public ArrayList<Term> getLexicon() {
+	public Lexicon getLexicon() {
 		return lexicon;
 	}
 

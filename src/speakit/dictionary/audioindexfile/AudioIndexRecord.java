@@ -1,8 +1,8 @@
 package speakit.dictionary.audioindexfile;
 
-import speakit.io.LongField;
-import speakit.io.Record;
-import speakit.io.StringField;
+import speakit.io.record.LongField;
+import speakit.io.record.Record;
+import speakit.io.record.StringField;
 
 /**
  * Registro de índice del archivo de registros de audio.

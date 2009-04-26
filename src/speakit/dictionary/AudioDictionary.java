@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import speakit.audio.Audio;
 import speakit.dictionary.audiofile.WordNotFoundException;
-import speakit.io.RecordSerializationException;
+import speakit.io.record.RecordSerializationException;
 
 /**
  * Diccionario de audio. A partir de una palabra obtiene su representación

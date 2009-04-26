@@ -11,7 +11,7 @@ import speakit.documentstorage.DocumentRepository;
 import speakit.documentstorage.TextDocumentList;
 import speakit.ftrs.FTRS;
 import speakit.ftrs.FTRSImpl;
-import speakit.io.RecordSerializationException;
+import speakit.io.record.RecordSerializationException;
 
 /**
  * 

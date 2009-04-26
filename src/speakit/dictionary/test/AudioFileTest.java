@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import speakit.audio.Audio;
 import speakit.dictionary.audiofile.AudioFile;
-import speakit.io.RecordSerializationException;
+import speakit.io.record.RecordSerializationException;
 
 public class AudioFileTest {
 	File file;

@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import speakit.documentstorage.TextDocumentList;
-import speakit.io.RecordSerializationException;
+import speakit.io.record.RecordSerializationException;
 
 public interface SpeakitInterface {
 

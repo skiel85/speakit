@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.IOException;
 
 import speakit.dictionary.audiofile.WordNotFoundException;
-import speakit.io.RecordFactory;
-import speakit.io.RecordSerializationException;
-import speakit.io.SecuentialRecordFile;
-import speakit.io.StringField;
+import speakit.io.record.RecordFactory;
+import speakit.io.record.RecordSerializationException;
+import speakit.io.record.StringField;
+import speakit.io.recordfile.SecuentialRecordFile;
 
 /**
  * Representa un archivo de registros de índice del archivo de registros de

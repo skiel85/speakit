@@ -11,7 +11,7 @@ import speakit.audio.AudioManager;
 import speakit.audio.AudioManagerException;
 import speakit.dictionary.audiofile.WordNotFoundException;
 import speakit.documentstorage.TextDocumentList;
-import speakit.io.RecordSerializationException;
+import speakit.io.record.RecordSerializationException;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 /**

@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import speakit.dictionary.audioindexfile.AudioIndexRecord;
-import speakit.io.RecordSerializationException;
+import speakit.io.record.RecordSerializationException;
 
 public class AudioIndexRecordTest {
 

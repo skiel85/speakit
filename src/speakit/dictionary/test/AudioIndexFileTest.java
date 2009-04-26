@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import speakit.dictionary.audiofile.WordNotFoundException;
 import speakit.dictionary.audioindexfile.AudioIndexFile;
-import speakit.io.RecordSerializationException;
+import speakit.io.record.RecordSerializationException;
 
 public class AudioIndexFileTest {
 

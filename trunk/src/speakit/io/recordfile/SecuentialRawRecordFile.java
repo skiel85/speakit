@@ -44,7 +44,7 @@ public class SecuentialRawRecordFile<RECTYPE extends RawRecord> extends Secuenti
 	 */
 	@Override
 	public RECTYPE getRecord(LongField offset) throws IOException {
-		RECTYPE record = super.getRecord(offset);
+		RECTYPE record = super.readRecord(offset.getLong());
 		record.setOffset(offset.getLong());
 		return record;
 	}

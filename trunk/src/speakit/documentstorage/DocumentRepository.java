@@ -7,24 +7,14 @@ import speakit.TextDocument;
 import speakit.io.record.LongField;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
-import speakit.io.recordfile.SecuentialRecordFile;
+import speakit.io.recordfile.SecuentialRawRecordFile;
 
 //TODO implementar esta clase
 public class DocumentRepository implements RecordFactory<DocumentRecord> {
-	private SecuentialRecordFile<DocumentRecord, LongField> recordFile;
-
-	/**
-	 * Crea un archivo de registros de documentos.
-	 * 
-	 * @param file
-	 *            Archivo.
-	 * @throws IOException
-	 */
-	public DocumentRepository() throws IOException {
-	}
+	private SecuentialRawRecordFile<DocumentRecord> recordFile;
 
 	public void load(File file) throws IOException {
-		this.recordFile = new SecuentialRecordFile<DocumentRecord, LongField>(file, this);
+		this.recordFile = new SecuentialRawRecordFile<DocumentRecord>(file, this);
 	}
 
 	/**

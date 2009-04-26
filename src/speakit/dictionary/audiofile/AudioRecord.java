@@ -1,28 +1,20 @@
 package speakit.dictionary.audiofile;
 
 import speakit.io.record.ByteArrayField;
-import speakit.io.record.LongField;
-import speakit.io.record.Record;
+import speakit.io.record.RawRecord;
 
 /**
  * Registro de audio.
  */
-public class AudioRecord extends Record<LongField> {
+public class AudioRecord extends RawRecord {
 
-	private LongField offset = new LongField();
 	private ByteArrayField audio = new ByteArrayField();
 
 	/**
 	 * Construye un nuevo registro de audio.
 	 */
 	public AudioRecord() {
-		this.setKey(this.offset);
 		this.addField(this.audio);
-	}
-
-	@Override
-	public void notifyOffsetChanged(long offset) {
-		this.offset.setLong(offset);
 	}
 
 	/**
@@ -34,24 +26,6 @@ public class AudioRecord extends Record<LongField> {
 	public AudioRecord(byte[] audio) {
 		this();
 		this.audio.setBytes(audio);
-	}
-
-	/**
-	 * Obtiene la posición del audio.
-	 * 
-	 * @return
-	 */
-	public long getOffset() {
-		return this.offset.getLong();
-	}
-
-	/**
-	 * Establece la posición del audio.
-	 * 
-	 * @param audio
-	 */
-	public void setOffset(long offset) {
-		this.offset.setLong(offset);
 	}
 
 	/**

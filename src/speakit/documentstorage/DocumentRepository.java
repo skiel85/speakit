@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.IOException;
 
 import speakit.TextDocument;
-import speakit.dictionary.files.RecordFactory;
-import speakit.dictionary.files.RecordSerializationException;
-import speakit.dictionary.files.SecuentialRecordFile;
 import speakit.dictionary.serialization.LongField;
+import speakit.io.RecordFactory;
+import speakit.io.RecordSerializationException;
+import speakit.io.SecuentialRecordFile;
 
 //TODO implementar esta clase
 public class DocumentRepository implements RecordFactory<DocumentRecord> {

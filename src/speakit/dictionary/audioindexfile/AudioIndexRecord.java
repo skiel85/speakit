@@ -1,8 +1,8 @@
-package speakit.dictionary.files.audioindexfile;
+package speakit.dictionary.audioindexfile;
 
-import speakit.dictionary.files.Record;
 import speakit.dictionary.serialization.LongField;
 import speakit.dictionary.serialization.StringField;
+import speakit.io.Record;
 
 /**
  * Registro de índice del archivo de registros de audio.

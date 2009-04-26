@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.IOException;
 
 import speakit.audio.Audio;
-import speakit.dictionary.files.RecordSerializationException;
-import speakit.dictionary.files.audiofile.AudioFile;
-import speakit.dictionary.files.audiofile.WordNotFoundException;
-import speakit.dictionary.files.audioindexfile.AudioIndexFile;
+import speakit.dictionary.audiofile.AudioFile;
+import speakit.dictionary.audiofile.WordNotFoundException;
+import speakit.dictionary.audioindexfile.AudioIndexFile;
+import speakit.io.RecordSerializationException;
 
 public class AudioDictionaryImpl implements AudioDictionary {
 	private AudioIndexFile audioIndexFile;

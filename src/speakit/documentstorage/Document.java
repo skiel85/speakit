@@ -1,7 +1,7 @@
 package speakit.documentstorage;
 
 import speakit.TextDocument;
-import speakit.dictionary.files.audiofile.AudioFile;
+import speakit.dictionary.audiofile.AudioFile;
 
 /**
  * Clase q modela un documento

@@ -5,10 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import speakit.dictionary.files.Record;
-import speakit.dictionary.files.RecordFactory;
-import speakit.dictionary.files.RecordFile;
-import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.serialization.Field;
 
 public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE> {

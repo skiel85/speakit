@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import speakit.audio.Audio;
 import speakit.dictionary.AudioDictionary;
-import speakit.dictionary.files.audiofile.WordNotFoundException;
+import speakit.dictionary.audiofile.WordNotFoundException;
 
 public class WordAudioDocument implements Iterator<WordAudio> {
 

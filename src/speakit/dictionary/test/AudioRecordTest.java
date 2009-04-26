@@ -7,8 +7,8 @@ import java.io.IOException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import speakit.dictionary.files.RecordSerializationException;
-import speakit.dictionary.files.audiofile.AudioRecord;
+import speakit.dictionary.audiofile.AudioRecord;
+import speakit.io.RecordSerializationException;
 
 public class AudioRecordTest {
 

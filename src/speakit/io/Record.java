@@ -1,4 +1,4 @@
-package speakit.dictionary.files;
+package speakit.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

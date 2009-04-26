@@ -1,4 +1,4 @@
-package speakit.dictionary.serialization;
+package speakit.io;
 
 public class ByteArrayConverter {
 	/**

@@ -10,10 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.dictionary.audioindexfile.AudioIndexRecord;
-import speakit.dictionary.serialization.StringField;
 import speakit.io.DirectRecordFile;
 import speakit.io.RecordFactory;
 import speakit.io.RecordSerializationException;
+import speakit.io.StringField;
 
 public class DirectRecordFileTest {
 

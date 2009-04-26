@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import speakit.TextDocument;
-import speakit.dictionary.serialization.LongField;
+import speakit.io.LongField;
 import speakit.io.RecordFactory;
 import speakit.io.RecordSerializationException;
 import speakit.io.SecuentialRecordFile;

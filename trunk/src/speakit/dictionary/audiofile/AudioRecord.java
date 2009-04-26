@@ -1,7 +1,7 @@
 package speakit.dictionary.audiofile;
 
-import speakit.dictionary.serialization.ByteArrayField;
-import speakit.dictionary.serialization.LongField;
+import speakit.io.ByteArrayField;
+import speakit.io.LongField;
 import speakit.io.Record;
 
 /**

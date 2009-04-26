@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Enumeration;
 
-import speakit.dictionary.serialization.Field;
 
 /**
  * Archivo de registros.

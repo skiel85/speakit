@@ -1,8 +1,8 @@
 package speakit.documentstorage;
 
-import speakit.dictionary.serialization.LongField;
-import speakit.dictionary.serialization.StringField;
+import speakit.io.LongField;
 import speakit.io.Record;
+import speakit.io.StringField;
 
 public class DocumentRecord extends Record<LongField> {
 

@@ -1,7 +1,5 @@
 package speakit.io;
 
-import speakit.dictionary.serialization.ByteArrayField;
-import speakit.dictionary.serialization.IntegerField;
 
 public class Block extends Record<IntegerField> {
 	private IntegerField blockNumber = new IntegerField();

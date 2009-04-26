@@ -7,7 +7,7 @@ import speakit.audio.Audio;
 import speakit.dictionary.audiofile.AudioFile;
 import speakit.dictionary.audiofile.WordNotFoundException;
 import speakit.dictionary.audioindexfile.AudioIndexFile;
-import speakit.io.RecordSerializationException;
+import speakit.io.record.RecordSerializationException;
 
 public class AudioDictionaryImpl implements AudioDictionary {
 	private AudioIndexFile audioIndexFile;

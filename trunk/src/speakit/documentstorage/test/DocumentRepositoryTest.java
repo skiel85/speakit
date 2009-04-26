@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import speakit.TextDocument;
 import speakit.documentstorage.DocumentRepository;
-import speakit.io.RecordSerializationException;
+import speakit.io.record.RecordSerializationException;
 
 public class DocumentRepositoryTest {
 	File file;

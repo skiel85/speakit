@@ -12,12 +12,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.io.BooleanField;
-import speakit.io.ByteArrayField;
-import speakit.io.Field;
-import speakit.io.IntegerField;
-import speakit.io.LongField;
-import speakit.io.StringField;
+import speakit.io.record.BooleanField;
+import speakit.io.record.ByteArrayField;
+import speakit.io.record.Field;
+import speakit.io.record.IntegerField;
+import speakit.io.record.LongField;
+import speakit.io.record.StringField;
 
 public class FieldTest {
 

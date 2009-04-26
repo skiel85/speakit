@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.IOException;
 
 import speakit.audio.Audio;
-import speakit.io.LongField;
-import speakit.io.RecordFactory;
-import speakit.io.RecordSerializationException;
-import speakit.io.SecuentialRecordFile;
+import speakit.io.record.LongField;
+import speakit.io.record.RecordFactory;
+import speakit.io.record.RecordSerializationException;
+import speakit.io.recordfile.SecuentialRecordFile;
 
 /**
  * Representa un archivo de registros de audio.

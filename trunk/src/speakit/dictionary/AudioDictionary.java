@@ -3,8 +3,8 @@ package speakit.dictionary;
 import java.io.IOException;
 
 import speakit.audio.Audio;
-import speakit.dictionary.files.RecordSerializationException;
-import speakit.dictionary.files.audiofile.WordNotFoundException;
+import speakit.dictionary.audiofile.WordNotFoundException;
+import speakit.io.RecordSerializationException;
 
 /**
  * Diccionario de audio. A partir de una palabra obtiene su representación

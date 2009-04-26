@@ -2,7 +2,7 @@ package speakit;
 
 import java.io.IOException;
 
-import speakit.dictionary.files.RecordSerializationException;
+import speakit.io.RecordSerializationException;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 public class Main {

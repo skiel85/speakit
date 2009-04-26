@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import speakit.audio.Audio;
 import speakit.audio.AudioManager;
 import speakit.audio.AudioManagerException;
-import speakit.dictionary.files.RecordSerializationException;
-import speakit.dictionary.files.audiofile.WordNotFoundException;
+import speakit.dictionary.audiofile.WordNotFoundException;
 import speakit.documentstorage.TextDocumentList;
+import speakit.io.RecordSerializationException;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
 /**

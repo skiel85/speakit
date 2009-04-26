@@ -3,7 +3,6 @@ package speakit.io;
 import java.io.IOException;
 import java.util.Iterator;
 
-import speakit.dictionary.files.RecordSerializationException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class RemovableBlockFileIterator implements Iterator<Block> {

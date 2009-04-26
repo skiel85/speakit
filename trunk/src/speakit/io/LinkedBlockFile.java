@@ -3,7 +3,6 @@ package speakit.io;
 import java.io.File;
 import java.io.IOException;
 
-import speakit.dictionary.files.RecordSerializationException;
 
 public class LinkedBlockFile extends RemovableBlockFile {
 

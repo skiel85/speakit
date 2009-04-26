@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 import speakit.dictionary.AudioDictionaryImpl;
 import speakit.dictionary.DictionaryFileSet;
-import speakit.dictionary.files.RecordSerializationException;
 import speakit.documentstorage.DocumentRepository;
 import speakit.documentstorage.TextDocumentList;
 import speakit.ftrs.FTRS;
 import speakit.ftrs.FTRSImpl;
+import speakit.io.RecordSerializationException;
 
 /**
  * 

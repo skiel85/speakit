@@ -16,8 +16,8 @@ import speakit.Speakit;
 import speakit.TextDocument;
 import speakit.WordAudio;
 import speakit.audio.Audio;
-import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.test.TestDictionaryFileSet;
+import speakit.io.RecordSerializationException;
 
 public class SpeakitTest {
 

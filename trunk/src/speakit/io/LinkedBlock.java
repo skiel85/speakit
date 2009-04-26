@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import speakit.dictionary.files.RecordSerializationException;
 import speakit.dictionary.serialization.IntegerField;
 
 public class LinkedBlock extends RemovableBlock {

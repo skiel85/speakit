@@ -1,4 +1,4 @@
-package speakit.dictionary.files.audiofile;
+package speakit.dictionary.audiofile;
 
 @SuppressWarnings("serial")
 public class WordNotFoundException extends Exception {

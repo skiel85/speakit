@@ -1,6 +1,5 @@
 package speakit.io;
 
-import speakit.dictionary.files.Record;
 import speakit.dictionary.serialization.ByteArrayField;
 import speakit.dictionary.serialization.IntegerField;
 

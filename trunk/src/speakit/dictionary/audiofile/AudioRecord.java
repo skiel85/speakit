@@ -1,8 +1,8 @@
-package speakit.dictionary.files.audiofile;
+package speakit.dictionary.audiofile;
 
-import speakit.dictionary.files.Record;
 import speakit.dictionary.serialization.ByteArrayField;
 import speakit.dictionary.serialization.LongField;
+import speakit.io.Record;
 
 /**
  * Registro de audio.

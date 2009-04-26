@@ -3,8 +3,8 @@ package speakit;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import speakit.dictionary.files.RecordSerializationException;
 import speakit.documentstorage.TextDocumentList;
+import speakit.io.RecordSerializationException;
 
 public interface SpeakitInterface {
 

@@ -1,13 +1,13 @@
-package speakit.dictionary.files.audiofile;
+package speakit.dictionary.audiofile;
 
 import java.io.File;
 import java.io.IOException;
 
 import speakit.audio.Audio;
-import speakit.dictionary.files.RecordFactory;
-import speakit.dictionary.files.RecordSerializationException;
-import speakit.dictionary.files.SecuentialRecordFile;
 import speakit.dictionary.serialization.LongField;
+import speakit.io.RecordFactory;
+import speakit.io.RecordSerializationException;
+import speakit.io.SecuentialRecordFile;
 
 /**
  * Representa un archivo de registros de audio.

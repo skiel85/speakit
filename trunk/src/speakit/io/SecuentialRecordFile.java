@@ -1,4 +1,4 @@
-package speakit.dictionary.files;
+package speakit.io;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,8 +6,6 @@ import java.io.RandomAccessFile;
 import java.util.Enumeration;
 
 import speakit.dictionary.serialization.Field;
-import speakit.io.RandomAccessFileInputStream;
-import speakit.io.RandomAccessFileOutputStream;
 
 /**
  * Archivo de registros.

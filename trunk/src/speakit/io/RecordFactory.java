@@ -1,4 +1,4 @@
-package speakit.dictionary.files;
+package speakit.io;
 
 /**
  * Fábrica de registros. La clases que implementan esta interfaz, tienen un

@@ -8,9 +8,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.dictionary.files.RecordSerializationException;
-import speakit.dictionary.files.audiofile.WordNotFoundException;
-import speakit.dictionary.files.audioindexfile.AudioIndexFile;
+import speakit.dictionary.audiofile.WordNotFoundException;
+import speakit.dictionary.audioindexfile.AudioIndexFile;
+import speakit.io.RecordSerializationException;
 
 public class AudioIndexFileTest {
 

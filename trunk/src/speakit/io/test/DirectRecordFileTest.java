@@ -9,11 +9,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.dictionary.files.RecordFactory;
-import speakit.dictionary.files.RecordSerializationException;
-import speakit.dictionary.files.audioindexfile.AudioIndexRecord;
+import speakit.dictionary.audioindexfile.AudioIndexRecord;
 import speakit.dictionary.serialization.StringField;
 import speakit.io.DirectRecordFile;
+import speakit.io.RecordFactory;
+import speakit.io.RecordSerializationException;
 
 public class DirectRecordFileTest {
 

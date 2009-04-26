@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
-import speakit.dictionary.files.RecordSerializationException;
 
 public class BlockFile implements Iterable<Block> {
 

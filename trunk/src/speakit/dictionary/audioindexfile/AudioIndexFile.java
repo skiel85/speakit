@@ -1,13 +1,13 @@
-package speakit.dictionary.files.audioindexfile;
+package speakit.dictionary.audioindexfile;
 
 import java.io.File;
 import java.io.IOException;
 
-import speakit.dictionary.files.RecordFactory;
-import speakit.dictionary.files.RecordSerializationException;
-import speakit.dictionary.files.SecuentialRecordFile;
-import speakit.dictionary.files.audiofile.WordNotFoundException;
+import speakit.dictionary.audiofile.WordNotFoundException;
 import speakit.dictionary.serialization.StringField;
+import speakit.io.RecordFactory;
+import speakit.io.RecordSerializationException;
+import speakit.io.SecuentialRecordFile;
 
 /**
  * Representa un archivo de registros de índice del archivo de registros de

@@ -10,8 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.dictionary.files.RecordSerializationException;
 import speakit.io.Block;
+import speakit.io.RecordSerializationException;
 import speakit.io.RemovableBlock;
 import speakit.io.RemovableBlockFile;
 

@@ -63,7 +63,9 @@ public class BlockFile implements Iterable<Block> {
 	 * @throws RecordSerializationException
 	 */
 	public Block getNewBlock() throws IOException, RecordSerializationException {
-		return getBlock(this.file.appendBlock());
+		Block block = this.createBlock(this.file.appendBlock());
+		this.saveBlock(block);
+		return block;
 	}
 
 	/**

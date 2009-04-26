@@ -43,6 +43,18 @@ public class DirectRecordFileTest {
 		Assert.assertEquals(retrievedRecord.getOffset(), record.getOffset());
 	}
 
+	@Test
+	public void testAddAndRetrieveRecordFromBlock() throws IOException, RecordSerializationException {
+		int blockNumber = this.sut.createBlock();
+		AudioIndexRecord record = new AudioIndexRecord("hola", 1234);
+		StringField key = new StringField("hola");
+		this.sut.insertRecord(record, blockNumber);
+		AudioIndexRecord retrievedRecord = this.sut.getRecord(key, blockNumber);
+		Assert.assertNotNull(retrievedRecord);
+		Assert.assertEquals(retrievedRecord.getWord(), record.getWord());
+		Assert.assertEquals(retrievedRecord.getOffset(), record.getOffset());
+	}
+
 	@After
 	public void tearDown() throws Exception {
 		this.file.delete();

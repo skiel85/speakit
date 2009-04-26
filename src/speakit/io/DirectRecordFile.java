@@ -69,4 +69,17 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 		this.blocksFile.saveBlock(block);
 	}
 
+	public void insertRecord(RECTYPE record, int blockNumber) throws IOException, RecordSerializationException {
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		record.serialize(os);
+
+		Block block = this.blocksFile.getBlock(blockNumber);
+		block.appendContent(os.toByteArray());
+		this.blocksFile.saveBlock(block);
+	}
+
+	public int createBlock() throws RecordSerializationException, IOException {
+		return this.blocksFile.getNewBlock().getBlockNumber();
+	}
+
 }

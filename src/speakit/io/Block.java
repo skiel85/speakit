@@ -21,6 +21,18 @@ public class Block extends Record<IntegerField> {
 		return content.getBytes();
 	}
 
+	public void appendContent(byte[] appendedContent) {
+		byte[] content = this.getContent();
+		byte[] newContent = new byte[content.length + appendedContent.length];
+		for (int i = 0; i < content.length; i++) {
+			newContent[i] = content[i];
+		}
+		for (int i = content.length; i < content.length + appendedContent.length; i++) {
+			newContent[i] = appendedContent[i - content.length];
+		}
+		this.setContent(newContent);
+	}
+
 	public int getBlockNumber() {
 		return this.blockNumber.getInteger();
 	}

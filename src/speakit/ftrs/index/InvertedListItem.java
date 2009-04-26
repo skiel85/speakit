@@ -1,27 +1,27 @@
 package speakit.ftrs.index;
 
 public class InvertedListItem {
-	private int document;
+	private long documentId;
 	private int frecuency;
 
 	public InvertedListItem(int document, int frecuency) {
-		this.document = document;
+		this.documentId = document;
 		this.frecuency = frecuency;
 	}
 
 	/**
 	 * @return the document
 	 */
-	public int getDocument() {
-		return document;
+	public long getDocumentId() {
+		return documentId;
 	}
 
 	/**
 	 * @param document
 	 *            the document to set
 	 */
-	public void setDocument(int document) {
-		this.document = document;
+	public void setDocumentId(int documentId) {
+		this.documentId = documentId;
 	}
 
 	/**

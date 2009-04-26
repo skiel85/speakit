@@ -8,11 +8,6 @@ public class RawRecord extends Record<LongField> {
 		this.setKey(this.offset);
 	}
 
-	@Override
-	public void notifyOffsetChanged(long offset) {
-		this.offset.setLong(offset);
-	}
-
 	/**
 	 * Obtiene la posición en el archivo.
 	 * 

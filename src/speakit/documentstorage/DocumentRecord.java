@@ -1,25 +1,17 @@
 package speakit.documentstorage;
 
-import speakit.io.record.LongField;
-import speakit.io.record.Record;
+import speakit.io.record.RawRecord;
 import speakit.io.record.StringField;
 
-public class DocumentRecord extends Record<LongField> {
+public class DocumentRecord extends RawRecord {
 
-	private LongField offset = new LongField();
 	private StringField text = new StringField();
 
 	/**
 	 * Construye un nuevo registro de audio.
 	 */
 	public DocumentRecord() {
-		this.setKey(this.offset);
 		this.addField(this.text);
-	}
-
-	@Override
-	public void notifyOffsetChanged(long offset) {
-		this.offset.setLong(offset);
 	}
 
 	/**
@@ -31,24 +23,6 @@ public class DocumentRecord extends Record<LongField> {
 	public DocumentRecord(String text) {
 		this();
 		this.text.setString(text);
-	}
-
-	/**
-	 * Obtiene la posición del audio.
-	 * 
-	 * @return
-	 */
-	public long getOffset() {
-		return this.offset.getLong();
-	}
-
-	/**
-	 * Establece la posición del audio.
-	 * 
-	 * @param audio
-	 */
-	public void setOffset(long offset) {
-		this.offset.setLong(offset);
 	}
 
 	/**

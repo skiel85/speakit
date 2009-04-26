@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-
 /**
  * Representa un registro. Un objeto serializable y comparable.
  * 
@@ -15,10 +14,6 @@ import java.util.ArrayList;
 public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>> {
 	private KEYTYPE key;
 	private ArrayList<Field> fields = new ArrayList<Field>();
-
-	public void notifyOffsetChanged(long offset) {
-
-	}
 
 	/**
 	 * Establece el campo clave.

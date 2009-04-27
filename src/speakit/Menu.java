@@ -4,13 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+
 
 import speakit.audio.Audio;
 import speakit.audio.AudioManager;
 import speakit.audio.AudioManagerException;
 import speakit.dictionary.audiofile.WordNotFoundException;
 import speakit.documentstorage.TextDocumentList;
+
 import speakit.io.record.RecordSerializationException;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
@@ -255,57 +256,61 @@ public class Menu {
 			}
 		}
 	}
-
+	
+	/**
+	 * Despliega el menu para realizar una consulta
+	 * 
+	 * @throws IOException
+	 */
 	private void doConsultation() throws IOException {
-		@SuppressWarnings("unused")
-		String[] wordsOfConsultation;
-		@SuppressWarnings("unused")
 		String consultation = "";
 		TextDocumentList documentList;
-
+        
 		System.out.println("Ingrese la consulta");
 		consultation = this.userInput.readLine();
-		TextDocument searchText = new TextDocument();
-		/*
-		 * aca hay que hacer un metodo que tome a este array de terminos y
-		 * devuelva el array ordenado por peso global para luego poder devolver
-		 * la lista de documentos del termino con mayor peso global. Una vez que
-		 * tengo ese array ordenado segun peso global, llamo al metodo
-		 * getDocumntsFor() de FTRS para obtener todos los documentos
-		 */
-
+		TextDocument searchText = new TextDocument(consultation);
 		documentList = speakit.search(searchText);
-
-		// hay que ver que hacer en este caso
-
-		/*
-		 * deberia saber la cantidad de documentos que me devuelve para ver si
-		 * tengo que pedir al siguiente termino sus documentos dependiendo de la
-		 * cantidad de documentos que desee obtener. Luego debo mostrar los
-		 * documentos que son resultado de la consulta con algun metodo que
-		 * separe documentList en documentos y preguntarle al usuario si desea
-		 * reproducirlos.
-		 */
-		showResults(documentList);
-		showOptions();
-
+		if (documentList!= null){
+			showResults(documentList);
+		    showOptions(documentList);
+		}
 	}
 
+	/**
+	 * Muestra los resultados de una consulta
+	 * 
+	 * @param documentList
+	 */
 	private void showResults(TextDocumentList documentList) {
-		System.out.println("El resultado de la consulta es el siguiente:");
-		// metodo que muestre documentos
-
+		System.out.println("Los documentos encontrados para la consulta" + " " +
+				"realizada se muestran a continuacion:");
+		int number = 1;
+		while(documentList.iterator().hasNext()){
+			System.out.println(number + " : " + documentList.iterator().next().getPreview());
+			System.out.println();
+			number++;
+		}
+		System.out.println();
 	}
 
-	private void showOptions() throws IOException {
+	/**
+	 * Muestra las opciones luego de realizar una consulta
+	 * 
+	 * @param documentList
+	 */
+	private void showOptions(TextDocumentList documentList) throws IOException {
 		System.out.println("Si desea reproducir algun documento presione 1");
-		System.out.println("A continuacion se le pedira que ingrese la ruta");
 		System.out.println("Para realizar una nueva consulta presione 2");
 		System.out.println("Para ir al menu principal presione 0");
-		chooseOption();
+		chooseOption(documentList);
 	}
 
-	private void chooseOption() throws IOException {
+	/**
+	 * Permite elegir una opcion
+	 * 
+	 * @param documentList
+	 */
+	private void chooseOption(TextDocumentList documentList) throws IOException {
 		int opt = 0;
 		boolean option = false;
 
@@ -324,7 +329,7 @@ public class Menu {
 		switch (opt) {
 
 		case 1:
-			playTextDocument();
+			chooseDocumentToPlay(documentList);
 			break;
 		case 2:
 			doConsultation();
@@ -339,6 +344,30 @@ public class Menu {
 
 	}
 
+	/**
+	 * Luego de una consulta, permite elegir un documento para reproducir.
+	 * 
+	 * @param documentList
+	 */
+	private void chooseDocumentToPlay(TextDocumentList documentList) throws IOException {
+		String number = "";
+		System.out.println("Elija el numero de documento que desea reproducir");
+		number = this.userInput.readLine();
+		Integer integer = new Integer(number);
+		TextDocument document;
+		int counter = 1;
+		while((documentList.iterator().hasNext()) && (counter!=integer.intValue())){
+			documentList.iterator().next();
+			counter++;
+		}
+		document=documentList.iterator().next();
+		WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(document);
+		System.out.println("Se va a reproducir el siguiente documento");
+		while (audioDocument.hasNext()) {
+			this.playSound(audioDocument.next());
+		}
+	}
+
 	private BufferedReader initializeUserInput() {
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader input = new BufferedReader(isr);
@@ -350,12 +379,5 @@ public class Menu {
 		System.out.println("Menu Principal\n" + "	1.- Procesar archivo de Texto\n" + "	2.- Reproducir Archivo\n" + "\n" + "	3.- Realizar una consulta\n" + "\n" + "	0.- Salir");
 	}
 
-	/**
-	 * Muestra una preview del documento
-	 * 
-	 * @param preview
-	 */
-	protected void showPreview(ArrayList<String> preview) {
-		// TODO Implementar.
-	}
+	
 }

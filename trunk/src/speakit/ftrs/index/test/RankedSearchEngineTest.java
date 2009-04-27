@@ -55,8 +55,19 @@ public class RankedSearchEngineTest {
 		Assert.assertTrue(docIds.contains(new Long(3))); 
 	}
 	
+	//Ejemplo de la diapositiva
 	@Test
-	public void testSearchWithOrder() throws IOException {
+	public void testSearchWithOrder1() throws IOException {
+		sut.setResultItemsCount(3);
+		List<Long> docIds = sut.search(new TextDocument("cosas vida"));
+		Assert.assertEquals(3, docIds.size()); 
+		Assert.assertEquals(1L, docIds.get(0).longValue());
+		Assert.assertEquals(3L, docIds.get(1).longValue());
+		Assert.assertEquals(4L, docIds.get(2).longValue()); 
+	}
+	
+	@Test
+	public void testSearchWithOrder2() throws IOException {
 		List<Long> docIds = sut.search(new TextDocument("vida querer"));
 		Assert.assertEquals(4, docIds.size());
 		//"querer" tiene mayor peso que "vida", pues "querer" es mas raro
@@ -68,7 +79,7 @@ public class RankedSearchEngineTest {
 	}
 	
 	@Test
-	public void testSearchWithOrder2() throws IOException {
+	public void testSearchWithOrder3() throws IOException {
 		List<Long> docIds = sut.search(new TextDocument("cosas querer"));
 		Assert.assertEquals(2, docIds.size());
 		//Se espera que primero vengan los documentos de "querer" (3) y luego de "cosas" (1,[el 3 ya apareció]) 

@@ -4,15 +4,16 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 import speakit.io.blockfile.Block;
 import speakit.io.blockfile.BlockFile;
+import speakit.io.blockfile.BlockFileOverflowException;
 import speakit.io.blockfile.LinkedBlockFile;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
-
 
 public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE> {
 	private BlockFile blocksFile;
@@ -71,9 +72,25 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		record.serialize(os);
 
-		Block block = this.blocksFile.getNewBlock();
-		block.setContent(os.toByteArray());
-		this.blocksFile.saveBlock(block);
+		boolean inserted = false;
+		Iterator<Block> blockIterator = this.blocksFile.iterator();
+
+		while (!inserted && blockIterator.hasNext()) {
+			try {
+				insertRecord(record, blockIterator.next().getBlockNumber());
+				inserted = true;
+			} catch (BlockFileOverflowException e) {
+				// Dejado intencionalmente en blanco.
+				// En caso de overflow se continúa intentando insertar en el
+				// siguiente bloque.
+			}
+		}
+
+		if (!inserted) {
+			Block block = this.blocksFile.getNewBlock();
+			block.setContent(os.toByteArray());
+			this.blocksFile.saveBlock(block);
+		}
 	}
 
 	public void insertRecord(RECTYPE record, int blockNumber) throws IOException, RecordSerializationException {

@@ -2,11 +2,11 @@ package speakit.ftrs.index;
 
 public class InvertedListItem {
 	private long documentId;
-	private int frecuency;
+	private int localFrecuency;
 
-	public InvertedListItem(int document, int frecuency) {
+	public InvertedListItem(int document, int localFrecuency) {
 		this.documentId = document;
-		this.frecuency = frecuency;
+		this.localFrecuency = localFrecuency;
 	}
 
 	/**
@@ -27,16 +27,16 @@ public class InvertedListItem {
 	/**
 	 * @return the frecuency
 	 */
-	public int getFrecuency() {
-		return frecuency;
+	public int getLocalFrecuency() {
+		return localFrecuency;
 	}
 
 	/**
 	 * @param frecuency
 	 *            the frecuency to set
 	 */
-	public void setFrecuency(int frecuency) {
-		this.frecuency = frecuency;
+	public void setLocalFrecuency(int frecuency) {
+		this.localFrecuency = frecuency;
 	}
 
 }

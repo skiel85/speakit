@@ -2,6 +2,7 @@ package speakit.ftrs;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 public class MockAppearanceStorageImpl implements AppearanceStorage {
 
@@ -18,9 +19,19 @@ public class MockAppearanceStorageImpl implements AppearanceStorage {
 
 	@Override
 	public ArrayList<Appearance> getSortedAppearanceList() {
-		// TODO Auto-generated method stub
 		Collections.sort(appearances);
 		return appearances;
+	}
+
+	@Override
+	public ArrayList<Appearance> getApearanceListFor(int termId) {
+		ArrayList<Appearance> result = new ArrayList<Appearance>();
+		for (Iterator<Appearance> iterator = appearances.iterator(); iterator.hasNext();) {
+			Appearance appearance = iterator.next();
+			if(appearance.getTermId() == termId)
+				result.add(appearance);
+		}
+		return result;
 	}
 
 }

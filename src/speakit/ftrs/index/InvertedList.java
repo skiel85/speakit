@@ -7,13 +7,16 @@ public class InvertedList {
  
 	private ArrayList<InvertedListItem> items;
 
-	public InvertedList(){
-		items=new ArrayList<InvertedListItem>();
+
+	public InvertedList() {
+		items = new ArrayList<InvertedListItem>();
 	}
 	
 	public InvertedList(ArrayList<InvertedListItem> items) {
 		this.items = items;
 	}
+	
+
 
 	public void sortByWeight() {
 		// TODO Auto-generated method stub
@@ -31,6 +34,10 @@ public class InvertedList {
 			ids.add(item.getDocumentId());
 		}
 		return ids;
+	}
+	
+	public int size() {
+		return items.size();
 	}
 	
 	public InvertedList add(InvertedListItem item){

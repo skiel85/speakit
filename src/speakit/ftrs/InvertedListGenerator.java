@@ -1,9 +1,13 @@
 package speakit.ftrs;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 
 import speakit.TextDocument;
 import speakit.ftrs.index.InvertedList;
+import speakit.ftrs.index.InvertedListItem;
 
 public class InvertedListGenerator {
 
@@ -37,13 +41,33 @@ public class InvertedListGenerator {
 	 * @return
 	 */
 	public InvertedList generate(int termId) {
-		// ordenar la lista de apariciones con el mecanismo de sort definido
-		// para cada termino
-		// recuperar la lista de apariciones y generar un
-		// InvertedListItem(idDoc, frecuencia)
-		// agregarlo a la lista invertida
-		// devolver la nueva lista invertida
-		return null;
+		ArrayList<InvertedListItem> invListItems = new ArrayList<InvertedListItem>();
+		ArrayList<Appearance> appearanceList = getStorage().getApearanceListFor(termId);
+		if (appearanceList.size() == 0) {
+			//La lista de apariencias es 0, devuelvo una lista vacia?  o lanzo excepcion?
+			return new InvertedList();
+		}
+		int frecuency = 0;
+		int currentDoc = appearanceList.get(0).getDocument();
+		Appearance app = null;
+		for (Iterator<Appearance> appIterator = appearanceList.iterator(); appIterator.hasNext();) {
+			app = appIterator.next();
+			if (currentDoc == app.getDocument()) {
+				frecuency++;
+			}
+			else
+			{
+				InvertedListItem item = new InvertedListItem(currentDoc, frecuency == 0 ? 1 : frecuency);
+				invListItems.add(item);
+				frecuency = 0;
+				currentDoc = app.getDocument();
+			}
+		}
+		
+		InvertedListItem item = new InvertedListItem(currentDoc, frecuency == 0 ? 1 : frecuency);
+		invListItems.add(item);
+		Collections.sort(invListItems, InvertedItemsSort.FRECUENCY_COMPARATOR);
+		return new InvertedList(invListItems);
 	}
 
 	private AppearanceStorage getStorage() {
@@ -51,4 +75,15 @@ public class InvertedListGenerator {
 			storage = new MockAppearanceStorageImpl();
 		return storage;
 	}
+}
+
+class InvertedItemsSort {
+    static final Comparator<InvertedListItem> FRECUENCY_COMPARATOR = 
+                                 new Comparator<InvertedListItem>() {
+        public int compare(InvertedListItem it1, InvertedListItem it2) {
+        	Integer frec1 = new Integer(it1.getLocalFrecuency());
+        	Integer frec2 = new Integer(it2.getLocalFrecuency());
+            return frec1.compareTo(frec2); 
+        }
+    };
 }

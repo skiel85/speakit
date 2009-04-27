@@ -1,9 +1,9 @@
 package speakit.documentstorage;
 
-import speakit.io.record.RawRecord;
+import speakit.io.record.OffsetRecord;
 import speakit.io.record.StringField;
 
-public class DocumentRecord extends RawRecord {
+public class DocumentRecord extends OffsetRecord {
 
 	private StringField text = new StringField();
 

@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.IOException;
 
 import speakit.io.record.LongField;
-import speakit.io.record.RawRecord;
+import speakit.io.record.OffsetRecord;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 
-public class SecuentialRawRecordFile<RECTYPE extends RawRecord> extends SecuentialRecordFile<RECTYPE, LongField> {
+public class OffsetRecordFile<RECTYPE extends OffsetRecord> extends SecuentialRecordFile<RECTYPE, LongField> {
 
 	/**
 	 * Crea un archivo de registros.
@@ -17,7 +17,7 @@ public class SecuentialRawRecordFile<RECTYPE extends RawRecord> extends Secuenti
 	 * @param recordFactory
 	 * @throws IOException
 	 */
-	public SecuentialRawRecordFile(File file, RecordFactory<RECTYPE> recordFactory) throws IOException {
+	public OffsetRecordFile(File file, RecordFactory<RECTYPE> recordFactory) throws IOException {
 		super(file, recordFactory);
 	}
 

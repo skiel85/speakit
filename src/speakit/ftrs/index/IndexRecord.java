@@ -16,9 +16,45 @@ public class IndexRecord {
 	public IndexRecord(String term, InvertedList documents) {
 		this.term = term; 
 		this.documents = documents;
+		calculateTermsStatistics();
 	}
 
 	public InvertedList getInvertedList() {
 		return documents;
+	}
+	public void setInvertedList(InvertedList list){
+		this.documents=list;
+		this.calculateTermsStatistics();
+	}
+	
+	public void calculateTermsStatistics(){
+		if(this.documents==null){
+			this.documents=new InvertedList();
+		}
+		this.documentsQty=this.documents.size();
+		this.maxLocalFrecuency=this.documents.getMaxLocalFrecuency();
+	}
+	
+	//TODO: REVISAR PESO GLOBAL
+	public double getTotalWeight(int totalDocuments){
+		return Math.log10(this.documentsQty/totalDocuments);
+	}
+	
+	//TODO: REVISAR PESO GLOBAL
+	/**
+	 * El documento mas importante es el mas raro, es decir el que aparezca en menos documentos. Por lo tanto el mas raro de los dos devuelve -1.
+	 * @param other
+	 * @return
+	 */
+	public int compareByTermImportance(IndexRecord other){
+		if(this.documentsQty==other.documentsQty){
+			return 0;
+		}else{
+			if(this.documentsQty<other.documentsQty){
+				return -1;
+			}else{
+				return 1;
+			}	
+		}
 	}
 }

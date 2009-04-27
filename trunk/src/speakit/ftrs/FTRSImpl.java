@@ -2,12 +2,14 @@ package speakit.ftrs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import speakit.TextDocument;
 import speakit.documentstorage.DocumentRepository;
 import speakit.documentstorage.TextDocumentList;
 import speakit.ftrs.index.Index;
 import speakit.ftrs.index.IndexRecord;
+
 
 public class FTRSImpl implements FTRS {
 
@@ -20,29 +22,26 @@ public class FTRSImpl implements FTRS {
 
 	@Override
 	public TextDocumentList search(TextDocument searchText) throws IOException {
-		/*
-		 * RankedSearchEngine searchEngine = new RankedSearchEngine(this.index,
-		 * 10, 0); List<Long> documentIds =
-		 * searchEngine.search(this.applyFilters(searchText));
-		 * 
-		 * TextDocumentList result = new TextDocumentList(); for (Long docId :
-		 * documentIds) { result.add(repository.getById(docId)); } return
-		 * result;
-		 */
-		return null;
+		
+		 RankedSearchEngine searchEngine = new RankedSearchEngine(this.index, 10, 0); 
+		 List<Long> documentIds = searchEngine.search(searchText);
+		 
+		 TextDocumentList result = new TextDocumentList(); 
+		 for (Long docId : documentIds) { result.add(repository.getById(docId)); } 
+		 
+		 return result;
+		 
 	}
 
 	public DocumentRepository getDocumentRepository() {
 		return repository;
 	}
 
-	/**
-	 * Aplica filtros al documento, tales como eliminar stopwords
-	 */
-	private TextDocument applyFilters(TextDocument searchText) {
-		return searchText;
-	}
 
+	private TextDocument applyFilters(TextDocument textDocument){
+		return textDocument;
+	}
+	
 	private Index getIndex() {
 		if (this.index == null)
 			this.index = new Index();

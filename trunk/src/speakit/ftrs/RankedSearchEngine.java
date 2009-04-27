@@ -51,10 +51,10 @@ public class RankedSearchEngine {
 		while (InvertedListIterator.hasNext() && resultDocumentIDs.size() < this.documentsLimit) {
 			InvertedList current = InvertedListIterator.next();
 			// ordena los elementos de la lista por peso global
-			current.sortByWeight();
+		//current.sortByWeight();
 			// elimina las apariciones de términos que aparezcan menos de una
 			// cierta cantidad de veces
-			current.truncateByFrecuency(this.minTermFrecuency);
+		//current.truncateByFrecuency(this.minTermFrecuency);
 			ArrayList<Long> documentIdsInList = current.getDocuments();
 			for (int i = 0; i < documentIdsInList.size() && resultDocumentIDs.size() < this.documentsLimit; i++) {
 				Long doc = documentIdsInList.get(i);

@@ -1,10 +1,10 @@
 package speakit.io.record;
 
-public class RawRecord extends Record<LongField> {
+public class OffsetRecord extends Record<LongField> {
 
 	private LongField offset = new LongField();
 
-	public RawRecord() {
+	public OffsetRecord() {
 		this.setKey(this.offset);
 	}
 

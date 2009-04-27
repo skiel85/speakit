@@ -1,12 +1,12 @@
 package speakit.dictionary.audiofile;
 
 import speakit.io.record.ByteArrayField;
-import speakit.io.record.RawRecord;
+import speakit.io.record.OffsetRecord;
 
 /**
  * Registro de audio.
  */
-public class AudioRecord extends RawRecord {
+public class AudioRecord extends OffsetRecord {
 
 	private ByteArrayField audio = new ByteArrayField();
 

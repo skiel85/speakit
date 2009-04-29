@@ -68,18 +68,18 @@ public abstract class Field implements Comparable<Field> {
 	/**
 	 * Hidrata el objeto
 	 * 
-	 * @param out
+	 * @param in
 	 * @throws IOException
 	 */
-	protected abstract void actuallyDeserialize(InputStream out) throws IOException;
+	protected abstract void actuallyDeserialize(InputStream in) throws IOException;
 
 	/**
 	 * Persiste el objeto como bytes
 	 * 
-	 * @param in
+	 * @param out
 	 * @throws IOException
 	 */
-	protected abstract void actuallySerialize(OutputStream in) throws IOException;
+	protected abstract void actuallySerialize(OutputStream out) throws IOException;
 
 	@Override
 	public int compareTo(Field o) {

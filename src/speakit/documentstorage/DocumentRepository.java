@@ -1,20 +1,23 @@
 package speakit.documentstorage;
 
-import java.io.File;
 import java.io.IOException;
 
+import speakit.Configuration;
+import speakit.FileManager;
 import speakit.TextDocument;
+import speakit.io.File;
 import speakit.io.record.LongField;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.OffsetRecordFile;
 
 //TODO implementar esta clase
-public class DocumentRepository implements RecordFactory<DocumentRecord> {
+public class DocumentRepository implements File,RecordFactory<DocumentRecord> {
 	private OffsetRecordFile<DocumentRecord> recordFile;
 
-	public void load(File file) throws IOException {
-		this.recordFile = new OffsetRecordFile<DocumentRecord>(file, this);
+	@Override
+	public void load(FileManager fileManager) throws IOException { 
+		this.recordFile = new OffsetRecordFile<DocumentRecord>(fileManager.openFile("DocumentRepository.dat"), this);
 	}
 
 	/**
@@ -52,4 +55,13 @@ public class DocumentRepository implements RecordFactory<DocumentRecord> {
 		return new DocumentRecord();
 	}
 
+	@Override
+	public void install(FileManager filemanager, Configuration conf) throws IOException {
+		this.load(filemanager);
+	}
+
+	@Override
+	public boolean isInstalled(FileManager filemanager) throws IOException {
+		return true;
+	}
 }

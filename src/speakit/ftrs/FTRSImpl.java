@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import speakit.Configuration;
+import speakit.FileManager;
 import speakit.TextDocument;
 import speakit.documentstorage.DocumentRepository;
 import speakit.documentstorage.TextDocumentList;
@@ -18,6 +20,7 @@ public class FTRSImpl implements FTRS {
 
 	public FTRSImpl() {
 		index = new Index();
+		repository=new DocumentRepository();
 	}
 
 	@Override
@@ -49,19 +52,40 @@ public class FTRSImpl implements FTRS {
 	}
 
 	@Override
-	public void indexDocuments(TextDocumentList documentList) {
-		// getIndex().
+	public void indexDocuments(TextDocumentList documentList) throws IOException {
+		for(TextDocument doc:documentList){
+			indexDocuments(doc);
+		}
 	}
 
 	@Override
-	public void indexDocuments(TextDocument textDocument) {
+	public void indexDocuments(TextDocument textDocument) throws IOException {
+		this.repository.store(textDocument);
 		IndexRecordGenerator generator = new IndexRecordGenerator();
 		// a modo de prueba, agrego un document, este metodo seguramente no
 		// tenga sentido
 		TextDocument cleanDocument = applyFilters(textDocument);
 		generator.addSingleDocument(cleanDocument);
 		ArrayList<IndexRecord> records = generator.generateNewRegisters();
+		//TODO faltaría mergear los index records preexistentes con los nuevos index records 
 		getIndex().updateRecords(records);
+	} 
+
+	@Override
+	public void load(FileManager filemanager) throws IOException {
+		this.index.load(filemanager);
+		this.repository.load(filemanager);
+	} 
+
+	@Override
+	public void install(FileManager filemanager, Configuration conf) throws IOException {
+		this.repository.install(filemanager, conf);
+		this.index.install(filemanager,conf);
+	}
+
+	@Override
+	public boolean isInstalled(FileManager filemanager) throws IOException {
+		return this.index.isInstalled(filemanager) &  this.repository.isInstalled(filemanager);
 	}
 
 }

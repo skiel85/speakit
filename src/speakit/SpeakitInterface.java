@@ -4,9 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import speakit.documentstorage.TextDocumentList;
+import speakit.ftrs.Installable;
 import speakit.io.record.RecordSerializationException;
 
-public interface SpeakitInterface {
+public interface SpeakitInterface extends Installable{
 
 	/**
 	 * Abre todos los archivos necesarios y lo deja listo para su uso.

@@ -2,9 +2,10 @@ package speakit.dictionary.test;
 
 import java.io.IOException;
 
+import speakit.Configuration;
+import speakit.FileManager;
 import speakit.audio.Audio;
 import speakit.dictionary.AudioDictionary;
-import speakit.dictionary.DictionaryFileSet;
 
 /**
  * Clase Dummy q implementa AudioDictionary
@@ -33,15 +34,22 @@ public class MockAudioDictionary implements AudioDictionary {
 	}
 
 	@Override
-	public void load() throws IOException {
+	public void load(FileManager fileManager) throws IOException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void load(DictionaryFileSet fileSet) throws IOException {
+	public void install(FileManager filemanager, Configuration conf) throws IOException {
 		// TODO Auto-generated method stub
-
+		
 	}
+
+	@Override
+	public boolean isInstalled(FileManager filemanager) throws IOException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+  
 
 }

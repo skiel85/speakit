@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import speakit.dictionary.AudioDictionaryImpl;
-import speakit.dictionary.DictionaryFileSet;
-import speakit.documentstorage.DocumentRepository;
 import speakit.documentstorage.TextDocumentList;
 import speakit.ftrs.FTRS;
 import speakit.ftrs.FTRSImpl;
@@ -20,9 +18,13 @@ import speakit.io.record.RecordSerializationException;
  */
 public class Speakit implements SpeakitInterface {
 
-	private AudioDictionaryImpl dataBase;
-	private FTRS ftrs = new FTRSImpl();
-	private DocumentRepository repository;
+	private AudioDictionaryImpl	dataBase;
+	private FTRS				ftrs;
+
+	public Speakit() {
+		this.dataBase = new AudioDictionaryImpl();
+		this.ftrs = new FTRSImpl();
+	}
 
 	/**
 	 * Carga Speakit con el conjunto de archivos predeterminado.
@@ -30,31 +32,7 @@ public class Speakit implements SpeakitInterface {
 	 * @throws IOException
 	 */
 	public void load() throws IOException {
-		DictionaryFileSet fileSet = new DictionaryFileSet() {
-			File audioFile;
-			File audioIndexFile;
-
-			{
-				this.audioFile = new File("AudioFile.dat");
-				this.audioIndexFile = new File("AudioIndexFile.dat");
-				this.audioFile.setWritable(true);
-				this.audioIndexFile.setWritable(true);
-				this.audioFile.createNewFile();
-				this.audioIndexFile.createNewFile();
-			}
-
-			@Override
-			public File getAudioFile() {
-				return this.audioFile;
-			}
-
-			@Override
-			public File getAudioIndexFile() {
-				return this.audioIndexFile;
-			}
-		};
-
-		this.load(fileSet);
+		this.load(new FileManager());
 	}
 
 	/**
@@ -62,19 +40,9 @@ public class Speakit implements SpeakitInterface {
 	 * 
 	 * @throws IOException
 	 */
-	public void load(DictionaryFileSet fileSet) throws IOException {
-		dataBase = new AudioDictionaryImpl();
-		dataBase.load(fileSet);
-
-		repository = new DocumentRepository();
-		repository.load(createFile("DocumentRepository.dat"));
-	}
-
-	private File createFile(String path) throws IOException {
-		File file = new File(path);
-		file.setWritable(true);
-		file.createNewFile();
-		return file;
+	public void load(FileManager fileManager) throws IOException {
+		this.dataBase.load(fileManager);
+		this.ftrs.load(fileManager);
 	}
 
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {
@@ -98,7 +66,6 @@ public class Speakit implements SpeakitInterface {
 	 */
 	private void indexDocument(TextDocument doc) throws IOException, RecordSerializationException {
 		this.ftrs.indexDocuments(doc);
-		this.repository.store(doc);
 	}
 
 	public WordAudioDocument convertToAudioDocument(TextDocument doc) throws IOException {
@@ -120,6 +87,17 @@ public class Speakit implements SpeakitInterface {
 	@Override
 	public TextDocumentList search(TextDocument searchText) throws IOException {
 		return this.ftrs.search(searchText);
+	}
+
+	@Override
+	public void install(FileManager filemanager, Configuration conf) throws IOException {
+		this.ftrs.install(filemanager, conf);
+		this.dataBase.install(filemanager, conf);
+	}
+
+	@Override
+	public boolean isInstalled(FileManager filemanager) throws IOException {
+		return this.ftrs.isInstalled(filemanager) & dataBase.isInstalled(filemanager);
 	}
 
 }

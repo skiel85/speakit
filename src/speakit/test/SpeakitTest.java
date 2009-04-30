@@ -12,28 +12,30 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.Configuration;
+import speakit.FileManager;
 import speakit.Speakit;
 import speakit.TextDocument;
 import speakit.WordAudio;
 import speakit.audio.Audio;
-import speakit.dictionary.test.TestDictionaryFileSet;
 import speakit.io.record.RecordSerializationException;
 
 public class SpeakitTest {
 
-	private TestDictionaryFileSet fileSet;
+	private FileManager fileManager;
 	private Speakit sut;
 
 	@Before
 	public void setUp() throws Exception {
-		this.fileSet = new TestDictionaryFileSet();
+		this.fileManager = new TestFileManager(this.getClass().getName());
 		this.sut = new Speakit();
-		this.sut.load(this.fileSet);
+		this.sut.install(this.fileManager,new Configuration());
+		this.sut.load(this.fileManager);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		this.fileSet.destroyFiles();
+		this.fileManager.destroyFiles();
 	}
 
 	public TextDocument createTextDocument(String text) throws FileNotFoundException, IOException {
@@ -118,7 +120,7 @@ public class SpeakitTest {
 	@Test
 	public void testRestartSpeakitAndContinueAddingWords() throws IOException, RecordSerializationException {
 		this.sut = new Speakit();
-		this.sut.load(this.fileSet);
+		this.sut.load(this.fileManager);
 
 		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
 		WordAudio wordAudioO = new WordAudio("o", new Audio(new byte[] { 3, 8, -65, 54, 82 }));
@@ -130,7 +132,7 @@ public class SpeakitTest {
 		this.sut.addWordAudio(wordAudioEsa);
 
 		this.sut = new Speakit();
-		this.sut.load(this.fileSet);
+		this.sut.load(this.fileManager);
 
 		WordAudio wordAudioEs = new WordAudio("es", new Audio(new byte[] { 111, 34, -65, 8, 82 }));
 		WordAudio wordAudioLa = new WordAudio("la", new Audio(new byte[] { 112, 0, -65, 65, 82 }));

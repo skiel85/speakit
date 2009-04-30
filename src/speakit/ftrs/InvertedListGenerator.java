@@ -1,8 +1,6 @@
 package speakit.ftrs;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 
 import speakit.TextDocument;
@@ -64,10 +62,10 @@ public class InvertedListGenerator {
 			}
 		}
 		
-		InvertedListItem item = new InvertedListItem(currentDoc, frecuency == 0 ? 1 : frecuency);
+		InvertedListItem item = new InvertedListItem(currentDoc, frecuency == 0 ? 1 : frecuency);		
 		invListItems.add(item);
-		Collections.sort(invListItems, InvertedItemsSort.FRECUENCY_COMPARATOR);
-		return new InvertedList(invListItems);
+		InvertedList resultList = new InvertedList(invListItems);
+		return resultList.sortByFrecuency();
 	}
 
 	private AppearanceStorage getStorage() {
@@ -77,13 +75,3 @@ public class InvertedListGenerator {
 	}
 }
 
-class InvertedItemsSort {
-    static final Comparator<InvertedListItem> FRECUENCY_COMPARATOR = 
-                                 new Comparator<InvertedListItem>() {
-        public int compare(InvertedListItem it1, InvertedListItem it2) {
-        	Integer frec1 = new Integer(it1.getLocalFrecuency());
-        	Integer frec2 = new Integer(it2.getLocalFrecuency());
-            return frec1.compareTo(frec2); 
-        }
-    };
-}

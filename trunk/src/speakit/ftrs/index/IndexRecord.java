@@ -22,6 +22,7 @@ public class IndexRecord {
 	public InvertedList getInvertedList() {
 		return documents;
 	}
+	
 	public void setInvertedList(InvertedList list){
 		this.documents=list;
 		this.calculateTermsStatistics();
@@ -35,9 +36,8 @@ public class IndexRecord {
 		this.maxLocalFrecuency=this.documents.getMaxLocalFrecuency();
 	}
 	
-	//TODO: REVISAR PESO GLOBAL
 	public double getTotalWeight(int totalDocuments){
-		return Math.log10(this.documentsQty/totalDocuments);
+		return Math.log10(totalDocuments/this.documentsQty);
 	}
 	
 	//TODO: REVISAR PESO GLOBAL

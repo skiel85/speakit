@@ -5,13 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
 import speakit.audio.Audio;
 import speakit.audio.AudioManager;
 import speakit.audio.AudioManagerException;
 import speakit.dictionary.audiofile.WordNotFoundException;
 import speakit.documentstorage.TextDocumentList;
-
 import speakit.io.record.RecordSerializationException;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
@@ -285,11 +283,11 @@ public class Menu {
 		System.out.println("Los documentos encontrados para la consulta" + " " +
 				"realizada se muestran a continuacion:");
 		int number = 1;
-		while(documentList.iterator().hasNext()){
-			System.out.println(number + " : " + documentList.iterator().next().getPreview());
+		for (TextDocument textDocument : documentList) {
+			System.out.println(number + " : " + textDocument.getPreview());
 			System.out.println();
 			number++;
-		}
+		} 
 		System.out.println();
 	}
 

@@ -1,9 +1,14 @@
 package speakit.ftrs.index;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import speakit.Configuration;
+import speakit.FileManager;
+import speakit.io.File;
+
 //TODO implementar
-public class Index {
+public class Index implements File{
 
 	protected ArrayList<IndexRecord> records;
 	
@@ -41,4 +46,20 @@ public class Index {
 		}
 		this.records.add(record);
 	}
+ 
+
+	public void load(FileManager filemanager) {
+		 //TODO implementar
+	}
+
+	@Override
+	public void install(FileManager filemanager, Configuration conf) throws IOException {
+		//TODO implementar
+	}
+
+	@Override
+	public boolean isInstalled(FileManager filemanager) throws IOException {
+		return true;
+	}
+ 
 }

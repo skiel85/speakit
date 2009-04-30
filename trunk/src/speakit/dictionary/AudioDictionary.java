@@ -2,22 +2,17 @@ package speakit.dictionary;
 
 import java.io.IOException;
 
+import speakit.FileManager;
 import speakit.audio.Audio;
 import speakit.dictionary.audiofile.WordNotFoundException;
+import speakit.io.File;
 import speakit.io.record.RecordSerializationException;
 
 /**
  * Diccionario de audio. A partir de una palabra obtiene su representación
  * sonora.
  */
-public interface AudioDictionary {
-	/**
-	 * Carga el diccionario con los archivos predeterminados. Se debe llamar a
-	 * este método antes de cualquier otro.
-	 * 
-	 * @throws IOException
-	 */
-	public void load() throws IOException;
+public interface AudioDictionary  extends File{ 
 
 	/**
 	 * Carga el diccionario con los archivos especificados. Se debe llamar a
@@ -25,7 +20,7 @@ public interface AudioDictionary {
 	 * 
 	 * @throws IOException
 	 */
-	public void load(DictionaryFileSet fileSet) throws IOException;
+	public void load(FileManager fileManager) throws IOException;
 
 	/**
 	 * Agrega una nueva entrada al diccionario, es decir, agrega al diccionario

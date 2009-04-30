@@ -2,6 +2,8 @@ package speakit.dictionary;
 
 import java.io.IOException;
 
+import speakit.Configuration;
+import speakit.FileManager;
 import speakit.audio.Audio;
 
 /**
@@ -28,18 +30,24 @@ public class MockAudioDictionary implements AudioDictionary {
 	public Audio getAudio(String word) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
+	}  
+
+	@Override
+	public void load(FileManager fileManager) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void load() throws IOException {
+	public void install(FileManager filemanager, Configuration conf) throws IOException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void load(DictionaryFileSet fileSet) throws IOException {
+	public boolean isInstalled(FileManager filemanager) throws IOException {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 }

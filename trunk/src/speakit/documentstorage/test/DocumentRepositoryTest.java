@@ -1,6 +1,5 @@
 package speakit.documentstorage.test;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.junit.After;
@@ -8,24 +7,27 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.FileManager;
 import speakit.TextDocument;
 import speakit.documentstorage.DocumentRepository;
 import speakit.io.record.RecordSerializationException;
+import speakit.test.TestFileManager;
 
 public class DocumentRepositoryTest {
-	File file;
+	 
 	DocumentRepository sut;
+	private FileManager	fileSet;
 
 	@Before
 	public void setUp() throws Exception {
-		this.file = File.createTempFile(this.getClass().getName(), ".dat");
+		this.fileSet = new TestFileManager(this.getClass().getName());
 		this.sut = new DocumentRepository();
-		this.sut.load(file);
+		this.sut.load(fileSet);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		this.file.delete();
+		this.fileSet.destroyFiles();
 	}
 
 	@Test

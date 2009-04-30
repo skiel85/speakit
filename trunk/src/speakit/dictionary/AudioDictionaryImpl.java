@@ -1,8 +1,9 @@
 package speakit.dictionary;
 
-import java.io.File;
 import java.io.IOException;
 
+import speakit.Configuration;
+import speakit.FileManager;
 import speakit.audio.Audio;
 import speakit.dictionary.audiofile.AudioFile;
 import speakit.dictionary.audiofile.WordNotFoundException;
@@ -10,8 +11,8 @@ import speakit.dictionary.audioindexfile.AudioIndexFile;
 import speakit.io.record.RecordSerializationException;
 
 public class AudioDictionaryImpl implements AudioDictionary {
-	private AudioIndexFile audioIndexFile;
-	private AudioFile audioFile;
+	private AudioIndexFile	audioIndexFile;
+	private AudioFile		audioFile;
 
 	public AudioDictionaryImpl() {
 	}
@@ -34,39 +35,19 @@ public class AudioDictionaryImpl implements AudioDictionary {
 	}
 
 	@Override
-	public void load() throws IOException {
-		DictionaryFileSet fileSet = new DictionaryFileSet() {
-			File audioFile;
-			File audioIndexFile;
-
-			{
-				this.audioFile = new File("AudioFile.dat");
-				this.audioIndexFile = new File("AudioIndexFile.dat");
-				this.audioFile.setWritable(true);
-				this.audioIndexFile.setWritable(true);
-				this.audioFile.createNewFile();
-				this.audioIndexFile.createNewFile();
-			}
-
-			@Override
-			public File getAudioFile() {
-				return this.audioFile;
-			}
-
-			@Override
-			public File getAudioIndexFile() {
-				return this.audioIndexFile;
-			}
-		};
-
-		audioIndexFile = new AudioIndexFile(fileSet.getAudioIndexFile());
-		audioFile = new AudioFile(fileSet.getAudioFile());
+	public void load(FileManager fileManager) throws IOException {
+		audioIndexFile = new AudioIndexFile(fileManager.openFile("AudioIndexFile.dat"));
+		audioFile = new AudioFile(fileManager.openFile("AudioFile.dat"));
 	}
 
 	@Override
-	public void load(DictionaryFileSet fileSet) throws IOException {
-		audioIndexFile = new AudioIndexFile(fileSet.getAudioIndexFile());
-		audioFile = new AudioFile(fileSet.getAudioFile());
+	public void install(FileManager filemanager, Configuration conf) throws IOException {
+		this.load(filemanager);
+	}
+
+	@Override
+	public boolean isInstalled(FileManager filemanager) throws IOException {
+		return true;
 	}
 
 }

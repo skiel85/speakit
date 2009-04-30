@@ -54,7 +54,7 @@ public class RankedSearchEngine {
 			IndexRecord eachIndexedTerm = eachIndexedTermIterator.next();
 			//ordena los elementos de la lista invertida por frecuencia, luego 
 			//trunca la lista por frecuencia de aparicion del término en cada documento
-			InvertedList truncatedList = eachIndexedTerm.getInvertedList().sortByFrecuency().truncateByFrecuency(this.minTermFrecuency);
+			InvertedList truncatedList = eachIndexedTerm.getInvertedList().truncateByFrecuency(this.minTermFrecuency);
 			appendDocumentsTo(resultDocumentIDs, truncatedList,this.resultItemsCount);
 		}
 		return resultDocumentIDs;

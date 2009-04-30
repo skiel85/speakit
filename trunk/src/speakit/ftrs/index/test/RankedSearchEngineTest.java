@@ -35,11 +35,11 @@ public class RankedSearchEngineTest {
 		// cosas|0,3|1 (1, 1), (3, 1)
 		// querer|0,6|1 (3, 1)
 		// vida|0,125|2 (4, 2), (1,1), (2, 1)
-
+		//Notar q las listas se arman en el siguiente orden, frecuencia, luego nro de documento.
 		index.updateRecord(new IndexRecord("bella", (new InvertedList()).add(new InvertedListItem(2, 1))));
 		index.updateRecord(new IndexRecord("cosas", (new InvertedList()).add(new InvertedListItem(1, 1)).add(new InvertedListItem(3, 1))));
 		index.updateRecord(new IndexRecord("querer", (new InvertedList()).add(new InvertedListItem(3, 1))));
-		index.updateRecord(new IndexRecord("vida", (new InvertedList()).add(new InvertedListItem(1, 1)).add(new InvertedListItem(2, 1)).add(new InvertedListItem(4, 2))));
+		index.updateRecord(new IndexRecord("vida", (new InvertedList()).add(new InvertedListItem(4, 2)).add(new InvertedListItem(1, 1)).add(new InvertedListItem(2, 1))));
 	}
 
 	@After

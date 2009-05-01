@@ -18,6 +18,12 @@ public class Trie {
 		TrieNodeList = new ArrayList<TrieNode>();
 		this.depth = 4;
 		this.lastRecordNumber = 0;
+		
+		int j=0;
+		while(j<depth){
+			TrieNodeList.add(new TrieNode(j));
+			j++;
+		}
 	}
 	
 	public ArrayList<TrieNode> getTrieNodeList() {
@@ -64,17 +70,17 @@ public class Trie {
 		
 		String firstPart=word.substring(0, this.getDepth()-1);
 		String lastPart="";
-		if(word.length()>this.getDepth()) lastPart=word.substring(this.getDepth());
-		
+		long nodeNumber=0;
+		if(word.length()>this.getDepth()) lastPart=word.substring(this.getDepth()-1);
 		
 		//Obtengo el nodo en el que encontre la ultima coincidencia entre la palabra y el trie
-		long nodeNumber=this.searchTrieNode(this.getTrieNodeList().get(0), firstPart, 0);
+		if (this.getTrieNodeList().size()>0) nodeNumber=this.searchTrieNode(this.getTrieNodeList().get(0), firstPart, 0);
 		
 		if (nodeNumber<firstPart.length()){
 			long j=nodeNumber;
 			while(j<this.getDepth() && j<firstPart.length()){
 				String actualChar=firstPart.substring((int)j,(int) j+1);
-				this.getTrieNodeList().get((int)j).getWordOffsetRecordList().add(new WordOffsetRecord(j++,actualChar,false));
+				this.getTrieNodeList().get((int)j).getWordOffsetRecordList().add(new WordOffsetRecord(j+1,actualChar,false));
 				j++;
 			}
 			this.getTrieNodeList().get((int)j).getWordOffsetRecordList().add(new WordOffsetRecord(offset,lastPart,true));
@@ -99,10 +105,12 @@ public class Trie {
 		if (!this.contains(word)) throw new WordNotFoundException(word);
 		else{
 			long nodeNumber=this.searchTrieNode(this.getTrieNodeList().get(0), word, 0);
+			boolean encontrado=false;
 			Iterator <WordOffsetRecord> recordIterator=this.getTrieNodeList().get((int)nodeNumber).getWordOffsetRecordList().iterator();
 			WordOffsetRecord record = new WordOffsetRecord(0,"",false);
-			while (recordIterator.hasNext()){
-				if (recordIterator.next().isLast()) record=recordIterator.next();
+			while (recordIterator.hasNext() & !encontrado){
+				record=recordIterator.next();
+				if (record.isLast()) encontrado=true;
 			}
 			return record.getNextRecord();
 			
@@ -119,8 +127,8 @@ public class Trie {
 		Iterator<WordOffsetRecord> nodeIterator=node.getWordOffsetRecordList().iterator();
 		while (nodeIterator.hasNext() && index<word.length()){
 			WordOffsetRecord record=(WordOffsetRecord)nodeIterator.next();
-			if(record.getWord().equals(word.charAt(index))) 
-				return searchTrieNode(this.getTrieNodeList().get((int) record.getNextRecord()), word, index++);
+			if(record.getWord().equals(word.substring(index, index+1))) 
+				return searchTrieNode(this.getTrieNodeList().get((int) record.getNextRecord()), word, index+1);
 			
 		}
 		

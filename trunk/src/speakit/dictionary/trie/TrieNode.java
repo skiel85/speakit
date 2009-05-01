@@ -9,8 +9,14 @@ public class TrieNode {
 	
 	public TrieNode(ArrayList<WordOffsetRecord> wordOffsetRecordList,
 			long nodeNumber) {
-		super();
+		
 		WordOffsetRecordList = wordOffsetRecordList;
+		this.nodeNumber = nodeNumber;
+	}
+	
+	public TrieNode(long nodeNumber) {
+		
+		WordOffsetRecordList = new ArrayList<WordOffsetRecord>();
 		this.nodeNumber = nodeNumber;
 	}
 

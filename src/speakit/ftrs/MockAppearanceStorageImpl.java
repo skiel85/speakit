@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public class MockAppearanceStorageImpl implements AppearanceStorage {
 
-	protected ArrayList<Appearance> appearances;
+	protected ArrayList<Appearance>	appearances;
 
 	public MockAppearanceStorageImpl() {
 		appearances = new ArrayList<Appearance>();
@@ -28,7 +28,7 @@ public class MockAppearanceStorageImpl implements AppearanceStorage {
 		ArrayList<Appearance> result = new ArrayList<Appearance>();
 		for (Iterator<Appearance> iterator = appearances.iterator(); iterator.hasNext();) {
 			Appearance appearance = iterator.next();
-			if(appearance.getTermId() == termId)
+			if (appearance.getTermId() == termId)
 				result.add(appearance);
 		}
 		return result;

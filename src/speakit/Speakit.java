@@ -10,6 +10,7 @@ import speakit.documentstorage.TextDocumentList;
 import speakit.ftrs.FTRS;
 import speakit.ftrs.FTRSImpl;
 import speakit.io.record.RecordSerializationException;
+import speakit.test.TestFileManager;
 
 /**
  * 
@@ -20,8 +21,12 @@ public class Speakit implements SpeakitInterface {
 
 	private AudioDictionaryImpl	dataBase;
 	private FTRS				ftrs;
+	private FileManager	fileManager;
+	private Configuration	conf;
 
 	public Speakit() {
+		this.conf = new Configuration();
+		this.fileManager = new FileManager();
 		this.dataBase = new AudioDictionaryImpl();
 		this.ftrs = new FTRSImpl();
 	}
@@ -32,7 +37,11 @@ public class Speakit implements SpeakitInterface {
 	 * @throws IOException
 	 */
 	public void load() throws IOException {
-		this.load(new FileManager());
+		if(!this.isInstalled(fileManager)){
+			this.conf.load(fileManager);
+			this.install(fileManager, conf);
+		}
+		this.load(fileManager);
 	}
 
 	/**
@@ -98,6 +107,10 @@ public class Speakit implements SpeakitInterface {
 	@Override
 	public boolean isInstalled(FileManager filemanager) throws IOException {
 		return this.ftrs.isInstalled(filemanager) & dataBase.isInstalled(filemanager);
+	}
+
+	public void setFileManager(TestFileManager fileManager) {
+		this.fileManager=fileManager;
 	}
 
 }

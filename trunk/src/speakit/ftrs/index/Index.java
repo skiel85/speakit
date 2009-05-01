@@ -48,7 +48,7 @@ public class Index implements File{
 	}
  
 
-	public void load(FileManager filemanager) {
+	public void load(FileManager filemanager,Configuration conf) {
 		 //TODO implementar
 	}
 

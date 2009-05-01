@@ -1,6 +1,8 @@
 package speakit.io.record;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class ArrayField<FIELDTYPE extends Field> extends CompositeField implements Iterable<FIELDTYPE> {
 	private IntegerField size = new IntegerField();
@@ -50,5 +52,20 @@ public class ArrayField<FIELDTYPE extends Field> extends CompositeField implemen
 	@Override
 	public Iterator<FIELDTYPE> iterator() {
 		return new ArrayFieldIterator<FIELDTYPE>(this);
+	}
+	
+	public void setArray(List<FIELDTYPE> array){
+		for (FIELDTYPE item : array) {
+			this.addItem(item);
+		} 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<FIELDTYPE> getArray(){
+		List<FIELDTYPE> result=new ArrayList<FIELDTYPE>();
+		for (int i = 0; i < this.getFieldCount(); i++) {
+			result.add((FIELDTYPE)this.getField(i));
+		}
+		return result; 
 	}
 }

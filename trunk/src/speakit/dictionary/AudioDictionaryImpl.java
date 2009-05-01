@@ -37,19 +37,19 @@ public class AudioDictionaryImpl implements AudioDictionary {
 	}
 
 	@Override
-	public void load(FileManager fileManager) throws IOException {
+	public void load(FileManager fileManager,Configuration conf) throws IOException {
 		audioIndexFile = new AudioIndexFile(fileManager.openFile(AUDIO_INDEX_FILE_DAT));
 		audioFile = new AudioFile(fileManager.openFile(AUDIO_FILE_DAT));
 	}
 
 	@Override
 	public void install(FileManager filemanager, Configuration conf) throws IOException {
-		this.load(filemanager);
+		this.load(filemanager,conf);
 	}
 
 	@Override
 	public boolean isInstalled(FileManager filemanager) throws IOException {
 		return filemanager.exists(AUDIO_INDEX_FILE_DAT) & filemanager.exists(AUDIO_FILE_DAT);
-	}
+	} 
 
 }

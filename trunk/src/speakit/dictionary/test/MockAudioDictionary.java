@@ -6,6 +6,8 @@ import speakit.Configuration;
 import speakit.FileManager;
 import speakit.audio.Audio;
 import speakit.dictionary.AudioDictionary;
+import speakit.dictionary.audiofile.WordNotFoundException;
+import speakit.io.record.RecordSerializationException;
 
 /**
  * Clase Dummy q implementa AudioDictionary
@@ -16,9 +18,9 @@ import speakit.dictionary.AudioDictionary;
 public class MockAudioDictionary implements AudioDictionary {
 
 	@Override
-	public void addEntry(String word, Audio audio) throws IOException {
+	public void addEntry(String word, Audio audio) throws IOException, RecordSerializationException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -28,13 +30,13 @@ public class MockAudioDictionary implements AudioDictionary {
 	}
 
 	@Override
-	public Audio getAudio(String word) throws IOException {
+	public Audio getAudio(String word) throws IOException, WordNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void load(FileManager fileManager) throws IOException {
+	public void load(FileManager fileManager, Configuration conf) throws IOException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -50,6 +52,8 @@ public class MockAudioDictionary implements AudioDictionary {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	 
   
 
 }

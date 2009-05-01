@@ -31,12 +31,7 @@ public class MockAudioDictionary implements AudioDictionary {
 		// TODO Auto-generated method stub
 		return null;
 	}  
-
-	@Override
-	public void load(FileManager fileManager) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
+ 
 
 	@Override
 	public void install(FileManager filemanager, Configuration conf) throws IOException {
@@ -48,6 +43,12 @@ public class MockAudioDictionary implements AudioDictionary {
 	public boolean isInstalled(FileManager filemanager) throws IOException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void load(FileManager fileManager, Configuration conf) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

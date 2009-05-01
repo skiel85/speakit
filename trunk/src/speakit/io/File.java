@@ -2,6 +2,7 @@ package speakit.io;
 
 import java.io.IOException;
 
+import speakit.Configuration;
 import speakit.FileManager;
 import speakit.ftrs.Installable;
 
@@ -11,5 +12,5 @@ import speakit.ftrs.Installable;
  *
  */
 public interface File extends Installable{
-	void load(FileManager fileManager) throws IOException;
+	void load(FileManager fileManager,Configuration conf) throws IOException;
 }

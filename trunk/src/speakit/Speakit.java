@@ -37,8 +37,8 @@ public class Speakit implements SpeakitInterface {
 	 * @throws IOException
 	 */
 	public void load() throws IOException {
+		this.conf.load(fileManager);
 		if(!this.isInstalled(fileManager)){
-			this.conf.load(fileManager);
 			this.install(fileManager, conf);
 		}
 		this.load(fileManager);
@@ -50,8 +50,8 @@ public class Speakit implements SpeakitInterface {
 	 * @throws IOException
 	 */
 	public void load(FileManager fileManager) throws IOException {
-		this.dataBase.load(fileManager);
-		this.ftrs.load(fileManager);
+		this.dataBase.load(fileManager,this.conf);
+		this.ftrs.load(fileManager,this.conf);
 	}
 
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {

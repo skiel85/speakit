@@ -72,9 +72,9 @@ public class FTRSImpl implements FTRS {
 	} 
 
 	@Override
-	public void load(FileManager filemanager) throws IOException {
-		this.index.load(filemanager);
-		this.repository.load(filemanager);
+	public void load(FileManager filemanager,Configuration conf) throws IOException {
+		this.index.load(filemanager,conf);
+		this.repository.load(filemanager,conf);
 	} 
 
 	@Override

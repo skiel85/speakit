@@ -11,8 +11,10 @@ import speakit.dictionary.audioindexfile.AudioIndexFile;
 import speakit.io.record.RecordSerializationException;
 
 public class AudioDictionaryImpl implements AudioDictionary {
-	private AudioIndexFile	audioIndexFile;
-	private AudioFile		audioFile;
+	private static final String	AUDIO_FILE_DAT			= "AudioFile.dat";
+	private static final String	AUDIO_INDEX_FILE_DAT	= "AudioIndexFile.dat";
+	private AudioIndexFile		audioIndexFile;
+	private AudioFile			audioFile;
 
 	public AudioDictionaryImpl() {
 	}
@@ -36,8 +38,8 @@ public class AudioDictionaryImpl implements AudioDictionary {
 
 	@Override
 	public void load(FileManager fileManager) throws IOException {
-		audioIndexFile = new AudioIndexFile(fileManager.openFile("AudioIndexFile.dat"));
-		audioFile = new AudioFile(fileManager.openFile("AudioFile.dat"));
+		audioIndexFile = new AudioIndexFile(fileManager.openFile(AUDIO_INDEX_FILE_DAT));
+		audioFile = new AudioFile(fileManager.openFile(AUDIO_FILE_DAT));
 	}
 
 	@Override
@@ -47,7 +49,7 @@ public class AudioDictionaryImpl implements AudioDictionary {
 
 	@Override
 	public boolean isInstalled(FileManager filemanager) throws IOException {
-		return true;
+		return filemanager.exists(AUDIO_INDEX_FILE_DAT) & filemanager.exists(AUDIO_FILE_DAT);
 	}
 
 }

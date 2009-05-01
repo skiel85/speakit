@@ -66,4 +66,14 @@ public class WordReaderImplTest {
 		}
 		Assert.assertArrayEquals(new String[] { "todo", "ser", "inteligente", "decía", "el", "geómetra", "debe", "comprender", "el", "destino", "científico", "de", "esta", "figura", "los", "selenitas", "si", "existen", "responderán", "con", "una", "figura", "semejante", "y", "una", "vez", "establecida", "la", "comunicación", "fácil", "será", "crear", "un", "alfabeto", "que", "permita", "conversar", "con", "los", "habitantes", "de", "la", "luna" }, list.toArray());
 	}
+	
+	@Test
+	public void testGetNumber() throws IOException {
+		WordReaderImpl sut = new WordReaderImpl(new ByteArrayInputStream("123 2341".getBytes()));
+		ArrayList<String> list = new ArrayList<String>();
+		while (sut.hasNext()) {
+			list.add(sut.next());
+		}
+		Assert.assertArrayEquals(new String[] { "123", "2341"}, list.toArray());
+	}
 }

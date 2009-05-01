@@ -2,35 +2,59 @@ package speakit.test;
 
 import java.io.IOException;
 
+import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import speakit.Configuration;
-import speakit.FileManager;
 import speakit.Speakit;
 
 public class SpeakitInstalationTest {
-	private TestFileManager fileSet;
-	private Speakit sut;
+	private Speakit				sut;
+	private TestFileManager		fileManager;
+	private Configuration	conf;
 
 	@Before
 	public void setUp() throws Exception {
-		this.fileSet = new TestFileManager(this.getClass().getName());
+		this.fileManager = new TestFileManager(this.getClass().getName());
+		conf = new  Configuration();
+		conf.setBlockSize(256);
+		conf.setTrieDepth(3);
+		conf.create(fileManager);
 		this.sut = new Speakit();
-		this.sut.load(this.fileSet);
+		this.sut.setFileManager(this.fileManager);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		this.fileSet.destroyFiles();
+		this.fileManager.destroyFiles();
 	}
 
 	@Test
-	public void testInstall() throws IOException{
-		FileManager fileManager=new FileManager();
-		Configuration conf=new Configuration();
-		sut.install(fileManager,conf); 
+	public void testInstall() throws IOException {
+		sut.install(fileManager, conf);
 	}
- 
+
+	@Test
+	public void testIsNotInstalledInitially() throws IOException {
+		Assert.assertEquals(false, sut.isInstalled(this.fileManager));
+	}
+
+	@Test
+	public void testIsInstalledAfterInstallation() throws IOException {
+		sut.load();
+		Assert.assertEquals(true, sut.isInstalled(this.fileManager));
+	}
+	
+	@Test
+	public void testIsInstalledAfterInstallationAndReInstantation() throws IOException {
+		Assert.assertEquals(false, sut.isInstalled(this.fileManager));
+		sut.load();
+		Assert.assertEquals(true, sut.isInstalled(this.fileManager));
+		Speakit sut2 = new Speakit();
+		Assert.assertEquals(true, sut2.isInstalled(this.fileManager));
+	}
+
 }

@@ -1,34 +1,48 @@
 package speakit.dictionary.trie;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import speakit.dictionary.audiofile.WordNotFoundException;
 
 
 public class Trie {
-	long lastRecordNumber;
-	ArrayList<TrieRecord> TrieRecordFile;
-	int depth;
+	private long lastRecordNumber;
+	//ArrayList<TrieRecord> TrieRecordFile;
+	private ArrayList<TrieNode> TrieNodeList;
+	private int depth;
 	
 	public Trie() {
 		
-		TrieRecordFile = new ArrayList<TrieRecord>();
+		//TrieRecordFile = new ArrayList<TrieRecord>();
+		TrieNodeList = new ArrayList<TrieNode>();
 		this.depth = 4;
 		this.lastRecordNumber = 0;
 	}
 	
+	public ArrayList<TrieNode> getTrieNodeList() {
+		return TrieNodeList;
+	}
+
+	public void setTrieNodeList(ArrayList<TrieNode> trieNodeList) {
+		TrieNodeList = trieNodeList;
+	}
+
 	public Trie(int customDepth) {
 		
-		TrieRecordFile = new ArrayList<TrieRecord>();
+		//TrieRecordFile = new ArrayList<TrieRecord>();
+		TrieNodeList = new ArrayList<TrieNode>();
 		this.depth = customDepth;
 		this.lastRecordNumber = 0;
 	}
 
-	public ArrayList<TrieRecord> getTrieRecordFile() {
+	/*public ArrayList<TrieRecord> getTrieRecordFile() {
 		return TrieRecordFile;
 	}
 	
 	public void setTrieRecordFile(ArrayList<TrieRecord> trieRecordFile) {
 		TrieRecordFile = trieRecordFile;
-	}
+	}*/
 	
 	public int getDepth() {
 		return depth;
@@ -45,59 +59,72 @@ public class Trie {
 	public void setLastRecordNumber(long lastRecordNumber) {
 		this.lastRecordNumber = lastRecordNumber;
 	}
-
+	
 	public void addWord(String word, long offset){
 		
-		boolean foundRecord=false;
-		long recordNumber=0;
-		int i=0;
+		String firstPart=word.substring(0, this.getDepth()-1);
+		String lastPart="";
+		if(word.length()>this.getDepth()) lastPart=word.substring(this.getDepth());
 		
-		word=word+"/n";
 		
-		/** TODO Implementar que recorra hasta depth y después busque el resto de la palabra **/
-		while (i<word.length() || !foundRecord){
-			long newRecordNumber=searchWordRecordNumber(word.substring(i, i+1),recordNumber);
-			if (newRecordNumber==recordNumber) foundRecord=true;
-			recordNumber=newRecordNumber;
-			i++;
-		}
+		//Obtengo el nodo en el que encontre la ultima coincidencia entre la palabra y el trie
+		long nodeNumber=this.searchTrieNode(this.getTrieNodeList().get(0), firstPart, 0);
 		
-		if (foundRecord){
-			for (int j=i; j<word.length();j++){
-				/** TODO Agregar el resto de las letras que faltan y, en el ultimo, agregar el offset 
-				 * al archivo de audio**/				
+		if (nodeNumber<firstPart.length()){
+			long j=nodeNumber;
+			while(j<this.getDepth() && j<firstPart.length()){
+				String actualChar=firstPart.substring((int)j,(int) j+1);
+				this.getTrieNodeList().get((int)j).getWordOffsetRecordList().add(new WordOffsetRecord(j++,actualChar,false));
+				j++;
 			}
-		} 
-		
-		
-	}
-	
-	public long searchWordRecordNumber(String word, long recordNumber){
-		
-		String wordFromRecordFile = this.getTrieRecordFile().get((int) recordNumber).getWord();
-		
-		if (wordFromRecordFile.indexOf(word)==-1) return recordNumber;
-		else return this.getTrieRecordFile().get((int) recordNumber).getNextRecord();
-		
-	}
-	
-	public boolean contains (String word){
-		
-		word=word+"/n";
-		boolean contains=true;
-		long recordNumber=0;
-		int i=0;
-		
-		/** TODO Implementar que recorra hasta depth y después busque el resto de la palabra **/
-		while (i<word.length() || contains){
-			long newRecordNumber=searchWordRecordNumber(word.substring(i, i+1),recordNumber);
-			if (newRecordNumber==recordNumber) contains=false;
-			recordNumber=newRecordNumber;
-			i++;
+			this.getTrieNodeList().get((int)j).getWordOffsetRecordList().add(new WordOffsetRecord(offset,lastPart,true));
+		} else {
+			this.getTrieNodeList().get(this.getDepth()).getWordOffsetRecordList().add(new WordOffsetRecord(offset,lastPart,true));	
 		}
 		
-		return contains;
 		
+		
+	}
+
+	public boolean contains(String word){
+		long nodeNumber=this.searchTrieNode(this.getTrieNodeList().get(0), word, 0);
+		Iterator <WordOffsetRecord> recordIterator=this.getTrieNodeList().get((int)nodeNumber).getWordOffsetRecordList().iterator();
+		while(recordIterator.hasNext()){
+			if (recordIterator.next().isLast()) return true;
+		}
+		return false;
+	}
+	
+	public long getOffset(String word) throws WordNotFoundException{
+		if (!this.contains(word)) throw new WordNotFoundException(word);
+		else{
+			long nodeNumber=this.searchTrieNode(this.getTrieNodeList().get(0), word, 0);
+			Iterator <WordOffsetRecord> recordIterator=this.getTrieNodeList().get((int)nodeNumber).getWordOffsetRecordList().iterator();
+			WordOffsetRecord record = new WordOffsetRecord(0,"",false);
+			while (recordIterator.hasNext()){
+				if (recordIterator.next().isLast()) record=recordIterator.next();
+			}
+			return record.getNextRecord();
+			
+		}
+	}
+	
+	
+	/**
+	  Función recursiva que recorre los nodos y chequea si cada letra de la palabra esta en un nodo y devuelve el 
+	  indice del ultimo nodo recorrido
+	 **/
+	public long searchTrieNode(TrieNode node, String word, int index){
+		
+		Iterator<WordOffsetRecord> nodeIterator=node.getWordOffsetRecordList().iterator();
+		while (nodeIterator.hasNext() && index<word.length()){
+			WordOffsetRecord record=(WordOffsetRecord)nodeIterator.next();
+			if(record.getWord().equals(word.charAt(index))) 
+				return searchTrieNode(this.getTrieNodeList().get((int) record.getNextRecord()), word, index++);
+			
+		}
+		
+		return node.getNodeNumber();
 	}
 
 }

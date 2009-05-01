@@ -2,6 +2,7 @@ package speakit.dictionary;
 
 import java.io.IOException;
 
+import speakit.Configuration;
 import speakit.FileManager;
 import speakit.audio.Audio;
 import speakit.dictionary.audiofile.WordNotFoundException;
@@ -20,7 +21,7 @@ public interface AudioDictionary  extends File{
 	 * 
 	 * @throws IOException
 	 */
-	public void load(FileManager fileManager) throws IOException;
+	public void load(FileManager fileManager,Configuration conf) throws IOException;
 
 	/**
 	 * Agrega una nueva entrada al diccionario, es decir, agrega al diccionario

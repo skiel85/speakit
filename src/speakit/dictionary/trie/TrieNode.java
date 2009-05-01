@@ -1,41 +1,52 @@
 package speakit.dictionary.trie;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TrieNode {
+import speakit.io.record.ArrayField;
+import speakit.io.record.LongField;
+import speakit.io.record.Record;
+
+public class TrieNode extends Record<LongField> {
+
+	// private ArrayList<WordOffsetField> WordOffsetRecordList;
+	// private long nodeNumber;
+
+	private LongField					nodeNumber=new LongField();
+	private ArrayField<WordOffsetField>	wordOffsetList=new ArrayField<WordOffsetField>();
+
+	public TrieNode(ArrayList<WordOffsetField> wordOffsetList, long nodeNumber) {
+		this(nodeNumber);
+		for (WordOffsetField item : wordOffsetList) {
+			this.wordOffsetList.addItem(item);
+		}
+	}
 	
-	private ArrayList<WordOffsetRecord> WordOffsetRecordList;
-	private long nodeNumber;
-	
-	public TrieNode(ArrayList<WordOffsetRecord> wordOffsetRecordList,
-			long nodeNumber) {
-		
-		WordOffsetRecordList = wordOffsetRecordList;
-		this.nodeNumber = nodeNumber;
+	public TrieNode() {
+		this.setKey(this.nodeNumber);
+		this.addField(this.nodeNumber);
+		this.addField(this.wordOffsetList);
 	}
 	
 	public TrieNode(long nodeNumber) {
-		
-		WordOffsetRecordList = new ArrayList<WordOffsetRecord>();
-		this.nodeNumber = nodeNumber;
+		this();
+		this.nodeNumber.setLong(nodeNumber);
+	}
+	
+	public List<WordOffsetField> getWordOffsetList() {
+		return wordOffsetList.getArray();
 	}
 
-	public ArrayList<WordOffsetRecord> getWordOffsetRecordList() {
-		return WordOffsetRecordList;
-	}
-
-	public void setWordOffsetRecordList(
-			ArrayList<WordOffsetRecord> wordOffsetRecordList) {
-		WordOffsetRecordList = wordOffsetRecordList;
+	public void setWordOffsetRecordList(List<WordOffsetField> wordOffsetList) {
+		this.wordOffsetList.setArray(wordOffsetList);
 	}
 
 	public long getNodeNumber() {
-		return nodeNumber;
+		return this.nodeNumber.getLong();
 	}
 
 	public void setNodeNumber(long nodeNumber) {
-		this.nodeNumber = nodeNumber;
+		this.nodeNumber.setLong(nodeNumber);
 	}
-	
 
 }

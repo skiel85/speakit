@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.Configuration;
 import speakit.FileManager;
 import speakit.TextDocument;
 import speakit.documentstorage.DocumentRepository;
@@ -22,7 +23,7 @@ public class DocumentRepositoryTest {
 	public void setUp() throws Exception {
 		this.fileSet = new TestFileManager(this.getClass().getName());
 		this.sut = new DocumentRepository();
-		this.sut.load(fileSet);
+		this.sut.load(fileSet,new Configuration());
 	}
 
 	@After

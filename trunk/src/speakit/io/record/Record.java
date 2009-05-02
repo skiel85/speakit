@@ -5,35 +5,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 /**
  * Representa un registro. Un objeto serializable y comparable.
  * 
  */
-public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>> {
-	private KEYTYPE key;
-	private ArrayList<Field> fields = new ArrayList<Field>();
+public abstract class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>> {
+	protected abstract KEYTYPE getKey();
 
-	/**
-	 * Establece el campo clave.
-	 * 
-	 * @param key
-	 *            Campo clave a establecer.
-	 */
-	protected void setKey(KEYTYPE key) {
-		this.key = key;
-	}
-
-	/**
-	 * Agrega un campo al registro.
-	 * 
-	 * @param field
-	 *            Campo a agregar.
-	 */
-	protected void addField(Field field) {
-		this.fields.add(field);
-	}
+	protected abstract Field[] getFields();
 
 	/**
 	 * Serializa el registro escribiéndolo en un stream de salida.
@@ -46,7 +26,7 @@ public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>
 	public long serialize(OutputStream stream) throws RecordSerializationException {
 		long byteCount = 0;
 		try {
-			for (Field field : this.fields) {
+			for (Field field : this.getFields()) {
 				byteCount += field.serialize(stream);
 			}
 		} catch (IOException e) {
@@ -66,7 +46,7 @@ public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>
 	public long deserialize(InputStream stream) throws RecordSerializationException {
 		long byteCount = 0;
 		try {
-			for (Field field : this.fields) {
+			for (Field field : this.getFields()) {
 				byteCount += field.deserialize(stream);
 			}
 		} catch (IOException e) {
@@ -80,14 +60,14 @@ public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>
 	 */
 	@Override
 	public int compareTo(Record<KEYTYPE> o) {
-		return this.key.compareTo(o.key);
+		return this.getKey().compareTo(o.getKey());
 	}
 
 	/**
 	 * Compara la clave de un registro con un campo.
 	 */
 	public int compareToKey(KEYTYPE key) {
-		return this.key.compareTo(key);
+		return this.getKey().compareTo(key);
 	}
 
 	public byte[] serialize() throws IOException, RecordSerializationException {
@@ -99,5 +79,12 @@ public class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>
 	public void deserialize(byte[] data) throws IOException, RecordSerializationException {
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
 		this.deserialize(in);
+	}
+
+	protected Field[] JoinFields(Field[] f1, Field[] f2) {
+		Field[] f = new Field[f1.length + f2.length];
+		System.arraycopy(f1, 0, f, 0, f1.length);
+		System.arraycopy(f2, 0, f, f1.length, f2.length);
+		return f;
 	}
 }

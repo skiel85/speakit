@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
 import speakit.io.record.RecordSerializationException;
 
@@ -13,7 +14,6 @@ public class LinkedBlock extends RemovableBlock {
 
 	public LinkedBlock(int blockNumber) {
 		super(blockNumber);
-		this.addField(nextBlockNumber);
 		this.clear();
 	}
 
@@ -73,5 +73,11 @@ public class LinkedBlock extends RemovableBlock {
 		out.write(nextBlock.getContent());
 		this.setContent(out.toByteArray());
 	}
+	
+	@Override
+	protected Field[] getFields() {
+		return this.JoinFields(super.getFields(),new Field[]{ this.nextBlockNumber});
+	}
+	
 
 }

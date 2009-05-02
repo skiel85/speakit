@@ -1,6 +1,7 @@
 package speakit.dictionary.audiofile;
 
 import speakit.io.record.ByteArrayField;
+import speakit.io.record.Field;
 import speakit.io.record.OffsetRecord;
 
 /**
@@ -11,12 +12,12 @@ public class AudioRecord extends OffsetRecord {
 	private ByteArrayField audio = new ByteArrayField();
 
 	/**
-	 * Construye un nuevo registro de audio.
+	 * Construye un nuevo registro de audio
 	 */
 	public AudioRecord() {
-		this.addField(this.audio);
+		// Dejado intencionalmente en blanco.
 	}
-
+	
 	/**
 	 * Construye un nuevo registro de audio a partir de un arreglo de bytes.
 	 * 
@@ -44,6 +45,11 @@ public class AudioRecord extends OffsetRecord {
 	 */
 	public void setAudio(byte[] audio) {
 		this.audio.setBytes(audio);
+	}
+
+	@Override
+	protected Field[] getFields() {
+		return new Field[] {this.audio}; 
 	}
 
 }

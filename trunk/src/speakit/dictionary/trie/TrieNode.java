@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import speakit.io.record.ArrayField;
+import speakit.io.record.Field;
 import speakit.io.record.LongField;
 import speakit.io.record.Record;
 
@@ -23,9 +24,7 @@ public class TrieNode extends Record<LongField> {
 	}
 
 	public TrieNode() {
-		this.setKey(this.nodeNumber);
-		this.addField(this.nodeNumber);
-		this.addField(this.wordOffsetList);
+		// Dejado intencionalmente en blanco.
 	}
 
 	public TrieNode(long nodeNumber) {
@@ -47,6 +46,16 @@ public class TrieNode extends Record<LongField> {
 
 	public void setNodeNumber(long nodeNumber) {
 		this.nodeNumber.setLong(nodeNumber);
+	}
+
+	@Override
+	protected Field[] getFields() {
+		return new Field[] { this.nodeNumber, this.wordOffsetList };
+	}
+
+	@Override
+	protected LongField getKey() {
+		return this.nodeNumber;
 	}
 
 }

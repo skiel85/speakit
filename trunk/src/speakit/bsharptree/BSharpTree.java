@@ -23,7 +23,9 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	@Override
 	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
 		this.root.insertRecord(record);
+		if (this.root.isInOverflow()) {
 
+		}
 	}
 
 }

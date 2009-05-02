@@ -12,4 +12,6 @@ public abstract class BSharpTreeNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE ex
 	public abstract RECTYPE getRecord(KEYTYPE key) throws IOException, RecordSerializationException;
 
 	public abstract void insertRecord(RECTYPE record) throws IOException, RecordSerializationException;
+
+	public abstract boolean isInOverflow();
 }

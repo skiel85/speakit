@@ -25,4 +25,10 @@ public class BSharpTreeIndexNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public boolean isInOverflow() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

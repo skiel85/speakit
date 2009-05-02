@@ -1,5 +1,6 @@
 package speakit.documentstorage;
 
+import speakit.io.record.Field;
 import speakit.io.record.OffsetRecord;
 import speakit.io.record.StringField;
 
@@ -11,7 +12,7 @@ public class DocumentRecord extends OffsetRecord {
 	 * Construye un nuevo registro de audio.
 	 */
 	public DocumentRecord() {
-		this.addField(this.text);
+		//Dejado intencionalmente en blanco.
 	}
 
 	/**
@@ -41,6 +42,11 @@ public class DocumentRecord extends OffsetRecord {
 	 */
 	public void setText(String text) {
 		this.text.setString(text);
+	}
+
+	@Override
+	protected Field[] getFields() {
+		return new Field[] {this.text};
 	}
 
 }

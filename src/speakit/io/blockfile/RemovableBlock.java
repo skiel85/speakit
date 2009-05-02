@@ -1,6 +1,7 @@
 package speakit.io.blockfile;
 
 import speakit.io.record.BooleanField;
+import speakit.io.record.Field;
 
 public class RemovableBlock extends Block {
 
@@ -8,7 +9,6 @@ public class RemovableBlock extends Block {
 
 	public RemovableBlock(int blockNumber) {
 		super(blockNumber);
-		this.addField(this.isRemoved);
 	}
 
 	public void setRemoved(boolean isRemoved) {
@@ -19,4 +19,8 @@ public class RemovableBlock extends Block {
 		return isRemoved.getBoolean();
 	}
 
+	@Override
+	protected Field[] getFields() {
+		return this.JoinFields(super.getFields(),new Field[]{ this.isRemoved});
+	}
 }

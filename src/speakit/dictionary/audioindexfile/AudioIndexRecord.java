@@ -1,5 +1,6 @@
 package speakit.dictionary.audioindexfile;
 
+import speakit.io.record.Field;
 import speakit.io.record.LongField;
 import speakit.io.record.Record;
 import speakit.io.record.StringField;
@@ -16,9 +17,7 @@ public class AudioIndexRecord extends Record<StringField> {
 	 * Construye un nuevo registro de audio.
 	 */
 	public AudioIndexRecord() {
-		this.setKey(this.word);
-		this.addField(this.word);
-		this.addField(this.offset);
+		// Dejado intencionalmente en blanco.
 	}
 
 	/**
@@ -70,6 +69,16 @@ public class AudioIndexRecord extends Record<StringField> {
 	 */
 	public void setWord(String word) {
 		this.word.setString(word);
+	}
+
+	@Override
+	protected Field[] getFields() {
+		return new Field[] { this.word, this.offset };
+	}
+
+	@Override
+	protected StringField getKey() {
+		return this.word;
 	}
 
 }

@@ -1,12 +1,8 @@
 package speakit.io.record;
 
-public class OffsetRecord extends Record<LongField> {
+public abstract class OffsetRecord extends Record<LongField> {
 
 	private LongField offset = new LongField();
-
-	public OffsetRecord() {
-		this.setKey(this.offset);
-	}
 
 	/**
 	 * Obtiene la posición en el archivo.
@@ -24,6 +20,11 @@ public class OffsetRecord extends Record<LongField> {
 	 */
 	public void setOffset(long offset) {
 		this.offset.setLong(offset);
+	}
+
+	@Override
+	protected LongField getKey() {
+		return this.offset;
 	}
 
 }

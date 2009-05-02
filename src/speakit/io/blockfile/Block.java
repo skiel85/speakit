@@ -1,6 +1,7 @@
 package speakit.io.blockfile;
 
 import speakit.io.record.ByteArrayField;
+import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
 import speakit.io.record.Record;
 
@@ -9,8 +10,6 @@ public class Block extends Record<IntegerField> {
 	private ByteArrayField content = new ByteArrayField();
 
 	public Block(int blockNumber) {
-		this.setKey(this.blockNumber);
-		this.addField(this.content);
 		this.blockNumber.setInteger(blockNumber);
 	}
 
@@ -40,6 +39,16 @@ public class Block extends Record<IntegerField> {
 
 	public void clear() {
 		this.content.setBytes(new byte[] {});
+	}
+
+	@Override
+	protected Field[] getFields() {
+		return new Field[] {this.content};
+	}
+
+	@Override
+	protected IntegerField getKey() {
+		return this.blockNumber;
 	}
 
 }

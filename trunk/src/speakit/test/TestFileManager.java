@@ -8,14 +8,14 @@ import speakit.FileManager;
 
 public class TestFileManager extends FileManager {
 
-	private String	prefix;
+	private String prefix;
 
 	public TestFileManager(String prefix) {
 		this.prefix = prefix;
 		openedFiles = new HashMap<String, File>();
 	}
 
-	HashMap<String, File>	openedFiles;
+	HashMap<String, File> openedFiles;
 
 	@Override
 	public File openFile(String name) throws IOException {

@@ -8,9 +8,10 @@ import speakit.ftrs.Installable;
 
 /**
  * Representa a un archivo que se puede crear y cargar
+ * 
  * @author Nahuel
- *
+ * 
  */
-public interface File extends Installable{
-	void load(FileManager fileManager,Configuration conf) throws IOException;
+public interface File extends Installable {
+	void load(FileManager fileManager, Configuration conf) throws IOException;
 }

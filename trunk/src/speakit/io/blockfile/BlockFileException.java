@@ -7,7 +7,7 @@ public class BlockFileException extends IOException {
 	/**
 	 * 
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	public BlockFileException() {
 		// TODO Auto-generated constructor stub

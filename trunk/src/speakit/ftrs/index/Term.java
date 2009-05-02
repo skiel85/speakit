@@ -1,17 +1,14 @@
 package speakit.ftrs.index;
 
-
 public class Term {
 	private int termId;
 	private String value;
-	
 
 	public Term(int termId, String value) {
 		setTermId(termId);
 		setValue(value);
 	}
-	
-	
+
 	/**
 	 * @return the termId
 	 */
@@ -41,10 +38,11 @@ public class Term {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
+
 	@Override
 	public boolean equals(Object term) {
-		//La igualdad del termino esta definida solo por la palabra q contiene, no por la posicion
+		// La igualdad del termino esta definida solo por la palabra q contiene,
+		// no por la posicion
 		return value.equals(((Term) term).value);
 	}
 }

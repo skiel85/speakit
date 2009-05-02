@@ -4,7 +4,6 @@ import speakit.io.record.ByteArrayField;
 import speakit.io.record.IntegerField;
 import speakit.io.record.Record;
 
-
 public class Block extends Record<IntegerField> {
 	private IntegerField blockNumber = new IntegerField();
 	private ByteArrayField content = new ByteArrayField();

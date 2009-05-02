@@ -10,7 +10,7 @@ import speakit.ftrs.index.InvertedList;
 import speakit.ftrs.index.InvertedListItem;
 
 public class InvertedListTest {
-	InvertedList	sut;
+	InvertedList sut;
 
 	@Before
 	public void setUp() throws Exception {
@@ -27,12 +27,12 @@ public class InvertedListTest {
 	public void tearDown() throws Exception {
 
 	}
-	
+
 	@Test
 	public void testCreatedProperly() {
 		testAllDocumentsAreInList(this.sut);
 	}
- 
+
 	public void testAllDocumentsAreInList(InvertedList list) {
 		Assert.assertEquals(false, list.containsDocument(0));
 		Assert.assertEquals(false, list.containsDocument(11));
@@ -56,11 +56,11 @@ public class InvertedListTest {
 		Assert.assertEquals(true, truncatedByFrecuency.containsDocument(7));
 		Assert.assertEquals(false, truncatedByFrecuency.containsDocument(9));
 	}
-	
+
 	@Test
 	public void testTruncatingWithZeroDoesNotActuallyTruncates() {
 		InvertedList truncatedByFrecuency = sut.truncateByFrecuency(0);
 		testAllDocumentsAreInList(truncatedByFrecuency);
-	} 
+	}
 
 }

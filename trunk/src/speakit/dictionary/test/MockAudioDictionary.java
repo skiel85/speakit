@@ -20,7 +20,7 @@ public class MockAudioDictionary implements AudioDictionary {
 	@Override
 	public void addEntry(String word, Audio audio) throws IOException, RecordSerializationException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -38,13 +38,13 @@ public class MockAudioDictionary implements AudioDictionary {
 	@Override
 	public void load(FileManager fileManager, Configuration conf) throws IOException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void install(FileManager filemanager, Configuration conf) throws IOException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -52,8 +52,5 @@ public class MockAudioDictionary implements AudioDictionary {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	 
-  
 
 }

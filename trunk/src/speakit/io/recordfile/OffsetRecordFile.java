@@ -33,7 +33,7 @@ public class OffsetRecordFile<RECTYPE extends OffsetRecord> extends SecuentialRe
 		LongField field = new LongField(offset);
 		return (this.getRecord(field));
 	}
-	
+
 	/**
 	 * Obtiene un registro a partir de un offset.
 	 * 

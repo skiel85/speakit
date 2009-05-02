@@ -7,7 +7,6 @@ import java.util.Iterator;
 
 import speakit.io.record.RecordSerializationException;
 
-
 public class BlockFile implements Iterable<Block> {
 
 	private BasicBlockFileImpl file;

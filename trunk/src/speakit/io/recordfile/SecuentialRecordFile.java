@@ -12,7 +12,6 @@ import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 
-
 /**
  * Archivo de registros.
  */

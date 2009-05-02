@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public class MockAppearanceStorageImpl implements OccurrenceStorage {
 
-	protected ArrayList<Occurrence>	appearances;
+	protected ArrayList<Occurrence> appearances;
 
 	public MockAppearanceStorageImpl() {
 		appearances = new ArrayList<Occurrence>();

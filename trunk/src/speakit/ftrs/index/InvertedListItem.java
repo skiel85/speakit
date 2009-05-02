@@ -1,6 +1,6 @@
 package speakit.ftrs.index;
 
-public class InvertedListItem  {
+public class InvertedListItem {
 	private long documentId;
 	private int localFrecuency;
 
@@ -37,7 +37,6 @@ public class InvertedListItem  {
 	 */
 	public void setLocalFrecuency(int frecuency) {
 		this.localFrecuency = frecuency;
-	} 
- 
+	}
 
 }

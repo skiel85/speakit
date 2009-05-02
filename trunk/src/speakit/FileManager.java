@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class FileManager {
 
-	ArrayList<File>	openedFiles;
+	ArrayList<File> openedFiles;
 
 	public FileManager() {
 		openedFiles = new ArrayList<File>();
@@ -14,7 +14,7 @@ public class FileManager {
 
 	public File openFile(String name) throws IOException {
 		File file = new File(name);
-		//setUp(file);
+		// setUp(file);
 		return file;
 	}
 

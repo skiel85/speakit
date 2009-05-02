@@ -20,7 +20,7 @@ public interface FTRS extends File {
 	 * Indexa una lista de documentos
 	 * 
 	 * @param documentList
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public void indexDocuments(TextDocumentList documentList) throws IOException;
 

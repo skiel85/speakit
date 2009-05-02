@@ -22,9 +22,11 @@ public class InvertedIndexRecordGenerator {
 	public void addDocuments(ArrayList<TextDocument> documentList) {
 
 	}
+
 	/**
-	 * Recibe un documento conteniendo solo los terminos relevantes, con los filtros aplicados
-	 * y lo pre procesa para generar los regstros del indice.
+	 * Recibe un documento conteniendo solo los terminos relevantes, con los
+	 * filtros aplicados y lo pre procesa para generar los regstros del indice.
+	 * 
 	 * @param cleanTextDocument
 	 */
 	public void addSingleDocument(TextDocument cleanTextDocument) {

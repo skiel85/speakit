@@ -7,7 +7,6 @@ import java.util.Arrays;
 import speakit.io.record.IntegerField;
 import speakit.io.record.RecordSerializationException;
 
-
 public class LinkedBlock extends RemovableBlock {
 
 	private IntegerField nextBlockNumber = new IntegerField(-1);

@@ -254,7 +254,7 @@ public class Menu {
 			}
 		}
 	}
-	
+
 	/**
 	 * Despliega el menu para realizar una consulta
 	 * 
@@ -263,14 +263,14 @@ public class Menu {
 	private void doConsultation() throws IOException {
 		String consultation = "";
 		TextDocumentList documentList;
-        
+
 		System.out.println("Ingrese la consulta");
 		consultation = this.userInput.readLine();
 		TextDocument searchText = new TextDocument(consultation);
 		documentList = speakit.search(searchText);
-		if (documentList!= null){
+		if (documentList != null) {
 			showResults(documentList);
-		    showOptions(documentList);
+			showOptions(documentList);
 		}
 	}
 
@@ -280,14 +280,13 @@ public class Menu {
 	 * @param documentList
 	 */
 	private void showResults(TextDocumentList documentList) {
-		System.out.println("Los documentos encontrados para la consulta" + " " +
-				"realizada se muestran a continuacion:");
+		System.out.println("Los documentos encontrados para la consulta" + " " + "realizada se muestran a continuacion:");
 		int number = 1;
 		for (TextDocument textDocument : documentList) {
 			System.out.println(number + " : " + textDocument.getPreview());
 			System.out.println();
 			number++;
-		} 
+		}
 		System.out.println();
 	}
 
@@ -354,11 +353,11 @@ public class Menu {
 		Integer integer = new Integer(number);
 		TextDocument document;
 		int counter = 1;
-		while((documentList.iterator().hasNext()) && (counter!=integer.intValue())){
+		while ((documentList.iterator().hasNext()) && (counter != integer.intValue())) {
 			documentList.iterator().next();
 			counter++;
 		}
-		document=documentList.iterator().next();
+		document = documentList.iterator().next();
 		WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(document);
 		System.out.println("Se va a reproducir el siguiente documento");
 		while (audioDocument.hasNext()) {
@@ -377,5 +376,4 @@ public class Menu {
 		System.out.println("Menu Principal\n" + "	1.- Procesar archivo de Texto\n" + "	2.- Reproducir Archivo\n" + "\n" + "	3.- Realizar una consulta\n" + "\n" + "	0.- Salir");
 	}
 
-	
 }

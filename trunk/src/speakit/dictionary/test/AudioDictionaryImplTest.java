@@ -14,18 +14,18 @@ import speakit.test.TestFileManager;
 
 public class AudioDictionaryImplTest {
 
-	private AudioDictionaryImpl sut; 
-	private TestFileManager	fileManager;
-	private Configuration	conf;
+	private AudioDictionaryImpl sut;
+	private TestFileManager fileManager;
+	private Configuration conf;
 
 	@Before
 	public void setUp() throws Exception {
 		this.fileManager = new TestFileManager(this.getClass().getName());
-		this.sut = new AudioDictionaryImpl(); 
+		this.sut = new AudioDictionaryImpl();
 		conf = new Configuration();
 		conf.setBlockSize(512);
 		conf.setTrieDepth(4);
-		this.sut.load(fileManager,conf);
+		this.sut.load(fileManager, conf);
 	}
 
 	@After
@@ -61,7 +61,7 @@ public class AudioDictionaryImplTest {
 		File file2 = File.createTempFile(this.getClass().getName(), ".dat");
 
 		AudioDictionaryImpl audioDictionary1 = new AudioDictionaryImpl();
-		audioDictionary1.load(fileManager,this.conf);
+		audioDictionary1.load(fileManager, this.conf);
 
 		// Agrego 2 entradas
 		audioDictionary1.addEntry("palabra1", audio1);
@@ -69,7 +69,7 @@ public class AudioDictionaryImplTest {
 
 		// Recargo el diccionario
 		AudioDictionaryImpl audioDictionary2 = new AudioDictionaryImpl();
-		audioDictionary2.load(fileManager,this.conf);
+		audioDictionary2.load(fileManager, this.conf);
 
 		// Agrego una entrada
 		audioDictionary2.addEntry("palabra3", audio3);

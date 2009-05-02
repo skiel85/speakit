@@ -2,7 +2,6 @@ package speakit.io.blockfile;
 
 import speakit.io.record.BooleanField;
 
-
 public class RemovableBlock extends Block {
 
 	private BooleanField isRemoved = new BooleanField();

@@ -9,7 +9,6 @@ import java.util.Arrays;
 
 import speakit.io.record.IntegerField;
 
-
 public class BasicBlockFileImpl implements BasicBlockFile {
 	private int blockSize;
 	private final File file;

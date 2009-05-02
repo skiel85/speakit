@@ -13,7 +13,7 @@ import speakit.io.record.RecordSerializationException;
  * Diccionario de audio. A partir de una palabra obtiene su representación
  * sonora.
  */
-public interface AudioDictionary  extends File{ 
+public interface AudioDictionary extends File {
 
 	/**
 	 * Carga el diccionario con los archivos especificados. Se debe llamar a
@@ -21,7 +21,7 @@ public interface AudioDictionary  extends File{
 	 * 
 	 * @throws IOException
 	 */
-	public void load(FileManager fileManager,Configuration conf) throws IOException;
+	public void load(FileManager fileManager, Configuration conf) throws IOException;
 
 	/**
 	 * Agrega una nueva entrada al diccionario, es decir, agrega al diccionario

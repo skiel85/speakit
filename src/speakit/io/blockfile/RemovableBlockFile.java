@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import speakit.io.record.RecordSerializationException;
 
-
 /**
  * Es un archivo de bloques que extiene la funcionalidad de BlocksFile agregando
  * la posibilidad de eliminar bloques y de crear nuevos reutilizando eliminados

@@ -13,11 +13,11 @@ import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.DirectRecordFile;
 
 public class Trie implements File, RecordFactory<TrieNode> {
-	private static final String	TRIE_INDEX_DAT	= "TrieIndex.dat";
-	private long				lastRecordNumber;
-	//private ArrayList<TrieNode>	TrieNodeList;
-	private int					depth;
-	private DirectRecordFile<TrieNode,LongField>	nodeFile;
+	private static final String TRIE_INDEX_DAT = "TrieIndex.dat";
+	private long lastRecordNumber;
+	// private ArrayList<TrieNode> TrieNodeList;
+	private int depth;
+	private DirectRecordFile<TrieNode, LongField> nodeFile;
 
 	public DirectRecordFile<TrieNode, LongField> getNodeFile() {
 		return nodeFile;
@@ -29,18 +29,18 @@ public class Trie implements File, RecordFactory<TrieNode> {
 
 	public Trie() {
 
-//		TrieNodeList = new ArrayList<TrieNode>();
-//		this.depth = 4;
-		this.lastRecordNumber = 0; 
+		// TrieNodeList = new ArrayList<TrieNode>();
+		// this.depth = 4;
+		this.lastRecordNumber = 0;
 	}
 
-//	public ArrayList<TrieNode> getTrieNodeList() {
-//		return nodeFile;
-//	}
-//
-//	public void setTrieNodeList(ArrayList<TrieNode> trieNodeList) {
-//		nodeFile = trieNodeList;
-//	}
+	// public ArrayList<TrieNode> getTrieNodeList() {
+	// return nodeFile;
+	// }
+	//
+	// public void setTrieNodeList(ArrayList<TrieNode> trieNodeList) {
+	// nodeFile = trieNodeList;
+	// }
 
 	public int getDepth() {
 		return depth;
@@ -116,7 +116,9 @@ public class Trie implements File, RecordFactory<TrieNode> {
 
 	private TrieNode getNode(long nodeNumber) throws IOException, RecordSerializationException {
 		/**
-		 * acá en lugar de utilizar el metodo getRecord( key) utilizar un indice para saber el numero de bloque del nodo nodeNumber y luego llamar a getRecord( key,blockNumber)
+		 * acá en lugar de utilizar el metodo getRecord( key) utilizar un indice
+		 * para saber el numero de bloque del nodo nodeNumber y luego llamar a
+		 * getRecord( key,blockNumber)
 		 */
 		return this.nodeFile.getRecord(new LongField(nodeNumber));
 	}
@@ -124,14 +126,15 @@ public class Trie implements File, RecordFactory<TrieNode> {
 	/**
 	 * Función recursiva que recorre los nodos y chequea si cada letra de la
 	 * palabra esta en un nodo y devuelve el indice del ultimo nodo recorrido
-	 * @throws IOException 
-	 * @throws RecordSerializationException 
+	 * 
+	 * @throws IOException
+	 * @throws RecordSerializationException
 	 **/
 	public long searchTrieNode(TrieNode node, String word, int index) throws RecordSerializationException, IOException {
 
 		Iterator<WordOffsetField> nodeIterator = node.getWordOffsetList().iterator();
 		while (nodeIterator.hasNext() && index < word.length()) {
-			WordOffsetField record =  nodeIterator.next();
+			WordOffsetField record = nodeIterator.next();
 			if (record.getWord().equals(word.substring(index, index + 1)))
 				return searchTrieNode(this.getNode(record.getNextRecord()), word, index + 1);
 
@@ -145,8 +148,8 @@ public class Trie implements File, RecordFactory<TrieNode> {
 	}
 
 	@Override
-	public void load(FileManager fileManager,Configuration conf) throws IOException {
-		this.depth=conf.getTrieDepth();
+	public void load(FileManager fileManager, Configuration conf) throws IOException {
+		this.depth = conf.getTrieDepth();
 		createDataFile(fileManager);
 		nodeFile.load();
 	}
@@ -154,7 +157,7 @@ public class Trie implements File, RecordFactory<TrieNode> {
 	@Override
 	public void install(FileManager fileManager, Configuration conf) throws IOException {
 		createDataFile(fileManager);
-		this.depth=conf.getTrieDepth();
+		this.depth = conf.getTrieDepth();
 		nodeFile.create(conf.getBlockSize());
 		int j = 0;
 		while (j < depth) {

@@ -12,7 +12,6 @@ import speakit.documentstorage.TextDocumentList;
 import speakit.ftrs.index.InvertedIndex;
 import speakit.ftrs.index.InvertedIndexRecord;
 
-
 public class FTRSImpl implements FTRS {
 
 	protected DocumentRepository repository;
@@ -20,31 +19,32 @@ public class FTRSImpl implements FTRS {
 
 	public FTRSImpl() {
 		index = new InvertedIndex();
-		repository=new DocumentRepository();
+		repository = new DocumentRepository();
 	}
 
 	@Override
 	public TextDocumentList search(TextDocument searchText) throws IOException {
-		
-		 RankedSearchEngine searchEngine = new RankedSearchEngine(this.index, 10, 0); 
-		 List<Long> documentIds = searchEngine.search(searchText);
-		 
-		 TextDocumentList result = new TextDocumentList(); 
-		 for (Long docId : documentIds) { result.add(repository.getById(docId)); } 
-		 
-		 return result;
-		 
+
+		RankedSearchEngine searchEngine = new RankedSearchEngine(this.index, 10, 0);
+		List<Long> documentIds = searchEngine.search(searchText);
+
+		TextDocumentList result = new TextDocumentList();
+		for (Long docId : documentIds) {
+			result.add(repository.getById(docId));
+		}
+
+		return result;
+
 	}
 
 	public DocumentRepository getDocumentRepository() {
 		return repository;
 	}
 
-
-	private TextDocument applyFilters(TextDocument textDocument){
+	private TextDocument applyFilters(TextDocument textDocument) {
 		return textDocument;
 	}
-	
+
 	private InvertedIndex getIndex() {
 		if (this.index == null)
 			this.index = new InvertedIndex();
@@ -53,7 +53,7 @@ public class FTRSImpl implements FTRS {
 
 	@Override
 	public void indexDocuments(TextDocumentList documentList) throws IOException {
-		for(TextDocument doc:documentList){
+		for (TextDocument doc : documentList) {
 			indexDocuments(doc);
 		}
 	}
@@ -67,25 +67,26 @@ public class FTRSImpl implements FTRS {
 		TextDocument cleanDocument = applyFilters(textDocument);
 		generator.addSingleDocument(cleanDocument);
 		ArrayList<InvertedIndexRecord> records = generator.generateNewRegisters();
-		//TODO faltaría mergear los index records preexistentes con los nuevos index records 
+		// TODO faltaría mergear los index records preexistentes con los nuevos
+		// index records
 		getIndex().updateRecords(records);
-	} 
+	}
 
 	@Override
-	public void load(FileManager filemanager,Configuration conf) throws IOException {
-		this.index.load(filemanager,conf);
-		this.repository.load(filemanager,conf);
-	} 
+	public void load(FileManager filemanager, Configuration conf) throws IOException {
+		this.index.load(filemanager, conf);
+		this.repository.load(filemanager, conf);
+	}
 
 	@Override
 	public void install(FileManager filemanager, Configuration conf) throws IOException {
 		this.repository.install(filemanager, conf);
-		this.index.install(filemanager,conf);
+		this.index.install(filemanager, conf);
 	}
 
 	@Override
 	public boolean isInstalled(FileManager filemanager) throws IOException {
-		return this.index.isInstalled(filemanager) &  this.repository.isInstalled(filemanager);
+		return this.index.isInstalled(filemanager) & this.repository.isInstalled(filemanager);
 	}
 
 }

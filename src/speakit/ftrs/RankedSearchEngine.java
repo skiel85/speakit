@@ -28,7 +28,8 @@ public class RankedSearchEngine {
 	 * Ejecuta una busqueda rankeada
 	 * */
 	public List<Long> search(TextDocument query) {
-		// Obtiene la lista de listas invertidas del índice para la busqueda actual
+		// Obtiene la lista de listas invertidas del índice para la busqueda
+		// actual
 		List<InvertedIndexRecord> indexedRecords = getIndexRecords(query);
 		// Ordena la lista de listas invertidas segun importancia del término
 		List<InvertedIndexRecord> orderedIndexedRecords = sortByTermImportance(indexedRecords);
@@ -52,16 +53,20 @@ public class RankedSearchEngine {
 		// documentos definido
 		while (eachIndexedTermIterator.hasNext() && resultDocumentIDs.size() < this.resultItemsCount) {
 			InvertedIndexRecord eachIndexedTerm = eachIndexedTermIterator.next();
-			//ordena los elementos de la lista invertida por frecuencia, luego 
-			//trunca la lista por frecuencia de aparicion del término en cada documento
+			// ordena los elementos de la lista invertida por frecuencia, luego
+			// trunca la lista por frecuencia de aparicion del término en cada
+			// documento
 			InvertedList truncatedList = eachIndexedTerm.getInvertedList().truncateByFrecuency(this.minTermFrecuency);
-			appendDocumentsTo(resultDocumentIDs, truncatedList,this.resultItemsCount);
+			appendDocumentsTo(resultDocumentIDs, truncatedList, this.resultItemsCount);
 		}
 		return resultDocumentIDs;
 	}
 
 	/**
-	 * Agrega los documentos desde "from" al final de la lista "documentList". Los items los agrega por unica vez. Si la cantidad de elementos de "documentList" alcanza limit, inmediatamente deja de agregar elementos. 
+	 * Agrega los documentos desde "from" al final de la lista "documentList".
+	 * Los items los agrega por unica vez. Si la cantidad de elementos de
+	 * "documentList" alcanza limit, inmediatamente deja de agregar elementos.
+	 * 
 	 * @param to
 	 * @param from
 	 */
@@ -80,13 +85,13 @@ public class RankedSearchEngine {
 	 * Ordena la lista por importancia de término
 	 * */
 	private List<InvertedIndexRecord> sortByTermImportance(List<InvertedIndexRecord> list) {
-		InvertedIndexRecord[] sortedLists =list.toArray(new InvertedIndexRecord[list.size()]);
-		Comparator<? super InvertedIndexRecord> comparator=new Comparator<InvertedIndexRecord>(){
+		InvertedIndexRecord[] sortedLists = list.toArray(new InvertedIndexRecord[list.size()]);
+		Comparator<? super InvertedIndexRecord> comparator = new Comparator<InvertedIndexRecord>() {
 
 			@Override
 			public int compare(InvertedIndexRecord o1, InvertedIndexRecord o2) {
 				return o1.compareByTermImportance(o2);
-			} 
+			}
 		};
 		Arrays.sort(sortedLists, comparator);
 		return Arrays.asList(sortedLists);

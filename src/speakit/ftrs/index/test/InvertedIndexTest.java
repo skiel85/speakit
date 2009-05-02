@@ -11,13 +11,13 @@ public class InvertedIndexTest {
 
 	@Before
 	public void setUp() throws Exception {
-//		sut = new Index();
-//		InvertedList invertedList=new InvertedList();
-//		invertedList.add(new InvertedListItem(1,3));
-//		invertedList.add(new InvertedListItem(3,2));
-//		IndexRecord record_hoja = new IndexRecord("hola", invertedList);
-//		
-//		sut.updateRecord(record1);
+		// sut = new Index();
+		// InvertedList invertedList=new InvertedList();
+		// invertedList.add(new InvertedListItem(1,3));
+		// invertedList.add(new InvertedListItem(3,2));
+		// IndexRecord record_hoja = new IndexRecord("hola", invertedList);
+		//		
+		// sut.updateRecord(record1);
 	}
 
 	@After
@@ -27,7 +27,7 @@ public class InvertedIndexTest {
 
 	@Test
 	public void test() {
-		
+
 	}
 
 }

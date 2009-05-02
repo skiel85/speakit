@@ -15,15 +15,15 @@ import speakit.io.record.RecordSerializationException;
 import speakit.test.TestFileManager;
 
 public class DocumentRepositoryTest {
-	 
+
 	DocumentRepository sut;
-	private FileManager	fileSet;
+	private FileManager fileSet;
 
 	@Before
 	public void setUp() throws Exception {
 		this.fileSet = new TestFileManager(this.getClass().getName());
 		this.sut = new DocumentRepository();
-		this.sut.load(fileSet,new Configuration());
+		this.sut.load(fileSet, new Configuration());
 	}
 
 	@After

@@ -23,7 +23,7 @@ public abstract class CompositeField extends Field {
 	protected Field getField(int index) {
 		return this.fields.get(index);
 	}
-	
+
 	protected int getFieldCount() {
 		return this.fields.size();
 	}

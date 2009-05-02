@@ -12,11 +12,11 @@ import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.OffsetRecordFile;
 
 //TODO implementar esta clase
-public class DocumentRepository implements File,RecordFactory<DocumentRecord> {
+public class DocumentRepository implements File, RecordFactory<DocumentRecord> {
 	private OffsetRecordFile<DocumentRecord> recordFile;
 
 	@Override
-	public void load(FileManager fileManager,Configuration conf) throws IOException { 
+	public void load(FileManager fileManager, Configuration conf) throws IOException {
 		this.recordFile = new OffsetRecordFile<DocumentRecord>(fileManager.openFile("DocumentRepository.dat"), this);
 	}
 
@@ -57,7 +57,7 @@ public class DocumentRepository implements File,RecordFactory<DocumentRecord> {
 
 	@Override
 	public void install(FileManager filemanager, Configuration conf) throws IOException {
-		this.load(filemanager,conf);
+		this.load(filemanager, conf);
 	}
 
 	@Override

@@ -10,13 +10,13 @@ import org.junit.Test;
 
 import speakit.Configuration;
 
-public class ConfigurationTest { 
-	private Configuration	conf;
-	private TestFileManager	fileManager;
+public class ConfigurationTest {
+	private Configuration conf;
+	private TestFileManager fileManager;
 
 	@Before
 	public void setUp() throws Exception {
-		fileManager=new TestFileManager(this.getClass().getName());
+		fileManager = new TestFileManager(this.getClass().getName());
 		conf = new Configuration();
 	}
 
@@ -26,7 +26,7 @@ public class ConfigurationTest {
 	}
 
 	@Test
-	public void testLoadsCorrectly() throws IOException { 
+	public void testLoadsCorrectly() throws IOException {
 		conf.setBlockSize(51);
 		conf.setTrieDepth(41);
 		conf.create(fileManager);

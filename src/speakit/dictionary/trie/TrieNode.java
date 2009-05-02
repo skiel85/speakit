@@ -12,8 +12,8 @@ public class TrieNode extends Record<LongField> {
 	// private ArrayList<WordOffsetField> WordOffsetRecordList;
 	// private long nodeNumber;
 
-	private LongField					nodeNumber=new LongField();
-	private ArrayField<WordOffsetField>	wordOffsetList=new ArrayField<WordOffsetField>();
+	private LongField nodeNumber = new LongField();
+	private ArrayField<WordOffsetField> wordOffsetList = new ArrayField<WordOffsetField>();
 
 	public TrieNode(ArrayList<WordOffsetField> wordOffsetList, long nodeNumber) {
 		this(nodeNumber);
@@ -21,18 +21,18 @@ public class TrieNode extends Record<LongField> {
 			this.wordOffsetList.addItem(item);
 		}
 	}
-	
+
 	public TrieNode() {
 		this.setKey(this.nodeNumber);
 		this.addField(this.nodeNumber);
 		this.addField(this.wordOffsetList);
 	}
-	
+
 	public TrieNode(long nodeNumber) {
 		this();
 		this.nodeNumber.setLong(nodeNumber);
 	}
-	
+
 	public List<WordOffsetField> getWordOffsetList() {
 		return wordOffsetList.getArray();
 	}

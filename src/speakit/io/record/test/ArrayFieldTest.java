@@ -30,14 +30,12 @@ public class ArrayFieldTest {
 		try {
 			this.sut.getItem(-1);
 			Assert.fail();
-		}
-		catch (IndexOutOfBoundsException e ){
+		} catch (IndexOutOfBoundsException e) {
 			return;
-		}
-		catch (Throwable e){
+		} catch (Throwable e) {
 			Assert.fail();
 		}
-		
+
 	}
 
 	@Test
@@ -45,7 +43,7 @@ public class ArrayFieldTest {
 		Assert.assertEquals("hola", this.sut.getItem(0).getString());
 		Assert.assertEquals("mundo", this.sut.getItem(1).getString());
 	}
-	
+
 	@Test
 	public void testGetSize() {
 		Assert.assertEquals(2, this.sut.getSize());

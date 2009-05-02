@@ -53,19 +53,19 @@ public class ArrayField<FIELDTYPE extends Field> extends CompositeField implemen
 	public Iterator<FIELDTYPE> iterator() {
 		return new ArrayFieldIterator<FIELDTYPE>(this);
 	}
-	
-	public void setArray(List<FIELDTYPE> array){
+
+	public void setArray(List<FIELDTYPE> array) {
 		for (FIELDTYPE item : array) {
 			this.addItem(item);
-		} 
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<FIELDTYPE> getArray(){
-		List<FIELDTYPE> result=new ArrayList<FIELDTYPE>();
-		for (int i = 0; i < this.getFieldCount(); i++) {
-			result.add((FIELDTYPE)this.getField(i));
 		}
-		return result; 
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<FIELDTYPE> getArray() {
+		List<FIELDTYPE> result = new ArrayList<FIELDTYPE>();
+		for (int i = 0; i < this.getFieldCount(); i++) {
+			result.add((FIELDTYPE) this.getField(i));
+		}
+		return result;
 	}
 }

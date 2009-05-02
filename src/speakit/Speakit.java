@@ -19,10 +19,10 @@ import speakit.test.TestFileManager;
  */
 public class Speakit implements SpeakitInterface {
 
-	private AudioDictionaryImpl	dataBase;
-	private FTRS				ftrs;
-	private FileManager	fileManager;
-	private Configuration	conf;
+	private AudioDictionaryImpl dataBase;
+	private FTRS ftrs;
+	private FileManager fileManager;
+	private Configuration conf;
 
 	public Speakit() {
 		this.conf = new Configuration();
@@ -38,7 +38,7 @@ public class Speakit implements SpeakitInterface {
 	 */
 	public void load() throws IOException {
 		this.conf.load(fileManager);
-		if(!this.isInstalled(fileManager)){
+		if (!this.isInstalled(fileManager)) {
 			this.install(fileManager, conf);
 		}
 		this.load(fileManager);
@@ -50,8 +50,8 @@ public class Speakit implements SpeakitInterface {
 	 * @throws IOException
 	 */
 	public void load(FileManager fileManager) throws IOException {
-		this.dataBase.load(fileManager,this.conf);
-		this.ftrs.load(fileManager,this.conf);
+		this.dataBase.load(fileManager, this.conf);
+		this.ftrs.load(fileManager, this.conf);
 	}
 
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {
@@ -110,7 +110,7 @@ public class Speakit implements SpeakitInterface {
 	}
 
 	public void setFileManager(TestFileManager fileManager) {
-		this.fileManager=fileManager;
+		this.fileManager = fileManager;
 	}
 
 }

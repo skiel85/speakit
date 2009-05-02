@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import speakit.TextDocument;
 
-public class TextDocumentList implements Iterable<TextDocument>{
+public class TextDocumentList implements Iterable<TextDocument> {
 	protected ArrayList<TextDocument> documents = new ArrayList<TextDocument>();
 
 	public void add(TextDocument document) {
@@ -14,8 +14,7 @@ public class TextDocumentList implements Iterable<TextDocument>{
 
 	@Override
 	public Iterator<TextDocument> iterator() {
-	    return documents.iterator();
+		return documents.iterator();
 	}
 
-	
 }

@@ -42,7 +42,8 @@ public class InvertedListGenerator {
 		ArrayList<InvertedListItem> invListItems = new ArrayList<InvertedListItem>();
 		ArrayList<Occurrence> appearanceList = getStorage().getApearanceListFor(termId);
 		if (appearanceList.size() == 0) {
-			//La lista de apariencias es 0, devuelvo una lista vacia?  o lanzo excepcion?
+			// La lista de apariencias es 0, devuelvo una lista vacia? o lanzo
+			// excepcion?
 			return new InvertedList();
 		}
 		int frecuency = 0;
@@ -52,17 +53,15 @@ public class InvertedListGenerator {
 			app = appIterator.next();
 			if (currentDoc == app.getDocument()) {
 				frecuency++;
-			}
-			else
-			{
+			} else {
 				InvertedListItem item = new InvertedListItem(currentDoc, frecuency == 0 ? 1 : frecuency);
 				invListItems.add(item);
 				frecuency = 0;
 				currentDoc = app.getDocument();
 			}
 		}
-		
-		InvertedListItem item = new InvertedListItem(currentDoc, frecuency == 0 ? 1 : frecuency);		
+
+		InvertedListItem item = new InvertedListItem(currentDoc, frecuency == 0 ? 1 : frecuency);
 		invListItems.add(item);
 		InvertedList resultList = new InvertedList(invListItems);
 		return resultList.sortByFrecuency();
@@ -74,4 +73,3 @@ public class InvertedListGenerator {
 		return storage;
 	}
 }
-

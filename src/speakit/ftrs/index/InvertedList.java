@@ -9,7 +9,7 @@ import java.util.List;
 //TODO implementar
 public class InvertedList implements Iterable<InvertedListItem> {
 
-	private ArrayList<InvertedListItem>	items;
+	private ArrayList<InvertedListItem> items;
 
 	public InvertedList() {
 		items = new ArrayList<InvertedListItem>();
@@ -18,7 +18,6 @@ public class InvertedList implements Iterable<InvertedListItem> {
 	public InvertedList(ArrayList<InvertedListItem> items) {
 		this.items = items;
 	}
-	
 
 	public InvertedList sortByFrecuency() {
 		InvertedListItem[] sortedByFrecuency = (InvertedListItem[]) items.toArray(new InvertedListItem[items.size()]);
@@ -62,7 +61,7 @@ public class InvertedList implements Iterable<InvertedListItem> {
 			ids.add(item.getDocumentId());
 		}
 		return ids;
-	} 
+	}
 
 	/**
 	 * Agrega un elemento

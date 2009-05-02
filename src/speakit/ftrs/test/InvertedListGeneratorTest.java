@@ -12,17 +12,16 @@ import speakit.ftrs.InvertedListGenerator;
 import speakit.ftrs.Lexicon;
 import speakit.ftrs.index.InvertedList;
 
-
 public class InvertedListGeneratorTest {
 	TextDocument doc;
 	TextDocument doc2;
 	TextDocument doc3;
 	ArrayList<TextDocument> docs;
 	Lexicon lexico;
-	
+
 	@Before
 	public void setUp() {
-		
+
 	}
 
 	private void prepareDocumentsForSimpleTest() {
@@ -45,7 +44,7 @@ public class InvertedListGeneratorTest {
 		lexico.add("fui");
 		lexico.add("volvi");
 	}
-	
+
 	private void prepareDocumentsForFrecuencyTest() {
 		doc = new TextDocument("hola hola como estas");
 		doc.setId(1);
@@ -66,6 +65,7 @@ public class InvertedListGeneratorTest {
 		lexico.add("fui");
 		lexico.add("volvi");
 	}
+
 	/**
 	 * Smoke test. Solo tstea q no rompa con la generacion de listas invertidas.
 	 * TODO Ajustarlo cuando inverted list tenga mas funcionalidad
@@ -73,7 +73,7 @@ public class InvertedListGeneratorTest {
 	@Test
 	public void testGenerateInvertedList() {
 		prepareDocumentsForSimpleTest();
-		InvertedListGenerator generator = new InvertedListGenerator();		
+		InvertedListGenerator generator = new InvertedListGenerator();
 		generator.processTextDocuments(docs, lexico);
 		InvertedList list = generator.generate(1);
 		Assert.assertTrue("Termino 'hola' debe estar en 3 docs, pero el tamaño es " + list.size(), list.size() == 3);
@@ -90,31 +90,31 @@ public class InvertedListGeneratorTest {
 		list = generator.generate(7);
 		Assert.assertTrue("Termino 'volvi' debe estar en 1 docs, pero el tamaño es " + list.size(), list.size() == 1);
 	}
-	
+
 	@Test
 	public void testLocalFrecuencyGenerated() {
 		prepareDocumentsForFrecuencyTest();
-		InvertedListGenerator generator = new InvertedListGenerator();		
+		InvertedListGenerator generator = new InvertedListGenerator();
 		generator.processTextDocuments(docs, lexico);
-		InvertedList list = generator.generate(1);//'Hola'
+		InvertedList list = generator.generate(1);// 'Hola'
 		InvertedList sortedList = list.sortByFrecuency();
 		Assert.assertEquals(sortedList.getMaxLocalFrecuency(), 2);
-		list = generator.generate(2);//como
+		list = generator.generate(2);// como
 		sortedList = list.sortByFrecuency();
 		Assert.assertEquals(sortedList.getMaxLocalFrecuency(), 1);
-		list = generator.generate(3);//estas
+		list = generator.generate(3);// estas
 		sortedList = list.sortByFrecuency();
 		Assert.assertEquals(sortedList.getMaxLocalFrecuency(), 1);
-		list = generator.generate(4);//ya
+		list = generator.generate(4);// ya
 		sortedList = list.sortByFrecuency();
 		Assert.assertEquals(sortedList.getMaxLocalFrecuency(), 3);
-		list = generator.generate(5);//me
+		list = generator.generate(5);// me
 		sortedList = list.sortByFrecuency();
-		Assert.assertEquals(sortedList.getMaxLocalFrecuency(), 2);		
-		list = generator.generate(6);//fui
+		Assert.assertEquals(sortedList.getMaxLocalFrecuency(), 2);
+		list = generator.generate(6);// fui
 		sortedList = list.sortByFrecuency();
 		Assert.assertEquals(sortedList.getMaxLocalFrecuency(), 1);
-		list = generator.generate(7);//volvi
+		list = generator.generate(7);// volvi
 		sortedList = list.sortByFrecuency();
 		Assert.assertEquals(sortedList.getMaxLocalFrecuency(), 3);
 	}

@@ -12,14 +12,14 @@ import speakit.Configuration;
 import speakit.Speakit;
 
 public class SpeakitInstalationTest {
-	private Speakit				sut;
-	private TestFileManager		fileManager;
-	private Configuration	conf;
+	private Speakit sut;
+	private TestFileManager fileManager;
+	private Configuration conf;
 
 	@Before
 	public void setUp() throws Exception {
 		this.fileManager = new TestFileManager(this.getClass().getName());
-		conf = new  Configuration();
+		conf = new Configuration();
 		conf.setBlockSize(256);
 		conf.setTrieDepth(3);
 		conf.create(fileManager);
@@ -47,7 +47,7 @@ public class SpeakitInstalationTest {
 		sut.load();
 		Assert.assertEquals(true, sut.isInstalled(this.fileManager));
 	}
-	
+
 	@Test
 	public void testIsInstalledAfterInstallationAndReInstantation() throws IOException {
 		Assert.assertEquals(false, sut.isInstalled(this.fileManager));

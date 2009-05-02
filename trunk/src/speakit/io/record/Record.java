@@ -8,11 +8,19 @@ import java.io.OutputStream;
 
 /**
  * Representa un registro. Un objeto serializable y comparable.
+ * Para extender Record es necesario sobreescribir el metodo getKey y getFields.  
  * 
  */
 public abstract class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>> {
+	
+	/**
+	 * @return el campo que hará de clave. El campo devuelto no se serializará a menos que haya sido incluido en la lista de getFields().
+	 */
 	protected abstract KEYTYPE getKey();
 
+	/**
+	 * @return el arreglo de campos que se quiere sean serializables. Si el campo clave tambien se quiere serializar se debe incluir en esta lista.
+	 */
 	protected abstract Field[] getFields();
 
 	/**

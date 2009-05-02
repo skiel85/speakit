@@ -4,10 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.ftrs.index.Index;
+import speakit.ftrs.index.InvertedIndex;
 
 public class InvertedIndexTest {
-	Index sut;
+	InvertedIndex sut;
 
 	@Before
 	public void setUp() throws Exception {

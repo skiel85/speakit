@@ -4,30 +4,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class MockAppearanceStorageImpl implements AppearanceStorage {
+public class MockAppearanceStorageImpl implements OccurrenceStorage {
 
-	protected ArrayList<Appearance>	appearances;
+	protected ArrayList<Occurrence>	appearances;
 
 	public MockAppearanceStorageImpl() {
-		appearances = new ArrayList<Appearance>();
+		appearances = new ArrayList<Occurrence>();
 	}
 
 	@Override
-	public void addAppeareance(Appearance app) {
+	public void addOccurrence(Occurrence app) {
 		appearances.add(app);
 	}
 
 	@Override
-	public ArrayList<Appearance> getSortedAppearanceList() {
+	public ArrayList<Occurrence> getSortedAppearanceList() {
 		Collections.sort(appearances);
 		return appearances;
 	}
 
 	@Override
-	public ArrayList<Appearance> getApearanceListFor(int termId) {
-		ArrayList<Appearance> result = new ArrayList<Appearance>();
-		for (Iterator<Appearance> iterator = appearances.iterator(); iterator.hasNext();) {
-			Appearance appearance = iterator.next();
+	public ArrayList<Occurrence> getApearanceListFor(int termId) {
+		ArrayList<Occurrence> result = new ArrayList<Occurrence>();
+		for (Iterator<Occurrence> iterator = appearances.iterator(); iterator.hasNext();) {
+			Occurrence appearance = iterator.next();
 			if (appearance.getTermId() == termId)
 				result.add(appearance);
 		}

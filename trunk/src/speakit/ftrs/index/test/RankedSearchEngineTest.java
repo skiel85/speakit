@@ -11,8 +11,8 @@ import org.junit.Test;
 
 import speakit.TextDocument;
 import speakit.ftrs.RankedSearchEngine;
-import speakit.ftrs.index.Index;
-import speakit.ftrs.index.IndexRecord;
+import speakit.ftrs.index.InvertedIndex;
+import speakit.ftrs.index.InvertedIndexRecord;
 import speakit.ftrs.index.InvertedList;
 import speakit.ftrs.index.InvertedListItem;
 
@@ -22,7 +22,7 @@ public class RankedSearchEngineTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Index index = new Index();
+		InvertedIndex index = new InvertedIndex();
 		int resultQty = 10;
 		sut = new RankedSearchEngine(index, resultQty, 1);
 
@@ -36,10 +36,10 @@ public class RankedSearchEngineTest {
 		// querer|0,6|1 (3, 1)
 		// vida|0,125|2 (4, 2), (1,1), (2, 1)
 		//Notar q las listas se arman en el siguiente orden, frecuencia, luego nro de documento.
-		index.updateRecord(new IndexRecord("bella", (new InvertedList()).add(new InvertedListItem(2, 1))));
-		index.updateRecord(new IndexRecord("cosas", (new InvertedList()).add(new InvertedListItem(1, 1)).add(new InvertedListItem(3, 1))));
-		index.updateRecord(new IndexRecord("querer", (new InvertedList()).add(new InvertedListItem(3, 1))));
-		index.updateRecord(new IndexRecord("vida", (new InvertedList()).add(new InvertedListItem(4, 2)).add(new InvertedListItem(1, 1)).add(new InvertedListItem(2, 1))));
+		index.updateRecord(new InvertedIndexRecord("bella", (new InvertedList()).add(new InvertedListItem(2, 1))));
+		index.updateRecord(new InvertedIndexRecord("cosas", (new InvertedList()).add(new InvertedListItem(1, 1)).add(new InvertedListItem(3, 1))));
+		index.updateRecord(new InvertedIndexRecord("querer", (new InvertedList()).add(new InvertedListItem(3, 1))));
+		index.updateRecord(new InvertedIndexRecord("vida", (new InvertedList()).add(new InvertedListItem(4, 2)).add(new InvertedListItem(1, 1)).add(new InvertedListItem(2, 1))));
 	}
 
 	@After

@@ -1,10 +1,10 @@
 package speakit.ftrs;
 
-public class Appearance implements Comparable<Appearance> {
+public class Occurrence implements Comparable<Occurrence> {
 	private int termId;
 	private int document;
 
-	public Appearance(int termId, int document) {
+	public Occurrence(int termId, int document) {
 		this.termId = termId;
 		this.document = document;
 	}
@@ -24,7 +24,7 @@ public class Appearance implements Comparable<Appearance> {
 	}
 
 	@Override
-	public int compareTo(Appearance o) {
+	public int compareTo(Occurrence o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

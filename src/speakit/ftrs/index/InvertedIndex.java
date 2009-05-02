@@ -8,21 +8,21 @@ import speakit.FileManager;
 import speakit.io.File;
 
 //TODO implementar
-public class Index implements File{
+public class InvertedIndex implements File{
 
-	protected ArrayList<IndexRecord> records;
+	protected ArrayList<InvertedIndexRecord> records;
 	
-	public Index(){
-		records=new ArrayList<IndexRecord>();
+	public InvertedIndex(){
+		records=new ArrayList<InvertedIndexRecord>();
 	}
 
 	public boolean exists(String word) {
 		return false;
 	}
 
-	public IndexRecord getDocumentsFor(String word) {
+	public InvertedIndexRecord getDocumentsFor(String word) {
 		for (int i = 0; i < records.size(); i++) {
-			IndexRecord each = this.records.get(i);
+			InvertedIndexRecord each = this.records.get(i);
 			if(each.term.equals(word)){ 
 				return each;
 			}
@@ -30,15 +30,15 @@ public class Index implements File{
 		return null;
 	}
 
-	public void updateRecords(ArrayList<IndexRecord> records) {
-		for(IndexRecord record:records){
+	public void updateRecords(ArrayList<InvertedIndexRecord> records) {
+		for(InvertedIndexRecord record:records){
 			this.updateRecord(record);
 		}
 	}
 	
-	public void updateRecord(IndexRecord record) {
+	public void updateRecord(InvertedIndexRecord record) {
 		for (int i = 0; i < records.size(); i++) {
-			IndexRecord each = this.records.get(i);
+			InvertedIndexRecord each = this.records.get(i);
 			if(each.term.equals(record.term)){
 				records.set(i,record);
 				return;

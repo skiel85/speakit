@@ -9,17 +9,17 @@ import speakit.FileManager;
 import speakit.TextDocument;
 import speakit.documentstorage.DocumentRepository;
 import speakit.documentstorage.TextDocumentList;
-import speakit.ftrs.index.Index;
-import speakit.ftrs.index.IndexRecord;
+import speakit.ftrs.index.InvertedIndex;
+import speakit.ftrs.index.InvertedIndexRecord;
 
 
 public class FTRSImpl implements FTRS {
 
 	protected DocumentRepository repository;
-	protected Index index;
+	protected InvertedIndex index;
 
 	public FTRSImpl() {
-		index = new Index();
+		index = new InvertedIndex();
 		repository=new DocumentRepository();
 	}
 
@@ -45,9 +45,9 @@ public class FTRSImpl implements FTRS {
 		return textDocument;
 	}
 	
-	private Index getIndex() {
+	private InvertedIndex getIndex() {
 		if (this.index == null)
-			this.index = new Index();
+			this.index = new InvertedIndex();
 		return index;
 	}
 
@@ -61,12 +61,12 @@ public class FTRSImpl implements FTRS {
 	@Override
 	public void indexDocuments(TextDocument textDocument) throws IOException {
 		this.repository.store(textDocument);
-		IndexRecordGenerator generator = new IndexRecordGenerator();
+		InvertedIndexRecordGenerator generator = new InvertedIndexRecordGenerator();
 		// a modo de prueba, agrego un document, este metodo seguramente no
 		// tenga sentido
 		TextDocument cleanDocument = applyFilters(textDocument);
 		generator.addSingleDocument(cleanDocument);
-		ArrayList<IndexRecord> records = generator.generateNewRegisters();
+		ArrayList<InvertedIndexRecord> records = generator.generateNewRegisters();
 		//TODO faltaría mergear los index records preexistentes con los nuevos index records 
 		getIndex().updateRecords(records);
 	} 

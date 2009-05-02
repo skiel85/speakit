@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import speakit.TextDocument;
-import speakit.ftrs.index.IndexRecord;
+import speakit.ftrs.index.InvertedIndexRecord;
 import speakit.ftrs.index.InvertedList;
 import speakit.ftrs.index.Term;
 
-public class IndexRecordGenerator {
+public class InvertedIndexRecordGenerator {
 	private ArrayList<TextDocument> docs;
 	private InvertedListGenerator invertedListGenerator;
 	private Lexicon lexicon;
 
-	public IndexRecordGenerator() {
+	public InvertedIndexRecordGenerator() {
 		docs = new ArrayList<TextDocument>();
 		invertedListGenerator = new InvertedListGenerator();
 		lexicon = new Lexicon();
@@ -36,13 +36,13 @@ public class IndexRecordGenerator {
 		}
 	}
 
-	public ArrayList<IndexRecord> generateNewRegisters() {
-		ArrayList<IndexRecord> result = new ArrayList<IndexRecord>();
+	public ArrayList<InvertedIndexRecord> generateNewRegisters() {
+		ArrayList<InvertedIndexRecord> result = new ArrayList<InvertedIndexRecord>();
 		getInvertedListGenerator().processTextDocuments(getDocuments(), getLexicon());
 		for (Iterator<Term> iterator = getLexicon().iterator(); iterator.hasNext();) {
 			Term term = iterator.next();
 			InvertedList invList = getInvertedListGenerator().generate(term.getTermId());
-			result.add(new IndexRecord(term.getValue(), invList));
+			result.add(new InvertedIndexRecord(term.getValue(), invList));
 		}
 		return result;
 	}

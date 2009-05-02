@@ -9,7 +9,7 @@ import speakit.ftrs.index.InvertedListItem;
 
 public class InvertedListGenerator {
 
-	protected AppearanceStorage storage;
+	protected OccurrenceStorage storage;
 
 	/**
 	 * Procesa la lista de documentos, extrayendo las apariciones de cada
@@ -24,8 +24,8 @@ public class InvertedListGenerator {
 		for (TextDocument doc : documents) {
 			for (String word : doc) {
 				int termId = lexicon.getAppearanceOrder(word);
-				Appearance app = new Appearance(termId, doc.getId());
-				getStorage().addAppeareance(app);
+				Occurrence app = new Occurrence(termId, doc.getId());
+				getStorage().addOccurrence(app);
 			}
 		}
 	}
@@ -40,15 +40,15 @@ public class InvertedListGenerator {
 	 */
 	public InvertedList generate(int termId) {
 		ArrayList<InvertedListItem> invListItems = new ArrayList<InvertedListItem>();
-		ArrayList<Appearance> appearanceList = getStorage().getApearanceListFor(termId);
+		ArrayList<Occurrence> appearanceList = getStorage().getApearanceListFor(termId);
 		if (appearanceList.size() == 0) {
 			//La lista de apariencias es 0, devuelvo una lista vacia?  o lanzo excepcion?
 			return new InvertedList();
 		}
 		int frecuency = 0;
 		int currentDoc = appearanceList.get(0).getDocument();
-		Appearance app = null;
-		for (Iterator<Appearance> appIterator = appearanceList.iterator(); appIterator.hasNext();) {
+		Occurrence app = null;
+		for (Iterator<Occurrence> appIterator = appearanceList.iterator(); appIterator.hasNext();) {
 			app = appIterator.next();
 			if (currentDoc == app.getDocument()) {
 				frecuency++;
@@ -68,7 +68,7 @@ public class InvertedListGenerator {
 		return resultList.sortByFrecuency();
 	}
 
-	private AppearanceStorage getStorage() {
+	private OccurrenceStorage getStorage() {
 		if (storage == null)
 			storage = new MockAppearanceStorageImpl();
 		return storage;

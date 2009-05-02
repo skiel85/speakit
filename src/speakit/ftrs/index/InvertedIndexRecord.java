@@ -1,19 +1,19 @@
 package speakit.ftrs.index;
 
-public class IndexRecord {
+public class InvertedIndexRecord {
 	protected String term;
 	protected int documentsQty;
 	protected int maxLocalFrecuency;
 	protected InvertedList documents;
 
-	public IndexRecord(String term,int documentsQty, int maxLocalFrecuency, InvertedList documents) {
+	public InvertedIndexRecord(String term,int documentsQty, int maxLocalFrecuency, InvertedList documents) {
 		this.term = term;
 		this.documentsQty = documentsQty;
 		this.maxLocalFrecuency = maxLocalFrecuency;
 		this.documents = documents;
 	}
 	
-	public IndexRecord(String term, InvertedList documents) {
+	public InvertedIndexRecord(String term, InvertedList documents) {
 		this.term = term; 
 		this.documents = documents;
 		calculateTermsStatistics();
@@ -46,7 +46,7 @@ public class IndexRecord {
 	 * @param other
 	 * @return
 	 */
-	public int compareByTermImportance(IndexRecord other){
+	public int compareByTermImportance(InvertedIndexRecord other){
 		if(this.documentsQty==other.documentsQty){
 			return 0;
 		}else{

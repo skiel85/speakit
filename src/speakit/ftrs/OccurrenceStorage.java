@@ -2,11 +2,11 @@ package speakit.ftrs;
 
 import java.util.ArrayList;
 
-public interface AppearanceStorage {
+public interface OccurrenceStorage {
 
-	public void addAppeareance(Appearance app);
+	public void addOccurrence(Occurrence occ);
 
-	public ArrayList<Appearance> getSortedAppearanceList();
+	public ArrayList<Occurrence> getSortedAppearanceList();
 	
 	/**
 	 * Devuelve la lista de appariciones, ordenadas, dado el nro de orden de aparicion
@@ -14,5 +14,5 @@ public interface AppearanceStorage {
 	 * @param termId
 	 * @return ArrayList<Appearance>
 	 */
-	public ArrayList<Appearance> getApearanceListFor(int termId);
+	public ArrayList<Occurrence> getApearanceListFor(int termId);
 }

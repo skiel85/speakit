@@ -1,4 +1,4 @@
-package speakit.bsharptree.test;
+package speakit.io.bsharptree.test;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import speakit.bsharptree.BSharpTree;
+import speakit.io.bsharptree.BSharpTree;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 

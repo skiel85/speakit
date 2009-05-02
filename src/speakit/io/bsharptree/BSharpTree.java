@@ -1,4 +1,4 @@
-package speakit.bsharptree;
+package speakit.io.bsharptree;
 
 import java.io.IOException;
 

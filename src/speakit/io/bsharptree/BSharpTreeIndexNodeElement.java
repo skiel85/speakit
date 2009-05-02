@@ -1,4 +1,4 @@
-package speakit.bsharptree;
+package speakit.io.bsharptree;
 
 import speakit.io.record.CompositeField;
 import speakit.io.record.Field;

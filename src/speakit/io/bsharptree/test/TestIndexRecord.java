@@ -1,4 +1,4 @@
-package speakit.bsharptree.test;
+package speakit.io.bsharptree.test;
 
 import speakit.io.record.IndexRecord;
 import speakit.io.record.StringField;

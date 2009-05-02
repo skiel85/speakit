@@ -15,7 +15,7 @@ public class TextDocument implements Iterable<String> {
 
 	private String text;
 	private WordReader wordReader;
-	private int id;
+	private long id;
 
 	public TextDocument(String text) {
 		this.text = text;
@@ -61,11 +61,11 @@ public class TextDocument implements Iterable<String> {
 		}
 	}
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

@@ -62,5 +62,26 @@ public class InvertedListTest {
 		InvertedList truncatedByFrecuency = sut.truncateByFrecuency(0);
 		testAllDocumentsAreInList(truncatedByFrecuency);
 	}
+	
+	@Test
+	public void testInsertsOrderedByLocalFrecuency() {
+		InvertedList list = new InvertedList();
+		list.add(new InvertedListItem(2, 4));
+		list.add(new InvertedListItem(9, 2));
+		list.add(new InvertedListItem(11, 2));
+		list.add(new InvertedListItem(1, 1));
+		list.add(new InvertedListItem(5, 6));
+		list.add(new InvertedListItem(3, 6));
+		
+		//solo una prueba de comparación
+		Assert.assertEquals(true, new InvertedListItem(2, 4).equals(new InvertedListItem(2, 4)));
+
+		Assert.assertEquals(true,new InvertedListItem(3, 6).equals(list.get(0)));
+		Assert.assertEquals(true,new InvertedListItem(5, 6).equals(list.get(1)));
+		Assert.assertEquals(true,new InvertedListItem(2, 4).equals(list.get(2)));
+		Assert.assertEquals(true,new InvertedListItem(9, 2).equals(list.get(3)));
+		Assert.assertEquals(true,new InvertedListItem(11, 2).equals(list.get(4)));
+		Assert.assertEquals(true,new InvertedListItem(1, 1).equals(list.get(5)));
+	}
 
 }

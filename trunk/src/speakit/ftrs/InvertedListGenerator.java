@@ -47,7 +47,7 @@ public class InvertedListGenerator {
 			return new InvertedList();
 		}
 		int frecuency = 0;
-		int currentDoc = appearanceList.get(0).getDocument();
+		long currentDoc = appearanceList.get(0).getDocument();
 		Occurrence app = null;
 		for (Iterator<Occurrence> appIterator = appearanceList.iterator(); appIterator.hasNext();) {
 			app = appIterator.next();

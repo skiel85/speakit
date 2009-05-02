@@ -2,9 +2,9 @@ package speakit.ftrs;
 
 public class Occurrence implements Comparable<Occurrence> {
 	private int termId;
-	private int document;
+	private long document;
 
-	public Occurrence(int termId, int document) {
+	public Occurrence(int termId, long document) {
 		this.termId = termId;
 		this.document = document;
 	}
@@ -19,7 +19,7 @@ public class Occurrence implements Comparable<Occurrence> {
 	/**
 	 * @return the document
 	 */
-	public int getDocument() {
+	public long getDocument() {
 		return document;
 	}
 

@@ -1,15 +1,15 @@
 package speakit.ftrs.index;
 
 public class InvertedIndexRecord {
-	protected String term;
-	protected int documentsQty;
-	protected int maxLocalFrecuency;
-	protected InvertedList documents;
+	private String term;
+	private int documentsQty;
+	private int maxLocalFrecuency;
+	private InvertedList documents;
 
 	public InvertedIndexRecord(String term, int documentsQty, int maxLocalFrecuency, InvertedList documents) {
 		this.term = term;
-		this.documentsQty = documentsQty;
-		this.maxLocalFrecuency = maxLocalFrecuency;
+		this.setDocumentsQty(documentsQty);
+		this.setMaxLocalFrecuency(maxLocalFrecuency);
 		this.documents = documents;
 	}
 
@@ -20,7 +20,7 @@ public class InvertedIndexRecord {
 	}
 
 	public InvertedList getInvertedList() {
-		return documents;
+		return documents.clone();
 	}
 
 	public void setInvertedList(InvertedList list) {
@@ -32,12 +32,12 @@ public class InvertedIndexRecord {
 		if (this.documents == null) {
 			this.documents = new InvertedList();
 		}
-		this.documentsQty = this.documents.size();
-		this.maxLocalFrecuency = this.documents.getMaxLocalFrecuency();
+		this.setDocumentsQty(this.documents.size());
+		this.setMaxLocalFrecuency(this.documents.getMaxLocalFrecuency());
 	}
 
 	public double getTotalWeight(int totalDocuments) {
-		return Math.log10(totalDocuments / this.documentsQty);
+		return Math.log10(totalDocuments / this.getDocumentsQty());
 	}
 
 	// TODO: REVISAR PESO GLOBAL
@@ -49,14 +49,37 @@ public class InvertedIndexRecord {
 	 * @return
 	 */
 	public int compareByTermImportance(InvertedIndexRecord other) {
-		if (this.documentsQty == other.documentsQty) {
+		if (this.getDocumentsQty() == other.getDocumentsQty()) {
 			return 0;
 		} else {
-			if (this.documentsQty < other.documentsQty) {
+			if (this.getDocumentsQty() < other.getDocumentsQty()) {
 				return -1;
 			} else {
 				return 1;
 			}
 		}
+	}
+	public void setTerm(String term) {
+		this.term = term;
+	}
+
+	public String getTerm() {
+		return term;
+	}
+
+	public void setMaxLocalFrecuency(int maxLocalFrecuency) {
+		this.maxLocalFrecuency = maxLocalFrecuency;
+	}
+
+	public int getMaxLocalFrecuency() {
+		return maxLocalFrecuency;
+	}
+
+	public void setDocumentsQty(int documentsQty) {
+		this.documentsQty = documentsQty;
+	}
+
+	public int getDocumentsQty() {
+		return documentsQty;
 	}
 }

@@ -23,7 +23,7 @@ public class InvertedIndex implements File {
 	public InvertedIndexRecord getDocumentsFor(String word) {
 		for (int i = 0; i < records.size(); i++) {
 			InvertedIndexRecord each = this.records.get(i);
-			if (each.term.equals(word)) {
+			if (each.getTerm().equals(word)) {
 				return each;
 			}
 		}
@@ -39,12 +39,29 @@ public class InvertedIndex implements File {
 	public void updateRecord(InvertedIndexRecord record) {
 		for (int i = 0; i < records.size(); i++) {
 			InvertedIndexRecord each = this.records.get(i);
-			if (each.term.equals(record.term)) {
-				records.set(i, record);
+			if (each.getTerm().equals(record.getTerm())) {
+				records.set(i, mergeRecords(record,each));
 				return;
 			}
 		}
 		this.records.add(record);
+	}
+
+	/**
+	 * copia todos los elementos de la lista invertida de from a to.
+	 * @param from
+	 * @param to
+	 * @return to modificado
+	 */
+	private InvertedIndexRecord mergeRecords(InvertedIndexRecord from, InvertedIndexRecord to) {
+		InvertedList listFrom = from.getInvertedList();
+		InvertedList listTo = to.getInvertedList();
+		for (int i = 0; i < listFrom.size(); i++) {
+			InvertedListItem eachItem = listFrom.get(i);
+			listTo.add(eachItem);
+		}
+		to.setInvertedList(listTo);
+		return to;
 	}
 
 	public void load(FileManager filemanager, Configuration conf) {

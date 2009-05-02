@@ -9,7 +9,7 @@ import java.util.List;
 //TODO implementar
 public class InvertedList implements Iterable<InvertedListItem> {
 
-	private ArrayList<InvertedListItem> items;
+	private ArrayList<InvertedListItem>	items;
 
 	public InvertedList() {
 		items = new ArrayList<InvertedListItem>();
@@ -20,25 +20,22 @@ public class InvertedList implements Iterable<InvertedListItem> {
 	}
 
 	public InvertedList sortByFrecuency() {
+		InvertedListItem[] sortedByFrecuency = sortItemsByFrecuency();
+		return new InvertedList(new ArrayList<InvertedListItem>(Arrays.asList(sortedByFrecuency)));
+	}
+
+	private InvertedListItem[] sortItemsByFrecuency() {
 		InvertedListItem[] sortedByFrecuency = (InvertedListItem[]) items.toArray(new InvertedListItem[items.size()]);
 		Comparator<? super InvertedListItem> c = new Comparator<InvertedListItem>() {
 
 			@Override
 			public int compare(InvertedListItem o1, InvertedListItem o2) {
-				if (o1.getLocalFrecuency() == o2.getLocalFrecuency()) {
-					return 0;
-				} else {
-					if (o1.getLocalFrecuency() > o2.getLocalFrecuency()) {
-						return -1;
-					} else {
-						return 1;
-					}
-				}
+				return o1.compareByRelevance(o2);
 			}
 
 		};
 		Arrays.sort(sortedByFrecuency, c);
-		return new InvertedList(new ArrayList<InvertedListItem>(Arrays.asList(sortedByFrecuency)));
+		return sortedByFrecuency;
 	}
 
 	/**
@@ -71,9 +68,11 @@ public class InvertedList implements Iterable<InvertedListItem> {
 	 */
 	public InvertedList add(InvertedListItem item) {
 		this.items.add(item);
+		InvertedListItem[] sortedByFrecuency = sortItemsByFrecuency();
+		this.items.clear();
+		this.items.addAll(Arrays.asList(sortedByFrecuency));
 		return this;
 	}
-
 	public int size() {
 		return this.items.size();
 	}
@@ -100,5 +99,31 @@ public class InvertedList implements Iterable<InvertedListItem> {
 			}
 		}
 		return false;
+	}
+
+	public boolean equals(InvertedList other) {
+		if (this.items.size() != other.items.size()) {
+			return false;
+		}
+		for (int i = 0; i < this.items.size(); i++) {
+			InvertedListItem thisItem = this.items.get(i);
+			InvertedListItem otherItem = other.items.get(i);
+
+			if (!thisItem.equals(otherItem)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public InvertedListItem get(int index) {
+		return this.items.get(index);
+	}
+
+	public InvertedList clone() {
+		InvertedListItem[] allItems = (InvertedListItem[]) items.toArray(new InvertedListItem[items.size()]);
+		InvertedList copy = new InvertedList();
+		copy.items.addAll(Arrays.asList(allItems));
+		return copy;
 	}
 }

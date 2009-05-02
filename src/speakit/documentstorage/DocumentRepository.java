@@ -44,10 +44,10 @@ public class DocumentRepository implements File, RecordFactory<DocumentRecord> {
 	 * @throws IOException
 	 * @throws RecordSerializationException
 	 */
-	public Long store(TextDocument doc) throws IOException {
+	public void store(TextDocument doc) throws IOException {
 		DocumentRecord record = new DocumentRecord(doc.getText());
 		recordFile.insertRecord(record);
-		return record.getOffset();
+		doc.setId(record.getOffset());
 	}
 
 	@Override

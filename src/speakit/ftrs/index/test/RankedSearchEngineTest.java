@@ -19,10 +19,11 @@ import speakit.ftrs.index.InvertedListItem;
 public class RankedSearchEngineTest {
 
 	RankedSearchEngine sut;
+	private InvertedIndex	index;
 
 	@Before
 	public void setUp() throws Exception {
-		InvertedIndex index = new InvertedIndex();
+		index = new InvertedIndex();
 		int resultQty = 10;
 		sut = new RankedSearchEngine(index, resultQty, 1);
 
@@ -112,6 +113,18 @@ public class RankedSearchEngineTest {
 		List<Long> docIds = sut.search(new TextDocument("bella vida"));
 		Assert.assertEquals(1, docIds.size());
 		Assert.assertEquals(4L, docIds.get(0).longValue());
+	}
+	
+	@Test
+	public void testSearchAfterIndexingNewDocuments() throws IOException {
+		index.updateRecord(new InvertedIndexRecord("vida", (new InvertedList()).add(new InvertedListItem(10, 10))));
+		
+		List<Long> docIds = sut.search(new TextDocument("vida"));
+		Assert.assertEquals(4, docIds.size());
+		Assert.assertEquals(10L, docIds.get(0).longValue());
+		Assert.assertEquals(4L, docIds.get(1).longValue());
+		Assert.assertEquals(1L, docIds.get(2).longValue());
+		Assert.assertEquals(2L, docIds.get(3).longValue());
 	}
 
 }

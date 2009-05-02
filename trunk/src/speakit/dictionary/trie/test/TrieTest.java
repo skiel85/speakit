@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.Configuration;
@@ -32,7 +33,7 @@ public class TrieTest {
 		this.fileManager.destroyFiles();
 	}
 
-	@Test
+	@Test @Ignore
 	public void testAddWord() throws IOException, WordNotFoundException, RecordSerializationException {
 		this.trie.addWord("hola", 3);
 	}

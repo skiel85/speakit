@@ -2,6 +2,7 @@ package speakit.dictionary.trie;
 
 import speakit.io.record.BooleanField;
 import speakit.io.record.CompositeField;
+import speakit.io.record.Field;
 import speakit.io.record.LongField;
 import speakit.io.record.StringField;
 
@@ -12,9 +13,12 @@ public class WordOffsetField extends CompositeField {
 	private BooleanField isLast = new BooleanField();
 
 	public WordOffsetField() {
-		this.addField(word);
-		this.addField(nextRecord);
-		this.addField(isLast);
+		// Dejado intencionalmente en blanco.
+	}
+
+	@Override
+	protected Field[] getFields() {
+		return new Field[] { this.word, this.nextRecord, this.isLast };
 	}
 
 	public WordOffsetField(long nextRecord, String word, boolean isLast) {

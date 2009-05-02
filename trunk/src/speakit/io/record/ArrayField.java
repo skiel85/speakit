@@ -6,9 +6,11 @@ import java.util.List;
 
 public class ArrayField<FIELDTYPE extends Field> extends CompositeField implements Iterable<FIELDTYPE> {
 	private IntegerField size = new IntegerField();
+	private ArrayList<FIELDTYPE> values = new ArrayList<FIELDTYPE>();
 
-	public ArrayField() {
-		this.addField(this.size);
+	@Override
+	protected Field[] getFields() {
+		return Field.JoinFields(new Field[] { this.size }, this.values.toArray(new Field[this.values.size()]));
 	}
 
 	private void incrementSize() {
@@ -21,7 +23,7 @@ public class ArrayField<FIELDTYPE extends Field> extends CompositeField implemen
 
 	public void addItem(FIELDTYPE item) {
 		this.incrementSize();
-		this.addField(item);
+		this.values.add(item);
 	}
 
 	public void removeItem(int index) {
@@ -29,20 +31,19 @@ public class ArrayField<FIELDTYPE extends Field> extends CompositeField implemen
 			throw new IndexOutOfBoundsException();
 		}
 		this.decrementSize();
-		this.removeField(index + 1);
+		this.values.remove(index);
 	}
 
 	public void removeItem(FIELDTYPE field) {
 		this.decrementSize();
-		this.removeField(field);
+		this.values.remove(field);
 	}
 
-	@SuppressWarnings("unchecked")
 	public FIELDTYPE getItem(int index) {
 		if (index < 0) {
 			throw new IndexOutOfBoundsException();
 		}
-		return (FIELDTYPE) this.getField(index + 1);
+		return (FIELDTYPE) this.values.get(index);
 	}
 
 	public int getSize() {
@@ -60,11 +61,10 @@ public class ArrayField<FIELDTYPE extends Field> extends CompositeField implemen
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<FIELDTYPE> getArray() {
 		List<FIELDTYPE> result = new ArrayList<FIELDTYPE>();
 		for (int i = 0; i < this.getFieldCount(); i++) {
-			result.add((FIELDTYPE) this.getField(i));
+			result.add((FIELDTYPE) this.values.get(i));
 		}
 		return result;
 	}

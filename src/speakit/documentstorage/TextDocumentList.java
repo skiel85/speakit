@@ -17,4 +17,8 @@ public class TextDocumentList implements Iterable<TextDocument> {
 		return documents.iterator();
 	}
 
+	public boolean isEmpty() {
+		return documents.size() == 0;
+	}
+
 }

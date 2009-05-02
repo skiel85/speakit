@@ -268,9 +268,16 @@ public class Menu {
 		consultation = this.userInput.readLine();
 		TextDocument searchText = new TextDocument(consultation);
 		documentList = speakit.search(searchText);
-		if (documentList != null) {
+		if (!documentList.isEmpty()) {
 			showResults(documentList);
 			showOptions(documentList);
+		}
+		else
+		{
+			System.out.println("La consulta no arrojó ningun resultado.\n");
+			System.out.println("Para realizar una nueva consulta presione 1");
+			System.out.println("Para ir al menu principal presione 0");
+			chooseFailConsultationOption();
 		}
 	}
 
@@ -302,6 +309,42 @@ public class Menu {
 		chooseOption(documentList);
 	}
 
+	
+	/**
+	 * Permite elegir una opcion
+	 * 
+	 * @param documentList
+	 */
+	private void chooseFailConsultationOption() throws IOException {
+		int opt = 0;
+		boolean option = false;
+
+		while (!option) {
+			try {
+				opt = Integer.parseInt(userInput.readLine());
+			} catch (IOException e) {
+				System.out.println("Error de E/S al leer la consola.");
+				continue;
+			} catch (NumberFormatException e) {
+				System.out.println("Opción inválida.");
+				continue;
+			}
+			option = true;
+		}
+		switch (opt) {
+		case 1:
+			doConsultation();
+			break;
+		case 0:
+			displayMainMenu();
+			break;
+		default:
+			System.out.println("Opción inválida.\n");
+			break;
+		}
+
+	}
+	
 	/**
 	 * Permite elegir una opcion
 	 * 

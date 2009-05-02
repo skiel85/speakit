@@ -80,11 +80,4 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
 		this.deserialize(in);
 	}
-
-	protected Field[] JoinFields(Field[] f1, Field[] f2) {
-		Field[] f = new Field[f1.length + f2.length];
-		System.arraycopy(f1, 0, f, 0, f1.length);
-		System.arraycopy(f2, 0, f, f1.length, f2.length);
-		return f;
-	}
 }

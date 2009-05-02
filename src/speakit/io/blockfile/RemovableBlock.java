@@ -21,6 +21,6 @@ public class RemovableBlock extends Block {
 
 	@Override
 	protected Field[] getFields() {
-		return this.JoinFields(super.getFields(),new Field[]{ this.isRemoved});
+		return Field.JoinFields(super.getFields(),new Field[]{ this.isRemoved});
 	}
 }

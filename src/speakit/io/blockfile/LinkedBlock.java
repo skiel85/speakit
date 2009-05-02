@@ -76,7 +76,7 @@ public class LinkedBlock extends RemovableBlock {
 	
 	@Override
 	protected Field[] getFields() {
-		return this.JoinFields(super.getFields(),new Field[]{ this.nextBlockNumber});
+		return Field.JoinFields(super.getFields(),new Field[]{ this.nextBlockNumber});
 	}
 	
 

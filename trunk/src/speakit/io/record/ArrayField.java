@@ -63,8 +63,10 @@ public class ArrayField<FIELDTYPE extends Field> extends CompositeField implemen
 
 	public List<FIELDTYPE> getArray() {
 		List<FIELDTYPE> result = new ArrayList<FIELDTYPE>();
-		for (int i = 0; i < this.getFieldCount(); i++) {
-			result.add((FIELDTYPE) this.values.get(i));
+		if (this.values.size()>0){
+			for (int i = 0; i < this.getFieldCount(); i++) {
+				result.add((FIELDTYPE) this.values.get(i));
+			}
 		}
 		return result;
 	}

@@ -16,7 +16,7 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 	/**
 	 * @return el campo que hará de clave. El campo devuelto no se serializará a menos que haya sido incluido en la lista de getFields().
 	 */
-	protected abstract KEYTYPE getKey();
+	public abstract KEYTYPE getKey();
 
 	/**
 	 * @return el arreglo de campos que se quiere sean serializables. Si el campo clave tambien se quiere serializar se debe incluir en esta lista.

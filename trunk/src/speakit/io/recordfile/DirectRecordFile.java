@@ -1,6 +1,5 @@
 package speakit.io.recordfile;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -15,9 +14,11 @@ import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 
+//TODO metodo updateRecord. Si el update dentro del bloque provoca overflow hay que meterlo en un bloque nuevo, pero esto lo tiene que hacer el cliente de esta clase. 
+
 public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE> {
-	private BlockFile blocksFile;
-	private RecordFactory<RECTYPE> recordFactory;
+	private BlockFile				blocksFile;
+	private RecordFactory<RECTYPE>	recordFactory;
 
 	public DirectRecordFile(File file, RecordFactory<RECTYPE> recordFactory) {
 		this.blocksFile = new LinkedBlockFile(file);
@@ -38,10 +39,14 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 		return (record != null);
 	}
 
+	// TODO refactorizar para que use el metodo findBlock, en general todos los
+	// lugares donde se haga "for (Block block : this.blocksFile) {" habria que
+	// refactorizar
 	@Override
 	public RECTYPE getRecord(KEYTYPE key) throws IOException, RecordSerializationException {
 		for (Block block : this.blocksFile) {
-			RECTYPE record = this.getRecord(key, block);
+			RecordsListBlockInterpreter<RECTYPE, KEYTYPE> eachBlock = this.asRecordsBlock(block);
+			RECTYPE record = eachBlock.getRecord(key);
 			if (record != null) {
 				return record;
 			}
@@ -49,22 +54,14 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 		return null;
 	}
 
-	public RECTYPE getRecord(KEYTYPE key, int blockNumber) throws IOException, RecordSerializationException {
+	private RecordsListBlockInterpreter<RECTYPE, KEYTYPE> getBlock(int blockNumber) throws RecordSerializationException, IOException {
 		Block block = this.blocksFile.getBlock(blockNumber);
-		return this.getRecord(key, block);
+		return this.asRecordsBlock(block);
 	}
 
-	private RECTYPE getRecord(KEYTYPE key, Block block) throws IOException, RecordSerializationException {
-		ByteArrayInputStream is = new ByteArrayInputStream(block.getContent());
-
-		while (is.available() > 0) {
-			RECTYPE record = this.recordFactory.createRecord();
-			record.deserialize(is);
-			if (record.compareToKey(key) == 0) {
-				return record;
-			}
-		}
-		return null;
+	public RECTYPE getRecord(KEYTYPE key, int blockNumber) throws IOException, RecordSerializationException {
+		RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block = getBlock(blockNumber);
+		return block.getRecord(key);
 	}
 
 	@Override
@@ -105,5 +102,57 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 	public int createBlock() throws RecordSerializationException, IOException {
 		return this.blocksFile.getNewBlock().getBlockNumber();
 	}
+
+	private RecordsListBlockInterpreter<RECTYPE, KEYTYPE> findBlock(KEYTYPE key) throws RecordSerializationException, IOException {
+		for (Block block : this.blocksFile) {
+			RecordsListBlockInterpreter<RECTYPE, KEYTYPE> eachBlock = this.asRecordsBlock(block);
+			if (eachBlock.getRecord(key) != null) {
+				return eachBlock;
+			}
+		}
+		return null;
+	}
+
+	private RecordsListBlockInterpreter<RECTYPE, KEYTYPE> asRecordsBlock(Block block) {
+		return new RecordsListBlockInterpreter<RECTYPE, KEYTYPE>(block, this.recordFactory);
+	}
+
+	/**
+	 * Actualiza un registro del archivo. Como no se le pasa el numero de bloque
+	 * se busca en todos los bloques secuencialmente.
+	 * 
+	 * @param record
+	 * @return
+	 * @throws RecordSerializationException
+	 * @throws IOException
+	 */
+	public boolean updateRecord(RECTYPE record) throws RecordSerializationException, IOException {
+		RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block = findBlock(record.getKey());
+		updateRecord(record, block);
+		return false;
+	}
+
+	/**
+	 * Actualiza un registro del archivo dentro del bloque indicado.
+	 * 
+	 * @param record
+	 * @return
+	 * @throws RecordSerializationException
+	 * @throws IOException
+	 */
+	public boolean updateRecord(RECTYPE record, int blockNumber) throws RecordSerializationException, IOException {
+		RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block = this.getBlock(blockNumber);
+		updateRecord(record, block);
+		return false;
+	}
+
+	private void updateRecord(RECTYPE record, RecordsListBlockInterpreter<RECTYPE,KEYTYPE> block) throws RecordSerializationException, IOException {
+		block.updateRecord(record);
+		this.blocksFile.saveBlock(block.getBlock());
+	}
+
+	// private List<RECTYPE> getRecords(int blockNumber) throws IOException {
+	// return this.getRecords(this.blocksFile.getBlock(blockNumber));
+	// }
 
 }

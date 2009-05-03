@@ -23,7 +23,7 @@ public abstract class OffsetRecord extends Record<LongField> {
 	}
 
 	@Override
-	protected LongField getKey() {
+	public LongField getKey() {
 		return this.offset;
 	}
 

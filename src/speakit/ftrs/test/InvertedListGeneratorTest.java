@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.TextDocument;
-import speakit.ftrs.InvertedListGenerator;
-import speakit.ftrs.Lexicon;
 import speakit.ftrs.index.InvertedList;
+import speakit.ftrs.indexer.InvertedListGenerator;
+import speakit.ftrs.indexer.Lexicon;
 
 public class InvertedListGeneratorTest {
 	TextDocument doc;

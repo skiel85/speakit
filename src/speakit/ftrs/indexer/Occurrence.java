@@ -1,4 +1,4 @@
-package speakit.ftrs;
+package speakit.ftrs.indexer;
 
 public class Occurrence implements Comparable<Occurrence> {
 	private int termId;

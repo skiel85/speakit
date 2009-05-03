@@ -2,6 +2,7 @@ package speakit.io.bsharptree;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import speakit.io.blockfile.BasicBlockFile;
 import speakit.io.blockfile.BasicBlockFileImpl;
@@ -20,7 +21,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 
 	public void create(int nodeSize) throws IOException {
 		this.blockFile.create(nodeSize);
-		this.root = new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this.blockFile);
+		this.root = new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this);
 	}
 
 	public void load() throws IOException {
@@ -43,22 +44,29 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 		this.root.insertRecord(record);
 		if (this.root.isInOverflow()) {
 			if (this.root.getLevel() == 0) {
-//				BSharpTreeIndexNode<RECTYPE, KEYTYPE> newRoot = new BSharpTreeIndexNode<RECTYPE, KEYTYPE>(this.blockFile);
-//				BSharpTreeLeafNode<RECTYPE, KEYTYPE>[] leafs;
-//				leafs[0] = new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this.blockFile);
-//				leafs[1] = new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this.blockFile);
-//				leafs[2] = new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this.blockFile);
-//
-//				// leaf1.copyAllRecordsFrom(this.root);
-//				this.root.balance(leafs);
-//
-//				newRoot.indexChild(leafs[0]);
-//				newRoot.indexChild(leafs[1]);
-//				newRoot.indexChild(leafs[2]);
-//				this.root = newRoot;
+				BSharpTreeLeafNode<RECTYPE, KEYTYPE> oldRoot = (BSharpTreeLeafNode<RECTYPE, KEYTYPE>) this.root;
+				BSharpTreeIndexNode<RECTYPE, KEYTYPE> newRoot = new BSharpTreeIndexNode<RECTYPE, KEYTYPE>(this);
+				ArrayList<BSharpTreeNode<RECTYPE, KEYTYPE>> leafs = new ArrayList<BSharpTreeNode<RECTYPE, KEYTYPE>>();
+				leafs.add(new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this));
+				leafs.add(new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this));
+				leafs.add(new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this));
 
+				leafs.get(0).insertElements((oldRoot.getElements()));
+				this.root.balance(leafs);
+
+				newRoot.indexChild(leafs.get(0));
+				newRoot.indexChild(leafs.get(1));
+				newRoot.indexChild(leafs.get(2));
+				this.root = newRoot;
+				
+				if(leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
+					throw new RuntimeException("ERROR");
+				}
 			}
 		}
 	}
 
+	public int getNodeSize() {
+		return this.blockFile.getBlockSize();
+	}
 }

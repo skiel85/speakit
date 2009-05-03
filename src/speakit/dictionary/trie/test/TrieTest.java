@@ -34,6 +34,7 @@ public class TrieTest {
 		this.fileManager.destroyFiles();
 	}
 
+	@Ignore
 	@Test
 	public void testAddWord() throws IOException, WordNotFoundException, RecordSerializationException {
 		this.trie.addWord("hola", 3);

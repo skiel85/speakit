@@ -16,7 +16,7 @@ public class BSharpTreeIndexNodeRecord extends Record<IntegerField> {
 	}
 
 	@Override
-	protected IntegerField getKey() {
+	public IntegerField getKey() {
 		return this.nodeNumber;
 	}
 }

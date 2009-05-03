@@ -77,7 +77,7 @@ public class AudioIndexRecord extends Record<StringField> {
 	}
 
 	@Override
-	protected StringField getKey() {
+	public StringField getKey() {
 		return this.word;
 	}
 

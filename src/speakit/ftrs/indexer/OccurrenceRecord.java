@@ -50,7 +50,7 @@ public class OccurrenceRecord extends Record<IntegerField> {
 	}
 
 	@Override
-	protected IntegerField getKey() {
+	public IntegerField getKey() {
 		return term;
 	}
 

@@ -47,7 +47,7 @@ public class Block extends Record<IntegerField> {
 	}
 
 	@Override
-	protected IntegerField getKey() {
+	public IntegerField getKey() {
 		return this.blockNumber;
 	}
 

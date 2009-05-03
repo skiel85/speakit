@@ -54,7 +54,7 @@ public class TrieNode extends Record<LongField> {
 	}
 
 	@Override
-	protected LongField getKey() {
+	public LongField getKey() {
 		return this.nodeNumber;
 	}
 

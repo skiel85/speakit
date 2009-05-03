@@ -7,7 +7,7 @@ public class TestIndexRecord extends IndexRecord<StringField> {
 	private StringField key = new StringField();
 
 	@Override
-	protected StringField getKey() {
+	public StringField getKey() {
 		return this.key;
 	}
 

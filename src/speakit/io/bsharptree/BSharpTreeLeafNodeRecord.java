@@ -19,7 +19,7 @@ public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
 	}
 
 	@Override
-	protected IntegerField getKey() {
+	public IntegerField getKey() {
 		return this.nodeNumber;
 	}
 

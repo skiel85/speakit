@@ -1,8 +1,8 @@
 package speakit.io.bsharptree;
 
 import java.io.IOException;
+import java.util.List;
 
-import speakit.io.blockfile.BasicBlockFile;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
@@ -10,10 +10,11 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BSharpTreeIndexNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> extends BSharpTreeNode<RECTYPE, KEYTYPE> {
 
-	private final BasicBlockFile blockFile;
+	private BSharpTreeIndexNodeRecord record;
+	private final BSharpTree<RECTYPE, KEYTYPE> tree;
 
-	public BSharpTreeIndexNode(BasicBlockFile blockFile) {
-		this.blockFile = blockFile;
+	public BSharpTreeIndexNode(BSharpTree<RECTYPE, KEYTYPE> tree) {
+		this.tree = tree;
 	}
 
 	@Override
@@ -46,11 +47,28 @@ public class BSharpTreeIndexNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	}
 
 	@Override
-	public void balance(BSharpTreeNode<RECTYPE, KEYTYPE>[] nodes) {
+	public void balance(List<BSharpTreeNode<RECTYPE, KEYTYPE>> nodes) {
 		throw new NotImplementedException();
 	}
-	
+
 	public void indexChild(BSharpTreeNode<RECTYPE, KEYTYPE> newChild) {
 		throw new NotImplementedException();
+	}
+
+	@Override
+	public List<BSharpTreeNodeElement> getElements() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void insertElements(List<BSharpTreeNodeElement> elements) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() {
+		return null;
 	}
 }

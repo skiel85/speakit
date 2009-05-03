@@ -3,6 +3,7 @@ package speakit.dictionary.trie.test;
 import java.io.IOException;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -33,9 +34,11 @@ public class TrieTest {
 		this.fileManager.destroyFiles();
 	}
 
-	@Test @Ignore
+	@Test
 	public void testAddWord() throws IOException, WordNotFoundException, RecordSerializationException {
 		this.trie.addWord("hola", 3);
+		Assert.assertTrue(this.trie.contains("hola"));
+		Assert.assertEquals(3, this.trie.getOffset("hola"));
 	}
 
 }

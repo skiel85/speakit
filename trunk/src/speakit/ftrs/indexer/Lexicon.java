@@ -1,4 +1,4 @@
-package speakit.ftrs;
+package speakit.ftrs.indexer;
 
 import java.util.ArrayList;
 import java.util.Iterator;

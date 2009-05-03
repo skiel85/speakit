@@ -11,6 +11,7 @@ import speakit.documentstorage.DocumentRepository;
 import speakit.documentstorage.TextDocumentList;
 import speakit.ftrs.index.InvertedIndex;
 import speakit.ftrs.index.InvertedIndexRecord;
+import speakit.ftrs.indexer.InvertedIndexRecordGenerator;
 
 public class FTRSImpl implements FTRS {
 

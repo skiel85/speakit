@@ -3,7 +3,7 @@ package speakit.ftrs.test;
 import org.junit.Assert;
 import org.junit.Test;
 
-import speakit.ftrs.Lexicon;
+import speakit.ftrs.indexer.Lexicon;
 
 public class LexiconText {
 

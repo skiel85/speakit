@@ -1,6 +1,7 @@
 package speakit.dictionary.trie;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import speakit.Configuration;
@@ -63,7 +64,7 @@ public class Trie implements File, RecordFactory<TrieNode> {
 		String firstPart = word.substring(0, this.getDepth() - 1);
 		String lastPart = "";
 		long nodeNumber = 0;
-		if (word.length() > this.getDepth())
+		if (word.length() >= this.getDepth())
 			lastPart = word.substring(this.getDepth() - 1);
 
 		// Obtengo el nodo en el que encontre la ultima coincidencia entre la
@@ -75,12 +76,23 @@ public class Trie implements File, RecordFactory<TrieNode> {
 			long j = nodeNumber;
 			while (j < this.getDepth() && j < firstPart.length()) {
 				String actualChar = firstPart.substring((int) j, (int) j + 1);
-				this.getNode(j).getWordOffsetList().add(new WordOffsetField(j + 1, actualChar, false));
+				WordOffsetField wordOffsetField=new WordOffsetField(j + 1, actualChar, false);
+				ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>)this.getNode(j).getWordOffsetList();
+				wordOffsetList.add(wordOffsetField);
+				this.getNode(j).setWordOffsetRecordList(wordOffsetList);
 				j++;
 			}
-			this.getNode(j).getWordOffsetList().add(new WordOffsetField(offset, lastPart, true));
+			WordOffsetField wordOffsetField=new WordOffsetField(offset, lastPart, true);
+			ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>)this.getNode(j).getWordOffsetList();
+			wordOffsetList.add(wordOffsetField);
+			this.getNode(j).setWordOffsetRecordList(wordOffsetList);
+			//this.getNode(j).getWordOffsetList().add(new WordOffsetField(offset, lastPart, true));
 		} else {
-			this.getNode(this.getDepth()).getWordOffsetList().add(new WordOffsetField(offset, lastPart, true));
+			WordOffsetField wordOffsetField=new WordOffsetField(offset, lastPart, true);
+			ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>)this.getNode(this.getDepth()).getWordOffsetList();
+			wordOffsetList.add(wordOffsetField);
+			this.getNode(this.getDepth()).setWordOffsetRecordList(wordOffsetList);
+			//this.getNode(this.getDepth()).getWordOffsetList().add(new WordOffsetField(offset, lastPart, true));
 		}
 
 	}
@@ -132,6 +144,8 @@ public class Trie implements File, RecordFactory<TrieNode> {
 	 **/
 	public long searchTrieNode(TrieNode node, String word, int index) throws RecordSerializationException, IOException {
 
+		ArrayList<WordOffsetField> WordOffsetFieldList=(ArrayList<WordOffsetField>)node.getWordOffsetList();
+		WordOffsetFieldList.size();
 		Iterator<WordOffsetField> nodeIterator = node.getWordOffsetList().iterator();
 		while (nodeIterator.hasNext() && index < word.length()) {
 			WordOffsetField record = nodeIterator.next();
@@ -161,7 +175,9 @@ public class Trie implements File, RecordFactory<TrieNode> {
 		nodeFile.create(conf.getBlockSize());
 		int j = 0;
 		while (j < depth) {
-			this.nodeFile.insertRecord(new TrieNode(j));
+			ArrayList<WordOffsetField> wordOffsetList=new ArrayList<WordOffsetField>();
+			TrieNode node=new TrieNode(wordOffsetList,j);
+			this.nodeFile.insertRecord(node);
 			j++;
 		}
 	}

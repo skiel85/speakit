@@ -3,6 +3,7 @@ package speakit.io.record.test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -60,5 +61,15 @@ public class ArrayFieldTest {
 		for (StringField field : this.sut) {
 			Assert.assertEquals(field.getString(), field.getString());
 		}
+	}
+
+	@Test
+	public void testAddAndRetrieve() throws IOException {
+		Iterator<StringField> it = this.sut.iterator();
+		Assert.assertTrue(it.hasNext());
+		Assert.assertEquals("hola", it.next().getString());
+		Assert.assertTrue(it.hasNext());
+		Assert.assertEquals("mundo", it.next().getString());
+		Assert.assertFalse(it.hasNext());
 	}
 }

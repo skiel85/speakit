@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import speakit.TextDocument;
 import speakit.ftrs.index.InvertedList;
-import speakit.ftrs.index.InvertedListItem;
+import speakit.ftrs.index.TermOcurrence;
 
 public class InvertedListGenerator {
 
@@ -39,7 +39,7 @@ public class InvertedListGenerator {
 	 * @return
 	 */
 	public InvertedList generate(int termId) {
-		ArrayList<InvertedListItem> invListItems = new ArrayList<InvertedListItem>();
+		ArrayList<TermOcurrence> invListItems = new ArrayList<TermOcurrence>();
 		ArrayList<Occurrence> appearanceList = getStorage().getApearanceListFor(termId);
 		if (appearanceList.size() == 0) {
 			// La lista de apariencias es 0, devuelvo una lista vacia? o lanzo
@@ -54,14 +54,14 @@ public class InvertedListGenerator {
 			if (currentDoc == app.getDocument()) {
 				frecuency++;
 			} else {
-				InvertedListItem item = new InvertedListItem(currentDoc, frecuency == 0 ? 1 : frecuency);
+				TermOcurrence item = new TermOcurrence(currentDoc, frecuency == 0 ? 1 : frecuency);
 				invListItems.add(item);
 				frecuency = 0;
 				currentDoc = app.getDocument();
 			}
 		}
 
-		InvertedListItem item = new InvertedListItem(currentDoc, frecuency == 0 ? 1 : frecuency);
+		TermOcurrence item = new TermOcurrence(currentDoc, frecuency == 0 ? 1 : frecuency);
 		invListItems.add(item);
 		InvertedList resultList = new InvertedList(invListItems);
 		return resultList.sortByFrecuency();

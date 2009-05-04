@@ -14,7 +14,14 @@ public class TrieNode extends Record<LongField> {
 	// private long nodeNumber;
 
 	private LongField nodeNumber = new LongField();
-	private ArrayField<WordOffsetField> wordOffsetList = new ArrayField<WordOffsetField>();
+	private ArrayField<WordOffsetField> wordOffsetList = new ArrayField<WordOffsetField>(){
+
+		@Override
+		protected WordOffsetField createField() {
+			return new WordOffsetField();
+		}
+		
+	};
 
 	public TrieNode(ArrayList<WordOffsetField> wordOffsetList, long nodeNumber) {
 		this(nodeNumber);

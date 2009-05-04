@@ -89,6 +89,8 @@ public class RecordsListBlockInterpreterTest implements RecordFactory<TestVariab
 		Assert.assertTrue("No son iguales", RECORD_4.compareTo(sut.getRecord(RECORD_4.getKey())) == 0);
 		Assert.assertTrue("No son iguales", RECORD_5.compareTo(sut.getRecord(RECORD_5.getKey())) == 0);
 		Assert.assertTrue("No son iguales", RECORD_6.compareTo(sut.getRecord(RECORD_6.getKey())) == 0);
+		int size = sut.getRecords().size();
+		Assert.assertEquals(6, size);
 	}
 
 }

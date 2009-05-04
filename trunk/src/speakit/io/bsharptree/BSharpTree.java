@@ -41,7 +41,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	}
 
 	@Override
-	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
+	public long insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
 		this.root.insertRecord(record);
 
 		if (this.root.isInOverflow()) {
@@ -66,6 +66,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 				}
 			}
 		}
+		return 0;
 	}
 
 	public int getNodeSize() {

@@ -1,42 +1,43 @@
 package speakit.ftrs.index;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
+import speakit.io.record.ArrayField;
+
 //TODO implementar
-public class InvertedList implements Iterable<InvertedListItem> {
+public class InvertedList extends ArrayField<TermOcurrence>   {
+ 
 
-	private ArrayList<InvertedListItem>	items;
-
-	public InvertedList() {
-		items = new ArrayList<InvertedListItem>();
+	public InvertedList() { 
 	}
 
-	public InvertedList(ArrayList<InvertedListItem> items) {
-		this.items = items;
+	public InvertedList(ArrayList<TermOcurrence> ocurrences) {
+		this.setItems(ocurrences);
+	}
+	
+	public void setItems(List<TermOcurrence> ocurrences){
+		this.clear();
+		for (TermOcurrence termOcurrence : ocurrences) {
+			this.addItem(termOcurrence);
+		}
 	}
 
 	public InvertedList sortByFrecuency() {
-		InvertedListItem[] sortedByFrecuency = sortItemsByFrecuency();
-		return new InvertedList(new ArrayList<InvertedListItem>(Arrays.asList(sortedByFrecuency)));
-	}
-
-	private InvertedListItem[] sortItemsByFrecuency() {
-		InvertedListItem[] sortedByFrecuency = (InvertedListItem[]) items.toArray(new InvertedListItem[items.size()]);
-		Comparator<? super InvertedListItem> c = new Comparator<InvertedListItem>() {
+		List<TermOcurrence> list = this.getArray();
+		Comparator<? super TermOcurrence> c = new Comparator<TermOcurrence>() {
 
 			@Override
-			public int compare(InvertedListItem o1, InvertedListItem o2) {
+			public int compare(TermOcurrence o1, TermOcurrence o2) {
 				return o1.compareByRelevance(o2);
 			}
 
-		};
-		Arrays.sort(sortedByFrecuency, c);
-		return sortedByFrecuency;
-	}
+		}; 
+		Collections.sort(list,c); 
+		return new InvertedList(new ArrayList<TermOcurrence>(list));
+	} 
 
 	/**
 	 * elimina las apariciones de términos que aparezcan menos de una cierta
@@ -44,7 +45,7 @@ public class InvertedList implements Iterable<InvertedListItem> {
 	 */
 	public InvertedList truncateByFrecuency(int minTermFrecuency) {
 		InvertedList higherFrecuencyDocuments = new InvertedList();
-		for (InvertedListItem item : items) {
+		for (TermOcurrence item : this) {
 			if (item.getLocalFrecuency() >= minTermFrecuency) {
 				higherFrecuencyDocuments.add(item);
 			}
@@ -54,7 +55,7 @@ public class InvertedList implements Iterable<InvertedListItem> {
 
 	public List<Long> getDocuments() {
 		List<Long> ids = new ArrayList<Long>();
-		for (InvertedListItem item : items) {
+		for (TermOcurrence item : this) {
 			ids.add(item.getDocumentId());
 		}
 		return ids;
@@ -66,25 +67,15 @@ public class InvertedList implements Iterable<InvertedListItem> {
 	 * @param item
 	 * @return la misma lista, implementado por comodidad de uso.
 	 */
-	public InvertedList add(InvertedListItem item) {
-		this.items.add(item);
-		InvertedListItem[] sortedByFrecuency = sortItemsByFrecuency();
-		this.items.clear();
-		this.items.addAll(Arrays.asList(sortedByFrecuency));
+	public InvertedList add(TermOcurrence item) {
+		this.addItem(item);
+		this.sort(); 
 		return this;
-	}
-	public int size() {
-		return this.items.size();
-	}
-
-	@Override
-	public Iterator<InvertedListItem> iterator() {
-		return this.items.iterator();
-	}
-
+	} 
+	
 	public int getMaxLocalFrecuency() {
 		int maxFrecuency = -1;
-		for (InvertedListItem item : this.items) {
+		for (TermOcurrence item : this) {
 			if (item.getLocalFrecuency() > maxFrecuency) {
 				maxFrecuency = item.getLocalFrecuency();
 			}
@@ -93,7 +84,7 @@ public class InvertedList implements Iterable<InvertedListItem> {
 	}
 
 	public boolean containsDocument(int docId) {
-		for (InvertedListItem item : this.items) {
+		for (TermOcurrence item : this) {
 			if (item.getDocumentId() == docId) {
 				return true;
 			}
@@ -102,12 +93,12 @@ public class InvertedList implements Iterable<InvertedListItem> {
 	}
 
 	public boolean equals(InvertedList other) {
-		if (this.items.size() != other.items.size()) {
+		if (this.size() != other.size()) {
 			return false;
 		}
-		for (int i = 0; i < this.items.size(); i++) {
-			InvertedListItem thisItem = this.items.get(i);
-			InvertedListItem otherItem = other.items.get(i);
+		for (int i = 0; i < this.size(); i++) {
+			TermOcurrence thisItem = this.get(i);
+			TermOcurrence otherItem = other.get(i);
 
 			if (!thisItem.equals(otherItem)) {
 				return false;
@@ -116,14 +107,15 @@ public class InvertedList implements Iterable<InvertedListItem> {
 		return true;
 	}
 
-	public InvertedListItem get(int index) {
-		return this.items.get(index);
+	@Override
+	protected TermOcurrence createField() {
+		return new TermOcurrence(0,0);
 	}
 
-	public InvertedList clone() {
-		InvertedListItem[] allItems = (InvertedListItem[]) items.toArray(new InvertedListItem[items.size()]);
-		InvertedList copy = new InvertedList();
-		copy.items.addAll(Arrays.asList(allItems));
-		return copy;
-	}
+//	public InvertedList clone() {
+//		TermOcurrence[] allItems = (TermOcurrence[]) items.toArray(new TermOcurrence[items.size()]);
+//		InvertedList copy = new InvertedList();
+//		copy.items.addAll(Arrays.asList(allItems));
+//		return copy;
+//	}
 }

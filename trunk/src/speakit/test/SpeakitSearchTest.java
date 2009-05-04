@@ -26,7 +26,10 @@ public class SpeakitSearchTest {
 	public void setUp() throws Exception {
 		this.fileManager = new TestFileManager(this.getClass().getName());
 		this.sut = new Speakit();
-		this.sut.install(this.fileManager, new Configuration());
+		Configuration conf = new Configuration();
+		conf.setBlockSize(1024);
+		conf.setTrieDepth(4);
+		this.sut.install(this.fileManager, conf);
 		this.sut.load(this.fileManager);
 		
 		this.sut.addDocument(DOC1);

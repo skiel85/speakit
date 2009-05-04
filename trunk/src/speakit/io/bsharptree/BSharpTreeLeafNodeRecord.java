@@ -10,7 +10,12 @@ import speakit.io.record.Record;
 
 public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
 	private IntegerField nodeNumber = new IntegerField();
-	private ArrayField<BSharpTreeLeafNodeElement> elements = new ArrayField<BSharpTreeLeafNodeElement>();
+	private ArrayField<BSharpTreeLeafNodeElement> elements = new ArrayField<BSharpTreeLeafNodeElement>(){
+		@Override
+		protected BSharpTreeLeafNodeElement createField() {
+			return new BSharpTreeLeafNodeElement(null);
+		}
+	};
 	private IntegerField nextSecuenceNodeNumber = new IntegerField();
 
 	@Override
@@ -29,8 +34,8 @@ public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
 	}
 
 	public BSharpTreeNodeElement extractLastElement() {
-		BSharpTreeNodeElement element = this.elements.getItem(this.elements.getSize() - 1);
-		this.elements.removeItem(this.elements.getSize() - 1);
+		BSharpTreeNodeElement element = this.elements.get(this.elements.size() - 1);
+		this.elements.removeItem(this.elements.size() - 1);
 		return element;
 	}
 	

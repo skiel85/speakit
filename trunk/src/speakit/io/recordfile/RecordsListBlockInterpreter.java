@@ -64,7 +64,14 @@ public class RecordsListBlockInterpreter<RECTYPE extends Record<KEYTYPE>, KEYTYP
 	 * @return
 	 */
 	private int findRecordPosition(KEYTYPE key) {
-		return binarySearch(key, 0, this.records.size() - 1);
+		//return binarySearch(key, 0, this.records.size() - 1);
+		for (int i = 0; i < records.size(); i++) {
+			RECTYPE item = records.get(i);
+			if(item.getKey().compareTo(key)==0){
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	/**
@@ -149,6 +156,7 @@ public class RecordsListBlockInterpreter<RECTYPE extends Record<KEYTYPE>, KEYTYP
 	 */
 	private void saveRecords() throws RecordSerializationException {
 		sort();
+		block.clear();
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		for (RECTYPE each : records) {
 			each.serialize(os);
@@ -158,5 +166,9 @@ public class RecordsListBlockInterpreter<RECTYPE extends Record<KEYTYPE>, KEYTYP
 
 	private void sort() {
 		Collections.sort(this.records);
+	}
+	
+	public List<RECTYPE> getRecords(){
+		return this.records;
 	}
 }

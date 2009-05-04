@@ -9,24 +9,30 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.Configuration;
+import speakit.FileManager;
 import speakit.TextDocument;
 import speakit.ftrs.RankedSearchEngine;
 import speakit.ftrs.index.InvertedIndex;
 import speakit.ftrs.index.InvertedIndexRecord;
 import speakit.ftrs.index.InvertedList;
-import speakit.ftrs.index.InvertedListItem;
+import speakit.ftrs.index.TermOcurrence;
+import speakit.test.TestFileManager;
 
 public class RankedSearchEngineTest {
 
-	RankedSearchEngine sut;
+	RankedSearchEngine		sut;
 	private InvertedIndex	index;
+	private FileManager		filemanager;
+	private Configuration	conf;
 
 	@Before
 	public void setUp() throws Exception {
 		index = new InvertedIndex();
-		int resultQty = 10;
-		sut = new RankedSearchEngine(index, resultQty, 1);
-
+		filemanager = new TestFileManager(this.getClass().getName());
+		conf = new Configuration();
+		conf.setBlockSize(512);//TODO OJO con el 512, tira errores que no tira usando un número mas alto. Verificar si el linked records file funciona bien.
+		index.install(filemanager, conf);
 		// TextDocument doc1 = new TextDocument("cosas vida");
 		// TextDocument doc2 = new TextDocument("vida bella");
 		// TextDocument doc3 = new TextDocument("cosas querer");
@@ -38,10 +44,13 @@ public class RankedSearchEngineTest {
 		// vida|0,125|2 (4, 2), (1,1), (2, 1)
 		// Notar q las listas se arman en el siguiente orden, frecuencia, luego
 		// nro de documento.
-		index.updateRecord(new InvertedIndexRecord("bella", (new InvertedList()).add(new InvertedListItem(2, 1))));
-		index.updateRecord(new InvertedIndexRecord("cosas", (new InvertedList()).add(new InvertedListItem(1, 1)).add(new InvertedListItem(3, 1))));
-		index.updateRecord(new InvertedIndexRecord("querer", (new InvertedList()).add(new InvertedListItem(3, 1))));
-		index.updateRecord(new InvertedIndexRecord("vida", (new InvertedList()).add(new InvertedListItem(4, 2)).add(new InvertedListItem(1, 1)).add(new InvertedListItem(2, 1))));
+		index.updateRecord(new InvertedIndexRecord("bella", (new InvertedList()).add(new TermOcurrence(2, 1))));
+		index.updateRecord(new InvertedIndexRecord("cosas", (new InvertedList()).add(new TermOcurrence(1, 1)).add(new TermOcurrence(3, 1))));
+		index.updateRecord(new InvertedIndexRecord("querer", (new InvertedList()).add(new TermOcurrence(3, 1))));
+		index.updateRecord(new InvertedIndexRecord("vida", (new InvertedList()).add(new TermOcurrence(4, 2)).add(new TermOcurrence(1, 1)).add(new TermOcurrence(2, 1))));
+
+		int resultQty = 10;
+		sut = new RankedSearchEngine(index, resultQty, 1);
 	}
 
 	@After
@@ -114,11 +123,11 @@ public class RankedSearchEngineTest {
 		Assert.assertEquals(1, docIds.size());
 		Assert.assertEquals(4L, docIds.get(0).longValue());
 	}
-	
+
 	@Test
 	public void testSearchAfterIndexingNewDocuments() throws IOException {
-		index.updateRecord(new InvertedIndexRecord("vida", (new InvertedList()).add(new InvertedListItem(10, 10))));
-		
+		index.updateRecord(new InvertedIndexRecord("vida", (new InvertedList()).add(new TermOcurrence(10, 10))));
+
 		List<Long> docIds = sut.search(new TextDocument("vida"));
 		Assert.assertEquals(4, docIds.size());
 		Assert.assertEquals(10L, docIds.get(0).longValue());

@@ -3,7 +3,6 @@ package speakit.io.bsharptree;
 import speakit.io.record.CompositeField;
 import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
-import speakit.io.record.StringField;
 
 public class BSharpTreeIndexNodeElement extends CompositeField implements BSharpTreeNodeElement {
 

@@ -1,18 +1,21 @@
 package speakit.io.record;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class ArrayField<FIELDTYPE extends Field> extends CompositeField implements Iterable<FIELDTYPE> {
+public abstract class ArrayField<FIELDTYPE extends Field> extends Field implements Iterable<FIELDTYPE> {
 	private IntegerField size = new IntegerField();
 	private ArrayList<FIELDTYPE> values = new ArrayList<FIELDTYPE>();
 
-	@Override
-	protected Field[] getFields() {
-		return Field.JoinFields(new Field[] { this.size }, this.values.toArray(new Field[this.values.size()]));
-	}
+//	@Override
+//	protected Field[] getFields() {
+//		return Field.JoinFields(new Field[] { this.size }, this.values.toArray(new Field[this.values.size()]));
+//	}
 
 	private void incrementSize() {
 		this.size.setInteger(this.size.getInteger() + 1);
@@ -40,14 +43,14 @@ public class ArrayField<FIELDTYPE extends Field> extends CompositeField implemen
 		this.values.remove(field);
 	}
 
-	public FIELDTYPE getItem(int index) {
+	public FIELDTYPE get(int index) {
 		if (index < 0) {
 			throw new IndexOutOfBoundsException();
 		}
 		return (FIELDTYPE) this.values.get(index);
 	}
 
-	public int getSize() {
+	public int size() {
 		return this.size.getInteger();
 	}
 
@@ -72,7 +75,50 @@ public class ArrayField<FIELDTYPE extends Field> extends CompositeField implemen
 		return result;
 	}
 
+	public void clear() {
+		this.values.clear();
+	}
+	
 	public void sort() {
 		Collections.sort(this.values);
 	}
+
+	@Override
+	protected void actuallyDeserialize(InputStream in) throws IOException {
+		this.size.deserialize(in);
+		for (int i = 0; i < size.getInteger(); i++) {
+			FIELDTYPE createdField = this.createField();
+			createdField.deserialize(in);
+			this.values.add(createdField);
+		}
+	}
+
+	@Override
+	protected void actuallySerialize(OutputStream out) throws IOException {
+		this.size.serialize(out);
+		for (int i = 0; i < size.getInteger(); i++) {
+			this.values.get(i).serialize(out);
+		}
+	}
+
+	@Override
+	protected int compareToSameClass(Field o) {
+		for (Field field : this.values) {
+			int comparationResult = field.compareTo(o);
+			if (comparationResult != 0)
+				return comparationResult;
+		}
+		return 0;
+	}
+
+	@Override
+	public int getSerializationSize() {
+		int accum = 0;
+		for (Field field : this.values) {
+			accum += field.getSerializationSize();
+		}
+		return accum;
+	}
+	
+	protected abstract FIELDTYPE createField();
 }

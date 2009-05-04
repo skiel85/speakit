@@ -11,26 +11,27 @@ import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+@SuppressWarnings("unchecked")
 public class BSharpTreeLeafNode extends BSharpTreeNode {
 
 	private BSharpTreeLeafNodeRecord record;
 	private BSharpTree tree;
 	private int size;
 
-	public BSharpTreeLeafNode(BSharpTree tree) {
-		this.tree = tree;
+	public BSharpTreeLeafNode(BSharpTree tree, int size) {
+		super(tree, size);
 		this.record = new BSharpTreeLeafNodeRecord();
 	}
-
-	public BSharpTreeLeafNode(BSharpTree tree, int size) {
-		this(tree);
-		this.size = size;
+	
+	@Override
+	protected Record getNodeRecord() {
+		return this.record;
 	}
 
 	@Override
 	public boolean contains(Field key) throws IOException, RecordSerializationException {
 		// TODO Auto-generated method stub
-		return false;
+		throw new NotImplementedException();
 	}
 
 	@Override
@@ -52,17 +53,13 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	}
 
 	@Override
-	public boolean isInOverflow() throws RecordSerializationException, IOException {
-		return (this.record.serialize().length > this.getMaximumCapacity());
-	}
-
-	@Override
 	public int getLevel() {
 		return 0;
 	}
 
 	@Override
 	public void balance(List<BSharpTreeNode> nodes) {
+		// TODO Auto-generated method stub
 		throw new NotImplementedException();
 	}
 
@@ -74,15 +71,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	@Override
 	public void insertElements(List<BSharpTreeNodeElement> allRecords) {
 		// TODO Auto-generated method stub
-
-	}
-
-	public int getMaximumCapacity() {
-		return this.tree.getNodeSize() * this.size;
-	}
-
-	public int getMinimumCapacity() {
-		return this.getMaximumCapacity() * 2 / 3;
+		throw new NotImplementedException();
 	}
 
 	@Override
@@ -109,5 +98,19 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 
 	public void passOneElementTo(BSharpTreeLeafNode node) {
 		node.record.getElements().add(this.record.extractLastElement());
+	}
+
+	@Override
+	public boolean isInOverflow() throws RecordSerializationException, IOException {
+		return (this.record.serialize().length > this.getMaximumCapacity());
+	}
+	
+	@Override
+	public boolean isInUnderflow() throws RecordSerializationException, IOException {
+		return (this.record.serialize().length < this.getMinimumCapacity());
+	}
+	
+	public Field getNodeKey() {
+		return ((BSharpTreeLeafNodeElement) this.record.getElements().get(0)).getRecord().getKey();
 	}
 }

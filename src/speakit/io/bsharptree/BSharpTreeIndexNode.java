@@ -9,25 +9,30 @@ import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+@SuppressWarnings("unchecked")
 public class BSharpTreeIndexNode extends BSharpTreeNode {
 
 	private BSharpTreeIndexNodeRecord record;
-	private final BSharpTree tree;
+		public BSharpTreeIndexNode(BSharpTree tree, int size) {
+		super(tree, size);
+	}
 
-	public BSharpTreeIndexNode(BSharpTree tree) {
-		this.tree = tree;
+	@Override
+	protected Record getNodeRecord() {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public boolean contains(Field key) throws IOException, RecordSerializationException {
 		// TODO Auto-generated method stub
-		return false;
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public Record getRecord(Field key) throws IOException, RecordSerializationException {
 		// TODO Auto-generated method stub
-		return null;
+		throw new NotImplementedException();
 	}
 
 	@Override
@@ -45,23 +50,19 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 			}
 		}
 
-		BSharpTreeNode nodeWhereToInsert = this.tree.getNode(nodeNumberWhereToInsert);
+		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert);
 		nodeWhereToInsert.insertRecord(record);
 	}
 
 	@Override
-	public boolean isInOverflow() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public int getLevel() {
+		// TODO Auto-generated method stub
 		throw new NotImplementedException();
 	}
 
 	@Override
 	public void balance(List<BSharpTreeNode> nodes) {
+		// TODO Auto-generated method stub
 		throw new NotImplementedException();
 	}
 
@@ -72,17 +73,19 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	@Override
 	public List<BSharpTreeNodeElement> getElements() {
 		// TODO Auto-generated method stub
-		return null;
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public void insertElements(List<BSharpTreeNodeElement> elements) {
 		// TODO Auto-generated method stub
-
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() {
-		return null;
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
 	}
+
 }

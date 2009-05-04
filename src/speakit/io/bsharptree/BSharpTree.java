@@ -22,7 +22,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 
 	public void create(int nodeSize) throws IOException {
 		this.blockFile.create(nodeSize);
-		this.root = new BSharpTreeLeafNode(this);
+		this.root = new BSharpTreeLeafNode(this, 1);
 	}
 
 	public void load() throws IOException {
@@ -43,15 +43,15 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	@Override
 	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
 		this.root.insertRecord(record);
-		
+
 		if (this.root.isInOverflow()) {
 			if (this.root.getLevel() == 0) {
 				BSharpTreeLeafNode oldRoot = (BSharpTreeLeafNode) this.root;
-				BSharpTreeIndexNode newRoot = new BSharpTreeIndexNode(this);
+				BSharpTreeIndexNode newRoot = new BSharpTreeIndexNode(this, 1);
 				ArrayList<BSharpTreeNode> leafs = new ArrayList<BSharpTreeNode>();
-				leafs.add(new BSharpTreeLeafNode(this));
-				leafs.add(new BSharpTreeLeafNode(this));
-				leafs.add(new BSharpTreeLeafNode(this));
+				leafs.add(new BSharpTreeLeafNode(this, 1));
+				leafs.add(new BSharpTreeLeafNode(this, 1));
+				leafs.add(new BSharpTreeLeafNode(this, 1));
 
 				leafs.get(0).insertElements((oldRoot.getElements()));
 				this.root.balance(leafs);
@@ -60,8 +60,8 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 				newRoot.indexChild(leafs.get(1));
 				newRoot.indexChild(leafs.get(2));
 				this.root = newRoot;
-				
-				if(leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
+
+				if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
 					throw new RuntimeException("ERROR");
 				}
 			}

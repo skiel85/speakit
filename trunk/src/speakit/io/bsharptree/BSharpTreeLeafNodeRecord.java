@@ -33,4 +33,9 @@ public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
 		this.elements.removeItem(this.elements.getSize() - 1);
 		return element;
 	}
+	
+	public void insertElement(BSharpTreeNodeElement element) {
+		this.elements.addItem((BSharpTreeLeafNodeElement) element);
+		this.elements.sort();
+	}
 }

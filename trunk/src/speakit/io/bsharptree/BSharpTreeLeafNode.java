@@ -39,7 +39,8 @@ public class BSharpTreeLeafNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends
 
 	@Override
 	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
-		// TODO Auto-generated method stub
+		BSharpTreeLeafNodeElement element = new BSharpTreeLeafNodeElement(record);
+		this.record.insertElement(element);
 	}
 
 	@Override
@@ -96,5 +97,9 @@ public class BSharpTreeLeafNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends
 		
 		//Devuelvo la lista de elementos extraidos.
 		return result;
+	}
+	
+	public void passOneElementTo(BSharpTreeLeafNode<RECTYPE, KEYTYPE> node) {
+		node.record.getElements().add(this.record.extractLastElement());
 	}
 }

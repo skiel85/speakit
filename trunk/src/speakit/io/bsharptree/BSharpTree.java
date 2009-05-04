@@ -10,6 +10,7 @@ import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.RecordFile;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE> {
 	private BSharpTreeNode<RECTYPE, KEYTYPE> root;
@@ -42,6 +43,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	@Override
 	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
 		this.root.insertRecord(record);
+		
 		if (this.root.isInOverflow()) {
 			if (this.root.getLevel() == 0) {
 				BSharpTreeLeafNode<RECTYPE, KEYTYPE> oldRoot = (BSharpTreeLeafNode<RECTYPE, KEYTYPE>) this.root;
@@ -68,5 +70,9 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 
 	public int getNodeSize() {
 		return this.blockFile.getBlockSize();
+	}
+
+	public BSharpTreeNode getNode(int nodeNumberWhereToInsert) {
+		throw new NotImplementedException();
 	}
 }

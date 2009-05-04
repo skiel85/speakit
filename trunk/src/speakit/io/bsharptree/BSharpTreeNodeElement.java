@@ -1,7 +1,7 @@
 package speakit.io.bsharptree;
 
-import speakit.io.record.CompositeField;
+import speakit.io.record.Field;
 
-public abstract class BSharpTreeNodeElement extends CompositeField {
+public interface BSharpTreeNodeElement {
 
 }

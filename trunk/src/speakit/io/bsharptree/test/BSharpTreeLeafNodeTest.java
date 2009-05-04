@@ -13,11 +13,11 @@ import speakit.io.record.StringField;
 
 public class BSharpTreeLeafNodeTest {
 
-	private BSharpTreeLeafNode<TestIndexRecord, StringField> sut;
+	private BSharpTreeLeafNode sut;
 
 	@Before
 	public void setUp() throws Exception {
-		this.sut = new BSharpTreeLeafNode<TestIndexRecord, StringField>(null);
+		this.sut = new BSharpTreeLeafNode(null);
 	}
 
 	@After
@@ -30,7 +30,7 @@ public class BSharpTreeLeafNodeTest {
 		TestIndexRecord rec2 = new TestIndexRecord("mundo", 3);
 		this.sut.insertRecord(rec1);
 		this.sut.insertRecord(rec2);
-		TestIndexRecord retrievedRec = this.sut.getRecord(new StringField("mundo"));
+		TestIndexRecord retrievedRec = (TestIndexRecord) this.sut.getRecord(new StringField("mundo"));
 		Assert.assertEquals("mundo", retrievedRec.getKey().getString());
 		Assert.assertEquals(3, retrievedRec.getBlockNumber());
 	}

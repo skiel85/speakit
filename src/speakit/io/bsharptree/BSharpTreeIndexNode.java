@@ -1,6 +1,7 @@
 package speakit.io.bsharptree;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import speakit.io.record.Field;
@@ -31,8 +32,22 @@ public class BSharpTreeIndexNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 
 	@Override
 	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
-		// TODO Auto-generated method stub
-
+		int nodeNumberWhereToInsert = this.record.getLeftChildNodeNumber();
+		Iterator<BSharpTreeIndexNodeElement> it = this.record.getElementsIterator();
+		
+		boolean found = false;
+		while(it.hasNext() && !found) {
+			BSharpTreeIndexNodeElement element = it.next();
+			if(record.compareToKey((KEYTYPE) element.getKey())>0) {
+				nodeNumberWhereToInsert=element.getRightChildNodeNumber();
+			}
+			else {
+				found = true;
+			}
+		}
+		
+		BSharpTreeNode nodeWhereToInsert = this.tree.getNode(nodeNumberWhereToInsert);
+		nodeWhereToInsert.insertRecord(record);
 	}
 
 	@Override

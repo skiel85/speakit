@@ -1,6 +1,7 @@
 package speakit.io.record;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -69,5 +70,9 @@ public class ArrayField<FIELDTYPE extends Field> extends CompositeField implemen
 			}
 		}
 		return result;
+	}
+	
+	public void sort() {
+		Collections.sort(this.values);
 	}
 }

@@ -79,21 +79,36 @@ public class Trie implements File, RecordFactory<TrieNode> {
 				WordOffsetField wordOffsetField=new WordOffsetField(j + 1, actualChar, false);
 				ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>)this.getNode(j).getWordOffsetList();
 				wordOffsetList.add(wordOffsetField);
-				this.getNode(j).setWordOffsetRecordList(wordOffsetList);
+				TrieNode node=this.getNode(j);
+				node.setWordOffsetRecordList(wordOffsetList);
+				this.nodeFile.updateRecord(node);
+				this.getNode(j);
 				j++;
 			}
 			WordOffsetField wordOffsetField=new WordOffsetField(offset, lastPart, true);
 			ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>)this.getNode(j).getWordOffsetList();
 			wordOffsetList.add(wordOffsetField);
-			this.getNode(j).setWordOffsetRecordList(wordOffsetList);
+			//this.getNode(j).setWordOffsetRecordList(wordOffsetList);
+			TrieNode node=this.getNode(j);
+			node.setWordOffsetRecordList(wordOffsetList);
+			this.nodeFile.updateRecord(node);
+			//this.setNode(j, node);
 			//this.getNode(j).getWordOffsetList().add(new WordOffsetField(offset, lastPart, true));
 		} else {
 			WordOffsetField wordOffsetField=new WordOffsetField(offset, lastPart, true);
 			ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>)this.getNode(this.getDepth()).getWordOffsetList();
 			wordOffsetList.add(wordOffsetField);
-			this.getNode(this.getDepth()).setWordOffsetRecordList(wordOffsetList);
+			//this.getNode(this.getDepth()).setWordOffsetRecordList(wordOffsetList);
+			TrieNode node=this.getNode(this.getDepth());
+			node.setWordOffsetRecordList(wordOffsetList);
+			this.nodeFile.updateRecord(node);
+			//this.setNode(this.getDepth(), node);
 			//this.getNode(this.getDepth()).getWordOffsetList().add(new WordOffsetField(offset, lastPart, true));
 		}
+		this.getNode(0);
+		this.getNode(1);
+		this.getNode(2);
+		this.getNode(3);
 
 	}
 
@@ -133,6 +148,13 @@ public class Trie implements File, RecordFactory<TrieNode> {
 		 * getRecord( key,blockNumber)
 		 */
 		return this.nodeFile.getRecord(new LongField(nodeNumber));
+		
+	}
+	
+	private void setNode(long nodeNumber, TrieNode node) throws RecordSerializationException, IOException{
+		
+		this.nodeFile.insertRecord(node, 0);
+		
 	}
 
 	/**

@@ -17,7 +17,7 @@ public class BSharpTreeLeafNodeTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.sut = new BSharpTreeLeafNode(null);
+		this.sut = new BSharpTreeLeafNode(null, 1);
 	}
 
 	@After
@@ -25,14 +25,31 @@ public class BSharpTreeLeafNodeTest {
 	}
 
 	@Test
-	public void testInsertAndRetrieve() throws RecordSerializationException, IOException {
-		TestIndexRecord rec1 = new TestIndexRecord("hola", 1);
-		TestIndexRecord rec2 = new TestIndexRecord("mundo", 3);
-		this.sut.insertRecord(rec1);
-		this.sut.insertRecord(rec2);
+	public void testInsertAndRetrieve() throws RecordSerializationException, IOException {		
+		this.sut.insertRecord(new TestIndexRecord("hola", 1));
+		this.sut.insertRecord(new TestIndexRecord("mundo", 3));
 		TestIndexRecord retrievedRec = (TestIndexRecord) this.sut.getRecord(new StringField("mundo"));
 		Assert.assertEquals("mundo", retrievedRec.getKey().getString());
 		Assert.assertEquals(3, retrievedRec.getBlockNumber());
+	}
+	
+	@Test
+	public void testInsertsOrdered() throws RecordSerializationException, IOException {
+		this.sut.insertRecord(new TestIndexRecord("adios", 3));
+		this.sut.insertRecord(new TestIndexRecord("mundo", 1));
+		this.sut.insertRecord(new TestIndexRecord("cruel", 2));
+		TestIndexRecord retrievedRec = (TestIndexRecord) this.sut.getRecord(new StringField("mundo"));
+		Assert.assertEquals("mundo", retrievedRec.getKey().getString());
+		Assert.assertEquals(1, retrievedRec.getBlockNumber());
+	}
+	
+	@Test
+	public void testGetNodeKey() throws RecordSerializationException, IOException {
+		this.sut.insertRecord(new TestIndexRecord("adios", 3));
+		this.sut.insertRecord(new TestIndexRecord("mundo", 1));
+		this.sut.insertRecord(new TestIndexRecord("cruel", 2));
+		StringField retrievedKey = (StringField) this.sut.getNodeKey();
+		Assert.assertEquals("adios", retrievedKey.getString());
 	}
 
 }

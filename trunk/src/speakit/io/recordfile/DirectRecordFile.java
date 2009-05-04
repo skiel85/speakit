@@ -1,6 +1,5 @@
 package speakit.io.recordfile;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -39,17 +38,11 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 		return (record != null);
 	}
 
-	// TODO refactorizar para que use el metodo findBlock, en general todos los
-	// lugares donde se haga "for (Block block : this.blocksFile) {" habria que
-	// refactorizar
 	@Override
 	public RECTYPE getRecord(KEYTYPE key) throws IOException, RecordSerializationException {
-		for (Block block : this.blocksFile) {
-			RecordsListBlockInterpreter<RECTYPE, KEYTYPE> eachBlock = this.asRecordsBlock(block);
-			RECTYPE record = eachBlock.getRecord(key);
-			if (record != null) {
-				return record;
-			}
+		RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block=this.findBlock(key);
+		if(block!=null){
+			return block.getRecord(key);
 		}
 		return null;
 	}
@@ -66,15 +59,12 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 
 	@Override
 	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		record.serialize(os);
-
 		boolean inserted = false;
 		Iterator<Block> blockIterator = this.blocksFile.iterator();
 
 		while (!inserted && blockIterator.hasNext()) {
-			try {
-				insertRecord(record, blockIterator.next().getBlockNumber());
+			try { 
+				this.insertRecord(record, blockIterator.next());
 				inserted = true;
 			} catch (BlockFileOverflowException e) {
 				// Dejado intencionalmente en blanco.
@@ -84,25 +74,35 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 		}
 
 		if (!inserted) {
-			Block block = this.blocksFile.getNewBlock();
-			block.setContent(os.toByteArray());
-			this.blocksFile.saveBlock(block);
+			this.insertRecord(record, this.blocksFile.getNewBlock());
 		}
 	}
 
 	public void insertRecord(RECTYPE record, int blockNumber) throws IOException, RecordSerializationException {
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		record.serialize(os);
+		this.insertRecord(record,this.blocksFile.getBlock(blockNumber));
+	}
+	
+	private void insertRecord(RECTYPE record, Block block) throws RecordSerializationException, IOException  {
+		RecordsListBlockInterpreter<RECTYPE, KEYTYPE> recordsBlock = asRecordsBlock(block);
+		recordsBlock.insertRecord(record);
+		this.saveBlock(recordsBlock);
+	}
 
-		Block block = this.blocksFile.getBlock(blockNumber);
-		block.appendContent(os.toByteArray());
-		this.blocksFile.saveBlock(block);
+	private void saveBlock(RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block) throws RecordSerializationException, IOException {
+		this.blocksFile.saveBlock(block.getBlock());
 	}
 
 	public int createBlock() throws RecordSerializationException, IOException {
 		return this.blocksFile.getNewBlock().getBlockNumber();
 	}
 
+	/**
+	 * Busca el bloque en donde se encuentre un registro con la clave indicada.
+	 * @param key
+	 * @return
+	 * @throws RecordSerializationException
+	 * @throws IOException
+	 */
 	private RecordsListBlockInterpreter<RECTYPE, KEYTYPE> findBlock(KEYTYPE key) throws RecordSerializationException, IOException {
 		for (Block block : this.blocksFile) {
 			RecordsListBlockInterpreter<RECTYPE, KEYTYPE> eachBlock = this.asRecordsBlock(block);
@@ -113,7 +113,7 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 		return null;
 	}
 
-	private RecordsListBlockInterpreter<RECTYPE, KEYTYPE> asRecordsBlock(Block block) {
+	private RecordsListBlockInterpreter<RECTYPE, KEYTYPE> asRecordsBlock(Block block) throws RecordSerializationException {
 		return new RecordsListBlockInterpreter<RECTYPE, KEYTYPE>(block, this.recordFactory);
 	}
 
@@ -150,9 +150,4 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 		block.updateRecord(record);
 		this.blocksFile.saveBlock(block.getBlock());
 	}
-
-	// private List<RECTYPE> getRecords(int blockNumber) throws IOException {
-	// return this.getRecords(this.blocksFile.getBlock(blockNumber));
-	// }
-
 }

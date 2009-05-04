@@ -13,14 +13,15 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class BSharpTreeIndexNode extends BSharpTreeNode {
 
 	private BSharpTreeIndexNodeRecord record;
-		public BSharpTreeIndexNode(BSharpTree tree, int size) {
+
+	public BSharpTreeIndexNode(BSharpTree tree, int size) {
 		super(tree, size);
+		this.record = new BSharpTreeIndexNodeRecord();
 	}
 
 	@Override
 	protected Record getNodeRecord() {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return this.record;
 	}
 
 	@Override
@@ -52,6 +53,21 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 
 		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert);
 		nodeWhereToInsert.insertRecord(record);
+	}
+
+	public void insertElement(BSharpTreeIndexNodeElement element) {
+		this.record.insertElement(element);
+	}
+
+	public BSharpTreeIndexNodeElement getElement(Field key) throws IOException, RecordSerializationException {
+		Iterator<BSharpTreeNodeElement> it = this.record.getElements().iterator();
+		while (it.hasNext()) {
+			BSharpTreeIndexNodeElement element = (BSharpTreeIndexNodeElement) it.next();
+			if (element.getKey().compareTo(key) == 0) {
+				return element;
+			}
+		}
+		return null;
 	}
 
 	@Override

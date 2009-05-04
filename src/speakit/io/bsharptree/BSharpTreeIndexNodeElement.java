@@ -9,11 +9,21 @@ public class BSharpTreeIndexNodeElement extends CompositeField implements BSharp
 	private Field key;
 	private IntegerField rightChild = new IntegerField();
 
+	public BSharpTreeIndexNodeElement(Field key, int rightChild) {
+		this.key = key;
+		this.rightChild.setInteger(rightChild);
+	}
+
+	public BSharpTreeIndexNodeElement() {
+		// Dejado intencionalmente en blanco.
+	}
+
 	@Override
 	protected Field[] getFields() {
 		return new Field[] { this.key, this.rightChild };
 	}
 
+	@Override
 	public Field getKey() {
 		return this.key;
 	}
@@ -28,6 +38,11 @@ public class BSharpTreeIndexNodeElement extends CompositeField implements BSharp
 	
 	public void setRightChild(int rightChild) {
 		this.rightChild.setInteger(rightChild);
+	}
+
+	@Override
+	protected int compareToSameClass(Field o) {
+		return this.key.compareTo(((BSharpTreeIndexNodeElement)o).key);
 	}
 	
 }

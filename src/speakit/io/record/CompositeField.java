@@ -26,16 +26,6 @@ public abstract class CompositeField extends Field {
 	}
 
 	@Override
-	protected int compareToSameClass(Field o) {
-		for (Field field : this.getFields()) {
-			int comparationResult = field.compareTo(o);
-			if (comparationResult != 0)
-				return comparationResult;
-		}
-		return 0;
-	}
-
-	@Override
 	public int getSerializationSize() {
 		int accum = 0;
 		for (Field field : this.getFields()) {

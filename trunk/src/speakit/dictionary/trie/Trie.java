@@ -105,10 +105,10 @@ public class Trie implements File, RecordFactory<TrieNode> {
 			//this.setNode(this.getDepth(), node);
 			//this.getNode(this.getDepth()).getWordOffsetList().add(new WordOffsetField(offset, lastPart, true));
 		}
-		this.getNode(0);
-		this.getNode(1);
-		this.getNode(2);
-		this.getNode(3);
+//		this.getNode(0);
+//		this.getNode(1);
+//		this.getNode(2);
+//		this.getNode(3);
 
 	}
 

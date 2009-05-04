@@ -7,18 +7,18 @@ import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 
-public abstract class BSharpTreeNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> {
-	public abstract boolean contains(KEYTYPE key) throws IOException, RecordSerializationException;
+public abstract class BSharpTreeNode {
+	public abstract boolean contains(Field key) throws IOException, RecordSerializationException;
 
-	public abstract RECTYPE getRecord(KEYTYPE key) throws IOException, RecordSerializationException;
+	public abstract Record getRecord(Field key) throws IOException, RecordSerializationException;
 
-	public abstract void insertRecord(RECTYPE record) throws IOException, RecordSerializationException;
+	public abstract void insertRecord(Record record) throws IOException, RecordSerializationException;
 
 	public abstract boolean isInOverflow() throws RecordSerializationException, IOException;
 
 	public abstract int getLevel();
 
-	public abstract void balance(List<BSharpTreeNode<RECTYPE, KEYTYPE>> nodes);
+	public abstract void balance(List<BSharpTreeNode> nodes);
 
 	public abstract void insertElements(List<BSharpTreeNodeElement> allRecords);
 

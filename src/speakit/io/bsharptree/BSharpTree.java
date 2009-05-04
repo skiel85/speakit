@@ -13,7 +13,7 @@ import speakit.io.recordfile.RecordFile;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE> {
-	private BSharpTreeNode<RECTYPE, KEYTYPE> root;
+	private BSharpTreeNode root;
 	private BasicBlockFile blockFile;
 
 	public BSharpTree(File file) {
@@ -22,7 +22,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 
 	public void create(int nodeSize) throws IOException {
 		this.blockFile.create(nodeSize);
-		this.root = new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this);
+		this.root = new BSharpTreeLeafNode(this);
 	}
 
 	public void load() throws IOException {
@@ -37,7 +37,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 
 	@Override
 	public RECTYPE getRecord(KEYTYPE key) throws IOException, RecordSerializationException {
-		return this.root.getRecord(key);
+		return (RECTYPE) this.root.getRecord(key);
 	}
 
 	@Override
@@ -46,12 +46,12 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 		
 		if (this.root.isInOverflow()) {
 			if (this.root.getLevel() == 0) {
-				BSharpTreeLeafNode<RECTYPE, KEYTYPE> oldRoot = (BSharpTreeLeafNode<RECTYPE, KEYTYPE>) this.root;
-				BSharpTreeIndexNode<RECTYPE, KEYTYPE> newRoot = new BSharpTreeIndexNode<RECTYPE, KEYTYPE>(this);
-				ArrayList<BSharpTreeNode<RECTYPE, KEYTYPE>> leafs = new ArrayList<BSharpTreeNode<RECTYPE, KEYTYPE>>();
-				leafs.add(new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this));
-				leafs.add(new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this));
-				leafs.add(new BSharpTreeLeafNode<RECTYPE, KEYTYPE>(this));
+				BSharpTreeLeafNode oldRoot = (BSharpTreeLeafNode) this.root;
+				BSharpTreeIndexNode newRoot = new BSharpTreeIndexNode(this);
+				ArrayList<BSharpTreeNode> leafs = new ArrayList<BSharpTreeNode>();
+				leafs.add(new BSharpTreeLeafNode(this));
+				leafs.add(new BSharpTreeLeafNode(this));
+				leafs.add(new BSharpTreeLeafNode(this));
 
 				leafs.get(0).insertElements((oldRoot.getElements()));
 				this.root.balance(leafs);

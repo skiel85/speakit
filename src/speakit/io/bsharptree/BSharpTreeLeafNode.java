@@ -11,42 +11,42 @@ import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class BSharpTreeLeafNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> extends BSharpTreeNode<RECTYPE, KEYTYPE> {
+public class BSharpTreeLeafNode extends BSharpTreeNode {
 
 	private BSharpTreeLeafNodeRecord record;
-	private BSharpTree<RECTYPE, KEYTYPE> tree;
+	private BSharpTree tree;
 	private int size;
 
-	public BSharpTreeLeafNode(BSharpTree<RECTYPE, KEYTYPE> tree) {
+	public BSharpTreeLeafNode(BSharpTree tree) {
 		this.tree = tree;
 		this.record = new BSharpTreeLeafNodeRecord();
 	}
 
-	public BSharpTreeLeafNode(BSharpTree<RECTYPE, KEYTYPE> tree, int size) {
+	public BSharpTreeLeafNode(BSharpTree tree, int size) {
 		this(tree);
 		this.size = size;
 	}
 
 	@Override
-	public boolean contains(KEYTYPE key) throws IOException, RecordSerializationException {
+	public boolean contains(Field key) throws IOException, RecordSerializationException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public RECTYPE getRecord(KEYTYPE key) throws IOException, RecordSerializationException {
+	public Record getRecord(Field key) throws IOException, RecordSerializationException {
 		Iterator<BSharpTreeNodeElement> it = this.record.getElements().iterator();
 		while (it.hasNext()) {
 			BSharpTreeLeafNodeElement element = (BSharpTreeLeafNodeElement) it.next();
 			if (element.getRecord().compareToKey(key) == 0) {
-				return (RECTYPE) element.getRecord();
+				return (Record) element.getRecord();
 			}
 		}
 		return null;
 	}
 
 	@Override
-	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
+	public void insertRecord(Record record) throws IOException, RecordSerializationException {
 		BSharpTreeLeafNodeElement element = new BSharpTreeLeafNodeElement(record);
 		this.record.insertElement(element);
 	}
@@ -62,7 +62,7 @@ public class BSharpTreeLeafNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends
 	}
 
 	@Override
-	public void balance(List<BSharpTreeNode<RECTYPE, KEYTYPE>> nodes) {
+	public void balance(List<BSharpTreeNode> nodes) {
 		throw new NotImplementedException();
 	}
 
@@ -107,7 +107,7 @@ public class BSharpTreeLeafNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends
 		return result;
 	}
 
-	public void passOneElementTo(BSharpTreeLeafNode<RECTYPE, KEYTYPE> node) {
+	public void passOneElementTo(BSharpTreeLeafNode node) {
 		node.record.getElements().add(this.record.extractLastElement());
 	}
 }

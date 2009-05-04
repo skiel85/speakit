@@ -9,43 +9,42 @@ import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class BSharpTreeIndexNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> extends BSharpTreeNode<RECTYPE, KEYTYPE> {
+public class BSharpTreeIndexNode extends BSharpTreeNode {
 
 	private BSharpTreeIndexNodeRecord record;
-	private final BSharpTree<RECTYPE, KEYTYPE> tree;
+	private final BSharpTree tree;
 
-	public BSharpTreeIndexNode(BSharpTree<RECTYPE, KEYTYPE> tree) {
+	public BSharpTreeIndexNode(BSharpTree tree) {
 		this.tree = tree;
 	}
 
 	@Override
-	public boolean contains(KEYTYPE key) throws IOException, RecordSerializationException {
+	public boolean contains(Field key) throws IOException, RecordSerializationException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public RECTYPE getRecord(KEYTYPE key) throws IOException, RecordSerializationException {
+	public Record getRecord(Field key) throws IOException, RecordSerializationException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
+	public void insertRecord(Record record) throws IOException, RecordSerializationException {
 		int nodeNumberWhereToInsert = this.record.getLeftChildNodeNumber();
 		Iterator<BSharpTreeIndexNodeElement> it = this.record.getElementsIterator();
-		
+
 		boolean found = false;
-		while(it.hasNext() && !found) {
+		while (it.hasNext() && !found) {
 			BSharpTreeIndexNodeElement element = it.next();
-			if(record.compareToKey((KEYTYPE) element.getKey())>0) {
-				nodeNumberWhereToInsert=element.getRightChildNodeNumber();
-			}
-			else {
+			if (record.compareToKey((Field) element.getKey()) > 0) {
+				nodeNumberWhereToInsert = element.getRightChildNodeNumber();
+			} else {
 				found = true;
 			}
 		}
-		
+
 		BSharpTreeNode nodeWhereToInsert = this.tree.getNode(nodeNumberWhereToInsert);
 		nodeWhereToInsert.insertRecord(record);
 	}
@@ -62,11 +61,11 @@ public class BSharpTreeIndexNode<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	}
 
 	@Override
-	public void balance(List<BSharpTreeNode<RECTYPE, KEYTYPE>> nodes) {
+	public void balance(List<BSharpTreeNode> nodes) {
 		throw new NotImplementedException();
 	}
 
-	public void indexChild(BSharpTreeNode<RECTYPE, KEYTYPE> newChild) {
+	public void indexChild(BSharpTreeNode newChild) {
 		throw new NotImplementedException();
 	}
 

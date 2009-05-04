@@ -42,4 +42,9 @@ public class BSharpTreeLeafNodeElement extends Field implements BSharpTreeNodeEl
 	public void setRecord(Record record) {
 		this.record = record;
 	}
+
+	@Override
+	public Field getKey() {
+		return this.getKey();
+	}
 }

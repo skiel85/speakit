@@ -1,6 +1,8 @@
 package speakit.io.bsharptree;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import speakit.io.record.ArrayField;
 import speakit.io.record.Field;
@@ -36,4 +38,13 @@ public class BSharpTreeIndexNodeRecord extends Record<IntegerField> {
 		return this.elements.iterator();
 	}
 	
+	public List<BSharpTreeNodeElement> getElements() {
+		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>(this.elements.getArray());
+		return result;
+	}
+	
+	public void insertElement(BSharpTreeNodeElement element) {
+		this.elements.addItem((BSharpTreeIndexNodeElement) element);
+		this.elements.sort();
+	}
 }

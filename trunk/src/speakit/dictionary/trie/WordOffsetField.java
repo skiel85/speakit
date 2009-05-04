@@ -5,6 +5,7 @@ import speakit.io.record.CompositeField;
 import speakit.io.record.Field;
 import speakit.io.record.LongField;
 import speakit.io.record.StringField;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class WordOffsetField extends CompositeField {
 
@@ -49,5 +50,10 @@ public class WordOffsetField extends CompositeField {
 
 	public void setLast(boolean isLast) {
 		this.isLast.setBoolean(isLast);
+	}
+
+	@Override
+	protected int compareToSameClass(Field o) {
+		throw new NotImplementedException();
 	}
 }

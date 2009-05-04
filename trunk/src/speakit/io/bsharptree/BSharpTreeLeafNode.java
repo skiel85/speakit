@@ -34,16 +34,21 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 		throw new NotImplementedException();
 	}
 
-	@Override
-	public Record getRecord(Field key) throws IOException, RecordSerializationException {
+
+	public BSharpTreeLeafNodeElement getElement(Field key) throws IOException, RecordSerializationException {
 		Iterator<BSharpTreeNodeElement> it = this.record.getElements().iterator();
 		while (it.hasNext()) {
 			BSharpTreeLeafNodeElement element = (BSharpTreeLeafNodeElement) it.next();
 			if (element.getRecord().compareToKey(key) == 0) {
-				return (Record) element.getRecord();
+				return (BSharpTreeLeafNodeElement) element;
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public Record getRecord(Field key) throws IOException, RecordSerializationException {
+		return this.getElement(key).getRecord();
 	}
 
 	@Override

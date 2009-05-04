@@ -1,5 +1,6 @@
 package speakit.ftrs;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -10,6 +11,7 @@ import speakit.TextDocument;
 import speakit.ftrs.index.InvertedIndex;
 import speakit.ftrs.index.InvertedIndexRecord;
 import speakit.ftrs.index.InvertedList;
+import speakit.io.record.RecordSerializationException;
 
 //TODO Terminar de implementar
 public class RankedSearchEngine {
@@ -26,8 +28,10 @@ public class RankedSearchEngine {
 
 	/**
 	 * Ejecuta una busqueda rankeada
+	 * @throws IOException 
+	 * @throws RecordSerializationException 
 	 * */
-	public List<Long> search(TextDocument query) {
+	public List<Long> search(TextDocument query) throws RecordSerializationException, IOException {
 		// Obtiene la lista de listas invertidas del índice para la busqueda
 		// actual
 		List<InvertedIndexRecord> indexedRecords = getIndexRecords(query);
@@ -99,8 +103,10 @@ public class RankedSearchEngine {
 
 	/**
 	 * Obtiene la lista de listas invertidas para cada termino de la busqueda
+	 * @throws IOException 
+	 * @throws RecordSerializationException 
 	 * */
-	private List<InvertedIndexRecord> getIndexRecords(TextDocument query) {
+	private List<InvertedIndexRecord> getIndexRecords(TextDocument query) throws RecordSerializationException, IOException {
 		List<InvertedIndexRecord> documentsForEachTerm = new ArrayList<InvertedIndexRecord>();
 		for (String word : query) {
 			InvertedIndexRecord indexRecord = this.index.getDocumentsFor(word);

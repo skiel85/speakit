@@ -10,14 +10,14 @@ import org.junit.Test;
 
 import speakit.ftrs.index.InvertedIndexRecord;
 import speakit.ftrs.index.InvertedList;
-import speakit.ftrs.index.InvertedListItem;
+import speakit.ftrs.index.TermOcurrence;
 
 public class InvertedIndexRecordTest {
 	private InvertedIndexRecord	record;
 
 	@Before
 	public void setUp() throws Exception { 
-		record = new InvertedIndexRecord("vida", (new InvertedList()).add(new InvertedListItem(4, 2)).add(new InvertedListItem(1, 1)).add(new InvertedListItem(2, 1)));
+		record = new InvertedIndexRecord("vida", (new InvertedList()).add(new TermOcurrence(4, 2)).add(new TermOcurrence(1, 1)).add(new TermOcurrence(2, 1)));
 	}
 	@After
 	public void tearDown() throws Exception {
@@ -31,7 +31,7 @@ public class InvertedIndexRecordTest {
 	
 	@Test
 	public void testSettingInvertedListItemsUpdatesDocumentQty() throws IOException {
-		record.setInvertedList(new InvertedList().add(new InvertedListItem(5, 8)).add(new InvertedListItem(4, 2)).add(new InvertedListItem(1, 1)).add(new InvertedListItem(2, 1)));
+		record.setInvertedList(new InvertedList().add(new TermOcurrence(5, 8)).add(new TermOcurrence(4, 2)).add(new TermOcurrence(1, 1)).add(new TermOcurrence(2, 1)));
 		Assert.assertEquals(4, record.getDocumentsQty());
 	}
 }

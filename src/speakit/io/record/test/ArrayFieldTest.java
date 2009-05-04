@@ -14,7 +14,12 @@ import speakit.io.record.ArrayField;
 import speakit.io.record.StringField;
 
 public class ArrayFieldTest {
-	private ArrayField<StringField> sut = new ArrayField<StringField>();
+	private ArrayField<StringField>	sut	= new ArrayField<StringField>(){
+		@Override
+		protected StringField createField() {
+			return new StringField();
+		}
+	};
 
 	@Before
 	public void setUp() throws Exception {
@@ -29,7 +34,7 @@ public class ArrayFieldTest {
 	@Test
 	public void testThrowsIndexOutOfBoundException() {
 		try {
-			this.sut.getItem(-1);
+			this.sut.get(-1);
 			Assert.fail();
 		} catch (IndexOutOfBoundsException e) {
 			return;
@@ -41,26 +46,35 @@ public class ArrayFieldTest {
 
 	@Test
 	public void testRetrieveByIndex() {
-		Assert.assertEquals("hola", this.sut.getItem(0).getString());
-		Assert.assertEquals("mundo", this.sut.getItem(1).getString());
+		Assert.assertEquals("hola", this.sut.get(0).getString());
+		Assert.assertEquals("mundo", this.sut.get(1).getString());
 	}
 
 	@Test
 	public void testGetSize() {
-		Assert.assertEquals(2, this.sut.getSize());
+		Assert.assertEquals(2, this.sut.size());
 	}
 
 	@Test
 	public void testSerialization() throws IOException {
-		ArrayField<StringField> deserialized = new ArrayField<StringField>();
+		ArrayField<StringField> deserialized = new ArrayField<StringField>(){
+			@Override
+			protected StringField createField() {
+				return new StringField();
+			}
+		};
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		this.sut.serialize(os);
 		ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
 		deserialized.deserialize(is);
-		Assert.assertEquals(this.sut.getSize(), deserialized.getSize());
+		Assert.assertEquals(0, is.available());
+		Assert.assertEquals(this.sut.size(), deserialized.size());
+		int itemCounter=0;
 		for (StringField field : this.sut) {
 			Assert.assertEquals(field.getString(), field.getString());
+			itemCounter++;
 		}
+		Assert.assertEquals(2, itemCounter);
 	}
 
 	@Test

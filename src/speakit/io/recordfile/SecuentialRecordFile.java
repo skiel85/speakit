@@ -103,8 +103,8 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 	 * @throws IOException
 	 * @throws RecordSerializationException
 	 */
-	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
-		record.serialize(this.outputStream);
+	public long insertRecord(RECTYPE record) throws IOException, RecordSerializationException {		
+		return this.outputStream.getPosition()+record.serialize(this.outputStream);
 	}
 
 	/**

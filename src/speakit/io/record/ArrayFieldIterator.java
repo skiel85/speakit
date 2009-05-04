@@ -14,12 +14,12 @@ public class ArrayFieldIterator<FIELDTYPE extends Field> implements Iterator<FIE
 
 	@Override
 	public boolean hasNext() {
-		return (this.position < this.arrayField.getSize());
+		return (this.position < this.arrayField.size());
 	}
 
 	@Override
 	public FIELDTYPE next() {
-		return this.arrayField.getItem(this.position++);
+		return this.arrayField.get(this.position++);
 	}
 
 	@Override

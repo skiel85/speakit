@@ -1,26 +1,34 @@
 package speakit.ftrs.index;
 
-public class InvertedIndexRecord {
-	private String term;
-	private int documentsQty;
-	private int maxLocalFrecuency;
-	private InvertedList documents;
+import speakit.io.record.Field;
+import speakit.io.record.IntegerField;
+import speakit.io.record.Record;
+import speakit.io.record.StringField;
+
+public class InvertedIndexRecord extends Record<StringField>{
+	private StringField term=new StringField();
+	private IntegerField documentsQty=new IntegerField();
+	private IntegerField maxLocalFrecuency=new IntegerField();
+	private InvertedList documents=new InvertedList();
 
 	public InvertedIndexRecord(String term, int documentsQty, int maxLocalFrecuency, InvertedList documents) {
-		this.term = term;
+		this.setTerm( term);
 		this.setDocumentsQty(documentsQty);
 		this.setMaxLocalFrecuency(maxLocalFrecuency);
 		this.documents = documents;
 	}
 
 	public InvertedIndexRecord(String term, InvertedList documents) {
-		this.term = term;
+		this.setTerm( term);
 		this.documents = documents;
 		calculateTermsStatistics();
 	}
+	
+	public InvertedIndexRecord() {
+	}
 
 	public InvertedList getInvertedList() {
-		return documents.clone();
+		return documents;
 	}
 
 	public void setInvertedList(InvertedList list) {
@@ -42,7 +50,7 @@ public class InvertedIndexRecord {
 
 	// TODO: REVISAR PESO GLOBAL
 	/**
-	 * El documento mas importante es el mas raro, es decir el que aparezca en
+	 * El termino mas importante es el mas raro, es decir el que aparezca en
 	 * menos documentos. Por lo tanto el mas raro de los dos devuelve -1.
 	 * 
 	 * @param other
@@ -60,26 +68,36 @@ public class InvertedIndexRecord {
 		}
 	}
 	public void setTerm(String term) {
-		this.term = term;
+		this.term.setString( term);
 	}
 
 	public String getTerm() {
-		return term;
+		return term.getString();
 	}
 
 	public void setMaxLocalFrecuency(int maxLocalFrecuency) {
-		this.maxLocalFrecuency = maxLocalFrecuency;
+		this.maxLocalFrecuency.setInteger( maxLocalFrecuency);
 	}
 
 	public int getMaxLocalFrecuency() {
-		return maxLocalFrecuency;
+		return maxLocalFrecuency.getInteger();
 	}
 
 	public void setDocumentsQty(int documentsQty) {
-		this.documentsQty = documentsQty;
+		this.documentsQty.setInteger( documentsQty);
 	}
 
 	public int getDocumentsQty() {
-		return documentsQty;
+		return documentsQty.getInteger();
+	}
+
+	@Override
+	protected Field[] getFields() {
+		return new Field[]{this.term,this.documents,this.documentsQty,this.maxLocalFrecuency}; 
+	}
+
+	@Override
+	public StringField getKey() {
+		return this.term;
 	}
 }

@@ -59,10 +59,11 @@ public class OffsetRecordFile<RECTYPE extends OffsetRecord> extends SecuentialRe
 	 * @throws RecordSerializationException
 	 */
 	@Override
-	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
+	public long insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
 		long offset = this.getCurrentWriteOffset();
 		super.insertRecord(record);
 		record.setOffset(offset);
+		return offset;
 	}
 
 }

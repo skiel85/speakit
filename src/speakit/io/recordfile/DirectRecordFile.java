@@ -40,6 +40,7 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 
 	@Override
 	public RECTYPE getRecord(KEYTYPE key) throws IOException, RecordSerializationException {
+//		System.out.println(this.blocksFile.getFileSize());
 		RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block=this.findBlock(key);
 		if(block!=null){
 			return block.getRecord(key);
@@ -58,34 +59,35 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 	}
 
 	@Override
-	public void insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
-		boolean inserted = false;
+	public long insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
 		Iterator<Block> blockIterator = this.blocksFile.iterator();
-
-		while (!inserted && blockIterator.hasNext()) {
+		Block blockToInsert;
+		while (blockIterator.hasNext()) {
 			try { 
-				this.insertRecord(record, blockIterator.next());
-				inserted = true;
+				blockToInsert = blockIterator.next();
+				this.insertRecord(record, blockToInsert);
+				return blockToInsert.getBlockNumber();
 			} catch (BlockFileOverflowException e) {
 				// Dejado intencionalmente en blanco.
 				// En caso de overflow se continúa intentando insertar en el
 				// siguiente bloque.
 			}
 		}
-
-		if (!inserted) {
-			this.insertRecord(record, this.blocksFile.getNewBlock());
-		}
+ 
+		blockToInsert = this.blocksFile.getNewBlock();
+		this.insertRecord(record, blockToInsert);
+		return blockToInsert.getBlockNumber(); 
 	}
 
-	public void insertRecord(RECTYPE record, int blockNumber) throws IOException, RecordSerializationException {
-		this.insertRecord(record,this.blocksFile.getBlock(blockNumber));
+	public int insertRecord(RECTYPE record, int blockNumber) throws IOException, RecordSerializationException {
+		return this.insertRecord(record,this.blocksFile.getBlock(blockNumber));
 	}
 	
-	private void insertRecord(RECTYPE record, Block block) throws RecordSerializationException, IOException  {
+	private int insertRecord(RECTYPE record, Block block) throws RecordSerializationException, IOException  {
 		RecordsListBlockInterpreter<RECTYPE, KEYTYPE> recordsBlock = asRecordsBlock(block);
 		recordsBlock.insertRecord(record);
 		this.saveBlock(recordsBlock);
+		return block.getBlockNumber();
 	}
 
 	private void saveBlock(RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block) throws RecordSerializationException, IOException {

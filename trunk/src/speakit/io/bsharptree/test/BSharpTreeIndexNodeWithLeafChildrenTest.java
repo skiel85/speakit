@@ -1,13 +1,17 @@
 package speakit.io.bsharptree.test;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.io.bsharptree.BSharpTreeIndexNode;
 import speakit.io.bsharptree.BSharpTreeIndexNodeElement;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
+import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
 public class BSharpTreeIndexNodeWithLeafChildrenTest {
@@ -83,6 +87,18 @@ public class BSharpTreeIndexNodeWithLeafChildrenTest {
 			Assert.assertEquals("nación", ((StringField) element1.getKey()).getString());
 			Assert.assertEquals(4, element1.getRightChildNodeNumber());
 		}
+	}
+
+	@Ignore
+	@Test
+	public void testInsertInCorrectLeaf() throws RecordSerializationException, IOException {
+		this.sut.indexChild(nodes[0]);
+		this.sut.indexChild(nodes[1]);
+		this.sut.indexChild(nodes[2]);
+		this.sut.insertRecord(new TestIndexRecord("elefante", 99));
+		TestIndexRecord retrievedRec = (TestIndexRecord) nodes[1].getRecord(new StringField("elefante"));
+		Assert.assertEquals("elefante", retrievedRec.getKey().getString());
+		Assert.assertEquals(99, retrievedRec.getBlockNumber());
 	}
 
 }

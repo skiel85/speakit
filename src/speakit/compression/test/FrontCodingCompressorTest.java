@@ -9,7 +9,7 @@ import org.junit.Test;
 import speakit.compression.FrontCodedWord;
 import speakit.compression.FrontCodingCompressor;
 
-
+@Ignore
 public class FrontCodingCompressorTest {
 
 	private FrontCodingCompressor compressor;
@@ -24,14 +24,13 @@ public class FrontCodingCompressorTest {
 
 	}
 
-	@Ignore
 	@Test
-	public void testEncode() {
+	public void testEncodeDecode() {
 		String[] textToCompress = new String[] { "codo", "codazo", "codearse", "codera", "cordon", "cordura" };
 		FrontCodedWord[] frontCodedWords = compressor.compress(textToCompress);
 		String[] descompressedText = compressor.decompress(frontCodedWords);
-	
-		Assert.assertArrayEquals(textToCompress, descompressedText);
-	}
 
+		Assert.assertArrayEquals(textToCompress, descompressedText);
+
+	}
 }

@@ -12,7 +12,7 @@ import speakit.io.record.StringField;
 import speakit.io.recordfile.DirectRecordFile;
 
 //TODO implementar el índice
-public class InvertedIndex implements File, RecordFactory<InvertedIndexRecord> {
+public class InvertedIndex implements File, RecordFactory {
 
 	private static final String	DATAFILE	= "InvertedIndexData.dat";
 	private DirectRecordFile<InvertedIndexRecord, StringField>	invertedListsFile;

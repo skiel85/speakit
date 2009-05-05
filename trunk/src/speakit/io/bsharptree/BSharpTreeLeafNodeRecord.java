@@ -7,17 +7,32 @@ import speakit.io.record.ArrayField;
 import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
 import speakit.io.record.Record;
+import speakit.io.record.RecordFactory;
 
 public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
-	private IntegerField nodeNumber = new IntegerField();
-	private ArrayField<BSharpTreeLeafNodeElement> elements = new ArrayField<BSharpTreeLeafNodeElement>(){
+	private final class ArrayFieldExtension extends ArrayField<BSharpTreeLeafNodeElement> {
+		RecordFactory recordFactory;
+		public ArrayFieldExtension(RecordFactory recordFactory) {
+			this.recordFactory = recordFactory; 
+		}
+		
 		@Override
 		protected BSharpTreeLeafNodeElement createField() {
-			return new BSharpTreeLeafNodeElement(null);
+			return new BSharpTreeLeafNodeElement(this.recordFactory.createRecord());
 		}
-	};
+	}
+
+	private IntegerField nodeNumber = new IntegerField();
+	private ArrayField<BSharpTreeLeafNodeElement> elements ;
 	private IntegerField nextSecuenceNodeNumber = new IntegerField();
 
+	public BSharpTreeLeafNodeRecord(RecordFactory recordFactory){
+		if(recordFactory==null){
+			throw new IllegalArgumentException("La fabrica de registros es nula. Se debe suministrar una fabrica, o alguna clase que implemente RecordFactory.");
+		}
+		elements= new ArrayFieldExtension(recordFactory);
+	}
+	
 	public int getNodeNumber() {
 		return this.nodeNumber.getInteger();
 	}

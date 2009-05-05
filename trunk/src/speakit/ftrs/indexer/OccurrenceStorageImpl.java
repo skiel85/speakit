@@ -11,7 +11,7 @@ import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.SecuentialRecordFile;
 
-public class OccurrenceStorageImpl implements OccurrenceStorage, RecordFactory<OccurrenceRecord> {
+public class OccurrenceStorageImpl implements OccurrenceStorage, RecordFactory {
 
 	private static int BUFFER_LIMIT = 128;
 	ArrayList<Occurrence> buffer;

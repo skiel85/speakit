@@ -12,7 +12,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @SuppressWarnings("unchecked")
 public class BSharpTreeIndexNode extends BSharpTreeNode {
 
-	private BSharpTreeIndexNodeRecord record;
+	private BSharpTreeIndexNodeRecord	record;
 
 	public BSharpTreeIndexNode(BSharpTree tree, int size) {
 		super(tree, size);
@@ -51,7 +51,7 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 			}
 		}
 
-		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert);
+		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert,this);
 		nodeWhereToInsert.insertRecord(record);
 	}
 
@@ -109,7 +109,7 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();
-	}
+	} 
 
 	public void setNodeNumber(int i) {
 		this.record.setNodeNumber(i);

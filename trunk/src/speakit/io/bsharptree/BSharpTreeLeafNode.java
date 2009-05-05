@@ -14,15 +14,14 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @SuppressWarnings("unchecked")
 public class BSharpTreeLeafNode extends BSharpTreeNode {
 
-	private BSharpTreeLeafNodeRecord record;
-	private BSharpTree tree;
-	private int size;
+	private BSharpTreeLeafNodeRecord	record; 
+	private int							size;
 
 	public BSharpTreeLeafNode(BSharpTree tree, int size) {
 		super(tree, size);
-		this.record = new BSharpTreeLeafNodeRecord();
+		this.record = new BSharpTreeLeafNodeRecord(tree);
 	}
-	
+
 	@Override
 	protected Record getNodeRecord() {
 		return this.record;
@@ -34,7 +33,6 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 		throw new NotImplementedException();
 	}
 
-
 	public BSharpTreeLeafNodeElement getElement(Field key) throws IOException, RecordSerializationException {
 		Iterator<BSharpTreeNodeElement> it = this.record.getElements().iterator();
 		while (it.hasNext()) {
@@ -45,7 +43,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public Record getRecord(Field key) throws IOException, RecordSerializationException {
 		return this.getElement(key).getRecord();
@@ -109,12 +107,12 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	public boolean isInOverflow() throws RecordSerializationException, IOException {
 		return (this.record.serialize().length > this.getMaximumCapacity());
 	}
-	
+
 	@Override
 	public boolean isInUnderflow() throws RecordSerializationException, IOException {
 		return (this.record.serialize().length < this.getMinimumCapacity());
 	}
-	
+
 	@Override
 	public Field getNodeKey() {
 		return ((BSharpTreeLeafNodeElement) this.record.getElements().get(0)).getRecord().getKey();

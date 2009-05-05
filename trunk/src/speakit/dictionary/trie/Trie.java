@@ -13,7 +13,7 @@ import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.DirectRecordFile;
 
-public class Trie implements File, RecordFactory<TrieNode> {
+public class Trie implements File, RecordFactory{
 	private static final String TRIE_INDEX_DAT = "TrieIndex.dat";
 	private long lastNodeNumber;
 	// private ArrayList<TrieNode> TrieNodeList;

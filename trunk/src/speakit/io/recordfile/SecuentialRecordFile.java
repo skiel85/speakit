@@ -19,7 +19,7 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 	private RandomAccessFile randomAccessFile;
 	private RandomAccessFileInputStream inputStream;
 	private RandomAccessFileOutputStream outputStream;
-	private RecordFactory<RECTYPE> recordFactory;
+	private RecordFactory recordFactory;
 
 	/**
 	 * Construye un archivo de registros a partir de un archivo y una fabrica de
@@ -28,7 +28,7 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 	 * 
 	 * @throws IOException
 	 */
-	public SecuentialRecordFile(File file, RecordFactory<RECTYPE> recordFactory) throws IOException {
+	public SecuentialRecordFile(File file, RecordFactory recordFactory) throws IOException {
 		this.recordFactory = recordFactory;
 		this.randomAccessFile = new RandomAccessFile(file, "rw");
 		this.inputStream = new RandomAccessFileInputStream(this.randomAccessFile);
@@ -43,7 +43,7 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 	 * @throws IOException
 	 */
 	public RECTYPE readRecord() throws IOException {
-		RECTYPE record = recordFactory.createRecord();
+		RECTYPE record = (RECTYPE) recordFactory.createRecord();
 		try {
 			record.deserialize(this.inputStream);
 			return record;

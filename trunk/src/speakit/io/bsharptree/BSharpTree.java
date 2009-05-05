@@ -3,31 +3,59 @@ package speakit.io.bsharptree;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import speakit.io.blockfile.BasicBlockFile;
 import speakit.io.blockfile.BasicBlockFileImpl;
+import speakit.io.blockfile.BlockFileOverflowException;
+import speakit.io.blockfile.WrongBlockNumberException;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
+import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.RecordFile;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE> {
-	private BSharpTreeNode root;
-	private BasicBlockFile blockFile;
+public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE>, RecordFactory {
+	/**
+	 * Indica la cantidad de bloques que ocupa la raiz
+	 */
+	protected static final int	ROOT_NODE_BLOCKS_QTY	= 2;
+
+	protected BSharpTreeNode	root;
+	protected BasicBlockFile	blockFile;
+	private int					blockSize;
 
 	public BSharpTree(File file) {
 		this.blockFile = new BasicBlockFileImpl(file);
 	}
 
 	public void create(int nodeSize) throws IOException {
+		this.blockSize = nodeSize;
 		this.blockFile.create(nodeSize);
-		this.root = new BSharpTreeLeafNode(this, 1);
+		this.blockFile.appendBlock();
+		this.blockFile.appendBlock();
+		this.root = new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY);
+		this.saveNode(this.root);
+		this.load();
+	}
+
+	public void saveNode(BSharpTreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		Record nodeRecord = node.getNodeRecord();
+		List<byte[]> serializationParts = nodeRecord.serializeInParts(blockSize);
+		if (serializationParts.size() > node.getBlockQty()) {
+			throw new BlockFileOverflowException(serializationParts.size() * blockSize, node.getBlockQty() * blockSize);
+		}
+		for (int i = 0; i < serializationParts.size(); i++) {
+			byte[] part = serializationParts.get(i);
+			this.blockFile.write(i + node.getNodeNumber(), part);
+			// TODO falta el offset que es el numero de bloque
+		}
 	}
 
 	public void load() throws IOException {
 		this.blockFile.load();
-		// TODO Cargar la raiz
+		this.blockSize = this.blockFile.getBlockSize();
+		this.root = this.getNode(0, null);
 	}
 
 	@Override
@@ -43,7 +71,6 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	@Override
 	public long insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
 		this.root.insertRecord(record);
-
 		if (this.root.isInOverflow()) {
 			if (this.root.getLevel() == 0) {
 				BSharpTreeLeafNode oldRoot = (BSharpTreeLeafNode) this.root;
@@ -66,6 +93,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 				}
 			}
 		}
+		this.saveNode(this.root);
 		return 0;
 	}
 
@@ -73,7 +101,75 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 		return this.blockFile.getBlockSize();
 	}
 
-	public BSharpTreeNode getNode(int nodeNumberWhereToInsert) {
-		throw new NotImplementedException();
+	/**
+	 * 
+	 * @param nodeNumber
+	 * @param parent
+	 * @return
+	 * @throws IOException
+	 */
+	public BSharpTreeNode getNode(int nodeNumber, BSharpTreeNode parent) throws IOException {
+		BSharpTreeNode newNode = createNode(nodeNumber, parent);
+		return deserializeNode(nodeNumber, newNode);
 	}
+
+	/**
+	 * Crea un nodo raiz o no raiz
+	 * 
+	 * @param nodeNumber
+	 * @param parent
+	 * @return
+	 * @throws IOException
+	 */
+	private BSharpTreeNode createNode(int nodeNumber, BSharpTreeNode parent) throws IOException {
+		if (nodeNumber == 0) {
+			return this.createRootNode();
+		} else {
+			return this.createNonRootNode(parent.getLevel());
+		}
+	}
+
+	/**
+	 * Crea la raiz. Para saber de que tipo es se fija la cantidad de bloques
+	 * del archivo: Si cant > cant nodos que ocupa la raiz --> La raiz es nodo
+	 * indice Si cant = cant nodos que ocupa la raiz --> La raiz es nodo hoja
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	private BSharpTreeNode createRootNode() throws IOException {
+		int blockCount = this.blockFile.getBlockCount();
+		if (blockCount == ROOT_NODE_BLOCKS_QTY) {
+			// Es un nodo hoja
+			return new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY);
+		} else {
+			// nodo indice
+			return new BSharpTreeIndexNode(this, ROOT_NODE_BLOCKS_QTY);
+		}
+	}
+
+	/**
+	 * Fabrica de nodos no hojas a partir del nivel
+	 */
+	private BSharpTreeNode createNonRootNode(int level) {
+		if (level == 0) {
+			return new BSharpTreeLeafNode(this, 1);
+		} else if (level > 0) {
+			return new BSharpTreeIndexNode(this, 1);
+		}
+		throw new IllegalArgumentException("No se puede construir un nodo con level: " + level);
+	}
+
+	private BSharpTreeNode deserializeNode(int nodeNumber, BSharpTreeNode newNode) throws IOException, RecordSerializationException {
+		List<byte[]> parts = new ArrayList<byte[]>();
+		for (int i = 0; i < newNode.getBlockQty(); i++) {
+			parts.add(blockFile.read(nodeNumber+i));
+		}
+		newNode.getNodeRecord().deserializeFromParts(parts);
+		return newNode;
+	}
+
+	public BSharpTreeNode getRoot() {
+		return root;
+	} 
 }

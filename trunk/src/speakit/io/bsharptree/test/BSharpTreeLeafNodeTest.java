@@ -10,16 +10,22 @@ import org.junit.Test;
 
 import speakit.io.bsharptree.BSharpTree;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
+import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
+import speakit.test.TestFileManager;
 
 public class BSharpTreeLeafNodeTest {
 
 	private BSharpTreeLeafNode sut;
+	private TestBSharpTree	tree;
 
+	
+	
 	@Before
 	public void setUp() throws Exception {
-		this.sut = new BSharpTreeLeafNode(null, 1);
+		tree = new TestBSharpTree(new TestFileManager("").openFile("testTree.dat"));
+		this.sut = new BSharpTreeLeafNode(tree, 1);
 	}
 
 	@After
@@ -57,7 +63,12 @@ public class BSharpTreeLeafNodeTest {
 	@Test
 	public void testOverflow() throws RecordSerializationException, IOException {
 		File file = File.createTempFile(this.getClass().getName(), ".dat");
-		BSharpTree<TestIndexRecord, StringField> tree = new BSharpTree<TestIndexRecord, StringField>(file);
+		BSharpTree<TestIndexRecord, StringField> tree = new BSharpTree<TestIndexRecord, StringField>(file){
+			@Override
+			public Record createRecord() {
+				return new TestIndexRecord("", 0);
+			}
+		};
 		tree.create(25);
 		this.sut = new BSharpTreeLeafNode(tree, 1);
 		Assert.assertFalse(this.sut.isInOverflow());

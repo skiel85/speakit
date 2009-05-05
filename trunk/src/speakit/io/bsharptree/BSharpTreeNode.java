@@ -40,6 +40,10 @@ public abstract class BSharpTreeNode {
 	public int getMaximumCapacity() {
 		return this.tree.getNodeSize() * this.size;
 	}
+	
+	public int getBlockQty(){
+		return this.size;
+	}
 
 	public int getMinimumCapacity() {
 		return this.getMaximumCapacity() * 2 / 3;

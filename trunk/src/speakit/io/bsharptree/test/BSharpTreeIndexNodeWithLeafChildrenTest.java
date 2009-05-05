@@ -1,11 +1,11 @@
 package speakit.io.bsharptree.test;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.io.bsharptree.BSharpTreeIndexNode;
@@ -18,19 +18,26 @@ public class BSharpTreeIndexNodeWithLeafChildrenTest {
 	private BSharpTreeIndexNode sut;
 	private TestIndexRecord[] records;
 	private BSharpTreeLeafNode[] nodes;
+	private BSharpTreeMock tree;
+	private File file;
 
 	@Before
 	public void setUp() throws Exception {
-		this.sut = new BSharpTreeIndexNode(null, 2);
+		this.file = File.createTempFile(this.getClass().getName(), ".dat");
+		this.tree = new BSharpTreeMock(this.file);
+		
+		this.sut = new BSharpTreeIndexNode(this.tree, 2);
 		this.sut.setNodeNumber(0);
 
 		this.nodes = new BSharpTreeLeafNode[3];
-		nodes[0] = new BSharpTreeLeafNode(null, 1);
+		nodes[0] = new BSharpTreeLeafNode(this.tree, 1);
 		nodes[0].setNodeNumber(2);
-		nodes[1] = new BSharpTreeLeafNode(null, 1);
+		nodes[1] = new BSharpTreeLeafNode(this.tree, 1);
 		nodes[1].setNodeNumber(3);
-		nodes[2] = new BSharpTreeLeafNode(null, 1);
+		nodes[2] = new BSharpTreeLeafNode(this.tree, 1);
 		nodes[2].setNodeNumber(4);
+		
+		this.tree.registerNodesInMock(nodes);
 
 		this.records = new TestIndexRecord[9];
 		records[0] = new TestIndexRecord("Nos", 12);
@@ -56,6 +63,7 @@ public class BSharpTreeIndexNodeWithLeafChildrenTest {
 
 	@After
 	public void tearDown() throws Exception {
+		this.file.delete();
 	}
 
 	@Test
@@ -89,7 +97,6 @@ public class BSharpTreeIndexNodeWithLeafChildrenTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testInsertInCorrectLeaf() throws RecordSerializationException, IOException {
 		this.sut.indexChild(nodes[0]);

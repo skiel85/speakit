@@ -15,15 +15,16 @@ import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.RecordFile;
 
+@SuppressWarnings("unchecked")
 public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE>, RecordFactory {
 	/**
 	 * Indica la cantidad de bloques que ocupa la raiz
 	 */
-	protected static final int	ROOT_NODE_BLOCKS_QTY	= 2;
+	protected static final int ROOT_NODE_BLOCKS_QTY = 2;
 
-	protected BSharpTreeNode	root;
-	protected BasicBlockFile	blockFile;
-	private int					blockSize;
+	protected BSharpTreeNode root;
+	protected BasicBlockFile blockFile;
+	private int blockSize;
 
 	public BSharpTree(File file) {
 		this.blockFile = new BasicBlockFileImpl(file);
@@ -71,25 +72,29 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	@Override
 	public long insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
 		this.root.insertRecord(record);
-		if (this.root.isInOverflow()) {
-			if (this.root.getLevel() == 0) {
-				BSharpTreeLeafNode oldRoot = (BSharpTreeLeafNode) this.root;
-				BSharpTreeIndexNode newRoot = new BSharpTreeIndexNode(this, 1);
-				ArrayList<BSharpTreeNode> leafs = new ArrayList<BSharpTreeNode>();
-				leafs.add(new BSharpTreeLeafNode(this, 1));
-				leafs.add(new BSharpTreeLeafNode(this, 1));
-				leafs.add(new BSharpTreeLeafNode(this, 1));
+		// TODO implementar balanceo y split para el caso de que quede en
+		// overflow luego de insertar.
+		if (false) {
+			if (this.root.isInOverflow()) {
+				if (this.root.getLevel() == 0) {
+					BSharpTreeLeafNode oldRoot = (BSharpTreeLeafNode) this.root;
+					BSharpTreeIndexNode newRoot = new BSharpTreeIndexNode(this, 1);
+					ArrayList<BSharpTreeNode> leafs = new ArrayList<BSharpTreeNode>();
+					leafs.add(new BSharpTreeLeafNode(this, 1));
+					leafs.add(new BSharpTreeLeafNode(this, 1));
+					leafs.add(new BSharpTreeLeafNode(this, 1));
 
-				leafs.get(0).insertElements((oldRoot.getElements()));
-				this.root.balance(leafs);
+					leafs.get(0).insertElements((oldRoot.getElements()));
+					this.root.balance(leafs);
 
-				newRoot.indexChild(leafs.get(0));
-				newRoot.indexChild(leafs.get(1));
-				newRoot.indexChild(leafs.get(2));
-				this.root = newRoot;
+					newRoot.indexChild(leafs.get(0));
+					newRoot.indexChild(leafs.get(1));
+					newRoot.indexChild(leafs.get(2));
+					this.root = newRoot;
 
-				if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
-					throw new RuntimeException("ERROR");
+					if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
+						throw new RuntimeException("ERROR");
+					}
 				}
 			}
 		}
@@ -163,7 +168,7 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	private BSharpTreeNode deserializeNode(int nodeNumber, BSharpTreeNode newNode) throws IOException, RecordSerializationException {
 		List<byte[]> parts = new ArrayList<byte[]>();
 		for (int i = 0; i < newNode.getBlockQty(); i++) {
-			parts.add(blockFile.read(nodeNumber+i));
+			parts.add(blockFile.read(nodeNumber + i));
 		}
 		newNode.getNodeRecord().deserializeFromParts(parts);
 		return newNode;
@@ -171,5 +176,17 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 
 	public BSharpTreeNode getRoot() {
 		return root;
-	} 
+	}
+
+	protected void setRoot(BSharpTreeNode root) {
+		this.root = root;
+	}
+
+	public int getRootNoteBlocksQty() {
+		return ROOT_NODE_BLOCKS_QTY;
+	}
+	
+	public BasicBlockFile getBlockFile() {
+		return this.blockFile;
+	}
 }

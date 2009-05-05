@@ -26,7 +26,7 @@ public abstract class CompositeField extends Field {
 	}
 
 	@Override
-	public int getSerializationSize() {
+	public int getSerializationSize() throws RecordSerializationException, IOException {
 		int accum = 0;
 		for (Field field : this.getFields()) {
 			accum += field.getSerializationSize();

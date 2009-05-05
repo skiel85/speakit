@@ -112,7 +112,7 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 	}
 
 	@Override
-	public int getSerializationSize() {
+	public int getSerializationSize() throws RecordSerializationException, IOException {
 		int accum = 0;
 		for (Field field : this.values) {
 			accum += field.getSerializationSize();

@@ -62,8 +62,10 @@ public abstract class Field implements Comparable<Field> {
 
 	/**
 	 * @return la cantidad de bytes que ocupa la serializacion de su valor
+	 * @throws IOException 
+	 * @throws RecordSerializationException 
 	 */
-	public abstract int getSerializationSize();
+	public abstract int getSerializationSize() throws RecordSerializationException, IOException;
 
 	/**
 	 * Hidrata el objeto

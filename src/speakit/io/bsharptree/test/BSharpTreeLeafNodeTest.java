@@ -1,5 +1,6 @@
 package speakit.io.bsharptree.test;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.After;
@@ -7,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.io.bsharptree.BSharpTree;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
@@ -25,14 +27,14 @@ public class BSharpTreeLeafNodeTest {
 	}
 
 	@Test
-	public void testInsertAndRetrieve() throws RecordSerializationException, IOException {		
+	public void testInsertAndRetrieve() throws RecordSerializationException, IOException {
 		this.sut.insertRecord(new TestIndexRecord("hola", 1));
 		this.sut.insertRecord(new TestIndexRecord("mundo", 3));
 		TestIndexRecord retrievedRec = (TestIndexRecord) this.sut.getRecord(new StringField("mundo"));
 		Assert.assertEquals("mundo", retrievedRec.getKey().getString());
 		Assert.assertEquals(3, retrievedRec.getBlockNumber());
 	}
-	
+
 	@Test
 	public void testInsertsOrdered() throws RecordSerializationException, IOException {
 		this.sut.insertRecord(new TestIndexRecord("adios", 3));
@@ -42,7 +44,7 @@ public class BSharpTreeLeafNodeTest {
 		Assert.assertEquals("mundo", retrievedRec.getKey().getString());
 		Assert.assertEquals(1, retrievedRec.getBlockNumber());
 	}
-	
+
 	@Test
 	public void testGetNodeKey() throws RecordSerializationException, IOException {
 		this.sut.insertRecord(new TestIndexRecord("adios", 3));
@@ -52,4 +54,17 @@ public class BSharpTreeLeafNodeTest {
 		Assert.assertEquals("adios", retrievedKey.getString());
 	}
 
+	@Test
+	public void testOverflow() throws RecordSerializationException, IOException {
+		File file = File.createTempFile(this.getClass().getName(), ".dat");
+		BSharpTree<TestIndexRecord, StringField> tree = new BSharpTree<TestIndexRecord, StringField>(file);
+		tree.create(25);
+		this.sut = new BSharpTreeLeafNode(tree, 1);
+		Assert.assertFalse(this.sut.isInOverflow());
+		this.sut.insertRecord(new TestIndexRecord("hola", 2));
+		Assert.assertFalse(this.sut.isInOverflow());
+		this.sut.insertRecord(new TestIndexRecord("supercalifragilisticoespialidoso", 2));
+		Assert.assertTrue(this.sut.isInOverflow());
+		file.delete();
+	}
 }

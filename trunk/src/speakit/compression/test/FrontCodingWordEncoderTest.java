@@ -4,13 +4,12 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.compression.FrontCodedWord;
 import speakit.compression.FrontCodingWordEncoder;
 
-@Ignore
+
 public class FrontCodingWordEncoderTest {
 
 	private FrontCodingWordEncoder encoder;
@@ -28,6 +27,7 @@ public class FrontCodingWordEncoderTest {
 	@Test
 	public void testEncodeSingleWord() {
 		String word1 = "casa";
+
 		testEncode(encoder.encode(word1), (short) 0, word1);
 	}
 
@@ -35,9 +35,13 @@ public class FrontCodingWordEncoderTest {
 	public void testEncodeSimilarWords() {
 		String word1 = "cuantica";
 		String word2 = "cuaderno";
-
+		String word3 = "cuadro";
+		
 		testEncode(encoder.encode(word1), (short) 0, word1);
-		testEncode(encoder.encode(word2), (short) 3, "erno");
+		testEncode(encoder.encode(word2), (short) 3, "derno");
+		testEncode(encoder.encode(word3), (short) 4, "ro");
+
+	
 	}
 
 	@Test
@@ -55,7 +59,7 @@ public class FrontCodingWordEncoderTest {
 		String word2 = "razonar";
 
 		testEncode(encoder.encode(word1), (short) 0, word1);
-		testEncode(encoder.encode(word2), (short) word2.length(), "");
+		testEncode(encoder.encode(word2), (short) word1.length(), "");
 	}
 
 	@Test
@@ -69,12 +73,14 @@ public class FrontCodingWordEncoderTest {
 
 	@Test
 	public void testLargeText() {
+
 		testEncode(encoder.encode("codo"), (short) 0, "codo");
 		testEncode(encoder.encode("codazo"), (short) 3, "azo");
 		testEncode(encoder.encode("codearse"), (short) 3, "earse");
 		testEncode(encoder.encode("codera"), (short) 4, "ra");
-		testEncode(encoder.encode("cordon"), (short) 2, "don");
+		testEncode(encoder.encode("cordon"), (short) 2, "rdon");
 		testEncode(encoder.encode("cordura"), (short) 4, "ura");
+
 	}
 
 	private void testEncode(FrontCodedWord wordencoded, short matchingChars, String end) {

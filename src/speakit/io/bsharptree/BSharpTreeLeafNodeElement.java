@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BSharpTreeLeafNodeElement extends Field implements BSharpTreeNodeElement {
 	private Record record;

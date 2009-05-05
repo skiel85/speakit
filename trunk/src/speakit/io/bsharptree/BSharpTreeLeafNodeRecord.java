@@ -18,6 +18,14 @@ public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
 	};
 	private IntegerField nextSecuenceNodeNumber = new IntegerField();
 
+	public int getNodeNumber() {
+		return this.nodeNumber.getInteger();
+	}
+	
+	public void setNodeNumber(int nodeNumber) {
+		this.nodeNumber.setInteger(nodeNumber);
+	}
+	
 	@Override
 	protected Field[] getFields() {
 		return new Field[] { this.elements, this.nextSecuenceNodeNumber };

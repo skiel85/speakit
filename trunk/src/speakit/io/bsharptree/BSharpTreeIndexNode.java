@@ -83,13 +83,20 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	}
 
 	public void indexChild(BSharpTreeNode newChild) {
-		throw new NotImplementedException();
+		if (this.getLeftChildNodeNumber() == 0) {
+			this.record.setLeftChildNodeNumber(newChild.getNodeNumber());
+		} else {
+			BSharpTreeIndexNodeElement element = new BSharpTreeIndexNodeElement();
+			element.setKey(newChild.getNodeKey());
+			element.setRightChild(newChild.getNodeNumber());
+			this.insertElement(element);
+		}
+
 	}
 
 	@Override
 	public List<BSharpTreeNodeElement> getElements() {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return this.record.getElements();
 	}
 
 	@Override
@@ -102,6 +109,24 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();
+	}
+
+	public void setNodeNumber(int i) {
+		this.record.setNodeNumber(i);
+	}
+
+	public int getLeftChildNodeNumber() {
+		return this.record.getLeftChildNodeNumber();
+	}
+
+	@Override
+	public Field getNodeKey() {
+		return this.getElements().get(0).getKey();
+	}
+
+	@Override
+	public int getNodeNumber() {
+		return this.record.getNodeNumber();
 	}
 
 }

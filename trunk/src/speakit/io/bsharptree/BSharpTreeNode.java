@@ -52,8 +52,12 @@ public abstract class BSharpTreeNode {
 	public boolean isInUnderflow() throws RecordSerializationException, IOException {
 		return (this.getNodeRecord().serialize().length < this.getMinimumCapacity());
 	}
-	
-	protected BSharpTree getTree(){
+
+	protected BSharpTree getTree() {
 		return this.tree;
 	}
+
+	public abstract int getNodeNumber();
+
+	public abstract Field getNodeKey();
 }

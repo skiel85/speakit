@@ -115,7 +115,17 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 		return (this.record.serialize().length < this.getMinimumCapacity());
 	}
 	
+	@Override
 	public Field getNodeKey() {
 		return ((BSharpTreeLeafNodeElement) this.record.getElements().get(0)).getRecord().getKey();
+	}
+
+	public void setNodeNumber(int nodeNumber) {
+		this.record.setNodeNumber(nodeNumber);
+	}
+
+	@Override
+	public int getNodeNumber() {
+		return this.record.getNodeNumber();
 	}
 }

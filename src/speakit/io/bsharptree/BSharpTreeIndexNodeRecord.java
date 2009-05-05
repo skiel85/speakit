@@ -12,12 +12,12 @@ import speakit.io.record.Record;
 public class BSharpTreeIndexNodeRecord extends Record<IntegerField> {
 	private IntegerField nodeNumber = new IntegerField();
 	private IntegerField leftChild = new IntegerField();
-	private ArrayField<BSharpTreeIndexNodeElement> elements = new ArrayField<BSharpTreeIndexNodeElement>(){
+	private ArrayField<BSharpTreeIndexNodeElement> elements = new ArrayField<BSharpTreeIndexNodeElement>() {
 		@Override
 		protected BSharpTreeIndexNodeElement createField() {
 			return new BSharpTreeIndexNodeElement();
 		}
-		
+
 	};
 
 	@Override
@@ -33,18 +33,30 @@ public class BSharpTreeIndexNodeRecord extends Record<IntegerField> {
 	public int getLeftChildNodeNumber() {
 		return this.leftChild.getInteger();
 	}
+	
+	public void setLeftChildNodeNumber(int nodeNumber) {
+		this.leftChild.setInteger(nodeNumber);
+	}
 
 	public Iterator<BSharpTreeIndexNodeElement> getElementsIterator() {
 		return this.elements.iterator();
 	}
-	
+
 	public List<BSharpTreeNodeElement> getElements() {
 		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>(this.elements.getArray());
 		return result;
 	}
-	
+
 	public void insertElement(BSharpTreeNodeElement element) {
 		this.elements.addItem((BSharpTreeIndexNodeElement) element);
 		this.elements.sort();
+	}
+
+	public void setNodeNumber(int i) {
+		this.nodeNumber.setInteger(i);
+	}
+
+	public int getNodeNumber() {
+		return this.nodeNumber.getInteger();
 	}
 }

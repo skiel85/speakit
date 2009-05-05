@@ -107,5 +107,16 @@ public class BSharpTreeIndexNodeWithLeafChildrenTest {
 		Assert.assertEquals("elefante", retrievedRec.getKey().getString());
 		Assert.assertEquals(99, retrievedRec.getBlockNumber());
 	}
+	
+	@Test
+	public void testInsertInCorrectLeafExtremeCase() throws RecordSerializationException, IOException {
+		this.sut.indexChild(nodes[0]);
+		this.sut.indexChild(nodes[1]);
+		this.sut.indexChild(nodes[2]);
+		this.sut.insertRecord(new TestIndexRecord("AAA", 88));
+		TestIndexRecord retrievedRec = (TestIndexRecord) nodes[0].getRecord(new StringField("AAA"));
+		Assert.assertEquals("AAA", retrievedRec.getKey().getString());
+		Assert.assertEquals(88, retrievedRec.getBlockNumber());
+	}
 
 }

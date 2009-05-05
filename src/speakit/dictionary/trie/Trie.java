@@ -15,7 +15,7 @@ import speakit.io.recordfile.DirectRecordFile;
 
 public class Trie implements File, RecordFactory<TrieNode> {
 	private static final String TRIE_INDEX_DAT = "TrieIndex.dat";
-	private long lastRecordNumber;
+	private long lastNodeNumber;
 	// private ArrayList<TrieNode> TrieNodeList;
 	private int depth;
 	private DirectRecordFile<TrieNode, LongField> nodeFile;
@@ -32,7 +32,7 @@ public class Trie implements File, RecordFactory<TrieNode> {
 
 		// TrieNodeList = new ArrayList<TrieNode>();
 		// this.depth = 4;
-		this.lastRecordNumber = 0;
+		this.lastNodeNumber = 0;
 	}
 
 	// public ArrayList<TrieNode> getTrieNodeList() {
@@ -51,17 +51,17 @@ public class Trie implements File, RecordFactory<TrieNode> {
 		this.depth = depth;
 	}
 
-	public long getLastRecordNumber() {
-		return lastRecordNumber;
+	public long getLastNodeNumber() {
+		return lastNodeNumber;
 	}
 
-	public void setLastRecordNumber(long lastRecordNumber) {
-		this.lastRecordNumber = lastRecordNumber;
+	public void setLastNodeNumber(long lastNodeNumber) {
+		this.lastNodeNumber = lastNodeNumber;
 	}
 
 	public void addWord(String word, long offset) throws RecordSerializationException, IOException {
 
-		String firstPart = word.substring(0, this.getDepth() - 1);
+		/*String firstPart = word.substring(0, this.getDepth() - 1);
 		String lastPart = "";
 		long nodeNumber = 0;
 		if (word.length() >= this.getDepth())
@@ -88,27 +88,66 @@ public class Trie implements File, RecordFactory<TrieNode> {
 			WordOffsetField wordOffsetField=new WordOffsetField(offset, lastPart, true);
 			ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>)this.getNode(j).getWordOffsetList();
 			wordOffsetList.add(wordOffsetField);
-			//this.getNode(j).setWordOffsetRecordList(wordOffsetList);
+			
 			TrieNode node=this.getNode(j);
 			node.setWordOffsetRecordList(wordOffsetList);
 			this.nodeFile.updateRecord(node);
-			//this.setNode(j, node);
-			//this.getNode(j).getWordOffsetList().add(new WordOffsetField(offset, lastPart, true));
+			
 		} else {
 			WordOffsetField wordOffsetField=new WordOffsetField(offset, lastPart, true);
 			ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>)this.getNode(this.getDepth()).getWordOffsetList();
 			wordOffsetList.add(wordOffsetField);
-			//this.getNode(this.getDepth()).setWordOffsetRecordList(wordOffsetList);
+			
 			TrieNode node=this.getNode(this.getDepth());
 			node.setWordOffsetRecordList(wordOffsetList);
 			this.nodeFile.updateRecord(node);
-			//this.setNode(this.getDepth(), node);
-			//this.getNode(this.getDepth()).getWordOffsetList().add(new WordOffsetField(offset, lastPart, true));
+			
+		}*/
+		
+		String firstPart = word.substring(0, this.getDepth() - 1);
+		String lastPart = "";
+		boolean foundString=true;
+		
+		if (word.length() >= this.getDepth())
+			lastPart = word.substring(this.getDepth() - 1);
+		
+		long nodeNumber = 0;
+		int j=0;
+		TrieNode node=this.getNode(nodeNumber);
+		while(j<firstPart.length() && foundString){
+			Iterator<WordOffsetField> wordOffsetIterator = node.getWordOffsetList().iterator();
+			
+			foundString=false;
+			while (wordOffsetIterator.hasNext() && !foundString){
+				WordOffsetField record = wordOffsetIterator.next();
+				if (record.getWord().equals(word.substring(j, j + 1))) {
+					foundString=true;
+					node=this.getNode(record.getNextRecord());
+					j++;
+				}
+			}
+			
 		}
-//		this.getNode(0);
-//		this.getNode(1);
-//		this.getNode(2);
-//		this.getNode(3);
+		String actualChar = firstPart.substring((int) j, (int) j + 1);
+		WordOffsetField wordOffsetField=new WordOffsetField(j + 1, actualChar, false);
+		ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>)node.getWordOffsetList();
+		wordOffsetList.add(wordOffsetField);
+		node.setWordOffsetRecordList(wordOffsetList);
+		this.nodeFile.updateRecord(node);
+		
+		int i=j++;
+		while(i<firstPart.length()){
+			wordOffsetList=new ArrayList<WordOffsetField>();
+			actualChar = firstPart.substring((int) i, (int) i + 1);
+			wordOffsetField=new WordOffsetField(i + 1, actualChar, false);
+			wordOffsetList.add(wordOffsetField);
+			TrieNode newNode=new TrieNode(wordOffsetList,this.getLastNodeNumber());
+			this.nodeFile.insertRecord(newNode);
+			incrementLastNodeNumber();
+			i++;
+		}
+		
+		
 
 	}
 
@@ -177,6 +216,10 @@ public class Trie implements File, RecordFactory<TrieNode> {
 		}
 
 		return node.getNodeNumber();
+	}
+	
+	private void incrementLastNodeNumber(){
+		this.lastNodeNumber++;
 	}
 
 	private void createDataFile(FileManager fileManager) throws IOException {

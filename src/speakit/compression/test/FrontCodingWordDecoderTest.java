@@ -4,13 +4,12 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.compression.FrontCodedWord;
 import speakit.compression.FrontCodingWordDecoder;
 
-@Ignore
+
 public class FrontCodingWordDecoderTest {
 
 	private FrontCodingWordDecoder decoder;
@@ -33,7 +32,8 @@ public class FrontCodingWordDecoderTest {
 		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 3, "azo")), "codazo");
 		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 3, "earse")), "codearse");
 		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 4, "ra")), "codera");
-		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 2, "don")), "cordon");
+		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 2, "rdon")), "cordon");
 		Assert.assertEquals(decoder.decode(new FrontCodedWord((short) 4, "ura")), "cordura");
+
 	}
 }

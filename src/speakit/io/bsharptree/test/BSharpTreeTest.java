@@ -10,6 +10,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.io.bsharptree.BSharpTree;
+import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
@@ -20,7 +21,13 @@ public class BSharpTreeTest {
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		this.sut = new BSharpTree<TestIndexRecord, StringField>(file);
+		this.sut = new BSharpTree<TestIndexRecord, StringField>(file){
+			@Override
+			public Record createRecord() { 
+				return new TestIndexRecord("", 0);
+			}
+			
+		};
 	}
 
 	@After

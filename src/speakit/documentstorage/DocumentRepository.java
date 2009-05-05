@@ -12,7 +12,7 @@ import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.OffsetRecordFile;
 
 //TODO implementar esta clase
-public class DocumentRepository implements File, RecordFactory<DocumentRecord> {
+public class DocumentRepository implements File, RecordFactory {
 	private OffsetRecordFile<DocumentRecord> recordFile;
 
 	@Override

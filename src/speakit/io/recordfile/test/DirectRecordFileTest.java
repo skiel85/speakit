@@ -23,7 +23,7 @@ public class DirectRecordFileTest {
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		this.sut = new DirectRecordFile<AudioIndexRecord, StringField>(this.file, new RecordFactory<AudioIndexRecord>() {
+		this.sut = new DirectRecordFile<AudioIndexRecord, StringField>(this.file, new RecordFactory() {
 			@Override
 			public AudioIndexRecord createRecord() {
 				return new AudioIndexRecord();

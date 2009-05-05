@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import speakit.dictionary.audiofile.WordNotFoundException;
+import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
@@ -13,7 +14,7 @@ import speakit.io.recordfile.SecuentialRecordFile;
  * Representa un archivo de registros de índice del archivo de registros de
  * audio.
  */
-public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
+public class AudioIndexFile implements RecordFactory {
 	private SecuentialRecordFile<AudioIndexRecord, StringField> recordFile;
 
 	/**
@@ -80,7 +81,7 @@ public class AudioIndexFile implements RecordFactory<AudioIndexRecord> {
 	 * RecordFactory.
 	 */
 	@Override
-	public AudioIndexRecord createRecord() {
+	public Record createRecord() {
 		return new AudioIndexRecord();
 	}
 }

@@ -21,7 +21,7 @@ public class VariableRecordDirectRecordFileTest {
 		@Before
 		public void setUp() throws Exception {
 			filemanager=new TestFileManager(this.getClass().getName()); 
-			this.sut = new DirectRecordFile<TestVariableRecord, IntegerField>(filemanager.openFile("DirectRecordFile.dat"), new RecordFactory<TestVariableRecord>() {
+			this.sut = new DirectRecordFile<TestVariableRecord, IntegerField>(filemanager.openFile("DirectRecordFile.dat"), new RecordFactory() {
 				@Override
 				public TestVariableRecord createRecord() {
 					return new TestVariableRecord(0,"");

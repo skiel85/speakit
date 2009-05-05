@@ -13,7 +13,7 @@ import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.RecordsListBlockInterpreter;
 
-public class RecordsListBlockInterpreterTest implements RecordFactory<TestVariableRecord> {
+public class RecordsListBlockInterpreterTest implements RecordFactory {
 	private static final TestVariableRecord	RECORD_1	= new TestVariableRecord(60, "altura máxima de 80 cm aproximadamente");
 	private static final TestVariableRecord	RECORD_2	= new TestVariableRecord(90, "alcanzando una longitud no mayor de 135 cm ");
 	private static final TestVariableRecord	RECORD_3	= new TestVariableRecord(30, "subespecies más pequeñas");

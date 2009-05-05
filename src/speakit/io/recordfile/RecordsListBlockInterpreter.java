@@ -25,7 +25,7 @@ import speakit.io.record.RecordSerializationException;
 public class RecordsListBlockInterpreter<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> {
 
 	private final Block				block;
-	private RecordFactory<RECTYPE>	recordFactory;
+	private RecordFactory	recordFactory;
 	private List<RECTYPE>			records;
 
 	/**
@@ -34,7 +34,7 @@ public class RecordsListBlockInterpreter<RECTYPE extends Record<KEYTYPE>, KEYTYP
 	 * @param recordFactory
 	 * @throws RecordSerializationException
 	 */
-	public RecordsListBlockInterpreter(Block block, RecordFactory<RECTYPE> recordFactory) throws RecordSerializationException {
+	public RecordsListBlockInterpreter(Block block, RecordFactory recordFactory) throws RecordSerializationException {
 		this.block = block;
 		this.recordFactory = recordFactory;
 		this.loadRecords();
@@ -123,7 +123,7 @@ public class RecordsListBlockInterpreter<RECTYPE extends Record<KEYTYPE>, KEYTYP
 		ByteArrayInputStream is = new ByteArrayInputStream(block.getContent());
 
 		while (is.available() > 0) {
-			RECTYPE each = this.recordFactory.createRecord();
+			RECTYPE each = (RECTYPE) this.recordFactory.createRecord();
 			each.deserialize(is);
 			records.add(each);
 		}

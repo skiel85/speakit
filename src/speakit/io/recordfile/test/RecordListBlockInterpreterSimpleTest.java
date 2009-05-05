@@ -12,7 +12,7 @@ import speakit.io.record.IntegerField;
 import speakit.io.record.RecordFactory;
 import speakit.io.recordfile.RecordsListBlockInterpreter;
 
-public class RecordListBlockInterpreterSimpleTest  implements RecordFactory<TestVariableRecord>  {
+public class RecordListBlockInterpreterSimpleTest  implements RecordFactory  {
 	private static final TestVariableRecord	RECORD_1	= new TestVariableRecord(60, "altura máxima de 80 cm aproximadamente");
 	private static final TestVariableRecord	RECORD_2	= new TestVariableRecord(111, "azureus");
 

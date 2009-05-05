@@ -11,7 +11,7 @@ import speakit.io.recordfile.OffsetRecordFile;
 /**
  * Representa un archivo de registros de audio.
  */
-public class AudioFile implements RecordFactory<AudioRecord> {
+public class AudioFile implements RecordFactory {
 	private OffsetRecordFile<AudioRecord> recordFile;
 
 	/**
@@ -22,7 +22,7 @@ public class AudioFile implements RecordFactory<AudioRecord> {
 	 * @throws IOException
 	 */
 	public AudioFile(File file) throws IOException {
-		this.recordFile = new OffsetRecordFile<AudioRecord>(file, this);
+		this.recordFile = new OffsetRecordFile(file, this);
 	}
 
 	/**

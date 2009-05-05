@@ -17,9 +17,9 @@ import speakit.io.record.RecordSerializationException;
 
 public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE> {
 	private BlockFile				blocksFile;
-	private RecordFactory<RECTYPE>	recordFactory;
+	private RecordFactory	recordFactory;
 
-	public DirectRecordFile(File file, RecordFactory<RECTYPE> recordFactory) {
+	public DirectRecordFile(File file, RecordFactory recordFactory) {
 		this.blocksFile = new LinkedBlockFile(file);
 		this.recordFactory = recordFactory;
 	}

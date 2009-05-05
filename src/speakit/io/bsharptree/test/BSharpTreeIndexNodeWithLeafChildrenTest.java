@@ -13,6 +13,7 @@ import speakit.io.bsharptree.BSharpTreeIndexNodeElement;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
+import speakit.test.TestFileManager;
 
 public class BSharpTreeIndexNodeWithLeafChildrenTest {
 	private BSharpTreeIndexNode sut;

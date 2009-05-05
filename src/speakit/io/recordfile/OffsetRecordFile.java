@@ -17,7 +17,7 @@ public class OffsetRecordFile<RECTYPE extends OffsetRecord> extends SecuentialRe
 	 * @param recordFactory
 	 * @throws IOException
 	 */
-	public OffsetRecordFile(File file, RecordFactory<RECTYPE> recordFactory) throws IOException {
+	public OffsetRecordFile(File file, RecordFactory recordFactory) throws IOException {
 		super(file, recordFactory);
 	}
 

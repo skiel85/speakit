@@ -6,6 +6,7 @@ import java.io.OutputStream;
 
 import speakit.io.record.Field;
 import speakit.io.record.Record;
+import speakit.io.record.RecordSerializationException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BSharpTreeLeafNodeElement extends Field implements BSharpTreeNodeElement {
@@ -31,8 +32,8 @@ public class BSharpTreeLeafNodeElement extends Field implements BSharpTreeNodeEl
 	}
 
 	@Override
-	public int getSerializationSize() {
-		throw new NotImplementedException();
+	public int getSerializationSize() throws RecordSerializationException, IOException {
+			return this.record.serialize().length;
 	}
 
 	public Record getRecord() {

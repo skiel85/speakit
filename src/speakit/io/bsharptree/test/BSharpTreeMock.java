@@ -26,7 +26,7 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 		this.nodes.put(node.getNodeNumber(), node);
 	}
 
-	public void registerNodesInMock(BSharpTreeLeafNode[] nodes) {
+	public void registerNodesInMock(BSharpTreeNode[] nodes) {
 		for (BSharpTreeNode node : nodes) {
 			this.registerNodeInMock(node);
 		}

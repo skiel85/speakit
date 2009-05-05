@@ -1,6 +1,7 @@
 package speakit.io.bsharptree.test;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import speakit.io.bsharptree.BSharpTreeIndexNode;
 import speakit.io.bsharptree.BSharpTreeIndexNodeElement;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
+import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
 public class BSharpTreeIndexNodeWithIndexChildrenTest {
@@ -142,6 +144,10 @@ public class BSharpTreeIndexNodeWithIndexChildrenTest {
 		this.sut.indexChild(this.indexNodes[0]);
 		this.sut.indexChild(this.indexNodes[1]);
 		this.sut.indexChild(this.indexNodes[2]);
+		
+		this.tree.registerNodeInMock(this.sut);
+		this.tree.registerNodesInMock(this.indexNodes);
+		this.tree.registerNodesInMock(this.leafNodes);
 	}
 
 	@After
@@ -160,16 +166,21 @@ public class BSharpTreeIndexNodeWithIndexChildrenTest {
 		Assert.assertEquals(4, element1.getRightChildNodeNumber());
 	}
 
-//	@Test
-//	public void testInsertInCorrectLeaf() throws RecordSerializationException, IOException {
-//		this.sut.indexChild(leafNodes[0]);
-//		this.sut.indexChild(leafNodes[1]);
-//		this.sut.indexChild(leafNodes[2]);
-//		this.sut.insertRecord(new TestIndexRecord("elefante", 99));
-//		TestIndexRecord retrievedRec = (TestIndexRecord) leafNodes[1].getRecord(new StringField("elefante"));
-//		Assert.assertEquals("elefante", retrievedRec.getKey().getString());
-//		Assert.assertEquals(99, retrievedRec.getBlockNumber());
-//	}
+	@Test
+	public void testInsertInCorrectLeaf1() throws RecordSerializationException, IOException {
+		this.sut.insertRecord(new TestIndexRecord("733", 88));
+		TestIndexRecord retrievedRec = (TestIndexRecord) leafNodes[8].getRecord(new StringField("733"));
+		Assert.assertEquals("733", retrievedRec.getKey().getString());
+		Assert.assertEquals(88, retrievedRec.getBlockNumber());
+	}
+	
+	@Test
+	public void testInsertInCorrectLeaf2() throws RecordSerializationException, IOException {
+		this.sut.insertRecord(new TestIndexRecord("055", 68));
+		TestIndexRecord retrievedRec = (TestIndexRecord) leafNodes[4].getRecord(new StringField("055"));
+		Assert.assertEquals("055", retrievedRec.getKey().getString());
+		Assert.assertEquals(68, retrievedRec.getBlockNumber());
+	}
 //
 //	@Test
 //	public void testInsertInCorrectLeafExtremeCase() throws RecordSerializationException, IOException {

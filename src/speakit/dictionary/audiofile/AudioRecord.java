@@ -51,5 +51,9 @@ public class AudioRecord extends OffsetRecord {
 	protected Field[] getFields() {
 		return new Field[] {this.audio}; 
 	}
-
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "AudioRecord{audio:"+this.audio.toString()+"}";
+	}
 }

@@ -51,4 +51,9 @@ public class Block extends Record<IntegerField> {
 		return this.blockNumber;
 	}
 
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "Block{blockNumber:"+this.blockNumber.toString()+",content:"+this.content.toString()+"}";
+	}
 }

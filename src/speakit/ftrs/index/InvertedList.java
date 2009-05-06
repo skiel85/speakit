@@ -111,6 +111,18 @@ public class InvertedList extends ArrayField<TermOcurrence>   {
 	protected TermOcurrence createField() {
 		return new TermOcurrence(0,0);
 	}
+	
+//	@Override
+//	protected String getStringRepresentation() {
+//		String result="InvertedList[" + this.size() + "]{";
+//		for (Field field : this) {
+//			result += "," + field.toString();	
+//		}
+//		result+="}";
+//		return result;		
+//	}
+	
+	
 
 //	public InvertedList clone() {
 //		TermOcurrence[] allItems = (TermOcurrence[]) items.toArray(new TermOcurrence[items.size()]);

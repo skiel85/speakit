@@ -50,5 +50,10 @@ public class IntegerField extends Field {
 			return (this.value < other.value) ? -1 : 1;
 		}
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "I"+this.value;
+	}
 
 }

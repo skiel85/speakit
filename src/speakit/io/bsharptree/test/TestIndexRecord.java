@@ -14,5 +14,10 @@ public class TestIndexRecord extends IndexRecord<StringField> {
 	public TestIndexRecord(String key, int block) {
 		this.key.setString(key);
 		this.setBlockNumber(block);
-	} 
+	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "TestIndexRecord{key:"+this.key.toString()+"}";
+	}
 }

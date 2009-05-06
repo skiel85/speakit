@@ -59,4 +59,9 @@ public class BSharpTreeIndexNodeRecord extends Record<IntegerField> {
 	public int getNodeNumber() {
 		return this.nodeNumber.getInteger();
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "B#IN{num:"+this.nodeNumber.toString()+",Lchild:"+this.leftChild.toString()+",elements:"+this.elements.toString()+"}";
+	}
 }

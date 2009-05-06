@@ -52,4 +52,9 @@ public class BSharpTreeLeafNodeElement extends Field implements BSharpTreeNodeEl
 	public Field getKey() {
 		return this.getKey();
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "(B#LE|"+ this.record.toString() +")";
+	}
 }

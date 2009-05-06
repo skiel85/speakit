@@ -51,4 +51,9 @@ public class BooleanField extends Field {
 		}
 	}
 
+	@Override
+	protected String getStringRepresentation() {
+		return this.value?"True":"False";
+	}
+
 }

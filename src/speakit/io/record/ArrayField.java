@@ -120,5 +120,17 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 		return accum;
 	}
 	
-	protected abstract FIELDTYPE createField();
+	protected abstract FIELDTYPE createField(); 
+	
+	@Override
+	protected String getStringRepresentation() {
+		String result="A[" + this.size.toString() + "]{";
+		int i=0;
+		for (Field field : this.values) {
+			result += (i!=0?",":"") + field.toString();
+			i++;
+		}
+		result+="}";
+		return result;		
+	}
 }

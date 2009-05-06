@@ -48,5 +48,10 @@ public class DocumentRecord extends OffsetRecord {
 	protected Field[] getFields() {
 		return new Field[] {this.text};
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "AudioRecord{id:"+this.getOffset()+",text:"+this.text.toString()+"}";
+	}
 
 }

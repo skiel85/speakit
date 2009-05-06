@@ -64,5 +64,10 @@ public class TrieNode extends Record<LongField> {
 	public LongField getKey() {
 		return this.nodeNumber;
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "TrieNode{nodeNumber:"+this.nodeNumber.toString()+",wordOffsetList:"+this.wordOffsetList.toString()+"}";
+	}
 
 }

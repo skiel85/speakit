@@ -1,8 +1,11 @@
 package speakit.ftrs.index;
 
+import java.io.InputStream;
+
 import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
 import speakit.io.record.Record;
+import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
 public class InvertedIndexRecord extends Record<StringField>{
@@ -99,5 +102,15 @@ public class InvertedIndexRecord extends Record<StringField>{
 	@Override
 	public StringField getKey() {
 		return this.term;
+	}
+	
+	@Override
+	public long deserialize(InputStream stream) throws RecordSerializationException {
+		return super.deserialize(stream);
+	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "InvertedIndexRecord{term:"+this.term.toString()+",documentsQty:"+this.documentsQty.toString()+",maxLocalFrecuency:"+this.maxLocalFrecuency.toString()+",invertedList:"+this.documents.toString()+"}";
 	}
 }

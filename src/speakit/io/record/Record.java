@@ -128,4 +128,24 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
 		this.deserialize(in);
 	}
+	
+	@Override
+	public String toString() {
+		String stringRepresention = this.getStringRepresentation();
+		int i=0;
+		if(stringRepresention.length()==0){
+			String res = "Record (" +this.getClass().getSimpleName() +"): {";
+			for (Field field : this.getFields()) {
+				res+= (i!=0?",":"") + field.toString();
+				i++;
+			}
+			res+= "}";
+			return res;
+		}else{
+			return stringRepresention;
+		}
+		
+	}
+
+	protected abstract String getStringRepresentation();
 }

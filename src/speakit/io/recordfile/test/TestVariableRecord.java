@@ -24,5 +24,10 @@ public class TestVariableRecord extends Record<IntegerField> {
 	public IntegerField getKey() {
 		return this.id;
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "TestVariableRecord{id:"+this.id.toString()+",text:"+this.text.toString()+"}";
+	}
 
 }

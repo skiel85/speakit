@@ -45,4 +45,9 @@ public class BSharpTreeIndexNodeElement extends CompositeField implements BSharp
 		return this.key.compareTo(((BSharpTreeIndexNodeElement)o).key);
 	}
 	
+	@Override
+	protected String getStringRepresentation() {
+		return "(B#IE|key:"+ this.key.toString()+",r child:"+this.rightChild+")";
+	}
+	
 }

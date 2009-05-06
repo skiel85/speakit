@@ -103,4 +103,9 @@ public class ByteArrayField extends Field {
 	private int min(int num1, int num2) {
 		return (num1 < num2) ? num1 : num2;
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "BYTES["+ this.getBytes().length +"]";
+	}
 }

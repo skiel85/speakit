@@ -33,5 +33,17 @@ public abstract class CompositeField extends Field {
 		}
 		return accum;
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		String result=this.getClass().getSimpleName() + "[" + getFields().length + "](";
+		int i=0;
+		for (Field field : getFields()) {
+			result += (i!=0?",":"") + field.toString();
+			i++;
+		}
+		result+=")";
+		return result;		
+	}
 
 }

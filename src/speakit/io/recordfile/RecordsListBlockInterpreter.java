@@ -58,7 +58,7 @@ public class RecordsListBlockInterpreter<RECTYPE extends Record<KEYTYPE>, KEYTYP
 
 	/**
 	 * Devuelve la posicion dentro de la lista de registros donde se encuentra
-	 * uno con la clave pasada como parámetro.
+	 * uno con la clave pasada como parámetro. Si no lo encuentra devuelve -1
 	 * 
 	 * @param record
 	 * @return
@@ -162,6 +162,18 @@ public class RecordsListBlockInterpreter<RECTYPE extends Record<KEYTYPE>, KEYTYP
 			each.serialize(os);
 		}
 		block.setContent(os.toByteArray());
+	}
+	
+	/**
+	 * Elimina un registro de la lista. Si el elemento a eliminar no estaba en la lista, devuelve false
+	 */
+	public boolean deleteRecord(RECTYPE record){
+		int recordPosition = this.findRecordPosition(record.getKey());
+		if(recordPosition>0){
+			this.records.remove(recordPosition);
+			return true;
+		}
+		return false;
 	}
 
 	private void sort() {

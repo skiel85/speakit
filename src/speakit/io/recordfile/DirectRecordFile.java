@@ -7,7 +7,7 @@ import java.util.Iterator;
 import speakit.io.blockfile.Block;
 import speakit.io.blockfile.BlockFile;
 import speakit.io.blockfile.BlockFileOverflowException;
-import speakit.io.blockfile.LinkedBlockFile;
+import speakit.io.blockfile.RemovableBlockFile;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
@@ -20,7 +20,8 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 	private RecordFactory	recordFactory;
 
 	public DirectRecordFile(File file, RecordFactory recordFactory) {
-		this.blocksFile = new LinkedBlockFile(file);
+		this.blocksFile = new RemovableBlockFile(file);
+//		this.blocksFile = new LinkedBlockFile(file);
 		this.recordFactory = recordFactory;
 	}
 
@@ -148,8 +149,27 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 		return false;
 	}
 
-	private void updateRecord(RECTYPE record, RecordsListBlockInterpreter<RECTYPE,KEYTYPE> block) throws RecordSerializationException, IOException {
-		block.updateRecord(record);
-		this.blocksFile.saveBlock(block.getBlock());
+	/**
+	 * Si el registro no entra en el mismo bloque, se elimina de allí y se vuelve a insertar. Si luego de actualizar el registro, este no entra en el bloque original, se lo reinserta en el archivo, de esta forma se alojará en algun nodo libre.
+	 * TODO si hubo cambio los indices deben reindexar el registro en el nuevo bloque!!
+	 *  
+	 * @param record
+	 * @param block
+	 * @return El número de bloque donde se aloja el registro. Si no hubo cambio de bloque devuelve -1. 
+	 * @throws RecordSerializationException
+	 * @throws IOException
+	 */
+	private long updateRecord(RECTYPE record, RecordsListBlockInterpreter<RECTYPE,KEYTYPE> recordBlock) throws RecordSerializationException, IOException {
+		recordBlock.updateRecord(record);
+		try{
+			Block block = recordBlock.getBlock();
+			this.blocksFile.saveBlock(block);
+			return -1;
+		}catch(BlockFileOverflowException ex){
+			recordBlock.deleteRecord(record);
+			Block block = recordBlock.getBlock();
+			this.blocksFile.saveBlock(block);
+			return this.insertRecord(record);
+		} 
 	}
 }

@@ -27,7 +27,7 @@ public class VariableRecordDirectRecordFileTest {
 					return new TestVariableRecord(0,"");
 				}
 			});
-			this.sut.create(30);
+			this.sut.create(300);
 			
 			blockNumber = this.sut.createBlock();
 			TestVariableRecord record1 = new TestVariableRecord(1,"w");

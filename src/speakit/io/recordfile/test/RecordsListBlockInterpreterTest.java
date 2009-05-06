@@ -70,6 +70,22 @@ public class RecordsListBlockInterpreterTest implements RecordFactory {
 		RecordsListBlockInterpreter<TestVariableRecord, IntegerField> sut = new RecordsListBlockInterpreter<TestVariableRecord, IntegerField>(savedBlock, this);
 		testContainsAllRecords(sut);
 	}
+	
+	@Test
+	public void testDeleteRecord() throws IOException {
+		boolean deleteRecord = interpreter.deleteRecord(RECORD_4);
+		Assert.assertEquals(true, deleteRecord);
+		assertContainsRecord(interpreter,RECORD_1);
+		assertContainsRecord(interpreter,RECORD_2);
+		assertContainsRecord(interpreter,RECORD_3);
+		assertContainsRecord(interpreter,RECORD_5);
+		assertContainsRecord(interpreter,RECORD_6);
+		int size = interpreter.getRecords().size();
+		Assert.assertEquals(5, size); 
+		Assert.assertEquals(false, interpreter.deleteRecord(RECORD_4));
+		
+	}
+	
 
 	/**
 	 * Prueba que la inserción es ordenada
@@ -82,13 +98,17 @@ public class RecordsListBlockInterpreterTest implements RecordFactory {
 		Assert.assertTrue("Deberian ser iguales pero dió " + newRecord.compareTo(retrievedRecord), newRecord.compareTo(retrievedRecord) == 0);
 	}
 	
+	public static void assertContainsRecord(RecordsListBlockInterpreter<TestVariableRecord, IntegerField> sut,TestVariableRecord record) throws RecordSerializationException, IOException{
+		Assert.assertTrue("No obtiene el record correcto", record.compareTo(sut.getRecord(record.getKey())) == 0);
+	}
+	
 	public static void testContainsAllRecords(RecordsListBlockInterpreter<TestVariableRecord, IntegerField> sut) throws RecordSerializationException, IOException{
-		Assert.assertTrue("No son iguales", RECORD_1.compareTo(sut.getRecord(RECORD_1.getKey())) == 0);
-		Assert.assertTrue("No son iguales", RECORD_2.compareTo(sut.getRecord(RECORD_2.getKey())) == 0);
-		Assert.assertTrue("No son iguales", RECORD_3.compareTo(sut.getRecord(RECORD_3.getKey())) == 0);
-		Assert.assertTrue("No son iguales", RECORD_4.compareTo(sut.getRecord(RECORD_4.getKey())) == 0);
-		Assert.assertTrue("No son iguales", RECORD_5.compareTo(sut.getRecord(RECORD_5.getKey())) == 0);
-		Assert.assertTrue("No son iguales", RECORD_6.compareTo(sut.getRecord(RECORD_6.getKey())) == 0);
+		assertContainsRecord(sut,RECORD_1);
+		assertContainsRecord(sut,RECORD_2);
+		assertContainsRecord(sut,RECORD_3);
+		assertContainsRecord(sut,RECORD_4);
+		assertContainsRecord(sut,RECORD_5);
+		assertContainsRecord(sut,RECORD_6);
 		int size = sut.getRecords().size();
 		Assert.assertEquals(6, size);
 	}

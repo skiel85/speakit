@@ -6,10 +6,9 @@ import java.util.List;
 import speakit.io.record.ArrayField;
 import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
-import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
 
-public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
+public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 	private final class ArrayFieldExtension extends ArrayField<BSharpTreeLeafNodeElement> {
 		RecordFactory recordFactory;
 		public ArrayFieldExtension(RecordFactory recordFactory) {
@@ -22,7 +21,6 @@ public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
 		}
 	}
 
-	private IntegerField nodeNumber = new IntegerField();
 	private ArrayField<BSharpTreeLeafNodeElement> elements ;
 	private IntegerField nextSecuenceNodeNumber = new IntegerField();
 
@@ -33,22 +31,9 @@ public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
 		elements= new ArrayFieldExtension(recordFactory);
 	}
 	
-	public int getNodeNumber() {
-		return this.nodeNumber.getInteger();
-	}
-	
-	public void setNodeNumber(int nodeNumber) {
-		this.nodeNumber.setInteger(nodeNumber);
-	}
-	
 	@Override
 	protected Field[] getFields() {
 		return new Field[] { this.elements, this.nextSecuenceNodeNumber };
-	}
-
-	@Override
-	public IntegerField getKey() {
-		return this.nodeNumber;
 	}
 
 	public List<BSharpTreeNodeElement> getElements() {
@@ -62,6 +47,12 @@ public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
 		return element;
 	}
 	
+	public BSharpTreeNodeElement extractFirstElement() {
+		BSharpTreeNodeElement element = this.elements.get(0);
+		this.elements.removeItem(0);
+		return element;
+	}
+	
 	public void insertElement(BSharpTreeNodeElement element) {
 		this.elements.addItem((BSharpTreeLeafNodeElement) element);
 		this.elements.sort();
@@ -69,6 +60,6 @@ public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
 	
 	@Override
 	protected String getStringRepresentation() {
-		return "B#LN{num:"+this.nodeNumber.toString()+",secuenceNext:"+this.nextSecuenceNodeNumber.toString()+",elements:"+this.elements.toString()+"}";
+		return "B#LN{num:"+this.getNodeNumber()+",secuenceNext:"+this.nextSecuenceNodeNumber.toString()+",elements:"+this.elements.toString()+"}";
 	}
 }

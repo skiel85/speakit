@@ -33,6 +33,7 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Record createRecord() {
 		return new TestIndexRecord("",0);

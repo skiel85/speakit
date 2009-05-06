@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import speakit.io.bsharptree.BSharpTreeIndexNode;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
+import speakit.io.record.RecordSerializationException;
 
 public class TestBSharpTree extends BSharpTreeMock {
 	private BSharpTreeIndexNode root;
@@ -137,7 +138,11 @@ public class TestBSharpTree extends BSharpTreeMock {
 		this.setRoot(root);
 	}
 	
-	
+	@Override
+	public long insertRecord(TestIndexRecord record) throws IOException, RecordSerializationException {
+		this.root.insertRecord(record);
+		return 0;
+	}
 
 	public TestIndexRecord[] getRecords() {
 		return this.records;

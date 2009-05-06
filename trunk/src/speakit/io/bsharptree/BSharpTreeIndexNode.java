@@ -25,12 +25,6 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	}
 
 	@Override
-	public boolean contains(Field key) throws IOException, RecordSerializationException {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
-	}
-
-	@Override
 	public Record getRecord(Field key) throws IOException, RecordSerializationException {
 		int nodeNumberWhereToSearch = this.getChildFor(key);
 		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToSearch,this);

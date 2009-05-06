@@ -39,8 +39,14 @@ public class BSharpTreeIndexNodeTest {
 		this.sut.insertElement(new BSharpTreeIndexNodeElement(new StringField("adios"), 3));
 		this.sut.insertElement(new BSharpTreeIndexNodeElement(new StringField("mundo"), 1));
 		this.sut.insertElement(new BSharpTreeIndexNodeElement(new StringField("cruel"), 2));
-		BSharpTreeIndexNodeElement retrievedElement = (BSharpTreeIndexNodeElement) this.sut.getElement(new StringField("mundo"));
-		Assert.assertEquals("mundo", ((StringField)retrievedElement.getKey()).getString());
-		Assert.assertEquals(1, retrievedElement.getRightChildNodeNumber());
+		BSharpTreeIndexNodeElement firstElement = (BSharpTreeIndexNodeElement) this.sut.getElements().get(0);
+		Assert.assertEquals("adios", ((StringField)firstElement.getKey()).getString());
+		Assert.assertEquals(3, firstElement.getRightChildNodeNumber());
+		BSharpTreeIndexNodeElement secondElement = (BSharpTreeIndexNodeElement) this.sut.getElements().get(1);
+		Assert.assertEquals("cruel", ((StringField)secondElement.getKey()).getString());
+		Assert.assertEquals(2, secondElement.getRightChildNodeNumber());
+		BSharpTreeIndexNodeElement thirdElement = (BSharpTreeIndexNodeElement) this.sut.getElements().get(2);
+		Assert.assertEquals("mundo", ((StringField)thirdElement.getKey()).getString());
+		Assert.assertEquals(1, thirdElement.getRightChildNodeNumber());
 	}
 }

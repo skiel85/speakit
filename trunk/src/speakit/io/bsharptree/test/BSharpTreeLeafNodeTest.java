@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import speakit.io.bsharptree.BSharpTree;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
+import speakit.io.bsharptree.BSharpTreeLeafNodeElement;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
@@ -44,9 +45,15 @@ public class BSharpTreeLeafNodeTest {
 		this.sut.insertRecord(new TestIndexRecord("adios", 3));
 		this.sut.insertRecord(new TestIndexRecord("mundo", 1));
 		this.sut.insertRecord(new TestIndexRecord("cruel", 2));
-		TestIndexRecord retrievedRec = (TestIndexRecord) this.sut.getRecord(new StringField("mundo"));
-		Assert.assertEquals("mundo", retrievedRec.getKey().getString());
-		Assert.assertEquals(1, retrievedRec.getBlockNumber());
+		BSharpTreeLeafNodeElement firstElement = (BSharpTreeLeafNodeElement) this.sut.getElements().get(0);
+		Assert.assertEquals("adios", ((StringField)firstElement.getKey()).getString());
+		Assert.assertEquals(3, ((TestIndexRecord)firstElement.getRecord()).getBlockNumber());
+		BSharpTreeLeafNodeElement secondElement = (BSharpTreeLeafNodeElement) this.sut.getElements().get(1);
+		Assert.assertEquals("cruel", ((StringField)secondElement.getKey()).getString());
+		Assert.assertEquals(2, ((TestIndexRecord)secondElement.getRecord()).getBlockNumber());
+		BSharpTreeLeafNodeElement thirdElement = (BSharpTreeLeafNodeElement) this.sut.getElements().get(2);
+		Assert.assertEquals("mundo", ((StringField)thirdElement.getKey()).getString());
+		Assert.assertEquals(1, ((TestIndexRecord)thirdElement.getRecord()).getBlockNumber());
 	}
 
 	@Test

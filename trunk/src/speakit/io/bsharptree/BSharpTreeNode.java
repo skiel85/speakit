@@ -64,11 +64,11 @@ public abstract class BSharpTreeNode {
 		return this.extractExcedent(false);
 	}
 
-	public void balanceRight(BSharpTreeLeafNode rightNode) throws RecordSerializationException, IOException {
+	public void balanceRight(BSharpTreeNode rightNode) throws RecordSerializationException, IOException {
 		rightNode.insertElements(this.extractUpperExcedent());
 	}
 
-	public void balanceLeft(BSharpTreeLeafNode leftNode) throws RecordSerializationException, IOException {
+	public void balanceLeft(BSharpTreeNode leftNode) throws RecordSerializationException, IOException {
 		leftNode.insertElements(this.extractLowerExcedent());
 	}
 

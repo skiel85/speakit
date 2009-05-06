@@ -85,7 +85,6 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 			element.setRightChild(newChild.getNodeNumber());
 			this.insertElement(element);
 		}
-
 	}
 
 	@Override
@@ -125,14 +124,40 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 
 	@Override
 	protected BSharpTreeNodeElement extractFirstElement() {
-		// TODO Auto-generated method stub
-		return null;
+		return record.extractFirstElement();
 	}
 
 	@Override
 	protected BSharpTreeNodeElement extractLastElement() {
-		// TODO Auto-generated method stub
-		return null;
+		return record.extractLastElement();
 	}
 
+	public boolean balanceChilds() throws IOException {
+		BSharpTreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+		Iterator<BSharpTreeNodeElement> elementIt = this.getElements().iterator();
+		while (elementIt.hasNext()) {
+			BSharpTreeIndexNodeElement indexElement = (BSharpTreeIndexNodeElement) elementIt.next();
+			BSharpTreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
+			lastNode.balanceRight(node);
+			lastNode = node;
+		}
+		return childrenAreInOverflow();
+	}
+
+	private boolean childrenAreInOverflow() throws RecordSerializationException, IOException {
+		BSharpTreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+		if (lastNode.isInOverflow()) {
+			return true;
+		} else {
+			Iterator<BSharpTreeNodeElement> elementIt = this.getElements().iterator();
+			while (elementIt.hasNext()) {
+				BSharpTreeIndexNodeElement indexElement = (BSharpTreeIndexNodeElement) elementIt.next();
+				BSharpTreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
+				if (node.isInOverflow()) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
 }

@@ -50,7 +50,7 @@ public class BSharpTreeLeafNodeElement extends Field implements BSharpTreeNodeEl
 
 	@Override
 	public Field getKey() {
-		return this.getKey();
+		return this.record.getKey();
 	}
 	
 	@Override

@@ -19,7 +19,9 @@ public abstract class BSharpTreeNode {
 
 	}
 
-	public abstract boolean contains(Field key) throws IOException, RecordSerializationException;
+	public boolean contains(Field key) throws IOException, RecordSerializationException{
+		return this.getRecord(key) != null;
+	}
 
 	public abstract Record getRecord(Field key) throws IOException, RecordSerializationException;
 

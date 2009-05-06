@@ -27,12 +27,6 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 		return this.record;
 	}
 
-	@Override
-	public boolean contains(Field key) throws IOException, RecordSerializationException {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
-	}
-
 	public BSharpTreeLeafNodeElement getElement(Field key) throws IOException, RecordSerializationException {
 		Iterator<BSharpTreeNodeElement> it = this.record.getElements().iterator();
 		while (it.hasNext()) {

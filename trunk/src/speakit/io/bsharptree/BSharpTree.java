@@ -85,7 +85,7 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 					leafs.add(new BSharpTreeLeafNode(this, 1));
 
 					leafs.get(0).insertElements((oldRoot.getElements()));
-					this.root.balance(leafs);
+					//this.root.balance(leafs);
 
 					newRoot.indexChild(leafs.get(0));
 					newRoot.indexChild(leafs.get(1));

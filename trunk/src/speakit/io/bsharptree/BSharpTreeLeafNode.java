@@ -13,7 +13,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @SuppressWarnings("unchecked")
 public class BSharpTreeLeafNode extends BSharpTreeNode {
-
 	private BSharpTreeLeafNodeRecord record;
 	private int size;
 
@@ -23,7 +22,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	}
 
 	@Override
-	protected Record getNodeRecord() {
+	protected BSharpTreeNodeRecord getNodeRecord() {
 		return this.record;
 	}
 
@@ -55,18 +54,12 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	}
 
 	@Override
-	public void balance(List<BSharpTreeNode> nodes) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
-	}
-
-	@Override
 	public List<BSharpTreeNodeElement> getElements() {
 		return this.record.getElements();
 	}
 
 	@Override
-	public void insertElements(List<BSharpTreeNodeElement> allRecords) {
+	public void insertElements(List<BSharpTreeNodeElement> elements) {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();
 	}
@@ -120,4 +113,17 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	public int getNodeNumber() {
 		return this.record.getNodeNumber();
 	}
+
+	@Override
+	protected BSharpTreeNodeElement extractFirstElement() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected BSharpTreeNodeElement extractLastElement() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

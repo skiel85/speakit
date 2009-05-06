@@ -12,7 +12,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @SuppressWarnings("unchecked")
 public class BSharpTreeIndexNode extends BSharpTreeNode {
 
-	private BSharpTreeIndexNodeRecord	record;
+	private BSharpTreeIndexNodeRecord record;
 
 	public BSharpTreeIndexNode(BSharpTree tree, int size) {
 		super(tree, size);
@@ -20,24 +20,24 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	}
 
 	@Override
-	protected Record getNodeRecord() {
+	protected BSharpTreeNodeRecord getNodeRecord() {
 		return this.record;
 	}
 
 	@Override
 	public Record getRecord(Field key) throws IOException, RecordSerializationException {
 		int nodeNumberWhereToSearch = this.getChildFor(key);
-		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToSearch,this);
+		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToSearch, this);
 		return nodeWhereToInsert.getRecord(key);
 	}
 
 	@Override
 	public void insertRecord(Record record) throws IOException, RecordSerializationException {
 		int nodeNumberWhereToInsert = this.getChildFor(record.getKey());
-		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert,this);
+		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert, this);
 		nodeWhereToInsert.insertRecord(record);
 	}
-	
+
 	private int getChildFor(Field key) {
 		int childForKey = this.record.getLeftChildNodeNumber();
 		Iterator<BSharpTreeIndexNodeElement> it = this.record.getElementsIterator();
@@ -51,7 +51,7 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 				found = true;
 			}
 		}
-		
+
 		return childForKey;
 	}
 
@@ -72,12 +72,6 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 
 	@Override
 	public int getLevel() {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public void balance(List<BSharpTreeNode> nodes) {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();
 	}
@@ -109,7 +103,7 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();
-	} 
+	}
 
 	public void setNodeNumber(int i) {
 		this.record.setNodeNumber(i);
@@ -127,6 +121,18 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	@Override
 	public int getNodeNumber() {
 		return this.record.getNodeNumber();
+	}
+
+	@Override
+	protected BSharpTreeNodeElement extractFirstElement() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected BSharpTreeNodeElement extractLastElement() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

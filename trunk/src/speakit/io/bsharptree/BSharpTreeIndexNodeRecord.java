@@ -7,10 +7,8 @@ import java.util.List;
 import speakit.io.record.ArrayField;
 import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
-import speakit.io.record.Record;
 
-public class BSharpTreeIndexNodeRecord extends Record<IntegerField> {
-	private IntegerField nodeNumber = new IntegerField();
+public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
 	private IntegerField leftChild = new IntegerField();
 	private ArrayField<BSharpTreeIndexNodeElement> elements = new ArrayField<BSharpTreeIndexNodeElement>() {
 		@Override
@@ -25,15 +23,10 @@ public class BSharpTreeIndexNodeRecord extends Record<IntegerField> {
 		return new Field[] { this.leftChild, this.elements, };
 	}
 
-	@Override
-	public IntegerField getKey() {
-		return this.nodeNumber;
-	}
-
 	public int getLeftChildNodeNumber() {
 		return this.leftChild.getInteger();
 	}
-	
+
 	public void setLeftChildNodeNumber(int nodeNumber) {
 		this.leftChild.setInteger(nodeNumber);
 	}
@@ -52,16 +45,28 @@ public class BSharpTreeIndexNodeRecord extends Record<IntegerField> {
 		this.elements.sort();
 	}
 
-	public void setNodeNumber(int i) {
-		this.nodeNumber.setInteger(i);
+	public void removeElement(int index) {
+		this.elements.removeItem(index);
 	}
 
-	public int getNodeNumber() {
-		return this.nodeNumber.getInteger();
+	public BSharpTreeNodeElement getElement(int index) {
+		return this.elements.get(index);
 	}
-	
+
 	@Override
 	protected String getStringRepresentation() {
-		return "B#IN{num:"+this.nodeNumber.toString()+",Lchild:"+this.leftChild.toString()+",elements:"+this.elements.toString()+"}";
+		return "B#IN{num:" + this.getNodeNumber() + ",Lchild:" + this.leftChild.toString() + ",elements:" + this.elements.toString() + "}";
+	}
+
+	public BSharpTreeNodeElement extractLastElement() {
+		BSharpTreeNodeElement element = this.elements.get(this.elements.size() - 1);
+		this.elements.removeItem(this.elements.size() - 1);
+		return element;
+	}
+
+	public BSharpTreeNodeElement extractFirstElement() {
+		BSharpTreeNodeElement element = this.elements.get(0);
+		this.elements.removeItem(0);
+		return element;
 	}
 }

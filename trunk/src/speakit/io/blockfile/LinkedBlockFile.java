@@ -5,6 +5,12 @@ import java.io.IOException;
 
 import speakit.io.record.RecordSerializationException;
 
+
+/**
+ * @Deprecated
+ * @see Momentaneamente fuera de servicio. Se recomienda usar RemovableBlockFile
+ */
+@Deprecated
 public class LinkedBlockFile extends RemovableBlockFile {
 
 	public LinkedBlockFile(File file) {
@@ -24,6 +30,8 @@ public class LinkedBlockFile extends RemovableBlockFile {
 			// TODO: aquí verificar que si tiene nextBlockNumber>0, esto querría
 			// decir que se guardó sin necesidad de bloques nuevos
 			// en ese caso habría que eliminar en cascada los bloques siguientes
+			
+			// TODO y marcar este bloque como que su siguiente es -1
 		} catch (BlockFileOverflowException ex) {
 			// Solo trabaja con bloques de tipo LinkedBytesBlock
 			LinkedBlock startBlock = new LinkedBlock(block.getBlockNumber());

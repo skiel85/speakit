@@ -17,14 +17,18 @@ public class ByteArrayField extends Field {
 	}
 
 	public byte[] getBytes() {
+		fixNull();
 		return this.value;
 	}
 
 	public void setBytes(byte[] value) {
-		if (value == null) {
+		this.value = value;
+		fixNull();
+	}
+
+	private void fixNull() {
+		if (this.value == null) {
 			this.value = new byte[] {};
-		} else {
-			this.value = value;
 		}
 	}
 
@@ -99,5 +103,4 @@ public class ByteArrayField extends Field {
 	private int min(int num1, int num2) {
 		return (num1 < num2) ? num1 : num2;
 	}
-
 }

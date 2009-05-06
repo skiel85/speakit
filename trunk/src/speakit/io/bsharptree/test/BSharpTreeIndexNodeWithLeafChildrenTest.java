@@ -13,7 +13,6 @@ import speakit.io.bsharptree.BSharpTreeIndexNodeElement;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
-import speakit.test.TestFileManager;
 
 public class BSharpTreeIndexNodeWithLeafChildrenTest {
 	private BSharpTreeIndexNode sut;
@@ -118,6 +117,17 @@ public class BSharpTreeIndexNodeWithLeafChildrenTest {
 		TestIndexRecord retrievedRec = (TestIndexRecord) nodes[0].getRecord(new StringField("AAA"));
 		Assert.assertEquals("AAA", retrievedRec.getKey().getString());
 		Assert.assertEquals(88, retrievedRec.getBlockNumber());
+	}
+	
+	@Test
+	public void testInsertAndRetrieve() throws RecordSerializationException, IOException {
+		this.sut.indexChild(nodes[0]);
+		this.sut.indexChild(nodes[1]);
+		this.sut.indexChild(nodes[2]);
+		this.sut.insertRecord(new TestIndexRecord("elefante", 1));
+		TestIndexRecord retrievedRec = (TestIndexRecord) this.sut.getRecord(new StringField("elefante"));
+		Assert.assertEquals("elefante", retrievedRec.getKey().getString());
+		Assert.assertEquals(1, retrievedRec.getBlockNumber());
 	}
 
 }

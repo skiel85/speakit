@@ -6,11 +6,9 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.io.bsharptree.BSharpTree;
-import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
@@ -21,13 +19,7 @@ public class BSharpTreeTest {
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		this.sut = new BSharpTree<TestIndexRecord, StringField>(file){
-			@Override
-			public Record createRecord() { 
-				return new TestIndexRecord("", 0);
-			}
-			
-		};
+		this.sut = new TestBSharpTree(this.file);
 	}
 
 	@After
@@ -36,7 +28,6 @@ public class BSharpTreeTest {
 	}
 
 	@Test
-	@Ignore
 	public void testInsertAndRetrieve() throws RecordSerializationException, IOException {
 		TestIndexRecord rec1 = new TestIndexRecord("hola", 1);
 		TestIndexRecord rec2 = new TestIndexRecord("mundo", 3);

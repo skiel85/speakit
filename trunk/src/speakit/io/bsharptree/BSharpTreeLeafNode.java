@@ -14,8 +14,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @SuppressWarnings("unchecked")
 public class BSharpTreeLeafNode extends BSharpTreeNode {
 
-	private BSharpTreeLeafNodeRecord	record; 
-	private int							size;
+	private BSharpTreeLeafNodeRecord record;
+	private int size;
 
 	public BSharpTreeLeafNode(BSharpTree tree, int size) {
 		super(tree, size);

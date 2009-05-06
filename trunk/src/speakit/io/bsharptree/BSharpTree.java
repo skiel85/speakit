@@ -185,8 +185,9 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	public int getRootNoteBlocksQty() {
 		return ROOT_NODE_BLOCKS_QTY;
 	}
-	
+
 	public BasicBlockFile getBlockFile() {
 		return this.blockFile;
 	}
+
 }

@@ -18,10 +18,8 @@ import speakit.test.TestFileManager;
 public class BSharpTreeLeafNodeTest {
 
 	private BSharpTreeLeafNode sut;
-	private TestBSharpTree	tree;
+	private TestBSharpTree tree;
 
-	
-	
 	@Before
 	public void setUp() throws Exception {
 		tree = new TestBSharpTree(new TestFileManager("").openFile("testTree.dat"));
@@ -63,7 +61,8 @@ public class BSharpTreeLeafNodeTest {
 	@Test
 	public void testOverflow() throws RecordSerializationException, IOException {
 		File file = File.createTempFile(this.getClass().getName(), ".dat");
-		BSharpTree<TestIndexRecord, StringField> tree = new BSharpTree<TestIndexRecord, StringField>(file){
+		BSharpTree<TestIndexRecord, StringField> tree = new BSharpTree<TestIndexRecord, StringField>(file) {
+			@SuppressWarnings("unchecked")
 			@Override
 			public Record createRecord() {
 				return new TestIndexRecord("", 0);

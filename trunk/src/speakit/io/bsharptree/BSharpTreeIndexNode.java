@@ -32,27 +32,33 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 
 	@Override
 	public Record getRecord(Field key) throws IOException, RecordSerializationException {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		int nodeNumberWhereToSearch = this.getChildFor(key);
+		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToSearch,this);
+		return nodeWhereToInsert.getRecord(key);
 	}
 
 	@Override
 	public void insertRecord(Record record) throws IOException, RecordSerializationException {
-		int nodeNumberWhereToInsert = this.record.getLeftChildNodeNumber();
+		int nodeNumberWhereToInsert = this.getChildFor(record.getKey());
+		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert,this);
+		nodeWhereToInsert.insertRecord(record);
+	}
+	
+	private int getChildFor(Field key) {
+		int childForKey = this.record.getLeftChildNodeNumber();
 		Iterator<BSharpTreeIndexNodeElement> it = this.record.getElementsIterator();
 
 		boolean found = false;
 		while (it.hasNext() && !found) {
 			BSharpTreeIndexNodeElement element = it.next();
-			if (record.compareToKey((Field) element.getKey()) > 0) {
-				nodeNumberWhereToInsert = element.getRightChildNodeNumber();
+			if (key.compareTo((Field) element.getKey()) > 0) {
+				childForKey = element.getRightChildNodeNumber();
 			} else {
 				found = true;
 			}
 		}
-
-		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert,this);
-		nodeWhereToInsert.insertRecord(record);
+		
+		return childForKey;
 	}
 
 	public void insertElement(BSharpTreeIndexNodeElement element) {

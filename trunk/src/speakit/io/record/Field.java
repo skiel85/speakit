@@ -100,4 +100,11 @@ public abstract class Field implements Comparable<Field> {
 		System.arraycopy(f2, 0, f, f1.length, f2.length);
 		return f;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getStringRepresentation();
+	}
+	
+	protected abstract String getStringRepresentation();
 }

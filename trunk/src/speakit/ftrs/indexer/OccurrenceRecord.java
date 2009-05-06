@@ -52,5 +52,10 @@ public class OccurrenceRecord extends Record<IntegerField>{
 	public IntegerField getKey() {
 		return term;
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "OccurrenceRecord{termid:"+this.term.toString()+",iddocument:"+this.document.toString()+"}";
+	}
 
 }

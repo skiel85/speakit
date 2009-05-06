@@ -50,4 +50,9 @@ public class LongField extends Field {
 			return (this.value < other.value) ? -1 : 1;
 		}
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "L"+this.value;
+	}
 }

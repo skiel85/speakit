@@ -40,6 +40,6 @@ public class InvertedIndexRecordTest {
 		InvertedIndexRecord deserialized = new InvertedIndexRecord();
 		deserialized.deserialize(record.serialize());
 
-		Assert.assertEquals(0, record.compareByTermImportance(deserialized));
+		Assert.assertEquals(0, record.toString().compareTo(deserialized.toString()));
 	}
 }

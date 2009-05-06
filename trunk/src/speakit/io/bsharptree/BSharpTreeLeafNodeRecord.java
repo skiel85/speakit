@@ -66,4 +66,9 @@ public class BSharpTreeLeafNodeRecord extends Record<IntegerField> {
 		this.elements.addItem((BSharpTreeLeafNodeElement) element);
 		this.elements.sort();
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "B#LN{num:"+this.nodeNumber.toString()+",secuenceNext:"+this.nextSecuenceNodeNumber.toString()+",elements:"+this.elements.toString()+"}";
+	}
 }

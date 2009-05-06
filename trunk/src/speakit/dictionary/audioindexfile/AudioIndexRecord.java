@@ -80,5 +80,10 @@ public class AudioIndexRecord extends Record<StringField> {
 	public StringField getKey() {
 		return this.word;
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "AudioIndexRecord{word:"+ this.word.toString() + ",offset:"+this.offset.toString()+"}";
+	}
 
 }

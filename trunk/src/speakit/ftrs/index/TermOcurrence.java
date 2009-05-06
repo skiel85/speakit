@@ -71,5 +71,10 @@ public class TermOcurrence extends CompositeField {
 	protected Field[] getFields() {
 		return new Field[]{this.documentId,this.localFrecuency};
 	}
+	
+	@Override
+	protected String getStringRepresentation() {
+		return "{doc:"+this.documentId.toString()+",frec:"+ this.localFrecuency.toString() +"}";
+	}
 
 }

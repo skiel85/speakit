@@ -1,10 +1,13 @@
 package speakit.io.record;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import speakit.io.ByteArrayConverter;
 
 public class StringField extends ByteArrayField {
 
-	private String value;
+	private String	value;
 
 	public StringField(String value) {
 		this.setString(value);
@@ -34,5 +37,16 @@ public class StringField extends ByteArrayField {
 	protected int compareToSameClass(Field o) {
 		StringField other = (StringField) o;
 		return this.getString().compareTo(other.getString());
+	}
+
+	@Override
+	public long deserialize(InputStream in) throws IOException {
+		long deserialize = super.deserialize(in);
+		return deserialize;
+	}
+
+	@Override
+	protected String getStringRepresentation() {
+		return "\"" +  this.value + "\"";
 	}
 }

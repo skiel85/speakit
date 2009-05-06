@@ -25,7 +25,18 @@ public class Occurrence implements Comparable<Occurrence> {
 
 	@Override
 	public int compareTo(Occurrence o) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (o == null)
+			return -1;
+		if (this.termId == o.termId) {
+			if (this.document == o.getDocument())
+				return 0;
+			return this.document < o.document ? -1 : 1;
+		} else {
+			return this.termId < o.termId ? -1 : 1;
+		}
+	}
+	@Override
+	public String toString() {
+		return "[Termino:" + this.termId + " Documento:" + this.document + "]";
 	}
 }

@@ -62,4 +62,13 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 	protected String getStringRepresentation() {
 		return "B#LN{num:"+this.getNodeNumber()+",secuenceNext:"+this.nextSecuenceNodeNumber.toString()+",elements:"+this.elements.toString()+"}";
 	}
+
+	public List<BSharpTreeNodeElement> extractAllElements() {
+		ArrayList<BSharpTreeNodeElement> elementList = new ArrayList<BSharpTreeNodeElement>();
+		for (BSharpTreeNodeElement element : this.elements) {
+			elementList.add(element);
+		}
+		this.elements.clear();
+		return elementList;
+	}
 }

@@ -5,11 +5,14 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+
 import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import speakit.ftrs.indexer.Occurrence;
 import speakit.ftrs.indexer.OccurrenceStorage;
 import speakit.ftrs.indexer.OccurrenceStorageImpl;

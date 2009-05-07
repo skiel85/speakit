@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import speakit.io.bsharptree.BSharpTreeIndexNode;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
-import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.record.RecordSerializationException;
 
 public class TestBSharpTree extends BSharpTreeMock {

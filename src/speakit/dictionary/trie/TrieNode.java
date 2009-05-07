@@ -46,6 +46,10 @@ public class TrieNode extends Record<LongField> {
 	public void setWordOffsetRecordList(List<WordOffsetField> wordOffsetList) {
 		this.wordOffsetList.setArray(wordOffsetList);
 	}
+	
+	public void clearWordOffsetRecordList(){
+		this.wordOffsetList.clear();
+	}
 
 	public long getNodeNumber() {
 		return this.nodeNumber.getLong();

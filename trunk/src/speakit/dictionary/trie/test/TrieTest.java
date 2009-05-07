@@ -36,12 +36,13 @@ public class TrieTest {
 		this.fileManager.destroyFiles();
 	}
 
-	@Ignore
+	
 	@Test
 	public void testAddWord() throws IOException, WordNotFoundException, RecordSerializationException {
-		this.trie.addWord("hola", 3);
+		this.trie.addWord("hola", 12150);
+		this.trie.addWord("hora", 12152);
 		Assert.assertTrue(this.trie.contains("hola"));
-		Assert.assertEquals(3, this.trie.getOffset("hola"));
+		Assert.assertEquals(12152, this.trie.getOffset("hora"));
 	}
 
 	@Ignore

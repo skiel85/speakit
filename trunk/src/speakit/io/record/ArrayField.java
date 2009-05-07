@@ -76,6 +76,7 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 	}
 
 	public void clear() {
+		this.size=new IntegerField(0);
 		this.values.clear();
 	}
 	

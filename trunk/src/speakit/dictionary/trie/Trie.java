@@ -147,8 +147,28 @@ public class Trie implements File, RecordFactory{
 	 * @throws RecordSerializationException
 	 **/
 	public long searchTrieNode(TrieNode node, String firstPart,String lastPart, int indexFirstPart) throws RecordSerializationException, IOException {
-
-		Iterator<WordOffsetField> nodeIterator = node.getWordOffsetList().iterator();
+		
+		Iterator<WordOffsetField> wordOffsetListIterator = node.getWordOffsetList().iterator();
+		boolean foundString=false;
+		long nodeFound=0;
+		
+		while(wordOffsetListIterator.hasNext() && !foundString){
+			WordOffsetField wordOffset = wordOffsetListIterator.next();
+			if (indexFirstPart<firstPart.length() && wordOffset.getWord().equals(firstPart.substring(indexFirstPart, indexFirstPart+1))){
+				foundString=true;
+				nodeFound=searchTrieNode(this.getNode(wordOffset.getNextRecord()), firstPart,lastPart, indexFirstPart+1);
+			} else{
+				if(!(indexFirstPart<firstPart.length()) && wordOffset.getWord().equals(lastPart) ){
+					foundString=true;
+					nodeFound=node.getNodeNumber();
+				}
+			}
+			
+			
+		}
+		
+		return nodeFound;
+		/*Iterator<WordOffsetField> nodeIterator = node.getWordOffsetList().iterator();
 		boolean foundString=false;
 		
 		
@@ -167,8 +187,10 @@ public class Trie implements File, RecordFactory{
 			}
 		}
 		
-		return node.getNodeNumber();
+		return node.getNodeNumber();*/
 	}
+	
+	
 	
 	private void incrementLastNodeNumber(){
 		this.lastNodeNumber++;
@@ -234,6 +256,7 @@ public class Trie implements File, RecordFactory{
 		WordOffsetField wordOffsetField=new WordOffsetField(this.getLastNodeNumber(), actualChar, false);
 		ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>) initialNode.getWordOffsetList();
 		wordOffsetList.add(wordOffsetField);
+		initialNode.clearWordOffsetRecordList();
 		initialNode.setWordOffsetRecordList(wordOffsetList);
 		this.nodeFile.updateRecord(initialNode);
 		i++;

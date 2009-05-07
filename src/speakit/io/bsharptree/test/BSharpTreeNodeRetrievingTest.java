@@ -43,7 +43,7 @@ public class BSharpTreeNodeRetrievingTest {
 		ArrayList<byte[]> rootSerializationParts = new ArrayList<byte[]>();
 		rootSerializationParts.add(blocksFile.read(0));
 		rootSerializationParts.add(blocksFile.read(1));
-		BSharpTreeLeafNodeRecord record = new BSharpTreeLeafNodeRecord(this.sut);
+		BSharpTreeLeafNodeRecord record = new BSharpTreeLeafNodeRecord(this.sut,new TestRecordEncoder());
 		record.deserializeFromParts(rootSerializationParts);
 	}
 

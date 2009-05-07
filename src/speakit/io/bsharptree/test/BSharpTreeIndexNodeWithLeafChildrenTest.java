@@ -11,6 +11,7 @@ import org.junit.Test;
 import speakit.io.bsharptree.BSharpTreeIndexNode;
 import speakit.io.bsharptree.BSharpTreeIndexNodeElement;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
+import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
@@ -20,6 +21,7 @@ public class BSharpTreeIndexNodeWithLeafChildrenTest {
 	private BSharpTreeLeafNode[] nodes;
 	private BSharpTreeMock tree;
 	private File file;
+	private RecordEncoder	encoder;
 
 	@Before
 	public void setUp() throws Exception {
@@ -28,13 +30,14 @@ public class BSharpTreeIndexNodeWithLeafChildrenTest {
 		
 		this.sut = new BSharpTreeIndexNode(this.tree, 2);
 		this.sut.setNodeNumber(0);
+		encoder=new TestRecordEncoder();
 
 		this.nodes = new BSharpTreeLeafNode[3];
-		nodes[0] = new BSharpTreeLeafNode(this.tree, 1);
+		nodes[0] = new BSharpTreeLeafNode(this.tree, 1, encoder);
 		nodes[0].setNodeNumber(2);
-		nodes[1] = new BSharpTreeLeafNode(this.tree, 1);
+		nodes[1] = new BSharpTreeLeafNode(this.tree, 1, encoder);
 		nodes[1].setNodeNumber(3);
-		nodes[2] = new BSharpTreeLeafNode(this.tree, 1);
+		nodes[2] = new BSharpTreeLeafNode(this.tree, 1, encoder);
 		nodes[2].setNodeNumber(4);
 		
 		this.tree.registerNodesInMock(nodes);

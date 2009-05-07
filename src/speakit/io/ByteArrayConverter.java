@@ -49,7 +49,8 @@ public class ByteArrayConverter {
 			return 0L;
 		}
 
-		return (long) (0xff & b[0]) << 56 | (long) (0xff & b[1]) << 48 | (long) (0xff & b[2]) << 40 | (long) (0xff & b[3]) << 32 | (long) (0xff & b[4]) << 24 | (long) (0xff & b[5]) << 16 | (long) (0xff & b[6]) << 8 | (long) (0xff & b[7]) << 0;
+		return (long) (0xff & b[0]) << 56 | (long) (0xff & b[1]) << 48 | (long) (0xff & b[2]) << 40 | (long) (0xff & b[3]) << 32 | (long) (0xff & b[4]) << 24
+				| (long) (0xff & b[5]) << 16 | (long) (0xff & b[6]) << 8 | (long) (0xff & b[7]) << 0;
 	}
 
 	/**
@@ -59,7 +60,17 @@ public class ByteArrayConverter {
 	 * @return
 	 */
 	public static byte[] toByteArray(int data) {
-		return new byte[] { (byte) ((data >> 24) & 0xff), (byte) ((data >> 16) & 0xff), (byte) ((data >> 8) & 0xff), (byte) ((data >> 0) & 0xff), };
+		return new byte[]{(byte) ((data >> 24) & 0xff), (byte) ((data >> 16) & 0xff), (byte) ((data >> 8) & 0xff), (byte) ((data >> 0) & 0xff),};
+	}
+
+	/**
+	 * Convierte un int en un array de bytes
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public static byte[] toByteArray(short data) {
+		return new byte[]{(byte) ((data >> 8) & 0xff), (byte) ((data >> 0) & 0xff),};
 	}
 
 	/**
@@ -69,7 +80,8 @@ public class ByteArrayConverter {
 	 * @return
 	 */
 	public static byte[] toByteArray(long data) {
-		return new byte[] { (byte) ((data >> 56) & 0xff), (byte) ((data >> 48) & 0xff), (byte) ((data >> 40) & 0xff), (byte) ((data >> 32) & 0xff), (byte) ((data >> 24) & 0xff), (byte) ((data >> 16) & 0xff), (byte) ((data >> 8) & 0xff), (byte) ((data >> 0) & 0xff), };
+		return new byte[]{(byte) ((data >> 56) & 0xff), (byte) ((data >> 48) & 0xff), (byte) ((data >> 40) & 0xff), (byte) ((data >> 32) & 0xff), (byte) ((data >> 24) & 0xff),
+				(byte) ((data >> 16) & 0xff), (byte) ((data >> 8) & 0xff), (byte) ((data >> 0) & 0xff),};
 	}
 
 	public static String toString(byte[] data) {
@@ -81,6 +93,15 @@ public class ByteArrayConverter {
 	}
 
 	public static byte[] toByteArray(boolean data) {
-		return new byte[] { (byte) ((data == true) ? 1 : 0) };
+		return new byte[]{(byte) ((data == true) ? 1 : 0)};
 	}
+
+	public static short toShort(byte[] b) {
+		if (b == null || b.length < 4) {
+			return 0;
+		}
+		return (short) ((0xff & (b[0])) << 8 | (0xff & (b[1])) << 0);
+
+	}
+
 }

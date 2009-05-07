@@ -5,13 +5,14 @@ import java.io.IOException;
 
 import speakit.io.bsharptree.BSharpTreeIndexNode;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
+import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.record.RecordSerializationException;
 
 public class TestBSharpTree extends BSharpTreeMock {
 	private BSharpTreeIndexNode root;
 	private TestIndexRecord[] records;
 	private BSharpTreeLeafNode[] leafNodes;
-	private BSharpTreeIndexNode[] indexNodes;
+	private BSharpTreeIndexNode[] indexNodes; 
 	
 	public TestBSharpTree(File file) throws IOException {
 		super(file);
@@ -33,23 +34,23 @@ public class TestBSharpTree extends BSharpTreeMock {
 		this.root.setNodeNumber(0);
 
 		this.leafNodes = new BSharpTreeLeafNode[9];
-		leafNodes[0] = new BSharpTreeLeafNode(this, 1);
+		leafNodes[0] = new BSharpTreeLeafNode(this, 1,encoder);
 		leafNodes[0].setNodeNumber(5);
-		leafNodes[1] = new BSharpTreeLeafNode(this, 1);
+		leafNodes[1] = new BSharpTreeLeafNode(this, 1,encoder);
 		leafNodes[1].setNodeNumber(6);
-		leafNodes[2] = new BSharpTreeLeafNode(this, 1);
+		leafNodes[2] = new BSharpTreeLeafNode(this, 1,encoder);
 		leafNodes[2].setNodeNumber(7);
-		leafNodes[3] = new BSharpTreeLeafNode(this, 1);
+		leafNodes[3] = new BSharpTreeLeafNode(this, 1,encoder);
 		leafNodes[3].setNodeNumber(8);
-		leafNodes[4] = new BSharpTreeLeafNode(this, 1);
+		leafNodes[4] = new BSharpTreeLeafNode(this, 1,encoder);
 		leafNodes[4].setNodeNumber(9);
-		leafNodes[5] = new BSharpTreeLeafNode(this, 1);
+		leafNodes[5] = new BSharpTreeLeafNode(this, 1,encoder);
 		leafNodes[5].setNodeNumber(10);
-		leafNodes[6] = new BSharpTreeLeafNode(this, 1);
+		leafNodes[6] = new BSharpTreeLeafNode(this, 1,encoder);
 		leafNodes[6].setNodeNumber(11);
-		leafNodes[7] = new BSharpTreeLeafNode(this, 1);
+		leafNodes[7] = new BSharpTreeLeafNode(this, 1,encoder);
 		leafNodes[7].setNodeNumber(12);
-		leafNodes[8] = new BSharpTreeLeafNode(this, 1);
+		leafNodes[8] = new BSharpTreeLeafNode(this, 1,encoder);
 		leafNodes[8].setNodeNumber(13);
 
 		this.records = new TestIndexRecord[27];

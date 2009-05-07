@@ -20,14 +20,15 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	/**
 	 * Indica la cantidad de bloques que ocupa la raiz
 	 */
-	protected static final int ROOT_NODE_BLOCKS_QTY = 2;
+	protected static final int	ROOT_NODE_BLOCKS_QTY	= 2;
 
-	protected BSharpTreeNode root;
-	protected BasicBlockFile blockFile;
-	private int blockSize;
-
-	public BSharpTree(File file) {
+	protected BSharpTreeNode	root;
+	protected BasicBlockFile	blockFile;
+	private int					blockSize;
+	protected RecordEncoder		encoder;
+	public BSharpTree(File file, RecordEncoder encoder) {
 		this.blockFile = new BasicBlockFileImpl(file);
+		this.encoder = encoder;
 	}
 
 	public void create(int nodeSize) throws IOException {
@@ -35,7 +36,7 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 		this.blockFile.create(nodeSize);
 		this.blockFile.appendBlock();
 		this.blockFile.appendBlock();
-		this.root = new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY);
+		this.root = new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY, encoder);
 		this.saveNode(this.root);
 		this.load();
 	}
@@ -80,12 +81,12 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 					BSharpTreeLeafNode oldRoot = (BSharpTreeLeafNode) this.root;
 					BSharpTreeIndexNode newRoot = new BSharpTreeIndexNode(this, 1);
 					ArrayList<BSharpTreeNode> leafs = new ArrayList<BSharpTreeNode>();
-					leafs.add(new BSharpTreeLeafNode(this, 1));
-					leafs.add(new BSharpTreeLeafNode(this, 1));
-					leafs.add(new BSharpTreeLeafNode(this, 1));
+					leafs.add(new BSharpTreeLeafNode(this, 1, encoder));
+					leafs.add(new BSharpTreeLeafNode(this, 1, encoder));
+					leafs.add(new BSharpTreeLeafNode(this, 1, encoder));
 
 					leafs.get(0).insertElements((oldRoot.getElements()));
-					//this.root.balance(leafs);
+					// this.root.balance(leafs);
 
 					newRoot.indexChild(leafs.get(0));
 					newRoot.indexChild(leafs.get(1));
@@ -146,7 +147,7 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 		int blockCount = this.blockFile.getBlockCount();
 		if (blockCount == ROOT_NODE_BLOCKS_QTY) {
 			// Es un nodo hoja
-			return new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY);
+			return new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY, encoder);
 		} else {
 			// nodo indice
 			return new BSharpTreeIndexNode(this, ROOT_NODE_BLOCKS_QTY);
@@ -158,7 +159,7 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	 */
 	private BSharpTreeNode createNonRootNode(int level) {
 		if (level == 0) {
-			return new BSharpTreeLeafNode(this, 1);
+			return new BSharpTreeLeafNode(this, 1, encoder);
 		} else if (level > 0) {
 			return new BSharpTreeIndexNode(this, 1);
 		}

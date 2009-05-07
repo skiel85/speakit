@@ -1,6 +1,5 @@
 package speakit.io.bsharptree.test;
 
-import speakit.io.record.CompressibleStringField;
 import speakit.io.record.IndexRecord;
 import speakit.io.record.StringField;
 

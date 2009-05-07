@@ -14,12 +14,12 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @SuppressWarnings("unchecked")
 public class BSharpTreeLeafNode extends BSharpTreeNode {
 	private BSharpTreeLeafNodeRecord record;
-	private RecordEncoder	encoder;
+	private RecordEncoder encoder;
 
 	public BSharpTreeLeafNode(BSharpTree tree, int size, RecordEncoder encoder) {
 		super(tree, size);
-		this.encoder=encoder;
-		this.record = new BSharpTreeLeafNodeRecord(tree,encoder);
+		this.encoder = encoder;
+		this.record = new BSharpTreeLeafNodeRecord(tree, encoder);
 	}
 
 	@Override
@@ -41,7 +41,11 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	@Override
 	public Record getRecord(Field key) throws IOException, RecordSerializationException {
 		BSharpTreeLeafNodeElement element = this.getElement(key);
-		return element.getRecord();
+		if (element != null) {
+			return element.getRecord();
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -71,7 +75,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 		Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();
 
 		// Extraigo todos los elementos que exceden a la capacidad mínima.
-		while (this.record.serialize().length > this.getMinimumCapacity()) {
+		while (!this.isInUnderflow()) {
 			stack.add(this.record.extractLastElement());
 		}
 
@@ -130,7 +134,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 
 	@Override
 	public BSharpTreeNode createSibling() {
-		return new BSharpTreeLeafNode(this.getTree(), this.getBlockQty(),this.encoder);
+		return new BSharpTreeLeafNode(this.getTree(), this.getBlockQty(), this.encoder);
 	}
 
 	@Override

@@ -41,7 +41,11 @@ public class TrieTest {
 	public void testAddWord() throws IOException, WordNotFoundException, RecordSerializationException {
 		this.trie.addWord("hola", 12150);
 		this.trie.addWord("hora", 12152);
-		Assert.assertTrue(this.trie.contains("hola"));
+		this.trie.addWord("horma", 1000);
+		this.trie.addWord("gatos", 15);
+		//Assert.assertTrue(this.trie.contains("hola"));
+		Assert.assertTrue(this.trie.contains("horma"));
+		Assert.assertTrue(this.trie.contains("gatos"));
 		Assert.assertEquals(12152, this.trie.getOffset("hora"));
 	}
 

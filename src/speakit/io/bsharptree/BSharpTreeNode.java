@@ -34,16 +34,13 @@ public abstract class BSharpTreeNode {
 		Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();
 
 		// Extraigo todos los elementos que exceden a la capacidad mínima.
-		while (this.getNodeRecord().serialize().length > this.getMaximumCapacity()) {
+		while (this.isInOverflow()) {
 			if (upper) {
 				stack.add(this.extractLastElement());
 			} else {
 				stack.add(this.extractFirstElement());
 			}
 		}
-
-		// Reinserto el último para estar por encima de la capacidad mínima.
-		this.getNodeRecord().insertElement(stack.pop());
 
 		// Creo una lista con los elementos extraidos.
 		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>();
@@ -57,11 +54,11 @@ public abstract class BSharpTreeNode {
 
 	
 	
-	private List<BSharpTreeNodeElement> extractUpperExcedent() throws RecordSerializationException, IOException {
+	public List<BSharpTreeNodeElement> extractUpperExcedent() throws RecordSerializationException, IOException {
 		return this.extractExcedent(true);
 	}
 
-	private List<BSharpTreeNodeElement> extractLowerExcedent() throws RecordSerializationException, IOException {
+	public List<BSharpTreeNodeElement> extractLowerExcedent() throws RecordSerializationException, IOException {
 		return this.extractExcedent(false);
 	}
 

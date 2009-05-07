@@ -80,7 +80,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 		}
 
 		// Reinserto el último para estar por encima de la capacidad mínima.
-		this.record.getElements().add(stack.pop());
+		this.record.insertElement(stack.pop());
 
 		// Creo una lista con los elementos extraidos.
 		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>();
@@ -122,14 +122,12 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 
 	@Override
 	protected BSharpTreeNodeElement extractFirstElement() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.record.extractFirstElement();
 	}
 
 	@Override
 	protected BSharpTreeNodeElement extractLastElement() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.record.extractLastElement();
 	}
 
 	@Override

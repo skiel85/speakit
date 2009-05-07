@@ -80,12 +80,58 @@ public class FrontCodingWordEncoderTest {
 		testEncode(encoder.encode("codera"), (short) 4, "ra");
 		testEncode(encoder.encode("cordon"), (short) 2, "rdon");
 		testEncode(encoder.encode("cordura"), (short) 4, "ura");
+	}
+	
+	@Test
+	public void testLargeText2() {
 
+		testEncode(encoder.encode("cuadrado"), (short) 0, "cuadrado");
+		testEncode(encoder.encode("cuadratura"), (short) 6, "tura");
+		testEncode(encoder.encode("cuaderno"), (short) 4, "erno");
+		testEncode(encoder.encode("codera"), (short) 1, "odera");
+		testEncode(encoder.encode("cereza"), (short) 1, "ereza");
+		testEncode(encoder.encode("arbol"), (short) 0, "arbol");
+		testEncode(encoder.encode("azul"), (short) 1, "zul");
+		testEncode(encoder.encode("arboldos"), (short) 1, "rboldos");
+	}
+	
+	@Test
+	public void testLargeText3() {
+
+		testEncode(encoder.encode("cuadradocuadrado"), (short) 0, "cuadradocuadrado");
+		testEncode(encoder.encode("pepepepecuadrado"), (short) 0, "pepepepecuadrado");
+	}
+	
+	@Test
+	public void testOneNullWord() {
+		testEncode(encoder.encode(""), (short) 0, "");
+		testEncode(encoder.encode("parabrisas"), (short) 0, "parabrisas");
+		testEncode(encoder.encode(""), (short) 0, "");
+		testEncode(encoder.encode("parabrisas"), (short) 0, "parabrisas");  
+	}
+	
+	@Test
+	public void testPrefixWords() { 
+		testEncode(encoder.encode(""), (short) 0, "");
+		testEncode(encoder.encode("parabrisas"), (short) 0, "parabrisas");
+		testEncode(encoder.encode("para"), (short) 4, ""); 
+		testEncode(encoder.encode("p"), (short) 1, "");
+		testEncode(encoder.encode("papelon"), (short) 1, "apelon");
+		testEncode(encoder.encode("papel"), (short) 5, "");
+		testEncode(encoder.encode("gato"), (short) 0, "gato");
+	}
+	
+	@Test
+	public void testSomeEqualWords() {  
+		testEncode(encoder.encode("arroz"), (short) 0, "arroz");
+		testEncode(encoder.encode("arroz"), (short) 5, ""); 
+		testEncode(encoder.encode("papelon"), (short) 0, "papelon");
+		testEncode(encoder.encode("arroz"), (short) 0, "arroz"); 
 	}
 
-	private void testEncode(FrontCodedWord wordencoded, short matchingChars, String end) {
-		Assert.assertEquals(wordencoded.getMatchingCharacters(), matchingChars);
-		Assert.assertEquals(wordencoded.getEndingCharacters(), end);
+	private void testEncode(FrontCodedWord wordencoded, short expectedMatchingCount, String expectedEnding) {
+		Assert.assertEquals(expectedEnding,wordencoded.getEndingCharacters());
+		Assert.assertEquals(expectedMatchingCount,wordencoded.getMatchingCharacters());
 	}
 
 }

@@ -1,6 +1,5 @@
 package speakit.compression;
 
-
 /**
  * Clase para codificar una palabra
  * 
@@ -8,9 +7,9 @@ package speakit.compression;
 
 public class FrontCodingWordEncoder {
 
-    private String lastWord = null; 
-    
-    /**
+	private String	lastWord	= null;
+
+	/**
 	 * Metodo que comprime una palabra.
 	 * 
 	 * @param string
@@ -18,77 +17,63 @@ public class FrontCodingWordEncoder {
 	 */
 	public FrontCodedWord encode(String string) {
 		FrontCodedWord encodedWord;
-		if(lastWord == null){
+		if (lastWord == null) {
 			lastWord = string;
-			encodedWord = new FrontCodedWord((short)0, string);
-		}else{
-			short matchingCharacters = compare (lastWord,string);
+			return new FrontCodedWord((short) 0, string);
+		} else {
+			short frontMatchingCharacters = calculateFrontMatchingCharacters(lastWord, string);
 			lastWord = string;
-			String endingCharacters = "";
-			char[] charsOfString = new char[string.length()];
-			charsOfString = string.toCharArray();
-			short position = matchingCharacters;
-			while(position < (short)string.length()){
-				endingCharacters = endingCharacters + charsOfString[position];
-				position++;
+			// String endingCharacters = "";
+			// char[] charsOfString = new char[string.length()];
+			// charsOfString = string.toCharArray();
+			// short position = frontMatchingCharacters;
+			// while(position < (short)string.length()){
+			// endingCharacters = endingCharacters + charsOfString[position];
+			// position++;
+			// }
+			// encodedWord = new
+			// FrontCodedWord(frontMatchingCharacters,endingCharacters);
+			String ending = "";
+			if(frontMatchingCharacters<string.length()){
+				ending=string.substring(frontMatchingCharacters);	
+			}else{
+				//Caso de que matchee toda la palabra dentro de la anterior
+				ending="";
 			}
-			encodedWord = new FrontCodedWord(matchingCharacters,endingCharacters);
+			return new FrontCodedWord(frontMatchingCharacters, ending);
+			// for (short i = frontMatchingCharacters-1; i <
+			// frontMatchingCharacters; i++) {
+			// if(string1.charAt(i)!=string2.charAt(i)){
+			// return i;
+			// }
+			// }
 		}
-		return encodedWord;
+		// throw new IllegalStateException("No se pudo frontcodear");
 	}
 
-	
-	
 	/**
-	 * Metodo para comparar cantidad de caracteres iguales en 2 strings
+	 * Compara la cantidad de caracteres iniciales que coinciden
 	 * 
 	 * @param string1
 	 * @param string2
-	 *            
+	 * 
 	 */
-	private short compare (String string1, String string2){
-		short equalsCharacters = 0;
-		int position = 0;
-		char[] charactersOfString1 = new char[string1.length()];
-		char[] charactersOfString2 = new char[string2.length()];
-		charactersOfString1 = string1.toCharArray();
-		charactersOfString2 = string2.toCharArray();
-		if(string1.length()<string2.length()){
-			while(position<string1.length()){
-				if(charactersOfString1[position] == charactersOfString2[position]){
-					equalsCharacters++;
-					position++;
-					
-				}else{
-					position++;
-				}
+	private short calculateFrontMatchingCharacters(String string1, String string2) {
+		short shorterArrayLenght = min((short) string1.length(), (short) string2.length());
+		for (short i = 0; i < shorterArrayLenght; i++) {
+			if (string1.charAt(i) != string2.charAt(i)) {
+				return i;
 			}
-		}else{
-			if(string2.length()<string1.length()){
-				while(position<string2.length()){
-					if(charactersOfString1[position] == charactersOfString2[position]){
-						equalsCharacters++;
-						position++;
-						
-					}else{
-						position++;
-					}
-				}
-			}else{
-				while(position<string1.length()){
-					if(charactersOfString1[position] == charactersOfString2[position]){
-						equalsCharacters++;
-						position++;
-					
-					}else{
-						position++;
-					}
-				}
-			}
-			
 		}
-		
-		return equalsCharacters;
+		return shorterArrayLenght;
 	}
-	 
+
+	private short min(short x, short y) {
+		if (x < y) {
+			return x;
+		} else {
+			return y;
+		}
+	}
+
 }

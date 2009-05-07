@@ -97,7 +97,7 @@ public class ByteArrayConverter {
 	}
 
 	public static short toShort(byte[] b) {
-		if (b == null || b.length < 4) {
+		if (b == null || b.length < 2) {
 			return 0;
 		}
 		return (short) ((0xff & (b[0])) << 8 | (0xff & (b[1])) << 0);

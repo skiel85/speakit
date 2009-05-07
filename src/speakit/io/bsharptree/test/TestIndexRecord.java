@@ -1,29 +1,45 @@
 package speakit.io.bsharptree.test;
 
-import speakit.io.record.IndexRecord;
-import speakit.io.record.StringField;
+import speakit.ftrs.index.InvertedIndexIndexRecord;
+import speakit.io.record.Record;
+import speakit.io.record.RecordFactory;
 
-public class TestIndexRecord extends IndexRecord<StringField>  {
-	private StringField key = new StringField();
+public class TestIndexRecord extends InvertedIndexIndexRecord  {
 
-	@Override
-	public StringField getKey() {
-		return this.key;
-	}
-
-	public TestIndexRecord(String key, int block) {
-		this.key.setString(key);
-		this.setBlockNumber(block);
+	public TestIndexRecord(String key, int blockNumber) {
+		super(key,blockNumber);
 	}
 	
-	public TestIndexRecord() {
-		this("",0);
-	}
+	public static RecordFactory createFactory(){
+		return new RecordFactory(){
 
-	@Override
-	protected String getStringRepresentation() {
-		return "TestIndexRecord{key:"+this.key.toString()+"}";
+			@Override
+			public Record createRecord() {
+				return new TestIndexRecord("",0);
+			}
+			
+		};
 	}
+//	private StringField key = new StringField();
+//
+//	@Override
+//	public StringField getKey() {
+//		return this.key;
+//	}
+//
+//	public TestIndexRecord(String key, int block) {
+//		this.key.setString(key);
+//		this.setBlockNumber(block);
+//	}
+//	
+//	public TestIndexRecord() {
+//		this("",0);
+//	}
+//
+//	@Override
+//	protected String getStringRepresentation() {
+//		return "TestIndexRecord{key:"+this.key.toString()+"}";
+//	}
  
 //	public long deserialize(InputStream in, FrontCodingWordDecoder decoder) throws IOException {
 //		return key.deserialize(in, decoder)+this.block.deserialize(in);

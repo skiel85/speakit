@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.bsharptree.BSharpTree;
 import speakit.io.bsharptree.BSharpTreeNode;
 import speakit.io.record.Record;
@@ -14,7 +15,7 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 	private HashMap<Integer, BSharpTreeNode> nodes;
 
 	public BSharpTreeMock(File file) {
-		super(file,new TestRecordEncoder());
+		super(file,new InvertedIndexIndexRecordEncoder());
 		this.nodes = new HashMap<Integer, BSharpTreeNode>();
 	} 
 	

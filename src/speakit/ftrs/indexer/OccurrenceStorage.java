@@ -17,4 +17,5 @@ public interface OccurrenceStorage {
 	 * @return ArrayList<Appearance>
 	 */
 	public ArrayList<Occurrence> getApearanceListFor(int termId);
+
 }

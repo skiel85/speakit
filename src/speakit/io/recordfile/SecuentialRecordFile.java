@@ -150,5 +150,10 @@ public class SecuentialRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE exten
 			return null;
 		}
 	}
-
+	
+	public void close() throws IOException{
+		this.inputStream.close();
+		this.outputStream.close();
+		this.randomAccessFile.close();
+	}
 }

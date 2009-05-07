@@ -49,6 +49,7 @@ public class OccurrenceStorageTest {
 
 	private int addOccurrences() {
 		//Inserto ocurrencias desordenadas, los valors son termino; documento
+		//El resultado deberia ser: (1,1) (1,2) (1,2) (1,3) (1,3) (1,4) (2,1) (2,1) (2,4) (3,1) (3,5) (3,5) (4,20) (4,4 (5,3)
 			storage.addOccurrence(new Occurrence(1, 1));
 			storage.addOccurrence(new Occurrence(2, 1));
 			storage.addOccurrence(new Occurrence(3, 1));
@@ -85,6 +86,7 @@ public class OccurrenceStorageTest {
 			if (list.get(i).compareTo(originalList.get(i)) != 0)
 				fail("En la posicion " + i + " del listado original aparece " + originalList.get(i).toString() + " mientras q en el reordenado aparece: " + list.get(i).toString());
 		}
+		System.out.println(list.toString());
 	}
 
 }

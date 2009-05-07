@@ -11,6 +11,7 @@ import org.junit.Test;
 import speakit.io.bsharptree.BSharpTree;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
 import speakit.io.bsharptree.BSharpTreeLeafNodeElement;
+import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
@@ -20,11 +21,13 @@ public class BSharpTreeLeafNodeTest {
 
 	private BSharpTreeLeafNode sut;
 	private TestBSharpTree tree;
+	private RecordEncoder	encoder;
 
 	@Before
 	public void setUp() throws Exception {
 		tree = new TestBSharpTree(new TestFileManager("").openFile("testTree.dat"));
-		this.sut = new BSharpTreeLeafNode(tree, 1);
+		encoder=new TestRecordEncoder();
+		this.sut = new BSharpTreeLeafNode(tree, 1, encoder);
 	}
 
 	@After
@@ -68,7 +71,7 @@ public class BSharpTreeLeafNodeTest {
 	@Test
 	public void testOverflow() throws RecordSerializationException, IOException {
 		File file = File.createTempFile(this.getClass().getName(), ".dat");
-		BSharpTree<TestIndexRecord, StringField> tree = new BSharpTree<TestIndexRecord, StringField>(file) {
+		BSharpTree<TestIndexRecord, StringField> tree = new BSharpTree<TestIndexRecord, StringField>(file,new TestRecordEncoder()) {
 			@SuppressWarnings("unchecked")
 			@Override
 			public Record createRecord() {
@@ -76,11 +79,12 @@ public class BSharpTreeLeafNodeTest {
 			}
 		};
 		tree.create(25);
-		this.sut = new BSharpTreeLeafNode(tree, 1);
+		this.sut = new BSharpTreeLeafNode(tree, 1,encoder);
 		Assert.assertFalse(this.sut.isInOverflow());
 		this.sut.insertRecord(new TestIndexRecord("hola", 2));
 		Assert.assertFalse(this.sut.isInOverflow());
 		this.sut.insertRecord(new TestIndexRecord("supercalifragilisticoespialidoso", 2));
+		this.sut.insertRecord(new TestIndexRecord("aaa_supercalifragilisticoespialidoso", 3));
 		Assert.assertTrue(this.sut.isInOverflow());
 		file.delete();
 	}

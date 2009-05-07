@@ -3,13 +3,16 @@ package speakit.io.bsharptree;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
+ 
+import speakit.compression.FrontCodingWordDecoder;
+import speakit.compression.FrontCodingWordEncoder;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 
 public class BSharpTreeLeafNodeElement extends Field implements BSharpTreeNodeElement {
+	
 	private Record record;
 
 	public BSharpTreeLeafNodeElement(Record record) {
@@ -56,5 +59,5 @@ public class BSharpTreeLeafNodeElement extends Field implements BSharpTreeNodeEl
 	@Override
 	protected String getStringRepresentation() {
 		return "(B#LE|"+ this.record.toString() +")";
-	}
+	} 
 }

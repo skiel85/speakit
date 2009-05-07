@@ -14,7 +14,7 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 	private HashMap<Integer, BSharpTreeNode> nodes;
 
 	public BSharpTreeMock(File file) {
-		super(file);
+		super(file,new TestRecordEncoder());
 		this.nodes = new HashMap<Integer, BSharpTreeNode>();
 	} 
 	

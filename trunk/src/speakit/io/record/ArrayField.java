@@ -17,30 +17,28 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 //		return Field.JoinFields(new Field[] { this.size }, this.values.toArray(new Field[this.values.size()]));
 //	}
 
-	private void incrementSize() {
-		this.size.setInteger(this.size.getInteger() + 1);
-	}
-
-	private void decrementSize() {
-		this.size.setInteger(this.size.getInteger() - 1);
+ 
+	
+	private void updateSize(){
+		this.size.setInteger(this.values.size());
 	}
 
 	public void addItem(FIELDTYPE item) {
-		this.incrementSize();
 		this.values.add(item);
+		this.updateSize();
 	}
 
 	public void removeItem(int index) {
 		if (index < 0) {
 			throw new IndexOutOfBoundsException();
 		}
-		this.decrementSize();
 		this.values.remove(index);
+		this.updateSize();
 	}
 
 	public void removeItem(FIELDTYPE field) {
-		this.decrementSize();
 		this.values.remove(field);
+		this.updateSize();
 	}
 
 	public FIELDTYPE get(int index) {
@@ -51,7 +49,7 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 	}
 
 	public int size() {
-		return this.size.getInteger();
+		return this.values.size();
 	}
 
 	@Override
@@ -68,7 +66,7 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 	public List<FIELDTYPE> getArray() {
 		List<FIELDTYPE> result = new ArrayList<FIELDTYPE>();
 		if (this.values.size() > 0) {
-			for (int i = 0; i < this.size.getInteger(); i++) {
+			for (int i = 0; i < this.values.size(); i++) {
 				result.add((FIELDTYPE) this.values.get(i));
 			}
 		}
@@ -76,8 +74,8 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 	}
 
 	public void clear() {
-		this.size=new IntegerField(0);
 		this.values.clear();
+		this.updateSize();
 	}
 	
 	public void sort() {
@@ -89,17 +87,26 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 		this.size.deserialize(in);
 		for (int i = 0; i < size.getInteger(); i++) {
 			FIELDTYPE createdField = this.createField();
-			createdField.deserialize(in);
+			deserializeField(in, createdField);
 			this.values.add(createdField);
 		}
+	} 
+
+	private void deserializeField(InputStream in, FIELDTYPE createdField) throws IOException {
+		createdField.deserialize(in);
 	}
 
 	@Override
 	protected void actuallySerialize(OutputStream out) throws IOException {
+		this.updateSize();
 		this.size.serialize(out);
-		for (int i = 0; i < size.getInteger(); i++) {
-			this.values.get(i).serialize(out);
+		for (int i = 0; i < this.values.size(); i++) {
+			serializeField(out, i);
 		}
+	}
+
+	private long serializeField(OutputStream out, int i) throws IOException {
+		return this.values.get(i).serialize(out);
 	}
 
 	@Override

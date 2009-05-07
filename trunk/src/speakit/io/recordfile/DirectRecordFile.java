@@ -41,7 +41,6 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 
 	@Override
 	public RECTYPE getRecord(KEYTYPE key) throws IOException, RecordSerializationException {
-//		System.out.println(this.blocksFile.getFileSize());
 		RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block=this.findBlock(key);
 		if(block!=null){
 			return block.getRecord(key);

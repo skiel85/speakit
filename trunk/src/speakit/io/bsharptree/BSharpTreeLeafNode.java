@@ -14,10 +14,12 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @SuppressWarnings("unchecked")
 public class BSharpTreeLeafNode extends BSharpTreeNode {
 	private BSharpTreeLeafNodeRecord record;
+	private RecordEncoder	encoder;
 
-	public BSharpTreeLeafNode(BSharpTree tree, int size) {
+	public BSharpTreeLeafNode(BSharpTree tree, int size, RecordEncoder encoder) {
 		super(tree, size);
-		this.record = new BSharpTreeLeafNodeRecord(tree);
+		this.encoder=encoder;
+		this.record = new BSharpTreeLeafNodeRecord(tree,encoder);
 	}
 
 	@Override
@@ -38,7 +40,8 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 
 	@Override
 	public Record getRecord(Field key) throws IOException, RecordSerializationException {
-		return this.getElement(key).getRecord();
+		BSharpTreeLeafNodeElement element = this.getElement(key);
+		return element.getRecord();
 	}
 
 	@Override
@@ -127,7 +130,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 
 	@Override
 	public BSharpTreeNode createSibling() {
-		return new BSharpTreeLeafNode(this.getTree(), this.getSize());
+		return new BSharpTreeLeafNode(this.getTree(), this.getBlockQty(),this.encoder);
 	}
 
 	@Override

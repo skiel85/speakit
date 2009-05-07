@@ -138,7 +138,7 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 		while (elementIt.hasNext()) {
 			BSharpTreeIndexNodeElement indexElement = (BSharpTreeIndexNodeElement) elementIt.next();
 			BSharpTreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
-			lastNode.balanceRight(node);
+			lastNode.passMaximumCapacityExcedentToTheRight(node);
 			lastNode = node;
 		}
 		return childrenAreInOverflow();
@@ -160,4 +160,47 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 			return false;
 		}
 	}
+
+	private void splitChildsOf(int elementIndex) throws IOException {
+		BSharpTreeNode[] childs = this.getChildsOf(elementIndex);
+		BSharpTreeNode leftChild = childs[0];
+		BSharpTreeNode rightChild = childs[1];
+
+		this.record.removeElement(elementIndex);
+		
+		BSharpTreeNode middleChild = leftChild.createSibling();
+		leftChild.insertElements(rightChild.extractAllElements());
+		leftChild.passMinimumCapacityExcedentToTheRight(middleChild);
+		middleChild.passMinimumCapacityExcedentToTheRight(rightChild);
+		
+		this.indexChild(middleChild);
+		this.indexChild(rightChild);
+
+	}
+
+	private BSharpTreeNode[] getChildsOf(int elementIndex) throws IOException {
+		BSharpTreeNode leftChild;
+		if (elementIndex == 0) {
+			leftChild = this.getTree().getNode(this.record.getLeftChildNodeNumber(), this);
+		} else {
+			BSharpTreeIndexNodeElement leftElement = (BSharpTreeIndexNodeElement) this.getElements().get(elementIndex - 1);
+			leftChild = this.getTree().getNode(leftElement.getRightChildNodeNumber(), this);
+		}
+		BSharpTreeNode rightChild;
+		BSharpTreeIndexNodeElement element = (BSharpTreeIndexNodeElement) this.getElements().get(elementIndex);
+		rightChild = this.getTree().getNode(element.getRightChildNodeNumber(), this);
+
+		return new BSharpTreeNode[] { leftChild, rightChild };
+	}
+
+	@Override
+	public List<BSharpTreeNodeElement> extractAllElements() {
+		return this.record.extractAllElements();
+	}
+
+	@Override
+	public BSharpTreeNode createSibling() {
+		return new BSharpTreeIndexNode(this.getTree(), this.getSize());
+	}
+
 }

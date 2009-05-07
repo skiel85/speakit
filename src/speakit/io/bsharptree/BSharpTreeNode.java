@@ -18,7 +18,6 @@ public abstract class BSharpTreeNode {
 	public BSharpTreeNode(BSharpTree tree, int size) {
 		this.tree = tree;
 		this.size = size;
-
 	}
 
 	public boolean contains(Field key) throws IOException, RecordSerializationException {
@@ -56,6 +55,8 @@ public abstract class BSharpTreeNode {
 		return result;
 	}
 
+	
+	
 	private List<BSharpTreeNodeElement> extractUpperExcedent() throws RecordSerializationException, IOException {
 		return this.extractExcedent(true);
 	}
@@ -64,12 +65,16 @@ public abstract class BSharpTreeNode {
 		return this.extractExcedent(false);
 	}
 
-	public void balanceRight(BSharpTreeNode rightNode) throws RecordSerializationException, IOException {
+	public void passMaximumCapacityExcedentToTheRight(BSharpTreeNode rightNode) throws RecordSerializationException, IOException {
 		rightNode.insertElements(this.extractUpperExcedent());
 	}
 
-	public void balanceLeft(BSharpTreeNode leftNode) throws RecordSerializationException, IOException {
+	public void passMaximumCapacityExcedentToTheLeft(BSharpTreeNode leftNode) throws RecordSerializationException, IOException {
 		leftNode.insertElements(this.extractLowerExcedent());
+	}
+	
+	public void passMinimumCapacityExcedentToTheRight(BSharpTreeNode rightNode) throws RecordSerializationException, IOException {
+		rightNode.insertElements(this.extractMinimumCapacityExcedent());
 	}
 
 	protected abstract BSharpTreeNodeElement extractLastElement();
@@ -107,8 +112,16 @@ public abstract class BSharpTreeNode {
 	protected BSharpTree getTree() {
 		return this.tree;
 	}
+	
+	protected int getSize() {
+		return this.size;
+	}
 
 	public abstract int getNodeNumber();
 
 	public abstract Field getNodeKey();
+
+	public abstract List<BSharpTreeNodeElement> extractAllElements();
+	
+	public abstract BSharpTreeNode createSibling();
 }

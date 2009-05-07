@@ -69,4 +69,13 @@ public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
 		this.elements.removeItem(0);
 		return element;
 	}
+
+	public List<BSharpTreeNodeElement> extractAllElements() {
+		ArrayList<BSharpTreeNodeElement> elementList = new ArrayList<BSharpTreeNodeElement>();
+		for (BSharpTreeNodeElement element : this.elements) {
+			elementList.add(element);
+		}
+		this.elements.clear();
+		return elementList;
+	}
 }

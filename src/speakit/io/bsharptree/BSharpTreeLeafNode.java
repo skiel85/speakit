@@ -14,7 +14,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @SuppressWarnings("unchecked")
 public class BSharpTreeLeafNode extends BSharpTreeNode {
 	private BSharpTreeLeafNodeRecord record;
-	private int size;
 
 	public BSharpTreeLeafNode(BSharpTree tree, int size) {
 		super(tree, size);
@@ -124,6 +123,16 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	protected BSharpTreeNodeElement extractLastElement() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public BSharpTreeNode createSibling() {
+		return new BSharpTreeLeafNode(this.getTree(), this.getSize());
+	}
+
+	@Override
+	public List<BSharpTreeNodeElement> extractAllElements() {
+		return this.record.extractAllElements();
 	}
 
 }

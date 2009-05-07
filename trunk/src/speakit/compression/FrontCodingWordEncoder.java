@@ -22,17 +22,7 @@ public class FrontCodingWordEncoder {
 			return new FrontCodedWord((short) 0, string);
 		} else {
 			short frontMatchingCharacters = calculateFrontMatchingCharacters(lastWord, string);
-			lastWord = string;
-			// String endingCharacters = "";
-			// char[] charsOfString = new char[string.length()];
-			// charsOfString = string.toCharArray();
-			// short position = frontMatchingCharacters;
-			// while(position < (short)string.length()){
-			// endingCharacters = endingCharacters + charsOfString[position];
-			// position++;
-			// }
-			// encodedWord = new
-			// FrontCodedWord(frontMatchingCharacters,endingCharacters);
+			lastWord = string; 
 			String ending = "";
 			if(frontMatchingCharacters<string.length()){
 				ending=string.substring(frontMatchingCharacters);	
@@ -40,15 +30,8 @@ public class FrontCodingWordEncoder {
 				//Caso de que matchee toda la palabra dentro de la anterior
 				ending="";
 			}
-			return new FrontCodedWord(frontMatchingCharacters, ending);
-			// for (short i = frontMatchingCharacters-1; i <
-			// frontMatchingCharacters; i++) {
-			// if(string1.charAt(i)!=string2.charAt(i)){
-			// return i;
-			// }
-			// }
-		}
-		// throw new IllegalStateException("No se pudo frontcodear");
+			return new FrontCodedWord(frontMatchingCharacters, ending); 
+		} 
 	}
 
 	/**

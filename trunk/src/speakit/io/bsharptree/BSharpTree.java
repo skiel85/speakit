@@ -24,7 +24,6 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 
 	protected BSharpTreeNode	root;
 	protected BasicBlockFile	blockFile;
-	private int					blockSize;
 	protected RecordEncoder		encoder;
 	public BSharpTree(File file, RecordEncoder encoder) {
 		this.blockFile = new BasicBlockFileImpl(file);
@@ -32,7 +31,6 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	}
 
 	public void create(int nodeSize) throws IOException {
-		this.blockSize = nodeSize;
 		this.blockFile.create(nodeSize);
 		this.blockFile.appendBlock();
 		this.blockFile.appendBlock();
@@ -43,9 +41,9 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 
 	public void saveNode(BSharpTreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		Record nodeRecord = node.getNodeRecord();
-		List<byte[]> serializationParts = nodeRecord.serializeInParts(blockSize);
+		List<byte[]> serializationParts = nodeRecord.serializeInParts(this.getNodeSize());
 		if (serializationParts.size() > node.getBlockQty()) {
-			throw new BlockFileOverflowException(serializationParts.size() * blockSize, node.getBlockQty() * blockSize);
+			throw new BlockFileOverflowException(serializationParts.size() * this.getNodeSize(), node.getBlockQty() * this.getNodeSize());
 		}
 		for (int i = 0; i < serializationParts.size(); i++) {
 			byte[] part = serializationParts.get(i);
@@ -56,7 +54,6 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 
 	public void load() throws IOException {
 		this.blockFile.load();
-		this.blockSize = this.blockFile.getBlockSize();
 		this.root = this.getNode(0, null);
 	}
 

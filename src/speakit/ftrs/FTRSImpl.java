@@ -25,9 +25,10 @@ public class FTRSImpl implements FTRS {
 
 	@Override
 	public TextDocumentList search(TextDocument searchText) throws IOException {
-
+		TextDocument cleanSearch = this.applyFilters(searchText);
+		
 		RankedSearchEngine searchEngine = new RankedSearchEngine(this.index, 10, 0);
-		List<Long> documentIds = searchEngine.search(searchText);
+		List<Long> documentIds = searchEngine.search(cleanSearch);
 
 		TextDocumentList result = new TextDocumentList();
 		for (Long docId : documentIds) {
@@ -42,7 +43,13 @@ public class FTRSImpl implements FTRS {
 		return repository;
 	}
 
+	/**
+	 * Devuelve un documento con todas las palabras limpias y con los stop words eliminados
+	 * @param textDocument
+	 * @return
+	 */
 	private TextDocument applyFilters(TextDocument textDocument) {
+		
 		return textDocument;
 	}
 

@@ -3,6 +3,8 @@ package speakit.wordreader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import speakit.TextDocument;
+
 /**
  * Realiza una limpieza del texto, eliminando puntuación y espacios, para luego
  * poder obtener las palabras.
@@ -54,5 +56,9 @@ public class TextCleaner {
 	 */
 	public String[] getWords(String text) {
 		return this.cleanText(text).split(" ");
+	}
+
+	public TextDocument cleanDocument(TextDocument  document){
+		return null;
 	}
 }

@@ -39,7 +39,7 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 	}
 
 	private ArrayField<BSharpTreeLeafNodeElement> elements ;
-	private ArrayField<BSharpTreeLeafNodeElement> frontCodedRecords ;
+	private ArrayField<BSharpTreeLeafNodeElement> frontCodedElements ;
 	private IntegerField nextSecuenceNodeNumber = new IntegerField();
 	private final RecordEncoder	encoder;
 	
@@ -50,12 +50,12 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 			throw new IllegalArgumentException("La fabrica de registros es nula. Se debe suministrar una fabrica, o alguna clase que implemente RecordFactory.");
 		}
 		elements= new ArrayFieldExtension(recordFactory);
-		frontCodedRecords = new FrontCodedElementArrayField(encoder);		
+		frontCodedElements = new FrontCodedElementArrayField(encoder);		
 	}
 	
 	@Override
 	protected Field[] getFields() { 
-		return new Field[] { this.frontCodedRecords, this.nextSecuenceNodeNumber };
+		return new Field[] { this.frontCodedElements, this.nextSecuenceNodeNumber };
 	}
 
 	public List<BSharpTreeNodeElement> getElements() {
@@ -71,27 +71,30 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 	
 	@Override
 	public long serialize(OutputStream stream) throws RecordSerializationException {
-		this.frontCodedRecords.clear();
+		this.frontCodedElements.clear();
 		this.encoder.clear();
 		for (BSharpTreeLeafNodeElement element : this.elements) {
 			Record encodedRecord = this.encoder.encode(element.getRecord());
 			BSharpTreeLeafNodeElement encodedElement = new BSharpTreeLeafNodeElement(encodedRecord);
-			this.frontCodedRecords.addItem(encodedElement);
-		} 
-		return super.serialize(stream);
+			this.frontCodedElements.addItem(encodedElement);
+		}
+		long serializationResult = super.serialize(stream);		
+//		System.out.println("Serialización: " + this.toString());
+		return serializationResult;
 	}
 	
 	@Override
 	public long deserialize(InputStream stream) throws RecordSerializationException {
-		this.frontCodedRecords.clear();
+		this.frontCodedElements.clear();
 		long deserializationResult = super.deserialize(stream);
 		this.encoder.clear();
 		this.elements.clear();
-		for (BSharpTreeLeafNodeElement element : this.frontCodedRecords) {
+		for (BSharpTreeLeafNodeElement element : this.frontCodedElements) {
 			Record decodedRecord = this.encoder.decode(element.getRecord());
 			BSharpTreeLeafNodeElement decodedElement = new BSharpTreeLeafNodeElement(decodedRecord);
 			this.elements.addItem(decodedElement);
-		} 
+		}
+//		System.out.println("Deserialización: " + this.toString());
 		return deserializationResult;
 	} 
 	
@@ -108,7 +111,7 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 	
 	@Override
 	protected String getStringRepresentation() {
-		return "B#LN{num:"+this.getNodeNumber()+",secuenceNext:"+this.nextSecuenceNodeNumber.toString()+",elements:"+this.elements.toString()+"}";
+		return "B#LN{num:"+this.getNodeNumber()+",frontCodedElements:"+this.frontCodedElements.toString()+",secuenceNext:"+this.nextSecuenceNodeNumber.toString()+",elements:"+this.elements.toString()+"}";
 	}
 
 	public List<BSharpTreeNodeElement> extractAllElements() {

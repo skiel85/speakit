@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.blockfile.BasicBlockFile;
 import speakit.io.bsharptree.BSharpTreeLeafNodeRecord;
 import speakit.io.bsharptree.BSharpTreeNode;
@@ -43,7 +44,7 @@ public class BSharpTreeNodeRetrievingTest {
 		ArrayList<byte[]> rootSerializationParts = new ArrayList<byte[]>();
 		rootSerializationParts.add(blocksFile.read(0));
 		rootSerializationParts.add(blocksFile.read(1));
-		BSharpTreeLeafNodeRecord record = new BSharpTreeLeafNodeRecord(this.sut,new TestRecordEncoder());
+		BSharpTreeLeafNodeRecord record = new BSharpTreeLeafNodeRecord(this.sut,new InvertedIndexIndexRecordEncoder());
 		record.deserializeFromParts(rootSerializationParts);
 	}
 

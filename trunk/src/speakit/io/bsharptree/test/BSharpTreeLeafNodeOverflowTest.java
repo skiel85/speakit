@@ -11,11 +11,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.TextDocument;
+import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.bsharptree.BSharpTree;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
 import speakit.io.bsharptree.BSharpTreeNodeElement;
+import speakit.io.bsharptree.IdentityRecordEncoder;
 import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.record.Record;
+import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
@@ -33,14 +36,14 @@ public class BSharpTreeLeafNodeOverflowTest {
 	public void setUp() throws Exception {
 		this.testFileManager = new TestFileManager("");
 		this.file = this.testFileManager.openFile("testTree.dat");
-		this.tree = new BSharpTree<TestIndexRecord, StringField>(this.file, new TestRecordEncoder()) {
+		encoder = new IdentityRecordEncoder(TestIndexRecord.createFactory());
+		this.tree = new BSharpTree<TestIndexRecord, StringField>(this.file, encoder) {
 			@SuppressWarnings("unchecked")
 			@Override
 			public Record createRecord() {
 				return new TestIndexRecord("", 0);
 			}
-		};
-		this.encoder = new TestRecordEncoder();
+		}; 
 		this.sut = new BSharpTreeLeafNode(this.tree, 1, this.encoder);
 		this.testStrings = new TextDocument(
 				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia eleifend ante ut suscipit. Pellentesque porta urna sit amet leo egestas eu rhoncus dui faucibus. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris ut massa ante. Suspendisse potenti. Curabitur a nisi non mi viverra elementum id et magna. Mauris eu ipsum eu nulla posuere bibendum. Suspendisse et elit magna. Sed malesuada, turpis eget dapibus vestibulum, augue arcu hendrerit mi, sit amet scelerisque ipsum nulla ullamcorper ipsum. Integer aliquet, leo ac commodo malesuada, augue justo auctor elit, vel auctor nulla mi ac nulla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ac justo sit amet massa varius tempus eu at ipsum. Etiam semper nisl ac nulla molestie vestibulum. Nunc nec ante at nisl tempus placerat.")
@@ -102,10 +105,9 @@ public class BSharpTreeLeafNodeOverflowTest {
 		Assert.assertFalse("El registro no debería estar en el nodo.", this.sut.contains(new StringField("~ciclo")));
 
 		// Recordar que el excedente sale ordenado.
-		Assert.assertEquals(3, excedent.size());
-		Assert.assertEquals(new StringField("~512").getString(), ((StringField) excedent.get(0).getKey()).getString());
-		Assert.assertEquals(new StringField("~ciclo").getString(), ((StringField) excedent.get(1).getKey()).getString());
-		Assert.assertEquals(new StringField("~parte").getString(), ((StringField) excedent.get(2).getKey()).getString());
+		Assert.assertEquals(new StringField("~512").getString(), ((StringField) excedent.get(excedent.size() - 3).getKey()).getString());
+		Assert.assertEquals(new StringField("~ciclo").getString(), ((StringField) excedent.get(excedent.size() - 2).getKey()).getString());
+		Assert.assertEquals(new StringField("~parte").getString(), ((StringField) excedent.get(excedent.size() - 1).getKey()).getString());
 	}
 
 	@Test
@@ -134,7 +136,6 @@ public class BSharpTreeLeafNodeOverflowTest {
 		Assert.assertFalse("El registro no debería estar en el nodo.", this.sut.contains(new StringField("~ciclo")));
 
 		// Recordar que el excedente sale ordenado.
-		Assert.assertEquals(3.5, excedent.size(), 1);
 		Assert.assertEquals(new StringField("~512").getString(), ((StringField) excedent.get(excedent.size() - 3).getKey()).getString());
 		Assert.assertEquals(new StringField("~ciclo").getString(), ((StringField) excedent.get(excedent.size() - 2).getKey()).getString());
 		Assert.assertEquals(new StringField("~parte").getString(), ((StringField) excedent.get(excedent.size() - 1).getKey()).getString());

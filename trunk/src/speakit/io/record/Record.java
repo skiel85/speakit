@@ -118,13 +118,13 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 		return this.getKey().compareTo(key);
 	}
 
-	public byte[] serialize() throws IOException, RecordSerializationException {
+	public final byte[] serialize() throws IOException, RecordSerializationException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		this.serialize(out);
 		return out.toByteArray();
 	}
 
-	public void deserialize(byte[] data) throws IOException, RecordSerializationException {
+	public final void deserialize(byte[] data) throws IOException, RecordSerializationException {
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
 		this.deserialize(in);
 	}

@@ -1,5 +1,7 @@
 package speakit.io.record;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -58,6 +60,18 @@ public abstract class Field implements Comparable<Field> {
 	public long serialize(OutputStream out) throws IOException {
 		this.actuallySerialize(out);
 		return (long) this.getSerializationSize();
+	}
+	
+
+	public final byte[] serialize() throws IOException, RecordSerializationException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		this.serialize(out);
+		return out.toByteArray();
+	}
+	
+	public final void deserialize(byte[] data) throws IOException, RecordSerializationException {
+		ByteArrayInputStream in = new ByteArrayInputStream(data);
+		this.deserialize(in);
 	}
 
 	/**

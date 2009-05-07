@@ -81,7 +81,6 @@ public class OccurrencePartMerger implements RecordFactory{
 	}
 
 
-
 private class Buffer implements Comparable<Buffer> {
 	ArrayList<OccurrenceRecord> records;
 	SecuentialRecordFile<OccurrenceRecord, IntegerField> recordFile;
@@ -104,7 +103,12 @@ private class Buffer implements Comparable<Buffer> {
 		return record;
 	}
 	public void releaseFile() {
-		recordFile = null;
+		try {
+			recordFile.close();
+			recordFile = null;
+		} catch (IOException e) {
+			
+		}
 	}
 	
 	public boolean hasNext() {

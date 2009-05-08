@@ -26,27 +26,27 @@ public class TreeNodeTest {
 	}
 
 	@Test
-	public void testInsertAndRetrieveElement() throws RecordSerializationException, IOException {		
+	public void testInsertAndRetrieveElement() throws RecordSerializationException, IOException {
 		this.sut.insertElement(new TreeIndexNodeElement(new StringField("hola"), 1));
 		this.sut.insertElement(new TreeIndexNodeElement(new StringField("mundo"), 3));
 		TreeIndexNodeElement retrievedElement = (TreeIndexNodeElement) this.sut.getElement(new StringField("mundo"));
-		Assert.assertEquals("mundo", ((StringField)retrievedElement.getKey()).getString());
+		Assert.assertEquals("mundo", ((StringField) retrievedElement.getKey()).getString());
 		Assert.assertEquals(3, retrievedElement.getRightChildNodeNumber());
 	}
-	
+
 	@Test
 	public void testInsertsElementsOrdered() throws RecordSerializationException, IOException {
 		this.sut.insertElement(new TreeIndexNodeElement(new StringField("adios"), 3));
 		this.sut.insertElement(new TreeIndexNodeElement(new StringField("mundo"), 1));
 		this.sut.insertElement(new TreeIndexNodeElement(new StringField("cruel"), 2));
 		TreeIndexNodeElement firstElement = (TreeIndexNodeElement) this.sut.getElements().get(0);
-		Assert.assertEquals("adios", ((StringField)firstElement.getKey()).getString());
+		Assert.assertEquals("adios", ((StringField) firstElement.getKey()).getString());
 		Assert.assertEquals(3, firstElement.getRightChildNodeNumber());
 		TreeIndexNodeElement secondElement = (TreeIndexNodeElement) this.sut.getElements().get(1);
-		Assert.assertEquals("cruel", ((StringField)secondElement.getKey()).getString());
+		Assert.assertEquals("cruel", ((StringField) secondElement.getKey()).getString());
 		Assert.assertEquals(2, secondElement.getRightChildNodeNumber());
 		TreeIndexNodeElement thirdElement = (TreeIndexNodeElement) this.sut.getElements().get(2);
-		Assert.assertEquals("mundo", ((StringField)thirdElement.getKey()).getString());
+		Assert.assertEquals("mundo", ((StringField) thirdElement.getKey()).getString());
 		Assert.assertEquals(1, thirdElement.getRightChildNodeNumber());
 	}
 }

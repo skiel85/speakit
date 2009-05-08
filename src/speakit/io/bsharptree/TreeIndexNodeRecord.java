@@ -11,18 +11,18 @@ import speakit.io.record.IntegerField;
 public class TreeIndexNodeRecord extends TreeNodeRecord {
 	private IntegerField leftChild = new IntegerField();
 	private IntegerField level = new IntegerField();
-	
+
 	private ArrayField<TreeIndexNodeElement> elements = new ArrayField<TreeIndexNodeElement>() {
 		@Override
 		protected TreeIndexNodeElement createField() {
 			return new TreeIndexNodeElement();
 		}
 
-	}; 
+	};
 
 	@Override
 	protected Field[] getFields() {
-		return new Field[] { this.level,this.leftChild, this.elements };
+		return new Field[] { this.level, this.leftChild, this.elements };
 	}
 
 	public int getLeftChildNodeNumber() {
@@ -57,7 +57,7 @@ public class TreeIndexNodeRecord extends TreeNodeRecord {
 
 	@Override
 	protected String getStringRepresentation() {
-		return "IN "+ this.getNodeNumber() + ",LChild:" + this.leftChild.toString() + "," + this.elements.toString();
+		return "IN " + this.getNodeNumber() + ",LChild:" + this.leftChild.toString() + "," + this.elements.toString();
 	}
 
 	public TreeNodeElement extractLastElement() {
@@ -84,7 +84,7 @@ public class TreeIndexNodeRecord extends TreeNodeRecord {
 	public void setLevel(int level) {
 		this.level.setInteger(level);
 	}
- 
+
 	public int getLevel() {
 		return this.level.getInteger();
 	}

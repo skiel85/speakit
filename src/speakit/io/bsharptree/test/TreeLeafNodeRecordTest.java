@@ -17,13 +17,13 @@ import speakit.io.record.RecordSerializationException;
 
 @SuppressWarnings("unchecked")
 public class TreeLeafNodeRecordTest {
-	private TreeLeafNodeRecord	sut;
+	private TreeLeafNodeRecord sut;
 	private Tree tree;
 	private File file;
 
 	@Before
-	public void setUp() throws Exception { 
-		this.tree = new Tree(this.file, InvertedIndexIndexRecord.createRecordFactory() , new InvertedIndexIndexRecordEncoder());
+	public void setUp() throws Exception {
+		this.tree = new Tree(this.file, InvertedIndexIndexRecord.createRecordFactory(), new InvertedIndexIndexRecordEncoder());
 		this.sut = new TreeLeafNodeRecord(this.tree);
 		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuadrado", 1)));
 		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuadratura", 2)));
@@ -55,8 +55,8 @@ public class TreeLeafNodeRecordTest {
 		byte[] serialization = this.sut.serialize();
 		TreeLeafNodeRecord deserialized = new TreeLeafNodeRecord(this.tree);
 		deserialized.deserialize(serialization);
-//		System.out.println("sut: " + sut.toString());
-//		System.out.println("des: " + deserialized.toString());
+		// System.out.println("sut: " + sut.toString());
+		// System.out.println("des: " + deserialized.toString());
 		Assert.assertEquals(sut.toString(), deserialized.toString());
 	}
 }

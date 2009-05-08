@@ -5,20 +5,20 @@ import speakit.io.record.RecordFactory;
 
 /**
  * Null pattern
+ * 
  * @author Nahuel
- *
+ * 
  */
 public class DefaultRecordEncoder extends RecordEncoder {
 
-	
-	private final RecordFactory	recordFactory;
+	private final RecordFactory recordFactory;
 
-	public DefaultRecordEncoder(RecordFactory recordFactory){
-		this.recordFactory = recordFactory;		
+	public DefaultRecordEncoder(RecordFactory recordFactory) {
+		this.recordFactory = recordFactory;
 	}
-	
+
 	@Override
-	public void clear() { 
+	public void clear() {
 	}
 
 	@Override

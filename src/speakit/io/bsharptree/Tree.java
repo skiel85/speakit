@@ -20,13 +20,13 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	/**
 	 * Indica la cantidad de bloques que ocupa la raiz
 	 */
-	protected static final int	ROOT_NODE_BLOCKS_QTY	= 2;
+	protected static final int ROOT_NODE_BLOCKS_QTY = 2;
 
-	protected TreeNode	root;
-	protected BasicBlockFile	blockFile;
-	protected RecordEncoder		encoder;
+	protected TreeNode root;
+	protected BasicBlockFile blockFile;
+	protected RecordEncoder encoder;
 
-	private RecordFactory		recordFactory;
+	private RecordFactory recordFactory;
 
 	public Tree(File file, RecordFactory recordFactory) {
 		this(file, recordFactory, new DefaultRecordEncoder(recordFactory));
@@ -42,14 +42,13 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		return this.blockFile.appendBlock();
 	}
 
-
 	@Override
 	public boolean contains(KEYTYPE key) throws IOException, RecordSerializationException {
 		return this.root.contains(key);
 	}
 
 	public void create(int nodeSize) throws IOException {
-		this.blockFile.create(nodeSize); 
+		this.blockFile.create(nodeSize);
 		this.root = createRootNode(0);
 		this.saveNode(this.root, true);
 		this.load();
@@ -63,7 +62,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	}
 
 	public TreeNode createLeafNodeAndSave() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
-		TreeNode node =  new TreeLeafNode(this);
+		TreeNode node = new TreeLeafNode(this);
 		this.saveNode(node, true);
 		return node;
 	}
@@ -73,7 +72,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		return recordFactory.createRecord();
 	}
 
-	//Creacion y cargado de nodos
+	// Creacion y cargado de nodos
 	protected TreeNode createRootNode(int level) {
 		TreeNode node = null;
 		if (level == 0) {
@@ -84,7 +83,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		} else {
 			throw new IllegalArgumentException("Condicion Level>0, pero vino: " + level);
 		}
-		//la raiz siempre tiene numero de nodo 0
+		// la raiz siempre tiene numero de nodo 0
 		node.setNodeNumber(0);
 		return node;
 	}
@@ -110,19 +109,19 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	 * @throws IOException
 	 */
 	public TreeNode getNode(int nodeNumber, TreeNode parent) throws IOException {
-		if(nodeNumber==0){
+		if (nodeNumber == 0) {
 			return this.root;
-		}else{
+		} else {
 			TreeNode node;
 			if (parent.getLevel() == 0) {
-				node= new TreeLeafNode(this, 1);
+				node = new TreeLeafNode(this, 1);
 			} else if (parent.getLevel() > 0) {
-				node= new TreeIndexNode(this, 1);
-			}else{
+				node = new TreeIndexNode(this, 1);
+			} else {
 				throw new IllegalArgumentException("No se puede construir un nodo con level: " + parent.getLevel());
 			}
 			node.setNodeNumber(nodeNumber);
-			return deserializeNode(nodeNumber, node);	
+			return deserializeNode(nodeNumber, node);
 		}
 	}
 
@@ -135,7 +134,6 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		return (RECTYPE) this.root.getRecord(key);
 	}
 
-	
 	public TreeNode getRoot() {
 		return root;
 	}
@@ -143,9 +141,10 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	public int getRootNoteBlocksQty() {
 		return ROOT_NODE_BLOCKS_QTY;
 	}
-	
+
 	/**
 	 * Reserva el espacio necesario para el nodo y le asigna un numero
+	 * 
 	 * @param node
 	 * @throws IOException
 	 */
@@ -156,7 +155,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		}
 		node.setNodeNumber(blockNumber);
 	}
-	
+
 	@Override
 	public long insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
 		this.root.insertRecord(record);
@@ -168,7 +167,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 				TreeLeafNode oldRoot = (TreeLeafNode) this.root;
 				TreeIndexNode newRoot = (TreeIndexNode) this.createRootNode(oldRoot.getLevel() + 1);
 				this.root = newRoot;
-				
+
 				ArrayList<TreeNode> leafs = new ArrayList<TreeNode>();
 				leafs.add(this.createLeafNodeAndSave());
 				leafs.add(this.createLeafNodeAndSave());
@@ -180,8 +179,8 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 
 				newRoot.indexChild(leafs.get(0));
 				newRoot.indexChild(leafs.get(1));
-				newRoot.indexChild(leafs.get(2)); 
-				
+				newRoot.indexChild(leafs.get(2));
+
 				this.saveNode(leafs.get(0));
 				this.saveNode(leafs.get(1));
 				this.saveNode(leafs.get(2));
@@ -197,8 +196,8 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	}
 
 	/**
-	 * Carga el archivo
-	 * Carga el nodo raiz
+	 * Carga el archivo Carga el nodo raiz
+	 * 
 	 * @throws IOException
 	 */
 	public void load() throws IOException {
@@ -214,20 +213,20 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 				throw new RecordSerializationException("Archivo de B# Tree inválido.");
 			}
 		}
-		//la raiz siempre tiene numero de nodo 0
-		deserializeNode(0,this.root);
+		// la raiz siempre tiene numero de nodo 0
+		deserializeNode(0, this.root);
 	}
 
 	public void saveNode(TreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		saveNode(node, false);
 	}
-	
+
 	public void saveNode(TreeNode node, boolean create) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		if (create) {
 			initializeNodeInFile(node);
 		}
-		if(node.getLevel()==0 && node instanceof TreeIndexNode){
-			throw new RuntimeException("Un nodo indice no puede tener nivel 0. Nodo: "+node.toString());
+		if (node.getLevel() == 0 && node instanceof TreeIndexNode) {
+			throw new RuntimeException("Un nodo indice no puede tener nivel 0. Nodo: " + node.toString());
 		}
 		Record nodeRecord = node.getNodeRecord();
 		List<byte[]> serializationParts = nodeRecord.serializeInParts(this.getNodeSize());
@@ -244,11 +243,12 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	protected void setRoot(TreeNode root) {
 		this.root = root;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Tree:\n" + this.getRoot().toString();
-	} 
+	}
+
 	public RecordEncoder getEncoder() {
 		return this.encoder;
 	}

@@ -17,7 +17,7 @@ public class TreeLeafNode extends TreeNode {
 	public TreeLeafNode(Tree tree) {
 		this(tree, 1);
 	}
-	
+
 	public TreeLeafNode(Tree tree, int size) {
 		super(tree, size);
 		this.record = new TreeLeafNodeRecord(tree, size);
@@ -134,8 +134,8 @@ public class TreeLeafNode extends TreeNode {
 	}
 
 	@Override
-	public String toString() { 
+	public String toString() {
 		return record.toString();
-	}  
+	}
 
 }

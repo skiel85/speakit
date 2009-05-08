@@ -9,11 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
+import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.bsharptree.Tree;
 import speakit.io.bsharptree.TreeLeafNode;
 import speakit.io.bsharptree.TreeLeafNodeElement;
-import speakit.io.bsharptree.RecordEncoder;
-import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
@@ -28,10 +27,10 @@ public class TreeLeafNodeTest {
 
 	@Before
 	public void setUp() throws Exception {
-		encoder=new InvertedIndexIndexRecordEncoder(); 
+		encoder = new InvertedIndexIndexRecordEncoder();
 		this.testFileManager = new TestFileManager("");
 		this.file = this.testFileManager.openFile("testTree.dat");
-		this.tree = new TestBSharpTree(this.file); 
+		this.tree = new TestBSharpTree(this.file);
 		this.sut = new TreeLeafNode(this.tree);
 	}
 
@@ -77,7 +76,7 @@ public class TreeLeafNodeTest {
 	@Test
 	public void testOverflow() throws RecordSerializationException, IOException {
 		File file = File.createTempFile(this.getClass().getName(), ".dat");
-		Tree<TestIndexRecord, StringField> tree = new Tree<TestIndexRecord, StringField>(file,TestIndexRecord.createFactory(),new InvertedIndexIndexRecordEncoder());
+		Tree<TestIndexRecord, StringField> tree = new Tree<TestIndexRecord, StringField>(file, TestIndexRecord.createFactory(), new InvertedIndexIndexRecordEncoder());
 		tree.create(30);
 		this.sut = new TreeLeafNode(tree);
 		Assert.assertFalse(this.sut.isInOverflow());
@@ -88,6 +87,5 @@ public class TreeLeafNodeTest {
 		Assert.assertTrue(this.sut.isInOverflow());
 		file.delete();
 	}
-	
-	
+
 }

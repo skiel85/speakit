@@ -6,8 +6,11 @@ import speakit.io.record.RecordFactory;
 public abstract class RecordEncoder implements RecordFactory {
 
 	public abstract Record decode(Record record);
+
 	public abstract Record encode(Record record);
-	public abstract void clear(); 
+
+	public abstract void clear();
+
 	/**
 	 * Crea un registro para codificado
 	 */

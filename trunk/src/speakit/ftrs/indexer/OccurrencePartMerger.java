@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import speakit.FileManager;
 import speakit.io.record.IntegerField;
@@ -11,27 +12,105 @@ import speakit.io.record.RecordFactory;
 import speakit.io.recordfile.SecuentialRecordFile;
 
 public class OccurrencePartMerger implements RecordFactory{
-	private SecuentialRecordFile<OccurrenceRecord, IntegerField> outputFile;
 	private ArrayList<String> parts;
+	private ArrayList<String> mergeParts;
 	private ArrayList<Buffer> buffers;
-	private static int MAX_SIZE_PARTS = 10;
+	private static int MAX_SIZE_PARTS = 100;
 	private FileManager manager;
+	private Integer partNumber = 0;
+	private static String FINAL_MERGE_NAME = "mergedList.merge";
+	private static String PART_NAME = "mergePart";
+	private static String EXTENSION_NAME = ".mergePart";
 	
 	
-	public OccurrencePartMerger(SecuentialRecordFile<OccurrenceRecord, IntegerField> outputFile, ArrayList<String> sortedParts) {
+	public OccurrencePartMerger(ArrayList<String> sortedParts) throws IOException {
 		this.buffers = new ArrayList<Buffer>();
-		this.outputFile = outputFile;
 		this.parts = sortedParts;
+		mergeParts = new ArrayList<String>();
 		manager = new FileManager();
+		cleanFile(FINAL_MERGE_NAME);
 	}
 	
-	public void merge() {
-		loadBuffers(parts);
-		merge(parts);
-		freeBuffers(parts);
+	/*private void merge() throws IOException{
+		ArrayList<String> subPart = new ArrayList<String>();
+		for (int i = 0; i < parts.size(); i++) {			
+			subPart.add(parts.get(i));
+			if (subPart.size() == MAX_SIZE_PARTS) {
+				subMerge(subPart);
+				subPart.clear();
+			}
+		}
+		if (!subPart.isEmpty()) {
+			subMerge(subPart);
+		}
+		if (!mergeParts.isEmpty())
+			
+	}*/
+	
+	private void cleanFile(String fileName) throws IOException {
+		File file = new File(fileName);
+		if (file.exists())
+			if (!file.delete())
+				throw new IOException("No puede realizarle el merge, dado que el archivo temporal esta siendo consultado.");
+	}
+
+	public String merge() throws IOException {
+		/*if (parts.size() > MAX_SIZE_PARTS) {
+				mergeInParts(parts);
+		} else {
+			subMerge(parts, FINAL_MERGE_NAME);
+		}*/
+		subMerge(parts, FINAL_MERGE_NAME);
+		return FINAL_MERGE_NAME;
+	}
+
+	/*private void mergeInParts(ArrayList<String> partsToMerge) throws IOException {
+		ArrayList<String> subMergedParts = new ArrayList<String>();
+		for (int i = 0; i < partsToMerge.size() / MAX_SIZE_PARTS; i++) {
+			String tempName = getTempMergeFile();
+			subMerge(partsToMerge.subList(i * MAX_SIZE_PARTS, (i+1) * MAX_SIZE_PARTS), tempName);
+			subMergedParts.add(tempName);
+		}
+		int rest = partsToMerge.size() % MAX_SIZE_PARTS; 
+		if ( rest != 0) {
+			//tengo un resto de registros
+			String tempName = getTempMergeFile();
+			subMerge(partsToMerge.subList(partsToMerge.size() - rest, partsToMerge.size()), tempName);
+			subMergedParts.add(tempName);
+		}
+		subMerge(subMergedParts, FINAL_MERGE_NAME);
+	}*/
+	
+	private void mergeInParts(ArrayList<String> partsToMerge) throws IOException {
+		ArrayList<String> subMergedParts = new ArrayList<String>();
+		String tempName = getTempMergeFile();
+		subMerge(partsToMerge.subList(0, MAX_SIZE_PARTS), tempName);
+		subMergedParts.add(tempName);
+		
+		tempName = getTempMergeFile();
+		subMerge(partsToMerge.subList(MAX_SIZE_PARTS, 2 * MAX_SIZE_PARTS - 1), tempName);
+		subMergedParts.add(tempName);
+		
+		subMerge(subMergedParts, FINAL_MERGE_NAME);
 	}
 	
-	private void freeBuffers(ArrayList<String> subPart) {
+	private void subMerge(List<String> subPart, String outputName) throws IOException {
+		File partFile = new File(outputName);
+		SecuentialRecordFile<OccurrenceRecord, IntegerField> tempOutFile = new SecuentialRecordFile<OccurrenceRecord, IntegerField>(partFile, this);		
+		loadBuffers(subPart);
+		merge(subPart, tempOutFile);
+		tempOutFile.close();
+		freeBuffers(subPart);
+	}
+
+	private String getTempMergeFile() {
+		String name = PART_NAME + partNumber.toString() + EXTENSION_NAME;
+		partNumber++;
+		mergeParts.add(name);
+		return name;
+	}
+
+	private void freeBuffers(List<String> subPart) {
 		for (Buffer buffer : buffers) {
 			buffer.releaseFile();
 		}
@@ -42,7 +121,7 @@ public class OccurrencePartMerger implements RecordFactory{
 		
 	}
 
-	private void merge(ArrayList<String> subPart) {
+	private void merge(List<String> subPart, SecuentialRecordFile<OccurrenceRecord, IntegerField> outputFile) {
 		while (true){
 			Collections.sort(buffers);
 			OccurrenceRecord record = buffers.get(0).next();
@@ -57,7 +136,7 @@ public class OccurrencePartMerger implements RecordFactory{
 	}
 
 
-	private void loadBuffers(ArrayList<String> subPart) {
+	private void loadBuffers(List<String> subPart) {
 		for (String string : subPart) {
 			try {
 				Buffer buff = new Buffer(openFile(string), MAX_SIZE_PARTS);

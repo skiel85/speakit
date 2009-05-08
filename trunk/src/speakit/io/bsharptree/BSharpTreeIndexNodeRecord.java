@@ -16,7 +16,7 @@ public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
 			return new BSharpTreeIndexNodeElement();
 		}
 
-	};
+	}; 
 
 	@Override
 	protected Field[] getFields() {

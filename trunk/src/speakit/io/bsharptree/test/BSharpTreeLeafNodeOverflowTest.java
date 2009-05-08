@@ -11,14 +11,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.TextDocument;
-import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.bsharptree.BSharpTree;
 import speakit.io.bsharptree.BSharpTreeLeafNode;
 import speakit.io.bsharptree.BSharpTreeNodeElement;
 import speakit.io.bsharptree.IdentityRecordEncoder;
 import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.record.Record;
-import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;

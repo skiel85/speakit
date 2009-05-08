@@ -1,15 +1,12 @@
 package speakit.io.bsharptree;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @SuppressWarnings("unchecked")
 public class BSharpTreeLeafNode extends BSharpTreeNode {
@@ -64,33 +61,27 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 		return this.record.getElements();
 	}
 
-	@Override
-	public void insertElements(List<BSharpTreeNodeElement> elements) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() throws RecordSerializationException, IOException {
-		Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();
-
-		// Extraigo todos los elementos que exceden a la capacidad mínima.
-		while (!this.isInUnderflow()) {
-			stack.add(this.record.extractLastElement());
-		}
-
-		// Reinserto el último para estar por encima de la capacidad mínima.
-		this.record.insertElement(stack.pop());
-
-		// Creo una lista con los elementos extraidos.
-		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>();
-		while (!stack.empty()) {
-			result.add(stack.pop());
-		}
-
-		// Devuelvo la lista de elementos extraidos.
-		return result;
-	}
+//	@Override
+//	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() throws RecordSerializationException, IOException {
+//		Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();
+//
+//		// Extraigo todos los elementos que exceden a la capacidad mínima.
+//		while (!this.isInUnderflow()) {
+//			stack.add(this.record.extractLastElement());
+//		}
+//
+//		// Reinserto el último para estar por encima de la capacidad mínima.
+//		this.record.insertElement(stack.pop());
+//
+//		// Creo una lista con los elementos extraidos.
+//		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>();
+//		while (!stack.empty()) {
+//			result.add(stack.pop());
+//		}
+//
+//		// Devuelvo la lista de elementos extraidos.
+//		return result;
+//	}
 
 	public void passOneElementTo(BSharpTreeLeafNode node) {
 		node.record.getElements().add(this.record.extractLastElement());
@@ -111,6 +102,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 		return ((BSharpTreeLeafNodeElement) this.record.getElements().get(0)).getRecord().getKey();
 	}
 
+	@Override
 	public void setNodeNumber(int nodeNumber) {
 		this.record.setNodeNumber(nodeNumber);
 	}
@@ -138,6 +130,11 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	@Override
 	public List<BSharpTreeNodeElement> extractAllElements() {
 		return this.record.extractAllElements();
+	}
+
+	@Override
+	protected void insertElement(BSharpTreeNodeElement element) {
+		this.record.insertElement(element);
 	}
 
 }

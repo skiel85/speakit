@@ -7,11 +7,9 @@ import java.util.List;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @SuppressWarnings("unchecked")
 public class BSharpTreeIndexNode extends BSharpTreeNode {
-
 	private BSharpTreeIndexNodeRecord record;
 
 	public BSharpTreeIndexNode(BSharpTree tree, int size) {
@@ -31,12 +29,52 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 		return nodeWhereToInsert.getRecord(key);
 	}
 
+	/**
+	 * Inserta un registro recursivamente y balancea o splittea si hace falta
+	 */
 	@Override
 	public void insertRecord(Record record) throws IOException, RecordSerializationException {
 		int nodeNumberWhereToInsert = this.getChildFor(record.getKey());
 		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert, this);
 		nodeWhereToInsert.insertRecord(record);
+		 
+		//TODO balanceo
+		if(nodeWhereToInsert.isInOverflow()){
+			//...some beauty code...
+		}
+		//split
+		if(nodeWhereToInsert.isInOverflow()){
+			BSharpTreeNode overflowNode=nodeWhereToInsert;
+			int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
+//			splitChildsOf(elementIndexThatPointsToNode);
+		}else{
+			this.getTree().saveNode(nodeWhereToInsert);	
+		}
 	}
+
+	/**
+	 * Devuelve el indice de la clave que está entre medio de el nodo overflow y el nodo con el que voy a splitear
+	 * @param node
+	 * @return
+	 */
+	private int getElementIndexThatPointsToNode(BSharpTreeNode node) { 
+		if(this.record.getLeftChildNodeNumber()==node.getNodeNumber()){
+			return 0;
+		}else{
+			Iterator<BSharpTreeNodeElement> iterator = this.record.getElements().iterator();
+			int counter=0;
+			while(iterator.hasNext()){
+				BSharpTreeIndexNodeElement eachElement = (BSharpTreeIndexNodeElement) iterator.next();//casteo porque son elementos de este mismo nodo
+				if( eachElement.pointsTo(node)){
+					return counter;
+				}
+				counter++;
+			}
+		}
+		throw new IllegalArgumentException("El nodo no es apuntado por este nodo.");
+	}
+	
+	
 
 	private int getChildFor(Field key) {
 		int childForKey = this.record.getLeftChildNodeNumber();
@@ -55,9 +93,6 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 		return childForKey;
 	}
 
-	public void insertElement(BSharpTreeIndexNodeElement element) {
-		this.record.insertElement(element);
-	}
 
 	public BSharpTreeIndexNodeElement getElement(Field key) throws IOException, RecordSerializationException {
 		Iterator<BSharpTreeNodeElement> it = this.record.getElements().iterator();
@@ -72,8 +107,7 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 
 	@Override
 	public int getLevel() {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return 80;
 	}
 
 	public void indexChild(BSharpTreeNode newChild) {
@@ -90,20 +124,9 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	@Override
 	public List<BSharpTreeNodeElement> getElements() {
 		return this.record.getElements();
-	}
+	} 
 
 	@Override
-	public void insertElements(List<BSharpTreeNodeElement> elements) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
-	}
-
 	public void setNodeNumber(int i) {
 		this.record.setNodeNumber(i);
 	}
@@ -160,6 +183,27 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 			return false;
 		}
 	}
+	
+	private void splitChildsOf(Field key) throws IOException {
+		int elementIndex = this.getElementIndexOf(key);
+		this.splitChildsOf(elementIndex);
+	}
+
+	/**
+	 * Devuelve la posición de la clave especificada dentro del array de elementos.
+	 * @param key
+	 * @return
+	 */
+	private int getElementIndexOf(Field key) {
+		List<BSharpTreeNodeElement> elements = this.record.getElements();
+		for (int i = 0; i < elements.size(); i++) {
+			BSharpTreeNodeElement element=elements.get(i);
+			if(element.getKey().compareTo(key)==0){
+				return i;
+			}
+		}
+		throw new IllegalArgumentException("La clave pasada no está en el array de elementos");
+	}
 
 	private void splitChildsOf(int elementIndex) throws IOException {
 		BSharpTreeNode[] childs = this.getChildsOf(elementIndex);
@@ -168,14 +212,18 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 
 		this.record.removeElement(elementIndex);
 		
-		BSharpTreeNode middleChild = leftChild.createSibling();
+		//leftChild.createSibling();
+		BSharpTreeNode middleChild = this.getTree().createNode(this);		
 		leftChild.insertElements(rightChild.extractAllElements());
 		leftChild.passMinimumCapacityExcedentToTheRight(middleChild);
 		middleChild.passMinimumCapacityExcedentToTheRight(rightChild);
 		
 		this.indexChild(middleChild);
 		this.indexChild(rightChild);
-
+		
+		this.getTree().saveNode(leftChild);
+		this.getTree().saveNode(middleChild);
+		this.getTree().saveNode(rightChild);
 	}
 
 	private BSharpTreeNode[] getChildsOf(int elementIndex) throws IOException {
@@ -201,6 +249,11 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	@Override
 	public BSharpTreeNode createSibling() {
 		return new BSharpTreeIndexNode(this.getTree(), this.getSize());
+	}
+
+	@Override
+	public void insertElement(BSharpTreeNodeElement element) {
+		this.record.insertElement(element);
 	}
 
 }

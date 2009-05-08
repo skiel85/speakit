@@ -49,5 +49,14 @@ public class BSharpTreeIndexNodeElement extends CompositeField implements BSharp
 	protected String getStringRepresentation() {
 		return "(B#IE|key:"+ this.key.toString()+",r child:"+this.rightChild+")";
 	}
+
+	/**
+	 * Devuelve si el nodo es apuntado por este elemento
+	 * @param aNode
+	 * @return
+	 */
+	public boolean pointsTo(BSharpTreeNode aNode) {
+		return this.getRightChildNodeNumber()==aNode.getNodeNumber();
+	}
 	
 }

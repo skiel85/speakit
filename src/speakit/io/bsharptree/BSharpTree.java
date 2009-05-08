@@ -42,7 +42,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 		this.blockFile.create(nodeSize);
 		appendBlock();
 		appendBlock();
-		this.root = new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY, encoder);
+		this.root = new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY);
 		this.saveNode(this.root);
 		this.load();
 	}
@@ -181,7 +181,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 		int blockCount = this.blockFile.getBlockCount();
 		if (blockCount == ROOT_NODE_BLOCKS_QTY) {
 			// Es un nodo hoja
-			return new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY, encoder);
+			return new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY);
 		} else {
 			// nodo indice
 			return new BSharpTreeIndexNode(this, ROOT_NODE_BLOCKS_QTY);
@@ -193,7 +193,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	 */
 	protected BSharpTreeNode createNonRootNode(int level) {
 		if (level == 0) {
-			return new BSharpTreeLeafNode(this, 1, encoder);
+			return new BSharpTreeLeafNode(this, 1);
 		} else if (level > 0) {
 			return new BSharpTreeIndexNode(this, 1);
 		}
@@ -240,6 +240,10 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	@Override
 	public Record createRecord() {
 		return recordFactory.createRecord();
+	}
+
+	public RecordEncoder getEncoder() {
+		return this.encoder;
 	}
 
 }

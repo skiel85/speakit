@@ -13,12 +13,14 @@ import speakit.io.record.RecordSerializationException;
 @SuppressWarnings("unchecked")
 public class BSharpTreeLeafNode extends BSharpTreeNode {
 	private BSharpTreeLeafNodeRecord record;
-	private RecordEncoder encoder;
 
-	public BSharpTreeLeafNode(BSharpTree tree, int size, RecordEncoder encoder) {
+	public BSharpTreeLeafNode(BSharpTree tree) {
+		this(tree, 1);
+	}
+	
+	public BSharpTreeLeafNode(BSharpTree tree, int size) {
 		super(tree, size);
-		this.encoder = encoder;
-		this.record = new BSharpTreeLeafNodeRecord(tree, encoder);
+		this.record = new BSharpTreeLeafNodeRecord(tree, size);
 	}
 
 	@Override

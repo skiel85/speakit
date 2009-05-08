@@ -32,7 +32,7 @@ public class BSharpTreeLeafNodeTest {
 		this.testFileManager = new TestFileManager("");
 		this.file = this.testFileManager.openFile("testTree.dat");
 		this.tree = new TestBSharpTree(this.file); 
-		this.sut = new BSharpTreeLeafNode(this.tree, 1, this.encoder);
+		this.sut = new BSharpTreeLeafNode(this.tree);
 	}
 
 	@After
@@ -79,7 +79,7 @@ public class BSharpTreeLeafNodeTest {
 		File file = File.createTempFile(this.getClass().getName(), ".dat");
 		BSharpTree<TestIndexRecord, StringField> tree = new BSharpTree<TestIndexRecord, StringField>(file,TestIndexRecord.createFactory(),new InvertedIndexIndexRecordEncoder());
 		tree.create(30);
-		this.sut = new BSharpTreeLeafNode(tree, 1,encoder);
+		this.sut = new BSharpTreeLeafNode(tree);
 		Assert.assertFalse(this.sut.isInOverflow());
 		this.sut.insertRecord(new TestIndexRecord("hola", 2));
 		Assert.assertFalse(this.sut.isInOverflow());

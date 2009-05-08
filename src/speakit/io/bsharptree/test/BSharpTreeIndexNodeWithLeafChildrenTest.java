@@ -33,11 +33,11 @@ public class BSharpTreeIndexNodeWithLeafChildrenTest {
 		encoder=new InvertedIndexIndexRecordEncoder();
 
 		this.nodes = new BSharpTreeLeafNode[3];
-		nodes[0] = new BSharpTreeLeafNode(this.tree, 1, encoder);
+		nodes[0] = new BSharpTreeLeafNode(this.tree);
 		nodes[0].setNodeNumber(2);
-		nodes[1] = new BSharpTreeLeafNode(this.tree, 1, encoder);
+		nodes[1] = new BSharpTreeLeafNode(this.tree);
 		nodes[1].setNodeNumber(3);
-		nodes[2] = new BSharpTreeLeafNode(this.tree, 1, encoder);
+		nodes[2] = new BSharpTreeLeafNode(this.tree);
 		nodes[2].setNodeNumber(4);
 		
 		this.tree.registerNodesInMock(nodes);

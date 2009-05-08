@@ -8,13 +8,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.io.bsharptree.BSharpTree;
+import speakit.io.bsharptree.Tree;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
-public class BSharpTreeTest {
+public class TreeTest {
 	private File file;
-	private BSharpTree<TestIndexRecord, StringField> sut;
+	private Tree<TestIndexRecord, StringField> sut;
 
 	@Before
 	public void setUp() throws Exception {

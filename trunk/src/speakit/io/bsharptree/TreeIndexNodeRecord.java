@@ -8,14 +8,14 @@ import speakit.io.record.ArrayField;
 import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
 
-public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
+public class TreeIndexNodeRecord extends TreeNodeRecord {
 	private IntegerField leftChild = new IntegerField();
 	private IntegerField level = new IntegerField();
 	
-	private ArrayField<BSharpTreeIndexNodeElement> elements = new ArrayField<BSharpTreeIndexNodeElement>() {
+	private ArrayField<TreeIndexNodeElement> elements = new ArrayField<TreeIndexNodeElement>() {
 		@Override
-		protected BSharpTreeIndexNodeElement createField() {
-			return new BSharpTreeIndexNodeElement();
+		protected TreeIndexNodeElement createField() {
+			return new TreeIndexNodeElement();
 		}
 
 	}; 
@@ -33,17 +33,17 @@ public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
 		this.leftChild.setInteger(nodeNumber);
 	}
 
-	public Iterator<BSharpTreeIndexNodeElement> getElementsIterator() {
+	public Iterator<TreeIndexNodeElement> getElementsIterator() {
 		return this.elements.iterator();
 	}
 
-	public List<BSharpTreeNodeElement> getElements() {
-		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>(this.elements.getArray());
+	public List<TreeNodeElement> getElements() {
+		ArrayList<TreeNodeElement> result = new ArrayList<TreeNodeElement>(this.elements.getArray());
 		return result;
 	}
 
-	public void insertElement(BSharpTreeNodeElement element) {
-		this.elements.addItem((BSharpTreeIndexNodeElement) element);
+	public void insertElement(TreeNodeElement element) {
+		this.elements.addItem((TreeIndexNodeElement) element);
 		this.elements.sort();
 	}
 
@@ -51,7 +51,7 @@ public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
 		this.elements.removeItem(index);
 	}
 
-	public BSharpTreeNodeElement getElement(int index) {
+	public TreeNodeElement getElement(int index) {
 		return this.elements.get(index);
 	}
 
@@ -60,21 +60,21 @@ public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
 		return "IN "+ this.getNodeNumber() + ",LChild:" + this.leftChild.toString() + "," + this.elements.toString();
 	}
 
-	public BSharpTreeNodeElement extractLastElement() {
-		BSharpTreeNodeElement element = this.elements.get(this.elements.size() - 1);
+	public TreeNodeElement extractLastElement() {
+		TreeNodeElement element = this.elements.get(this.elements.size() - 1);
 		this.elements.removeItem(this.elements.size() - 1);
 		return element;
 	}
 
-	public BSharpTreeNodeElement extractFirstElement() {
-		BSharpTreeNodeElement element = this.elements.get(0);
+	public TreeNodeElement extractFirstElement() {
+		TreeNodeElement element = this.elements.get(0);
 		this.elements.removeItem(0);
 		return element;
 	}
 
-	public List<BSharpTreeNodeElement> extractAllElements() {
-		ArrayList<BSharpTreeNodeElement> elementList = new ArrayList<BSharpTreeNodeElement>();
-		for (BSharpTreeNodeElement element : this.elements) {
+	public List<TreeNodeElement> extractAllElements() {
+		ArrayList<TreeNodeElement> elementList = new ArrayList<TreeNodeElement>();
+		for (TreeNodeElement element : this.elements) {
 			elementList.add(element);
 		}
 		this.elements.clear();

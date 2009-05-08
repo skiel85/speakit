@@ -11,29 +11,29 @@ import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 
 @SuppressWarnings("unchecked")
-public class BSharpTreeLeafNode extends BSharpTreeNode {
-	private BSharpTreeLeafNodeRecord record;
+public class TreeLeafNode extends TreeNode {
+	private TreeLeafNodeRecord record;
 
-	public BSharpTreeLeafNode(BSharpTree tree) {
+	public TreeLeafNode(Tree tree) {
 		this(tree, 1);
 	}
 	
-	public BSharpTreeLeafNode(BSharpTree tree, int size) {
+	public TreeLeafNode(Tree tree, int size) {
 		super(tree, size);
-		this.record = new BSharpTreeLeafNodeRecord(tree, size);
+		this.record = new TreeLeafNodeRecord(tree, size);
 	}
 
 	@Override
-	protected BSharpTreeNodeRecord getNodeRecord() {
+	protected TreeNodeRecord getNodeRecord() {
 		return this.record;
 	}
 
-	public BSharpTreeLeafNodeElement getElement(Field key) throws IOException, RecordSerializationException {
-		Iterator<BSharpTreeNodeElement> it = this.record.getElements().iterator();
+	public TreeLeafNodeElement getElement(Field key) throws IOException, RecordSerializationException {
+		Iterator<TreeNodeElement> it = this.record.getElements().iterator();
 		while (it.hasNext()) {
-			BSharpTreeLeafNodeElement element = (BSharpTreeLeafNodeElement) it.next();
+			TreeLeafNodeElement element = (TreeLeafNodeElement) it.next();
 			if (element.getRecord().compareToKey(key) == 0) {
-				return (BSharpTreeLeafNodeElement) element;
+				return (TreeLeafNodeElement) element;
 			}
 		}
 		return null;
@@ -41,7 +41,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 
 	@Override
 	public Record getRecord(Field key) throws IOException, RecordSerializationException {
-		BSharpTreeLeafNodeElement element = this.getElement(key);
+		TreeLeafNodeElement element = this.getElement(key);
 		if (element != null) {
 			return element.getRecord();
 		} else {
@@ -51,7 +51,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 
 	@Override
 	public void insertRecord(Record record) throws IOException, RecordSerializationException {
-		BSharpTreeLeafNodeElement element = new BSharpTreeLeafNodeElement(record);
+		TreeLeafNodeElement element = new TreeLeafNodeElement(record);
 		this.record.insertElement(element);
 	}
 
@@ -61,7 +61,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	}
 
 	@Override
-	public List<BSharpTreeNodeElement> getElements() {
+	public List<TreeNodeElement> getElements() {
 		return this.record.getElements();
 	}
 
@@ -89,7 +89,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	// return result;
 	// }
 
-	public void passOneElementTo(BSharpTreeLeafNode node) {
+	public void passOneElementTo(TreeLeafNode node) {
 		node.record.getElements().add(this.record.extractLastElement());
 	}
 
@@ -105,31 +105,31 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 
 	@Override
 	public Field getNodeKey() {
-		return ((BSharpTreeLeafNodeElement) this.record.getElements().get(0)).getRecord().getKey();
+		return ((TreeLeafNodeElement) this.record.getElements().get(0)).getRecord().getKey();
 	}
 
 	@Override
-	protected BSharpTreeNodeElement extractFirstElement() {
+	protected TreeNodeElement extractFirstElement() {
 		return this.record.extractFirstElement();
 	}
 
 	@Override
-	protected BSharpTreeNodeElement extractLastElement() {
+	protected TreeNodeElement extractLastElement() {
 		return this.record.extractLastElement();
 	}
 
 	@Override
-	public BSharpTreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+	public TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		return this.getTree().createLeafNodeAndSave();
 	}
 
 	@Override
-	public List<BSharpTreeNodeElement> extractAllElements() {
+	public List<TreeNodeElement> extractAllElements() {
 		return this.record.extractAllElements();
 	}
 
 	@Override
-	protected void insertElement(BSharpTreeNodeElement element) {
+	protected void insertElement(TreeNodeElement element) {
 		this.record.insertElement(element);
 	}
 

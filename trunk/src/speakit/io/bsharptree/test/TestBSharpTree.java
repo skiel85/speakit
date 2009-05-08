@@ -3,15 +3,15 @@ package speakit.io.bsharptree.test;
 import java.io.File;
 import java.io.IOException;
 
-import speakit.io.bsharptree.BSharpTreeIndexNode;
-import speakit.io.bsharptree.BSharpTreeLeafNode;
+import speakit.io.bsharptree.TreeIndexNode;
+import speakit.io.bsharptree.TreeLeafNode;
 import speakit.io.record.RecordSerializationException;
 
-public class TestBSharpTree extends BSharpTreeMock {
-	private BSharpTreeIndexNode root;
+public class TestBSharpTree extends TreeMock {
+	private TreeIndexNode root;
 	private TestIndexRecord[] records;
-	private BSharpTreeLeafNode[] leafNodes;
-	private BSharpTreeIndexNode[] indexNodes; 
+	private TreeLeafNode[] leafNodes;
+	private TreeIndexNode[] indexNodes; 
 	
 	public TestBSharpTree(File file) throws IOException {
 		super(file);
@@ -29,27 +29,27 @@ public class TestBSharpTree extends BSharpTreeMock {
 		// ... 12: (400)(500)(600)
 		// ... 13: (700)(800)(900)
 
-		this.root = new BSharpTreeIndexNode(this, 2);
+		this.root = new TreeIndexNode(this, 2);
 		this.root.setNodeNumber(0);
 
-		this.leafNodes = new BSharpTreeLeafNode[9];
-		leafNodes[0] = new BSharpTreeLeafNode(this);
+		this.leafNodes = new TreeLeafNode[9];
+		leafNodes[0] = new TreeLeafNode(this);
 		leafNodes[0].setNodeNumber(5);
-		leafNodes[1] = new BSharpTreeLeafNode(this);
+		leafNodes[1] = new TreeLeafNode(this);
 		leafNodes[1].setNodeNumber(6);
-		leafNodes[2] = new BSharpTreeLeafNode(this);
+		leafNodes[2] = new TreeLeafNode(this);
 		leafNodes[2].setNodeNumber(7);
-		leafNodes[3] = new BSharpTreeLeafNode(this);
+		leafNodes[3] = new TreeLeafNode(this);
 		leafNodes[3].setNodeNumber(8);
-		leafNodes[4] = new BSharpTreeLeafNode(this);
+		leafNodes[4] = new TreeLeafNode(this);
 		leafNodes[4].setNodeNumber(9);
-		leafNodes[5] = new BSharpTreeLeafNode(this);
+		leafNodes[5] = new TreeLeafNode(this);
 		leafNodes[5].setNodeNumber(10);
-		leafNodes[6] = new BSharpTreeLeafNode(this);
+		leafNodes[6] = new TreeLeafNode(this);
 		leafNodes[6].setNodeNumber(11);
-		leafNodes[7] = new BSharpTreeLeafNode(this);
+		leafNodes[7] = new TreeLeafNode(this);
 		leafNodes[7].setNodeNumber(12);
-		leafNodes[8] = new BSharpTreeLeafNode(this);
+		leafNodes[8] = new TreeLeafNode(this);
 		leafNodes[8].setNodeNumber(13);
 
 		this.records = new TestIndexRecord[27];
@@ -109,12 +109,12 @@ public class TestBSharpTree extends BSharpTreeMock {
 		leafNodes[8].insertRecord(records[25]);
 		leafNodes[8].insertRecord(records[26]);
 		
-		this.indexNodes = new BSharpTreeIndexNode[3];
-		this.indexNodes[0] = new BSharpTreeIndexNode(this, 1);
+		this.indexNodes = new TreeIndexNode[3];
+		this.indexNodes[0] = new TreeIndexNode(this, 1);
 		this.indexNodes[0].setNodeNumber(2);
-		this.indexNodes[1] = new BSharpTreeIndexNode(this, 1);
+		this.indexNodes[1] = new TreeIndexNode(this, 1);
 		this.indexNodes[1].setNodeNumber(3);
-		this.indexNodes[2] = new BSharpTreeIndexNode(this, 1);
+		this.indexNodes[2] = new TreeIndexNode(this, 1);
 		this.indexNodes[2].setNodeNumber(4);
 		
 		this.indexNodes[0].indexChild(leafNodes[0]);
@@ -148,11 +148,11 @@ public class TestBSharpTree extends BSharpTreeMock {
 		return this.records;
 	}
 	
-	public BSharpTreeLeafNode[] getLeafNodes() {
+	public TreeLeafNode[] getLeafNodes() {
 		return this.leafNodes;
 	}
 	
-	public BSharpTreeIndexNode[] getIndexNodes() {
+	public TreeIndexNode[] getIndexNodes() {
 		return this.indexNodes;
 	}	
 	

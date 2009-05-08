@@ -9,18 +9,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
-import speakit.io.bsharptree.BSharpTree;
-import speakit.io.bsharptree.BSharpTreeLeafNode;
-import speakit.io.bsharptree.BSharpTreeLeafNodeElement;
+import speakit.io.bsharptree.Tree;
+import speakit.io.bsharptree.TreeLeafNode;
+import speakit.io.bsharptree.TreeLeafNodeElement;
 import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
 
-public class BSharpTreeLeafNodeTest {
+public class TreeLeafNodeTest {
 
-	private BSharpTreeLeafNode sut;
+	private TreeLeafNode sut;
 	private TestBSharpTree tree;
 	private RecordEncoder encoder;
 	private TestFileManager testFileManager;
@@ -32,7 +32,7 @@ public class BSharpTreeLeafNodeTest {
 		this.testFileManager = new TestFileManager("");
 		this.file = this.testFileManager.openFile("testTree.dat");
 		this.tree = new TestBSharpTree(this.file); 
-		this.sut = new BSharpTreeLeafNode(this.tree);
+		this.sut = new TreeLeafNode(this.tree);
 	}
 
 	@After
@@ -54,13 +54,13 @@ public class BSharpTreeLeafNodeTest {
 		this.sut.insertRecord(new TestIndexRecord("adios", 3));
 		this.sut.insertRecord(new TestIndexRecord("mundo", 1));
 		this.sut.insertRecord(new TestIndexRecord("cruel", 2));
-		BSharpTreeLeafNodeElement firstElement = (BSharpTreeLeafNodeElement) this.sut.getElements().get(0);
+		TreeLeafNodeElement firstElement = (TreeLeafNodeElement) this.sut.getElements().get(0);
 		Assert.assertEquals("adios", ((StringField) firstElement.getKey()).getString());
 		Assert.assertEquals(3, ((TestIndexRecord) firstElement.getRecord()).getBlockNumber());
-		BSharpTreeLeafNodeElement secondElement = (BSharpTreeLeafNodeElement) this.sut.getElements().get(1);
+		TreeLeafNodeElement secondElement = (TreeLeafNodeElement) this.sut.getElements().get(1);
 		Assert.assertEquals("cruel", ((StringField) secondElement.getKey()).getString());
 		Assert.assertEquals(2, ((TestIndexRecord) secondElement.getRecord()).getBlockNumber());
-		BSharpTreeLeafNodeElement thirdElement = (BSharpTreeLeafNodeElement) this.sut.getElements().get(2);
+		TreeLeafNodeElement thirdElement = (TreeLeafNodeElement) this.sut.getElements().get(2);
 		Assert.assertEquals("mundo", ((StringField) thirdElement.getKey()).getString());
 		Assert.assertEquals(1, ((TestIndexRecord) thirdElement.getRecord()).getBlockNumber());
 	}
@@ -77,9 +77,9 @@ public class BSharpTreeLeafNodeTest {
 	@Test
 	public void testOverflow() throws RecordSerializationException, IOException {
 		File file = File.createTempFile(this.getClass().getName(), ".dat");
-		BSharpTree<TestIndexRecord, StringField> tree = new BSharpTree<TestIndexRecord, StringField>(file,TestIndexRecord.createFactory(),new InvertedIndexIndexRecordEncoder());
+		Tree<TestIndexRecord, StringField> tree = new Tree<TestIndexRecord, StringField>(file,TestIndexRecord.createFactory(),new InvertedIndexIndexRecordEncoder());
 		tree.create(30);
-		this.sut = new BSharpTreeLeafNode(tree);
+		this.sut = new TreeLeafNode(tree);
 		Assert.assertFalse(this.sut.isInOverflow());
 		this.sut.insertRecord(new TestIndexRecord("hola", 2));
 		Assert.assertFalse(this.sut.isInOverflow());

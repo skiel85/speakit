@@ -11,23 +11,23 @@ import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 
 @SuppressWarnings("unchecked")
-public class BSharpTreeIndexNode extends BSharpTreeNode {
-	private BSharpTreeIndexNodeRecord record;
+public class TreeIndexNode extends TreeNode {
+	private TreeIndexNodeRecord record;
 
-	public BSharpTreeIndexNode(BSharpTree tree, int size) {
+	public TreeIndexNode(Tree tree, int size) {
 		super(tree, size);
-		this.record = new BSharpTreeIndexNodeRecord();
+		this.record = new TreeIndexNodeRecord();
 	}
 
 	@Override
-	protected BSharpTreeNodeRecord getNodeRecord() {
+	protected TreeNodeRecord getNodeRecord() {
 		return this.record;
 	}
 
 	@Override
 	public Record getRecord(Field key) throws IOException, RecordSerializationException {
 		int nodeNumberWhereToSearch = this.getChildFor(key);
-		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToSearch, this);
+		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToSearch, this);
 		return nodeWhereToInsert.getRecord(key);
 	}
 
@@ -37,7 +37,7 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	@Override
 	public void insertRecord(Record record) throws IOException, RecordSerializationException {
 		int nodeNumberWhereToInsert = this.getChildFor(record.getKey());
-		BSharpTreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert, this);
+		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert, this);
 		nodeWhereToInsert.insertRecord(record);
 
 		// TODO balanceo
@@ -46,7 +46,7 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 		}
 		// split
 		if (nodeWhereToInsert.isInOverflow()) {
-			BSharpTreeNode overflowNode = nodeWhereToInsert;
+			TreeNode overflowNode = nodeWhereToInsert;
 			int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
 			splitChildsOf(elementIndexThatPointsToNode);
 		} else {
@@ -61,14 +61,14 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	 * @param node
 	 * @return
 	 */
-	private int getElementIndexThatPointsToNode(BSharpTreeNode node) {
+	private int getElementIndexThatPointsToNode(TreeNode node) {
 		if (this.record.getLeftChildNodeNumber() == node.getNodeNumber()) {
 			return 0;
 		} else {
-			Iterator<BSharpTreeNodeElement> iterator = this.record.getElements().iterator();
+			Iterator<TreeNodeElement> iterator = this.record.getElements().iterator();
 			int counter = 0;
 			while (iterator.hasNext()) {
-				BSharpTreeIndexNodeElement eachElement = (BSharpTreeIndexNodeElement) iterator.next();// casteo
+				TreeIndexNodeElement eachElement = (TreeIndexNodeElement) iterator.next();// casteo
 																										// porque
 																										// son
 																										// elementos
@@ -87,11 +87,11 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 
 	private int getChildFor(Field key) {
 		int childForKey = this.record.getLeftChildNodeNumber();
-		Iterator<BSharpTreeIndexNodeElement> it = this.record.getElementsIterator();
+		Iterator<TreeIndexNodeElement> it = this.record.getElementsIterator();
 
 		boolean found = false;
 		while (it.hasNext() && !found) {
-			BSharpTreeIndexNodeElement element = it.next();
+			TreeIndexNodeElement element = it.next();
 			if (key.compareTo((Field) element.getKey()) > 0) {
 				childForKey = element.getRightChildNodeNumber();
 			} else {
@@ -102,10 +102,10 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 		return childForKey;
 	}
 
-	public BSharpTreeIndexNodeElement getElement(Field key) throws IOException, RecordSerializationException {
-		Iterator<BSharpTreeNodeElement> it = this.record.getElements().iterator();
+	public TreeIndexNodeElement getElement(Field key) throws IOException, RecordSerializationException {
+		Iterator<TreeNodeElement> it = this.record.getElements().iterator();
 		while (it.hasNext()) {
-			BSharpTreeIndexNodeElement element = (BSharpTreeIndexNodeElement) it.next();
+			TreeIndexNodeElement element = (TreeIndexNodeElement) it.next();
 			if (element.getKey().compareTo(key) == 0) {
 				return element;
 			}
@@ -118,11 +118,11 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 		return 80;
 	}
 
-	public void indexChild(BSharpTreeNode newChild) {
+	public void indexChild(TreeNode newChild) {
 		if (this.getLeftChildNodeNumber() == 0) {
 			this.record.setLeftChildNodeNumber(newChild.getNodeNumber());
 		} else {
-			BSharpTreeIndexNodeElement element = new BSharpTreeIndexNodeElement();
+			TreeIndexNodeElement element = new TreeIndexNodeElement();
 			element.setKey(newChild.getNodeKey());
 			element.setRightChild(newChild.getNodeNumber());
 			this.insertElement(element);
@@ -130,7 +130,7 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	}
 
 	@Override
-	public List<BSharpTreeNodeElement> getElements() {
+	public List<TreeNodeElement> getElements() {
 		return this.record.getElements();
 	}
 
@@ -144,21 +144,21 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	}
 
 	@Override
-	protected BSharpTreeNodeElement extractFirstElement() {
+	protected TreeNodeElement extractFirstElement() {
 		return record.extractFirstElement();
 	}
 
 	@Override
-	protected BSharpTreeNodeElement extractLastElement() {
+	protected TreeNodeElement extractLastElement() {
 		return record.extractLastElement();
 	}
 
 	public boolean balanceChilds() throws IOException {
-		BSharpTreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
-		Iterator<BSharpTreeNodeElement> elementIt = this.getElements().iterator();
+		TreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+		Iterator<TreeNodeElement> elementIt = this.getElements().iterator();
 		while (elementIt.hasNext()) {
-			BSharpTreeIndexNodeElement indexElement = (BSharpTreeIndexNodeElement) elementIt.next();
-			BSharpTreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
+			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) elementIt.next();
+			TreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
 			lastNode.passMaximumCapacityExcedentToTheRight(node);
 			lastNode = node;
 		}
@@ -166,14 +166,14 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	}
 
 	private boolean childrenAreInOverflow() throws RecordSerializationException, IOException {
-		BSharpTreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+		TreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
 		if (lastNode.isInOverflow()) {
 			return true;
 		} else {
-			Iterator<BSharpTreeNodeElement> elementIt = this.getElements().iterator();
+			Iterator<TreeNodeElement> elementIt = this.getElements().iterator();
 			while (elementIt.hasNext()) {
-				BSharpTreeIndexNodeElement indexElement = (BSharpTreeIndexNodeElement) elementIt.next();
-				BSharpTreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
+				TreeIndexNodeElement indexElement = (TreeIndexNodeElement) elementIt.next();
+				TreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
 				if (node.isInOverflow()) {
 					return true;
 				}
@@ -195,9 +195,9 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	 * @return
 	 */
 	private int getElementIndexOf(Field key) {
-		List<BSharpTreeNodeElement> elements = this.record.getElements();
+		List<TreeNodeElement> elements = this.record.getElements();
 		for (int i = 0; i < elements.size(); i++) {
-			BSharpTreeNodeElement element = elements.get(i);
+			TreeNodeElement element = elements.get(i);
 			if (element.getKey().compareTo(key) == 0) {
 				return i;
 			}
@@ -206,14 +206,14 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	}
 
 	private void splitChildsOf(int elementIndex) throws IOException {
-		BSharpTreeNode[] childs = this.getChildsOf(elementIndex);
-		BSharpTreeNode leftChild = childs[0];
-		BSharpTreeNode rightChild = childs[1];
+		TreeNode[] childs = this.getChildsOf(elementIndex);
+		TreeNode leftChild = childs[0];
+		TreeNode rightChild = childs[1];
 
 		this.record.removeElement(elementIndex);
 
 		// this.getTree().createNode(this);
-		BSharpTreeNode middleChild = leftChild.createSibling();
+		TreeNode middleChild = leftChild.createSibling();
 		leftChild.insertElements(rightChild.extractAllElements());
 		leftChild.passMinimumCapacityExcedentToTheRight(middleChild);
 		middleChild.passMinimumCapacityExcedentToTheRight(rightChild);
@@ -226,41 +226,41 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 		this.getTree().saveNode(rightChild);
 	}
 
-	private BSharpTreeNode[] getChildsOf(int elementIndex) throws IOException {
-		BSharpTreeNode leftChild;
+	private TreeNode[] getChildsOf(int elementIndex) throws IOException {
+		TreeNode leftChild;
 		if (elementIndex == 0) {
 			leftChild = this.getTree().getNode(this.record.getLeftChildNodeNumber(), this);
 		} else {
-			BSharpTreeIndexNodeElement leftElement = (BSharpTreeIndexNodeElement) this.getElements().get(elementIndex - 1);
+			TreeIndexNodeElement leftElement = (TreeIndexNodeElement) this.getElements().get(elementIndex - 1);
 			leftChild = this.getTree().getNode(leftElement.getRightChildNodeNumber(), this);
 		}
-		BSharpTreeNode rightChild;
-		BSharpTreeIndexNodeElement element = (BSharpTreeIndexNodeElement) this.getElements().get(elementIndex);
+		TreeNode rightChild;
+		TreeIndexNodeElement element = (TreeIndexNodeElement) this.getElements().get(elementIndex);
 		rightChild = this.getTree().getNode(element.getRightChildNodeNumber(), this);
 
-		return new BSharpTreeNode[] { leftChild, rightChild };
+		return new TreeNode[] { leftChild, rightChild };
 	}
 
 	@Override
-	public List<BSharpTreeNodeElement> extractAllElements() {
+	public List<TreeNodeElement> extractAllElements() {
 		return this.record.extractAllElements();
 	}
 
 	@Override
-	public BSharpTreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+	public TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		return this.getTree().createIndexNodeAndSave(this.getLevel());
 	}
 
 	@Override
-	public void insertElement(BSharpTreeNodeElement element) {
+	public void insertElement(TreeNodeElement element) {
 		this.record.insertElement(element);
 	}
 	
 	@Override
 	public String toString() {
 		String result = this.getNodeNumber() + ": " + this.record.getLeftChildNodeNumber();
-		for (BSharpTreeNodeElement element : this.record.getElements()) {
-			BSharpTreeIndexNodeElement indexElement = (BSharpTreeIndexNodeElement) element;
+		for (TreeNodeElement element : this.record.getElements()) {
+			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) element;
 			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber();
 		}
 		return result;

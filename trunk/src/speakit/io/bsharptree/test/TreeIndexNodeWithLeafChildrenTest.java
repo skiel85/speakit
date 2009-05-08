@@ -9,35 +9,35 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
-import speakit.io.bsharptree.BSharpTreeIndexNode;
-import speakit.io.bsharptree.BSharpTreeIndexNodeElement;
-import speakit.io.bsharptree.BSharpTreeLeafNode;
+import speakit.io.bsharptree.TreeIndexNode;
+import speakit.io.bsharptree.TreeIndexNodeElement;
+import speakit.io.bsharptree.TreeLeafNode;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
-public class BSharpTreeIndexNodeWithLeafChildrenTest {
-	private BSharpTreeIndexNode sut;
+public class TreeIndexNodeWithLeafChildrenTest {
+	private TreeIndexNode sut;
 	private TestIndexRecord[] records;
-	private BSharpTreeLeafNode[] nodes;
-	private BSharpTreeMock tree;
+	private TreeLeafNode[] nodes;
+	private TreeMock tree;
 	private File file;
 	private InvertedIndexIndexRecordEncoder	encoder;
 
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		this.tree = new BSharpTreeMock(this.file);
+		this.tree = new TreeMock(this.file);
 		
-		this.sut = new BSharpTreeIndexNode(this.tree, 2);
+		this.sut = new TreeIndexNode(this.tree, 2);
 		this.sut.setNodeNumber(0);
 		encoder=new InvertedIndexIndexRecordEncoder();
 
-		this.nodes = new BSharpTreeLeafNode[3];
-		nodes[0] = new BSharpTreeLeafNode(this.tree);
+		this.nodes = new TreeLeafNode[3];
+		nodes[0] = new TreeLeafNode(this.tree);
 		nodes[0].setNodeNumber(2);
-		nodes[1] = new BSharpTreeLeafNode(this.tree);
+		nodes[1] = new TreeLeafNode(this.tree);
 		nodes[1].setNodeNumber(3);
-		nodes[2] = new BSharpTreeLeafNode(this.tree);
+		nodes[2] = new TreeLeafNode(this.tree);
 		nodes[2].setNodeNumber(4);
 		
 		this.tree.registerNodesInMock(nodes);
@@ -83,7 +83,7 @@ public class BSharpTreeIndexNodeWithLeafChildrenTest {
 			this.sut.indexChild(nodes[1]);
 			Assert.assertEquals(2, this.sut.getLeftChildNodeNumber());
 			Assert.assertEquals(1, this.sut.getElements().size());
-			BSharpTreeIndexNodeElement element0 = (BSharpTreeIndexNodeElement) this.sut.getElements().get(0);
+			TreeIndexNodeElement element0 = (TreeIndexNodeElement) this.sut.getElements().get(0);
 			Assert.assertEquals("del", ((StringField) element0.getKey()).getString());
 			Assert.assertEquals(3, element0.getRightChildNodeNumber());
 		}
@@ -91,10 +91,10 @@ public class BSharpTreeIndexNodeWithLeafChildrenTest {
 			this.sut.indexChild(nodes[2]);
 			Assert.assertEquals(2, this.sut.getLeftChildNodeNumber());
 			Assert.assertEquals(2, this.sut.getElements().size());
-			BSharpTreeIndexNodeElement element0 = (BSharpTreeIndexNodeElement) this.sut.getElements().get(0);
+			TreeIndexNodeElement element0 = (TreeIndexNodeElement) this.sut.getElements().get(0);
 			Assert.assertEquals("del", ((StringField) element0.getKey()).getString());
 			Assert.assertEquals(3, element0.getRightChildNodeNumber());
-			BSharpTreeIndexNodeElement element1 = (BSharpTreeIndexNodeElement) this.sut.getElements().get(1);
+			TreeIndexNodeElement element1 = (TreeIndexNodeElement) this.sut.getElements().get(1);
 			Assert.assertEquals("nación", ((StringField) element1.getKey()).getString());
 			Assert.assertEquals(4, element1.getRightChildNodeNumber());
 		}

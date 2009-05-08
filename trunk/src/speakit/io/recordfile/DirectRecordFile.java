@@ -165,7 +165,9 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 			this.blocksFile.saveBlock(block);
 			return block.getBlockNumber();
 		}catch(BlockFileOverflowException ex){
-			recordBlock.deleteRecord(record);
+			if(!recordBlock.deleteRecord(record)){
+				throw new RecordSerializationException("Falló la actualización, no se pudo borrar el registro: " + record.toString());	
+			}
 			Block block = recordBlock.getBlock();
 			this.blocksFile.saveBlock(block);
 			return this.insertRecord(record);

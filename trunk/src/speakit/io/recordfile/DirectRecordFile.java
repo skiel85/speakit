@@ -150,11 +150,11 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 
 	/**
 	 * Si el registro no entra en el mismo bloque, se elimina de allí y se vuelve a insertar. Si luego de actualizar el registro, este no entra en el bloque original, se lo reinserta en el archivo, de esta forma se alojará en algun nodo libre.
-	 * TODO si hubo cambio los indices deben reindexar el registro en el nuevo bloque!!
+	 * Si hubo cambio los indices de este archivo deben reindexar el registro en el nuevo bloque!!
 	 *  
 	 * @param record
 	 * @param block
-	 * @return El número de bloque donde se aloja el registro. Si no hubo cambio de bloque devuelve -1. 
+	 * @return El número de bloque donde se aloja el registro. 
 	 * @throws RecordSerializationException
 	 * @throws IOException
 	 */
@@ -163,7 +163,7 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 		try{
 			Block block = recordBlock.getBlock();
 			this.blocksFile.saveBlock(block);
-			return -1;
+			return block.getBlockNumber();
 		}catch(BlockFileOverflowException ex){
 			recordBlock.deleteRecord(record);
 			Block block = recordBlock.getBlock();

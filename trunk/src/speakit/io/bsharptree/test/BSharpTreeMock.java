@@ -18,10 +18,10 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 	private HashMap<Integer, BSharpTreeNode> nodes;
 
 	public BSharpTreeMock(File file) {
-		super(file,new InvertedIndexIndexRecordEncoder());
+		super(file, new InvertedIndexIndexRecordEncoder());
 		this.nodes = new HashMap<Integer, BSharpTreeNode>();
-	} 
-	
+	}
+
 	@Override
 	public BSharpTreeNode getNode(int nodeNumber, BSharpTreeNode parent) throws IOException {
 		return this.nodes.get(nodeNumber);
@@ -36,7 +36,7 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 			this.registerNodeInMock(node);
 		}
 	}
-	
+
 	@Override
 	public void saveNode(BSharpTreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		this.registerNodeInMock(node);
@@ -45,18 +45,18 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Record createRecord() {
-		return new TestIndexRecord("",0);
+		return new TestIndexRecord("", 0);
 	}
-	
+
 	@Override
 	public int getNodeSize() {
-		return 15;
+		return 128;
 	}
-	
+
 	@Override
 	public void saveNode(BSharpTreeNode node, boolean create) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
-		if(create){
-			node.setNodeNumber(this.nodes.size()+6);	
+		if (create) {
+			node.setNodeNumber(this.nodes.size() + 100);
 		}
 		this.registerNodeInMock(node);
 	}

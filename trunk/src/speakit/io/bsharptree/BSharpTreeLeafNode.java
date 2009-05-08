@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import speakit.io.blockfile.BlockFileOverflowException;
+import speakit.io.blockfile.WrongBlockNumberException;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
@@ -123,8 +125,8 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	}
 
 	@Override
-	public BSharpTreeNode createSibling() {
-		return new BSharpTreeLeafNode(this.getTree(), this.getBlockQty(), this.encoder);
+	public BSharpTreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		return this.getTree().createLeafNode();
 	}
 
 	@Override

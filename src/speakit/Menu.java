@@ -40,8 +40,9 @@ public class Menu {
 		String path;
 		path = displayReadFilePath();
 		Iterable<String> wordIterable;
+		
 		try {
-			wordIterable = this.speakit.addDocument(speakit.getTextDocumentFromFile(path));
+			 wordIterable = this.speakit.addDocument(speakit.getTextDocumentFromFile(path));
 		} catch (FileNotFoundException fnf) {
 			showFileNotFoundMessage(path);
 			return;
@@ -93,33 +94,57 @@ public class Menu {
 		return (!"".equals(pathCache) && pathCache != null);
 	}
 
+	/**
+	 * Despliega el menu para procesar varios archivos de texto
+	 * 
+	 * @throws IOException
+	 * @throws RecordSerializationException
+	 * 
+	 * @throws WordNotFoundException
+	 */
 	private void addSeveralDocuments()throws IOException, RecordSerializationException {
 		System.out.println("Ingrese cada una de las rutas de los documentos que desea ingresar separadas por coma");
-		String[] paths = this.userInput.readLine().split(",");
-		Iterable<String> wordIterable;
+		String paths = this.userInput.readLine();
+		char[] charsOfPaths = new char[paths.length()];
+		charsOfPaths = paths.toCharArray();
+		TextDocumentList documents = new TextDocumentList();
 		int position = 0;
-		
-		while(position<paths.length){
-			try {
-				wordIterable = this.speakit.addDocument(speakit.getTextDocumentFromFile(paths[position]));
-			} catch (FileNotFoundException fnf) {
-				showFileNotFoundMessage(paths[position]);
-				return;
-			}
-
-			if (wordIterable.iterator().hasNext()) {
-				System.out.println("El documento contiene palabras desconocidas, que deberá grabar a continuación.");
-			}
-			for (String unknownWord : wordIterable) {
-				WordAudio audio = getAudio(unknownWord);
+		String path = "";
+		boolean endOfString = false;
+		while(endOfString == false){
+			if((position != paths.length()) && (charsOfPaths[position] != ',')){ 
+				path = path + charsOfPaths[position];
+				position++;
+			}else{
+				try{
+					if(position == paths.length())endOfString = true;
+					TextDocument document = this.speakit.getTextDocumentFromFile(path);
+					documents.add(document);
+					path = "";
+					position++;
+				}catch (FileNotFoundException fnf){
+					showFileNotFoundMessage(path);
+					return;
+				}	
+			}	
+		}
+		Iterable <TextDocument> documentIterable = this.speakit.addDocuments(documents);
+		for(TextDocument document : documentIterable){
+			System.out.println("El documento contiene palabras desconocidas, que deberá grabar a continuación.");
+			Iterator<String> wordIterator = document.iterator();
+			while(wordIterator.hasNext()){
+				WordAudio audio = getAudio((String)wordIterator.next());
 				if (audio != null && audio.getAudio() != null) {
 					speakit.addWordAudio(audio);
 				}
 			}
-			position++;
 		}
 		System.out.println("Los documentos fueron agregados con éxito.");
 	}
+	
+		
+		
+
 	
 	/**
 	 * Despliega el menu para la reproduccion de los archivos.
@@ -299,6 +324,7 @@ public class Menu {
 		System.out.println("Ingrese la consulta");
 		consultation = this.userInput.readLine();
 		TextDocument searchText = new TextDocument(consultation);
+		
 		documentList = speakit.search(searchText);
 		if (!documentList.isEmpty()) {
 			showResults(documentList);

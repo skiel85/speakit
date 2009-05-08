@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.TextDocument;
 import speakit.wordreader.TextCleaner;
 
 public class TextCleanerTest {
@@ -61,6 +62,20 @@ public class TextCleanerTest {
 		Assert.assertArrayEquals(expecteds, actuals);
 	}
 
+	@Test
+	public void testGetRelevantWords(){
+		String text = "un camión estaba ante nosotros argüello //,";
+		TextDocument document = new TextDocument(text);
+		Assert.assertEquals("camión argüello", this.sut.getRelevantWords(document).getText());
+	}
+	
+	@Test
+	public void testcleanDocument(){
+		String text = "habia un        camión andando por la vereda, argüello// ";
+		TextDocument document = new TextDocument(text);
+		Assert.assertEquals("habia camión andando vereda argüello", this.sut.cleanDocument(document).getText());
+	}
+	
 	@After
 	public void tearDown() throws Exception {
 	}

@@ -2,6 +2,7 @@ package speakit.ftrs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import speakit.Configuration;
@@ -12,6 +13,7 @@ import speakit.documentstorage.TextDocumentList;
 import speakit.ftrs.index.InvertedIndex;
 import speakit.ftrs.index.InvertedIndexRecord;
 import speakit.ftrs.indexer.InvertedIndexRecordGenerator;
+import speakit.wordreader.TextCleaner;
 
 public class FTRSImpl implements FTRS {
 
@@ -48,9 +50,10 @@ public class FTRSImpl implements FTRS {
 	 * @param textDocument
 	 * @return
 	 */
-	private TextDocument applyFilters(TextDocument textDocument) {
+	public TextDocument applyFilters(TextDocument textDocument) {
+		TextCleaner textCleaner = new TextCleaner();
 		
-		return textDocument;
+		return textCleaner.cleanDocument(textDocument);
 	}
 
 	private InvertedIndex getIndex() {
@@ -61,8 +64,9 @@ public class FTRSImpl implements FTRS {
 
 	@Override
 	public void indexDocuments(TextDocumentList documentList) throws IOException {
-		for (TextDocument doc : documentList) {
-			indexDocuments(doc);
+		Iterator<TextDocument> iterator = documentList.iterator();
+		while(iterator.hasNext()){
+			indexDocuments((TextDocument)iterator.next());
 		}
 	}
 

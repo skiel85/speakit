@@ -1,9 +1,11 @@
 package speakit.wordreader;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import speakit.TextDocument;
+import speakit.ftrs.StopWords;
 
 /**
  * Realiza una limpieza del texto, eliminando puntuación y espacios, para luego
@@ -58,7 +60,48 @@ public class TextCleaner {
 		return this.cleanText(text).split(" ");
 	}
 
-	public TextDocument cleanDocument(TextDocument  document){
-		return null;
+	/**
+	 * Obtiene las palabras relevantes del documento de texto, es decir, eliminia los stop words
+	 * 
+	 * @param textDocument
+	 *            Texto original.
+	 * @return TextDocument.
+	 */
+	public TextDocument getRelevantWords (TextDocument textDocument){
+		String filteredWords = "";
+		ArrayList<String> wordIterable = new ArrayList<String>();
+		
+		for(String word : textDocument){
+			wordIterable.add(word.toLowerCase());
+		}
+		StopWords stopWords = new StopWords();
+		ArrayList<String> stopWordIterable = stopWords.getStopWords();
+		
+		for(String word : wordIterable){
+			if(!stopWordIterable.contains((String)word)){
+				if(filteredWords == ""){
+					filteredWords = word;
+				}else{
+					filteredWords = filteredWords + " " + word;
+				}
+			}
+		}
+		
+		return new TextDocument(filteredWords);
 	}
+	
+	/**
+	 * Devuelve un documento con todas las palabras limpias y con los stop words eliminados
+	 * 
+	 * @param document
+	 *            Texto original.
+	 * @return TextDocument
+	 */
+	public TextDocument cleanDocument(TextDocument  document){
+		TextDocument relevantDocument = getRelevantWords(document);
+		String cleanWords = cleanText(relevantDocument.getText());
+		
+		return new TextDocument(cleanWords);
+	}
+	
 }

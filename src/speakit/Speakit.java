@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import speakit.dictionary.AudioDictionaryImpl;
 import speakit.documentstorage.TextDocumentList;
@@ -21,6 +22,7 @@ public class Speakit implements SpeakitInterface {
 
 	private AudioDictionaryImpl dataBase;
 	private FTRS ftrs;
+	
 	private FileManager fileManager;
 	private Configuration conf;
 
@@ -54,6 +56,15 @@ public class Speakit implements SpeakitInterface {
 		this.ftrs.load(fileManager, this.conf);
 	}
 
+	/**
+	 * A partir de un documento, indexa ese documento y devuelve un iterable 
+	 * de strings de ese documento
+	 * 
+	 * @param doc
+	 * @return Iterable<String>
+	 * 
+	 * @throws IOException
+	 */
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {
 		indexDocument(doc);
 		ArrayList<String> words = new ArrayList<String>();
@@ -63,6 +74,27 @@ public class Speakit implements SpeakitInterface {
 			}
 		}
 		return words;
+	}
+	
+	/**
+	 * A partir de una lista de documentos, indexa esa lista y devuelve un iterable 
+	 * de documentos
+	 * 
+	 * @param docs
+	 * @return Iterable<TextDocument>
+	 * 
+	 * @throws IOException
+	 */
+	public Iterable<TextDocument> addDocuments(TextDocumentList docs) throws IOException {
+		indexDocuments(docs);
+		ArrayList<TextDocument>	documents = new ArrayList<TextDocument>();
+		Iterator<TextDocument> iterator = docs.iterator();
+		TextDocument textDocument;
+		while(iterator.hasNext()){
+			textDocument = (TextDocument)iterator.next();
+			documents.add(textDocument);
+		}
+		return documents;
 	}
 
 	/**
@@ -77,6 +109,10 @@ public class Speakit implements SpeakitInterface {
 		this.ftrs.indexDocuments(doc);
 	}
 
+	private void indexDocuments (TextDocumentList docs)throws IOException, RecordSerializationException {
+		this.ftrs.indexDocuments(docs);
+	}
+	
 	public WordAudioDocument convertToAudioDocument(TextDocument doc) throws IOException {
 		return new WordAudioDocument(this.dataBase, doc);
 	}

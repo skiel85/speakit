@@ -56,8 +56,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 			int blockNumber = appendBlock();
 			node.setNodeNumber(blockNumber);
 		}
-		Record nodeRecord = node.getNodeRecord();
-		List<byte[]> serializationParts = nodeRecord.serializeInParts(this.getNodeSize());
+		List<byte[]> serializationParts = node.serializeInParts(this.getNodeSize());
 		if (serializationParts.size() > node.getBlockQty()) {
 			throw new BlockFileOverflowException(serializationParts.size() * this.getNodeSize(), node.getBlockQty() * this.getNodeSize());
 		}
@@ -205,7 +204,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 		for (int i = 0; i < newNode.getBlockQty(); i++) {
 			parts.add(blockFile.read(nodeNumber + i));
 		}
-		newNode.getNodeRecord().deserializeFromParts(parts);
+		newNode.deserializeFromParts(parts);
 		return newNode;
 	}
 

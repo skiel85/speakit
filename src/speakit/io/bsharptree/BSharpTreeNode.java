@@ -1,6 +1,7 @@
 package speakit.io.bsharptree;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -158,4 +159,20 @@ public abstract class BSharpTreeNode {
 	public abstract List<BSharpTreeNodeElement> extractAllElements();
 
 	public abstract BSharpTreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException;
+	
+	public byte[] serialize() throws RecordSerializationException, IOException {
+		return this.getNodeRecord().serialize();
+	}
+	
+	public void deserialize(byte[] data) throws RecordSerializationException, IOException {
+		this.getNodeRecord().deserialize(data);
+	}
+	
+	public List<byte[]> serializeInParts(int partSize) throws RecordSerializationException, IOException {
+		return this.getNodeRecord().serializeInParts(partSize);
+	}
+	
+	public void deserializeFromParts(List<byte[]> serializationParts) throws IOException {
+		this.getNodeRecord().deserializeFromParts(serializationParts);
+	}
 }

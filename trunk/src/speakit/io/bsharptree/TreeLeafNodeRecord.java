@@ -16,51 +16,53 @@ import speakit.io.record.RecordSerializationException;
 public class TreeLeafNodeRecord extends TreeNodeRecord {
 	public class ArrayFieldExtension extends ArrayField<TreeLeafNodeElement> {
 		RecordFactory recordFactory;
+
 		public ArrayFieldExtension(RecordFactory recordFactory) {
-			this.recordFactory = recordFactory; 
+			this.recordFactory = recordFactory;
 		}
-		
+
 		@Override
 		protected TreeLeafNodeElement createField() {
-			return new TreeLeafNodeElement(this.recordFactory.createRecord());
-		}
-	}
-	
-	public class FrontCodedElementArrayField extends ArrayField<TreeLeafNodeElement> {
-		RecordFactory recordFactory;
-		public FrontCodedElementArrayField(RecordFactory recordFactory) {
-			this.recordFactory = recordFactory; 
-		}
-		
-		@Override
-		protected TreeLeafNodeElement createField() {
-//			BSharpTreeLeafNodeRecord.this;
 			return new TreeLeafNodeElement(this.recordFactory.createRecord());
 		}
 	}
 
-	private ArrayField<TreeLeafNodeElement> elements ;
-	private ArrayField<TreeLeafNodeElement> frontCodedElements ;
+	public class FrontCodedElementArrayField extends ArrayField<TreeLeafNodeElement> {
+		RecordFactory recordFactory;
+
+		public FrontCodedElementArrayField(RecordFactory recordFactory) {
+			this.recordFactory = recordFactory;
+		}
+
+		@Override
+		protected TreeLeafNodeElement createField() {
+			// BSharpTreeLeafNodeRecord.this;
+			return new TreeLeafNodeElement(this.recordFactory.createRecord());
+		}
+	}
+
+	private ArrayField<TreeLeafNodeElement> elements;
+	private ArrayField<TreeLeafNodeElement> frontCodedElements;
 	private IntegerField nextSecuenceNodeNumber = new IntegerField();
-	
+
 	private Tree tree;
 
 	public TreeLeafNodeRecord(Tree tree) {
 		this(tree, 1);
 	}
-	
-	public TreeLeafNodeRecord(Tree tree, int size){
-		if(tree==null){
+
+	public TreeLeafNodeRecord(Tree tree, int size) {
+		if (tree == null) {
 			throw new IllegalArgumentException("El argumento árbol es nulo.");
 		}
 		this.tree = tree;
-		elements= new ArrayFieldExtension(tree);
-		frontCodedElements = new FrontCodedElementArrayField(tree.getEncoder());		
+		elements = new ArrayFieldExtension(tree);
+		frontCodedElements = new FrontCodedElementArrayField(tree.getEncoder());
 	}
-	
+
 	@Override
-	protected Field[] getFields() { 
-		return new Field[] {this.frontCodedElements, this.nextSecuenceNodeNumber };
+	protected Field[] getFields() {
+		return new Field[] { this.frontCodedElements, this.nextSecuenceNodeNumber };
 	}
 
 	public List<TreeNodeElement> getElements() {
@@ -73,7 +75,7 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 		this.elements.removeItem(this.elements.size() - 1);
 		return element;
 	}
-	
+
 	@Override
 	public long serialize(OutputStream stream) throws RecordSerializationException {
 		this.frontCodedElements.clear();
@@ -83,11 +85,11 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 			TreeLeafNodeElement encodedElement = new TreeLeafNodeElement(encodedRecord);
 			this.frontCodedElements.addItem(encodedElement);
 		}
-		long serializationResult = super.serialize(stream);		
-//		System.out.println("Serialización: " + this.toString());
+		long serializationResult = super.serialize(stream);
+		// System.out.println("Serialización: " + this.toString());
 		return serializationResult;
 	}
-	
+
 	@Override
 	public long deserialize(InputStream stream) throws RecordSerializationException {
 		this.frontCodedElements.clear();
@@ -99,25 +101,25 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 			TreeLeafNodeElement decodedElement = new TreeLeafNodeElement(decodedRecord);
 			this.elements.addItem(decodedElement);
 		}
-//		System.out.println("Deserialización: " + this.toString());
+		// System.out.println("Deserialización: " + this.toString());
 		return deserializationResult;
-	} 
-	
+	}
+
 	public TreeNodeElement extractFirstElement() {
 		TreeNodeElement element = this.elements.get(0);
 		this.elements.removeItem(0);
 		return element;
 	}
-	
+
 	public void insertElement(TreeNodeElement element) {
 		this.elements.addItem((TreeLeafNodeElement) element);
 		this.elements.sort();
 	}
-	
+
 	@Override
 	protected String getStringRepresentation() {
-		return "LN "+ this.getNodeNumber()+",next:"+this.nextSecuenceNodeNumber.toString()+","+this.elements.toString()+",FCElements:"+this.frontCodedElements.toString();
-		
+		return "LN " + this.getNodeNumber() + ",next:" + this.nextSecuenceNodeNumber.toString() + "," + this.elements.toString() + ",FCElements:" + this.frontCodedElements.toString();
+
 	}
 
 	public List<TreeNodeElement> extractAllElements() {

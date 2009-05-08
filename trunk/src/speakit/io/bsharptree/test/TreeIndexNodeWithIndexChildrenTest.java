@@ -50,10 +50,10 @@ public class TreeIndexNodeWithIndexChildrenTest {
 	public void testIndexChildren() {
 		Assert.assertEquals(2, this.sut.getLeftChildNodeNumber());
 		TreeIndexNodeElement element0 = (TreeIndexNodeElement) this.sut.getElements().get(0);
-		Assert.assertEquals("040", ((StringField)element0.getKey()).getString());
+		Assert.assertEquals("040", ((StringField) element0.getKey()).getString());
 		Assert.assertEquals(3, element0.getRightChildNodeNumber());
 		TreeIndexNodeElement element1 = (TreeIndexNodeElement) this.sut.getElements().get(1);
-		Assert.assertEquals("400", ((StringField)element1.getKey()).getString());
+		Assert.assertEquals("400", ((StringField) element1.getKey()).getString());
 		Assert.assertEquals(4, element1.getRightChildNodeNumber());
 	}
 
@@ -64,7 +64,7 @@ public class TreeIndexNodeWithIndexChildrenTest {
 		Assert.assertEquals("733", retrievedRec.getKey().getString());
 		Assert.assertEquals(88, retrievedRec.getBlockNumber());
 	}
-	
+
 	@Test
 	public void testInsertInCorrectLeaf2() throws RecordSerializationException, IOException {
 		this.sut.insertRecord(new TestIndexRecord("055", 68));

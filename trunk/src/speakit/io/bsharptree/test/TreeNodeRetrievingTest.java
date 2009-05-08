@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.blockfile.BasicBlockFile;
 import speakit.io.bsharptree.Tree;
 import speakit.io.bsharptree.TreeLeafNodeRecord;
@@ -18,14 +17,14 @@ import speakit.io.bsharptree.TreeNode;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
-public class TreeNodeRetrievingTest { 
-	private File				file;
-	private  Tree	sut;
+public class TreeNodeRetrievingTest {
+	private File file;
+	private Tree sut;
 
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		this.sut = new  Tree(file,TestIndexRecord.createFactory());
+		this.sut = new Tree(file, TestIndexRecord.createFactory());
 		this.sut.create(15);
 	}
 
@@ -49,7 +48,8 @@ public class TreeNodeRetrievingTest {
 		record.deserializeFromParts(rootSerializationParts);
 	}
 
-	@Test @Ignore
+	@Test
+	@Ignore
 	public void testGetNode() throws RecordSerializationException, IOException {
 		this.sut.insertRecord(new TestIndexRecord("prueba", 123));
 		TreeNode node = this.sut.getNode(0, null);

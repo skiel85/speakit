@@ -21,16 +21,16 @@ public class TreeIndexNodeWithLeafChildrenTest {
 	private TreeLeafNode[] nodes;
 	private TreeMock tree;
 	private File file;
-	private InvertedIndexIndexRecordEncoder	encoder;
+	private InvertedIndexIndexRecordEncoder encoder;
 
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
 		this.tree = new TreeMock(this.file);
-		
+
 		this.sut = new TreeIndexNode(this.tree, 2);
 		this.sut.setNodeNumber(0);
-		encoder=new InvertedIndexIndexRecordEncoder();
+		encoder = new InvertedIndexIndexRecordEncoder();
 
 		this.nodes = new TreeLeafNode[3];
 		nodes[0] = new TreeLeafNode(this.tree);
@@ -39,7 +39,7 @@ public class TreeIndexNodeWithLeafChildrenTest {
 		nodes[1].setNodeNumber(3);
 		nodes[2] = new TreeLeafNode(this.tree);
 		nodes[2].setNodeNumber(4);
-		
+
 		this.tree.registerNodesInMock(nodes);
 
 		this.records = new TestIndexRecord[9];
@@ -110,7 +110,7 @@ public class TreeIndexNodeWithLeafChildrenTest {
 		Assert.assertEquals("elefante", retrievedRec.getKey().getString());
 		Assert.assertEquals(99, retrievedRec.getBlockNumber());
 	}
-	
+
 	@Test
 	public void testInsertInCorrectLeafExtremeCase() throws RecordSerializationException, IOException {
 		this.sut.indexChild(nodes[0]);
@@ -121,7 +121,7 @@ public class TreeIndexNodeWithLeafChildrenTest {
 		Assert.assertEquals("AAA", retrievedRec.getKey().getString());
 		Assert.assertEquals(88, retrievedRec.getBlockNumber());
 	}
-	
+
 	@Test
 	public void testInsertAndRetrieve() throws RecordSerializationException, IOException {
 		this.sut.indexChild(nodes[0]);

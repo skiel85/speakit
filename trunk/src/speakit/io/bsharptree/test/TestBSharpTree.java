@@ -11,8 +11,8 @@ public class TestBSharpTree extends TreeMock {
 	private TreeIndexNode root;
 	private TestIndexRecord[] records;
 	private TreeLeafNode[] leafNodes;
-	private TreeIndexNode[] indexNodes; 
-	
+	private TreeIndexNode[] indexNodes;
+
 	public TestBSharpTree(File file) throws IOException {
 		super(file);
 		// 00: ... 02(040)03(400)04
@@ -108,7 +108,7 @@ public class TestBSharpTree extends TreeMock {
 		leafNodes[8].insertRecord(records[24]);
 		leafNodes[8].insertRecord(records[25]);
 		leafNodes[8].insertRecord(records[26]);
-		
+
 		this.indexNodes = new TreeIndexNode[3];
 		this.indexNodes[0] = new TreeIndexNode(this, 1);
 		this.indexNodes[0].setNodeNumber(2);
@@ -116,7 +116,7 @@ public class TestBSharpTree extends TreeMock {
 		this.indexNodes[1].setNodeNumber(3);
 		this.indexNodes[2] = new TreeIndexNode(this, 1);
 		this.indexNodes[2].setNodeNumber(4);
-		
+
 		this.indexNodes[0].indexChild(leafNodes[0]);
 		this.indexNodes[0].indexChild(leafNodes[1]);
 		this.indexNodes[0].indexChild(leafNodes[2]);
@@ -126,18 +126,18 @@ public class TestBSharpTree extends TreeMock {
 		this.indexNodes[2].indexChild(leafNodes[6]);
 		this.indexNodes[2].indexChild(leafNodes[7]);
 		this.indexNodes[2].indexChild(leafNodes[8]);
-		
+
 		this.root.indexChild(this.indexNodes[0]);
 		this.root.indexChild(this.indexNodes[1]);
 		this.root.indexChild(this.indexNodes[2]);
-		
+
 		this.registerNodeInMock(this.root);
 		this.registerNodesInMock(this.indexNodes);
 		this.registerNodesInMock(this.leafNodes);
-		
+
 		this.setRoot(root);
 	}
-	
+
 	@Override
 	public long insertRecord(TestIndexRecord record) throws IOException, RecordSerializationException {
 		this.root.insertRecord(record);
@@ -147,13 +147,13 @@ public class TestBSharpTree extends TreeMock {
 	public TestIndexRecord[] getRecords() {
 		return this.records;
 	}
-	
+
 	public TreeLeafNode[] getLeafNodes() {
 		return this.leafNodes;
 	}
-	
+
 	public TreeIndexNode[] getIndexNodes() {
 		return this.indexNodes;
-	}	
-	
+	}
+
 }

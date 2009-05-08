@@ -10,13 +10,13 @@ import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 
 public class TreeLeafNodeElement extends Field implements TreeNodeElement {
-	
+
 	private Record record;
 
 	public TreeLeafNodeElement(Record record) {
 		this.record = record;
 	}
-	
+
 	public TreeLeafNodeElement(RecordFactory factory) {
 		this.record = factory.createRecord();
 	}
@@ -38,7 +38,7 @@ public class TreeLeafNodeElement extends Field implements TreeNodeElement {
 
 	@Override
 	public int getSerializationSize() throws RecordSerializationException, IOException {
-			return this.record.serialize().length;
+		return this.record.serialize().length;
 	}
 
 	public Record getRecord() {
@@ -53,9 +53,9 @@ public class TreeLeafNodeElement extends Field implements TreeNodeElement {
 	public Field getKey() {
 		return this.record.getKey();
 	}
-	
+
 	@Override
 	protected String getStringRepresentation() {
 		return this.record.toString();
-	} 
+	}
 }

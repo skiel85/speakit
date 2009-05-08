@@ -69,13 +69,13 @@ public class TreeIndexNode extends TreeNode {
 			int counter = 0;
 			while (iterator.hasNext()) {
 				TreeIndexNodeElement eachElement = (TreeIndexNodeElement) iterator.next();// casteo
-																										// porque
-																										// son
-																										// elementos
-																										// de
-																										// este
-																										// mismo
-																										// nodo
+				// porque
+				// son
+				// elementos
+				// de
+				// este
+				// mismo
+				// nodo
 				if (eachElement.pointsTo(node)) {
 					return counter;
 				}
@@ -255,7 +255,7 @@ public class TreeIndexNode extends TreeNode {
 	public void insertElement(TreeNodeElement element) {
 		this.record.insertElement(element);
 	}
-	
+
 	@Override
 	public String toString() {
 		String result = this.getNodeNumber() + ": " + this.record.getLeftChildNodeNumber();
@@ -265,7 +265,7 @@ public class TreeIndexNode extends TreeNode {
 		}
 		return result;
 	}
- 
+
 	public int setLevel(int level) {
 		return this.record.getLevel();
 	}

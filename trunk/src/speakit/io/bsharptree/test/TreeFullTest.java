@@ -11,8 +11,8 @@ import org.junit.Test;
 import speakit.TextDocument;
 import speakit.ftrs.index.InvertedIndexIndexRecord;
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
-import speakit.io.bsharptree.Tree;
 import speakit.io.bsharptree.RecordEncoder;
+import speakit.io.bsharptree.Tree;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
@@ -20,10 +20,10 @@ import speakit.test.TestFileManager;
 @Ignore
 public class TreeFullTest {
 
-	private Tree<InvertedIndexIndexRecord, StringField>	sut;
-	private TestFileManager										filemanager;
-	private RecordEncoder										encoder;
-	private TextDocument										wikipediaArticle;
+	private Tree<InvertedIndexIndexRecord, StringField> sut;
+	private TestFileManager filemanager;
+	private RecordEncoder encoder;
+	private TextDocument wikipediaArticle;
 
 	@Before
 	public void setUp() throws Exception {
@@ -60,8 +60,7 @@ public class TreeFullTest {
 	 */
 	@Test
 	public void testRetrieveAllFromRecentlyOpenBTree() throws IOException {
-		Tree<InvertedIndexIndexRecord, StringField> newTree = new Tree<InvertedIndexIndexRecord, StringField>(filemanager.openFile("FullBSTree.dat"),
-				InvertedIndexIndexRecord.createRecordFactory(), encoder);
+		Tree<InvertedIndexIndexRecord, StringField> newTree = new Tree<InvertedIndexIndexRecord, StringField>(filemanager.openFile("FullBSTree.dat"), InvertedIndexIndexRecord.createRecordFactory(), encoder);
 		newTree.load();
 		testRetrieveAllRecords(newTree, wikipediaArticle);
 	}

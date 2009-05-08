@@ -27,36 +27,37 @@ public class TreeIndexNodeElement extends CompositeField implements TreeNodeElem
 	public Field getKey() {
 		return this.key;
 	}
-	
+
 	public void setKey(Field key) {
 		this.key = key;
 	}
-	
+
 	public int getRightChildNodeNumber() {
 		return this.rightChild.getInteger();
 	}
-	
+
 	public void setRightChild(int rightChild) {
 		this.rightChild.setInteger(rightChild);
 	}
 
 	@Override
 	protected int compareToSameClass(Field o) {
-		return this.key.compareTo(((TreeIndexNodeElement)o).key);
+		return this.key.compareTo(((TreeIndexNodeElement) o).key);
 	}
-	
+
 	@Override
 	protected String getStringRepresentation() {
-		return "(B#IE|key:"+ this.key.toString()+",r child:"+this.rightChild+")";
+		return "(B#IE|key:" + this.key.toString() + ",r child:" + this.rightChild + ")";
 	}
 
 	/**
 	 * Devuelve si el nodo es apuntado por este elemento
+	 * 
 	 * @param aNode
 	 * @return
 	 */
 	public boolean pointsTo(TreeNode aNode) {
-		return this.getRightChildNodeNumber()==aNode.getNodeNumber();
+		return this.getRightChildNodeNumber() == aNode.getNodeNumber();
 	}
-	
+
 }

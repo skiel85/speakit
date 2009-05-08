@@ -1,7 +1,6 @@
 package speakit.io.bsharptree;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -32,7 +31,7 @@ public abstract class TreeNode {
 
 	public abstract void insertRecord(Record record) throws IOException, RecordSerializationException;
 
-	public abstract int getLevel(); 
+	public abstract int getLevel();
 
 	private List<TreeNodeElement> extractExcedent(boolean upper) throws RecordSerializationException, IOException {
 		Stack<TreeNodeElement> stack = new Stack<TreeNodeElement>();
@@ -116,7 +115,8 @@ public abstract class TreeNode {
 	}
 
 	/**
-	 * Deprecado: No se debería tener necesidad de acceder al registro del nodo para obtener los valores de su estado.
+	 * Deprecado: No se debería tener necesidad de acceder al registro del nodo
+	 * para obtener los valores de su estado.
 	 */
 	@Deprecated
 	protected abstract TreeNodeRecord getNodeRecord();
@@ -163,19 +163,19 @@ public abstract class TreeNode {
 	public abstract List<TreeNodeElement> extractAllElements();
 
 	public abstract TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException;
-	
+
 	public byte[] serialize() throws RecordSerializationException, IOException {
 		return this.getNodeRecord().serialize();
 	}
-	
+
 	public void deserialize(byte[] data) throws RecordSerializationException, IOException {
 		this.getNodeRecord().deserialize(data);
 	}
-	
+
 	public List<byte[]> serializeInParts(int partSize) throws RecordSerializationException, IOException {
 		return this.getNodeRecord().serializeInParts(partSize);
 	}
-	
+
 	public void deserializeFromParts(List<byte[]> serializationParts) throws IOException {
 		this.getNodeRecord().deserializeFromParts(serializationParts);
 	}

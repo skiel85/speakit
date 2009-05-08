@@ -9,7 +9,6 @@ import speakit.io.blockfile.BlockFileOverflowException;
 import speakit.io.blockfile.WrongBlockNumberException;
 import speakit.io.bsharptree.Tree;
 import speakit.io.bsharptree.TreeNode;
-import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
@@ -18,7 +17,7 @@ public class TreeMock extends Tree<TestIndexRecord, StringField> {
 	private HashMap<Integer, TreeNode> nodes;
 
 	public TreeMock(File file) {
-		super(file,TestIndexRecord.createFactory(), new InvertedIndexIndexRecordEncoder());
+		super(file, TestIndexRecord.createFactory(), new InvertedIndexIndexRecordEncoder());
 		this.nodes = new HashMap<Integer, TreeNode>();
 	}
 

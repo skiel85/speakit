@@ -115,6 +115,10 @@ public abstract class BSharpTreeNode {
 		return result;
 	}
 
+	/**
+	 * Deprecado: No se debería tener necesidad de acceder al registro del nodo para obtener los valores de su estado.
+	 */
+	@Deprecated
 	protected abstract BSharpTreeNodeRecord getNodeRecord();
 
 	public int getMaximumCapacity() {

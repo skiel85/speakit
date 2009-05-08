@@ -169,7 +169,7 @@ public class RecordsListBlockInterpreter<RECTYPE extends Record<KEYTYPE>, KEYTYP
 	 */
 	public boolean deleteRecord(RECTYPE record){
 		int recordPosition = this.findRecordPosition(record.getKey());
-		if(recordPosition>0){
+		if(recordPosition>=0){
 			this.records.remove(recordPosition);
 			return true;
 		}

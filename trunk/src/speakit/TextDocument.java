@@ -26,6 +26,7 @@ public class TextDocument implements Iterable<String> {
 		this("");
 	}
 
+	
 	public void loadFromFile(File file) throws IOException {
 		FileInputStream in = new FileInputStream(file);
 		InputStreamReader reader = new InputStreamReader(in);

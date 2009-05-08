@@ -26,8 +26,12 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	protected BasicBlockFile blockFile;
 	protected RecordEncoder encoder;
 
-	private RecordFactory	recordFactory;
- 
+	private RecordFactory recordFactory;
+
+	public BSharpTree(File file, RecordFactory recordFactory) {
+		this(file, recordFactory, new IdentityRecordEncoder(recordFactory));
+	}
+
 	public BSharpTree(File file, RecordFactory recordFactory, RecordEncoder encoder) {
 		this.recordFactory = recordFactory;
 		this.blockFile = new BasicBlockFileImpl(file);
@@ -93,7 +97,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 			if (this.root.getLevel() == 0) {
 				BSharpTreeLeafNode oldRoot = (BSharpTreeLeafNode) this.root;
 				BSharpTreeIndexNode newRoot = (BSharpTreeIndexNode) this.createRootNode();
-								
+
 				ArrayList<BSharpTreeNode> leafs = new ArrayList<BSharpTreeNode>();
 				leafs.add(this.createLeafNode());
 				leafs.add(this.createLeafNode());

@@ -89,7 +89,7 @@ public class OccurrenceStorageTest {
 			if (list.get(i).compareTo(originalList.get(i)) != 0)
 				fail("En la posicion " + i + " del listado original aparece " + originalList.get(i).toString() + " mientras q en el reordenado aparece: " + list.get(i).toString());
 		}
-		System.out.println(list.toString());
+//		System.out.println(list.toString());
 	}
 
 }

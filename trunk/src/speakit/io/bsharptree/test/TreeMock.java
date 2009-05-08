@@ -26,6 +26,11 @@ public class TreeMock extends Tree<TestIndexRecord, StringField> {
 		return this.nodes.get(nodeNumber);
 	}
 
+	@Override
+	public int getNodeSize() {
+		return 150;
+	}
+
 	public void registerNodeInMock(TreeNode node) {
 		this.nodes.put(node.getNodeNumber(), node);
 	}
@@ -39,11 +44,6 @@ public class TreeMock extends Tree<TestIndexRecord, StringField> {
 	@Override
 	public void saveNode(TreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		this.registerNodeInMock(node);
-	}
-
-	@Override
-	public int getNodeSize() {
-		return 150;
 	}
 
 	@Override

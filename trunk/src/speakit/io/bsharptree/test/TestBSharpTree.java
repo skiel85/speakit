@@ -138,22 +138,22 @@ public class TestBSharpTree extends TreeMock {
 		this.setRoot(root);
 	}
 
-	@Override
-	public long insertRecord(TestIndexRecord record) throws IOException, RecordSerializationException {
-		this.root.insertRecord(record);
-		return 0;
-	}
-
-	public TestIndexRecord[] getRecords() {
-		return this.records;
+	public TreeIndexNode[] getIndexNodes() {
+		return this.indexNodes;
 	}
 
 	public TreeLeafNode[] getLeafNodes() {
 		return this.leafNodes;
 	}
 
-	public TreeIndexNode[] getIndexNodes() {
-		return this.indexNodes;
+	public TestIndexRecord[] getRecords() {
+		return this.records;
+	}
+
+	@Override
+	public long insertRecord(TestIndexRecord record) throws IOException, RecordSerializationException {
+		this.root.insertRecord(record);
+		return 0;
 	}
 
 }

@@ -5,10 +5,6 @@ import speakit.io.record.RecordFactory;
 
 public abstract class RecordEncoder implements RecordFactory {
 
-	public abstract Record decode(Record record);
-
-	public abstract Record encode(Record record);
-
 	public abstract void clear();
 
 	/**
@@ -16,5 +12,9 @@ public abstract class RecordEncoder implements RecordFactory {
 	 */
 	@Override
 	public abstract Record createRecord();
+
+	public abstract Record decode(Record record);
+
+	public abstract Record encode(Record record);
 
 }

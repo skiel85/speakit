@@ -24,8 +24,23 @@ public class TreeLeafNode extends TreeNode {
 	}
 
 	@Override
-	protected TreeNodeRecord getNodeRecord() {
-		return this.record;
+	public TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		return this.getTree().createLeafNodeAndSave();
+	}
+
+	@Override
+	public List<TreeNodeElement> extractAllElements() {
+		return this.record.extractAllElements();
+	}
+
+	@Override
+	protected TreeNodeElement extractFirstElement() {
+		return this.record.extractFirstElement();
+	}
+
+	@Override
+	protected TreeNodeElement extractLastElement() {
+		return this.record.extractLastElement();
 	}
 
 	public TreeLeafNodeElement getElement(Field key) throws IOException, RecordSerializationException {
@@ -37,27 +52,6 @@ public class TreeLeafNode extends TreeNode {
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public Record getRecord(Field key) throws IOException, RecordSerializationException {
-		TreeLeafNodeElement element = this.getElement(key);
-		if (element != null) {
-			return element.getRecord();
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public void insertRecord(Record record) throws IOException, RecordSerializationException {
-		TreeLeafNodeElement element = new TreeLeafNodeElement(record);
-		this.record.insertElement(element);
-	}
-
-	@Override
-	public int getLevel() {
-		return 0;
 	}
 
 	@Override
@@ -89,8 +83,40 @@ public class TreeLeafNode extends TreeNode {
 	// return result;
 	// }
 
-	public void passOneElementTo(TreeLeafNode node) {
-		node.record.getElements().add(this.record.extractLastElement());
+	@Override
+	public int getLevel() {
+		return 0;
+	}
+
+	@Override
+	public Field getNodeKey() {
+		return ((TreeLeafNodeElement) this.record.getElements().get(0)).getRecord().getKey();
+	}
+
+	@Override
+	protected TreeNodeRecord getNodeRecord() {
+		return this.record;
+	}
+
+	@Override
+	public Record getRecord(Field key) throws IOException, RecordSerializationException {
+		TreeLeafNodeElement element = this.getElement(key);
+		if (element != null) {
+			return element.getRecord();
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	protected void insertElement(TreeNodeElement element) {
+		this.record.insertElement(element);
+	}
+
+	@Override
+	public void insertRecord(Record record) throws IOException, RecordSerializationException {
+		TreeLeafNodeElement element = new TreeLeafNodeElement(record);
+		this.record.insertElement(element);
 	}
 
 	@Override
@@ -103,34 +129,8 @@ public class TreeLeafNode extends TreeNode {
 		return (this.record.serialize().length < this.getMinimumCapacity());
 	}
 
-	@Override
-	public Field getNodeKey() {
-		return ((TreeLeafNodeElement) this.record.getElements().get(0)).getRecord().getKey();
-	}
-
-	@Override
-	protected TreeNodeElement extractFirstElement() {
-		return this.record.extractFirstElement();
-	}
-
-	@Override
-	protected TreeNodeElement extractLastElement() {
-		return this.record.extractLastElement();
-	}
-
-	@Override
-	public TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
-		return this.getTree().createLeafNodeAndSave();
-	}
-
-	@Override
-	public List<TreeNodeElement> extractAllElements() {
-		return this.record.extractAllElements();
-	}
-
-	@Override
-	protected void insertElement(TreeNodeElement element) {
-		this.record.insertElement(element);
+	public void passOneElementTo(TreeLeafNode node) {
+		node.record.getElements().add(this.record.extractLastElement());
 	}
 
 	@Override

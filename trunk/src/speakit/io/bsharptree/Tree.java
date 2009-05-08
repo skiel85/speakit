@@ -101,6 +101,10 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		return this.blockFile;
 	}
 
+	public RecordEncoder getEncoder() {
+		return this.encoder;
+	}
+
 	/**
 	 * 
 	 * @param nodeNumber
@@ -247,10 +251,6 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	@Override
 	public String toString() {
 		return "Tree:\n" + this.getRoot().toString();
-	}
-
-	public RecordEncoder getEncoder() {
-		return this.encoder;
 	}
 
 }

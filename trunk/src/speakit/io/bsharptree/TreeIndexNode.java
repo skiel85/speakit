@@ -19,39 +19,114 @@ public class TreeIndexNode extends TreeNode {
 		this.record = new TreeIndexNodeRecord();
 	}
 
-	@Override
-	protected TreeNodeRecord getNodeRecord() {
-		return this.record;
+	public boolean balanceChilds() throws IOException {
+		TreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+		Iterator<TreeNodeElement> elementIt = this.getElements().iterator();
+		while (elementIt.hasNext()) {
+			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) elementIt.next();
+			TreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
+			lastNode.passMaximumCapacityExcedentToTheRight(node);
+			lastNode = node;
+		}
+		return childrenAreInOverflow();
+	}
+
+	private boolean childrenAreInOverflow() throws RecordSerializationException, IOException {
+		TreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+		if (lastNode.isInOverflow()) {
+			return true;
+		} else {
+			Iterator<TreeNodeElement> elementIt = this.getElements().iterator();
+			while (elementIt.hasNext()) {
+				TreeIndexNodeElement indexElement = (TreeIndexNodeElement) elementIt.next();
+				TreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
+				if (node.isInOverflow()) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 	@Override
-	public Record getRecord(Field key) throws IOException, RecordSerializationException {
-		int nodeNumberWhereToSearch = this.getChildFor(key);
-		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToSearch, this);
-		return nodeWhereToInsert.getRecord(key);
+	public TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		return this.getTree().createIndexNodeAndSave(this.getLevel());
+	}
+
+	@Override
+	public List<TreeNodeElement> extractAllElements() {
+		return this.record.extractAllElements();
+	}
+
+	@Override
+	protected TreeNodeElement extractFirstElement() {
+		return record.extractFirstElement();
+	}
+
+	@Override
+	protected TreeNodeElement extractLastElement() {
+		return record.extractLastElement();
+	}
+
+	private int getChildFor(Field key) {
+		int childForKey = this.record.getLeftChildNodeNumber();
+		Iterator<TreeIndexNodeElement> it = this.record.getElementsIterator();
+
+		boolean found = false;
+		while (it.hasNext() && !found) {
+			TreeIndexNodeElement element = it.next();
+			if (key.compareTo((Field) element.getKey()) > 0) {
+				childForKey = element.getRightChildNodeNumber();
+			} else {
+				found = true;
+			}
+		}
+
+		return childForKey;
+	}
+
+	private TreeNode[] getChildsOf(int elementIndex) throws IOException {
+		TreeNode leftChild;
+		if (elementIndex == 0) {
+			leftChild = this.getTree().getNode(this.record.getLeftChildNodeNumber(), this);
+		} else {
+			TreeIndexNodeElement leftElement = (TreeIndexNodeElement) this.getElements().get(elementIndex - 1);
+			leftChild = this.getTree().getNode(leftElement.getRightChildNodeNumber(), this);
+		}
+		TreeNode rightChild;
+		TreeIndexNodeElement element = (TreeIndexNodeElement) this.getElements().get(elementIndex);
+		rightChild = this.getTree().getNode(element.getRightChildNodeNumber(), this);
+
+		return new TreeNode[] { leftChild, rightChild };
+	}
+
+	public TreeIndexNodeElement getElement(Field key) throws IOException, RecordSerializationException {
+		Iterator<TreeNodeElement> it = this.record.getElements().iterator();
+		while (it.hasNext()) {
+			TreeIndexNodeElement element = (TreeIndexNodeElement) it.next();
+			if (element.getKey().compareTo(key) == 0) {
+				return element;
+			}
+		}
+		return null;
 	}
 
 	/**
-	 * Inserta un registro recursivamente y balancea o splittea si hace falta
+	 * Devuelve la posición de la clave especificada dentro del array de
+	 * elementos.
+	 * 
+	 * @param key
+	 * @return
 	 */
-	@Override
-	public void insertRecord(Record record) throws IOException, RecordSerializationException {
-		int nodeNumberWhereToInsert = this.getChildFor(record.getKey());
-		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert, this);
-		nodeWhereToInsert.insertRecord(record);
-
-		// TODO balanceo
-		if (nodeWhereToInsert.isInOverflow()) {
-			// ...some beauty code...
+	private int getElementIndexOf(Field key) {
+		List<TreeNodeElement> elements = this.record.getElements();
+		for (int i = 0; i < elements.size(); i++) {
+			TreeNodeElement element = elements.get(i);
+			if (element.getKey().compareTo(key) == 0) {
+				return i;
+			}
 		}
-		// split
-		if (nodeWhereToInsert.isInOverflow()) {
-			TreeNode overflowNode = nodeWhereToInsert;
-			int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
-			splitChildsOf(elementIndexThatPointsToNode);
-		} else {
-			this.getTree().saveNode(nodeWhereToInsert);
-		}
+		throw new IllegalArgumentException("La clave pasada no está en el array de elementos");
 	}
 
 	/**
@@ -85,37 +160,35 @@ public class TreeIndexNode extends TreeNode {
 		throw new IllegalArgumentException("El nodo no es apuntado por este nodo.");
 	}
 
-	private int getChildFor(Field key) {
-		int childForKey = this.record.getLeftChildNodeNumber();
-		Iterator<TreeIndexNodeElement> it = this.record.getElementsIterator();
-
-		boolean found = false;
-		while (it.hasNext() && !found) {
-			TreeIndexNodeElement element = it.next();
-			if (key.compareTo((Field) element.getKey()) > 0) {
-				childForKey = element.getRightChildNodeNumber();
-			} else {
-				found = true;
-			}
-		}
-
-		return childForKey;
+	@Override
+	public List<TreeNodeElement> getElements() {
+		return this.record.getElements();
 	}
 
-	public TreeIndexNodeElement getElement(Field key) throws IOException, RecordSerializationException {
-		Iterator<TreeNodeElement> it = this.record.getElements().iterator();
-		while (it.hasNext()) {
-			TreeIndexNodeElement element = (TreeIndexNodeElement) it.next();
-			if (element.getKey().compareTo(key) == 0) {
-				return element;
-			}
-		}
-		return null;
+	public int getLeftChildNodeNumber() {
+		return this.record.getLeftChildNodeNumber();
 	}
 
 	@Override
 	public int getLevel() {
 		return 80;
+	}
+
+	@Override
+	public Field getNodeKey() {
+		return this.getElements().get(0).getKey();
+	}
+
+	@Override
+	protected TreeNodeRecord getNodeRecord() {
+		return this.record;
+	}
+
+	@Override
+	public Record getRecord(Field key) throws IOException, RecordSerializationException {
+		int nodeNumberWhereToSearch = this.getChildFor(key);
+		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToSearch, this);
+		return nodeWhereToInsert.getRecord(key);
 	}
 
 	public void indexChild(TreeNode newChild) {
@@ -130,79 +203,40 @@ public class TreeIndexNode extends TreeNode {
 	}
 
 	@Override
-	public List<TreeNodeElement> getElements() {
-		return this.record.getElements();
+	public void insertElement(TreeNodeElement element) {
+		this.record.insertElement(element);
 	}
 
-	public int getLeftChildNodeNumber() {
-		return this.record.getLeftChildNodeNumber();
-	}
-
+	/**
+	 * Inserta un registro recursivamente y balancea o splittea si hace falta
+	 */
 	@Override
-	public Field getNodeKey() {
-		return this.getElements().get(0).getKey();
-	}
+	public void insertRecord(Record record) throws IOException, RecordSerializationException {
+		int nodeNumberWhereToInsert = this.getChildFor(record.getKey());
+		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert, this);
+		nodeWhereToInsert.insertRecord(record);
 
-	@Override
-	protected TreeNodeElement extractFirstElement() {
-		return record.extractFirstElement();
-	}
-
-	@Override
-	protected TreeNodeElement extractLastElement() {
-		return record.extractLastElement();
-	}
-
-	public boolean balanceChilds() throws IOException {
-		TreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
-		Iterator<TreeNodeElement> elementIt = this.getElements().iterator();
-		while (elementIt.hasNext()) {
-			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) elementIt.next();
-			TreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
-			lastNode.passMaximumCapacityExcedentToTheRight(node);
-			lastNode = node;
+		// TODO balanceo
+		if (nodeWhereToInsert.isInOverflow()) {
+			// ...some beauty code...
 		}
-		return childrenAreInOverflow();
-	}
-
-	private boolean childrenAreInOverflow() throws RecordSerializationException, IOException {
-		TreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
-		if (lastNode.isInOverflow()) {
-			return true;
+		// split
+		if (nodeWhereToInsert.isInOverflow()) {
+			TreeNode overflowNode = nodeWhereToInsert;
+			int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
+			splitChildsOf(elementIndexThatPointsToNode);
 		} else {
-			Iterator<TreeNodeElement> elementIt = this.getElements().iterator();
-			while (elementIt.hasNext()) {
-				TreeIndexNodeElement indexElement = (TreeIndexNodeElement) elementIt.next();
-				TreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
-				if (node.isInOverflow()) {
-					return true;
-				}
-			}
-			return false;
+			this.getTree().saveNode(nodeWhereToInsert);
 		}
+	}
+
+	public int setLevel(int level) {
+		return this.record.getLevel();
 	}
 
 	private void splitChildsOf(Field key) throws IOException {
 		int elementIndex = this.getElementIndexOf(key);
 		this.splitChildsOf(elementIndex);
-	}
-
-	/**
-	 * Devuelve la posición de la clave especificada dentro del array de
-	 * elementos.
-	 * 
-	 * @param key
-	 * @return
-	 */
-	private int getElementIndexOf(Field key) {
-		List<TreeNodeElement> elements = this.record.getElements();
-		for (int i = 0; i < elements.size(); i++) {
-			TreeNodeElement element = elements.get(i);
-			if (element.getKey().compareTo(key) == 0) {
-				return i;
-			}
-		}
-		throw new IllegalArgumentException("La clave pasada no está en el array de elementos");
 	}
 
 	private void splitChildsOf(int elementIndex) throws IOException {
@@ -226,36 +260,6 @@ public class TreeIndexNode extends TreeNode {
 		this.getTree().saveNode(rightChild);
 	}
 
-	private TreeNode[] getChildsOf(int elementIndex) throws IOException {
-		TreeNode leftChild;
-		if (elementIndex == 0) {
-			leftChild = this.getTree().getNode(this.record.getLeftChildNodeNumber(), this);
-		} else {
-			TreeIndexNodeElement leftElement = (TreeIndexNodeElement) this.getElements().get(elementIndex - 1);
-			leftChild = this.getTree().getNode(leftElement.getRightChildNodeNumber(), this);
-		}
-		TreeNode rightChild;
-		TreeIndexNodeElement element = (TreeIndexNodeElement) this.getElements().get(elementIndex);
-		rightChild = this.getTree().getNode(element.getRightChildNodeNumber(), this);
-
-		return new TreeNode[] { leftChild, rightChild };
-	}
-
-	@Override
-	public List<TreeNodeElement> extractAllElements() {
-		return this.record.extractAllElements();
-	}
-
-	@Override
-	public TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
-		return this.getTree().createIndexNodeAndSave(this.getLevel());
-	}
-
-	@Override
-	public void insertElement(TreeNodeElement element) {
-		this.record.insertElement(element);
-	}
-
 	@Override
 	public String toString() {
 		String result = this.getNodeNumber() + ": " + this.record.getLeftChildNodeNumber();
@@ -264,10 +268,6 @@ public class TreeIndexNode extends TreeNode {
 			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber();
 		}
 		return result;
-	}
-
-	public int setLevel(int level) {
-		return this.record.getLevel();
 	}
 
 }

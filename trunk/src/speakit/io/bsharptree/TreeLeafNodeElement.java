@@ -37,25 +37,25 @@ public class TreeLeafNodeElement extends Field implements TreeNodeElement {
 	}
 
 	@Override
-	public int getSerializationSize() throws RecordSerializationException, IOException {
-		return this.record.serialize().length;
+	public Field getKey() {
+		return this.record.getKey();
 	}
 
 	public Record getRecord() {
 		return this.record;
 	}
 
-	public void setRecord(Record record) {
-		this.record = record;
-	}
-
 	@Override
-	public Field getKey() {
-		return this.record.getKey();
+	public int getSerializationSize() throws RecordSerializationException, IOException {
+		return this.record.serialize().length;
 	}
 
 	@Override
 	protected String getStringRepresentation() {
 		return this.record.toString();
+	}
+
+	public void setRecord(Record record) {
+		this.record = record;
 	}
 }

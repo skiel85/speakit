@@ -6,14 +6,6 @@ import speakit.io.record.RecordFactory;
 
 public class TestIndexRecord extends InvertedIndexIndexRecord {
 
-	public TestIndexRecord(String key, int blockNumber) {
-		super(key, blockNumber);
-	}
-
-	public TestIndexRecord() {
-		// Dejado indentencionalmente en blanco.
-	}
-
 	public static RecordFactory createFactory() {
 		return new RecordFactory() {
 
@@ -44,6 +36,14 @@ public class TestIndexRecord extends InvertedIndexIndexRecord {
 	// protected String getStringRepresentation() {
 	// return "TestIndexRecord{key:"+this.key.toString()+"}";
 	// }
+
+	public TestIndexRecord() {
+		// Dejado indentencionalmente en blanco.
+	}
+
+	public TestIndexRecord(String key, int blockNumber) {
+		super(key, blockNumber);
+	}
 
 	// public long deserialize(InputStream in, FrontCodingWordDecoder decoder)
 	// throws IOException {

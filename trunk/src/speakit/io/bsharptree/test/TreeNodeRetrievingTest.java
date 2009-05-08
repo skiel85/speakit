@@ -34,6 +34,15 @@ public class TreeNodeRetrievingTest {
 	}
 
 	@Test
+	@Ignore
+	public void testGetNode() throws RecordSerializationException, IOException {
+		this.sut.insertRecord(new TestIndexRecord("prueba", 123));
+		TreeNode node = this.sut.getNode(0, null);
+		Assert.assertNotNull("Es nulo", node);
+		Assert.assertNotNull("Es nulo", node.getRecord(new StringField("prueba")));
+	}
+
+	@Test
 	public void testInstallation() throws RecordSerializationException, IOException {
 		BasicBlockFile blocksFile = this.sut.getBlockFile();
 
@@ -46,15 +55,6 @@ public class TreeNodeRetrievingTest {
 		rootSerializationParts.add(blocksFile.read(1));
 		TreeLeafNodeRecord record = new TreeLeafNodeRecord(this.sut);
 		record.deserializeFromParts(rootSerializationParts);
-	}
-
-	@Test
-	@Ignore
-	public void testGetNode() throws RecordSerializationException, IOException {
-		this.sut.insertRecord(new TestIndexRecord("prueba", 123));
-		TreeNode node = this.sut.getNode(0, null);
-		Assert.assertNotNull("Es nulo", node);
-		Assert.assertNotNull("Es nulo", node.getRecord(new StringField("prueba")));
 	}
 
 	@Test

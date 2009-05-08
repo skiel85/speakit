@@ -61,36 +61,6 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 	}
 
 	@Override
-	protected Field[] getFields() {
-		return new Field[] { this.frontCodedElements, this.nextSecuenceNodeNumber };
-	}
-
-	public List<TreeNodeElement> getElements() {
-		ArrayList<TreeNodeElement> result = new ArrayList<TreeNodeElement>(this.elements.getArray());
-		return result;
-	}
-
-	public TreeNodeElement extractLastElement() {
-		TreeNodeElement element = this.elements.get(this.elements.size() - 1);
-		this.elements.removeItem(this.elements.size() - 1);
-		return element;
-	}
-
-	@Override
-	public long serialize(OutputStream stream) throws RecordSerializationException {
-		this.frontCodedElements.clear();
-		this.tree.getEncoder().clear();
-		for (TreeLeafNodeElement element : this.elements) {
-			Record encodedRecord = this.tree.getEncoder().encode(element.getRecord());
-			TreeLeafNodeElement encodedElement = new TreeLeafNodeElement(encodedRecord);
-			this.frontCodedElements.addItem(encodedElement);
-		}
-		long serializationResult = super.serialize(stream);
-		// System.out.println("Serialización: " + this.toString());
-		return serializationResult;
-	}
-
-	@Override
 	public long deserialize(InputStream stream) throws RecordSerializationException {
 		this.frontCodedElements.clear();
 		long deserializationResult = super.deserialize(stream);
@@ -105,23 +75,6 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 		return deserializationResult;
 	}
 
-	public TreeNodeElement extractFirstElement() {
-		TreeNodeElement element = this.elements.get(0);
-		this.elements.removeItem(0);
-		return element;
-	}
-
-	public void insertElement(TreeNodeElement element) {
-		this.elements.addItem((TreeLeafNodeElement) element);
-		this.elements.sort();
-	}
-
-	@Override
-	protected String getStringRepresentation() {
-		return "LN " + this.getNodeNumber() + ",next:" + this.nextSecuenceNodeNumber.toString() + "," + this.elements.toString() + ",FCElements:" + this.frontCodedElements.toString();
-
-	}
-
 	public List<TreeNodeElement> extractAllElements() {
 		ArrayList<TreeNodeElement> elementList = new ArrayList<TreeNodeElement>();
 		for (TreeNodeElement element : this.elements) {
@@ -131,8 +84,55 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 		return elementList;
 	}
 
+	public TreeNodeElement extractFirstElement() {
+		TreeNodeElement element = this.elements.get(0);
+		this.elements.removeItem(0);
+		return element;
+	}
+
+	public TreeNodeElement extractLastElement() {
+		TreeNodeElement element = this.elements.get(this.elements.size() - 1);
+		this.elements.removeItem(this.elements.size() - 1);
+		return element;
+	}
+
+	public List<TreeNodeElement> getElements() {
+		ArrayList<TreeNodeElement> result = new ArrayList<TreeNodeElement>(this.elements.getArray());
+		return result;
+	}
+
+	@Override
+	protected Field[] getFields() {
+		return new Field[] { this.frontCodedElements, this.nextSecuenceNodeNumber };
+	}
+
 	@Override
 	public int getLevel() {
 		return 0;
+	}
+
+	@Override
+	protected String getStringRepresentation() {
+		return "LN " + this.getNodeNumber() + ",next:" + this.nextSecuenceNodeNumber.toString() + "," + this.elements.toString() + ",FCElements:" + this.frontCodedElements.toString();
+
+	}
+
+	public void insertElement(TreeNodeElement element) {
+		this.elements.addItem((TreeLeafNodeElement) element);
+		this.elements.sort();
+	}
+
+	@Override
+	public long serialize(OutputStream stream) throws RecordSerializationException {
+		this.frontCodedElements.clear();
+		this.tree.getEncoder().clear();
+		for (TreeLeafNodeElement element : this.elements) {
+			Record encodedRecord = this.tree.getEncoder().encode(element.getRecord());
+			TreeLeafNodeElement encodedElement = new TreeLeafNodeElement(encodedRecord);
+			this.frontCodedElements.addItem(encodedElement);
+		}
+		long serializationResult = super.serialize(stream);
+		// System.out.println("Serialización: " + this.toString());
+		return serializationResult;
 	}
 }

@@ -51,7 +51,7 @@ public class IntegerField extends Field {
 			byte[] hash = readBytes(in,1);
 			byte calculateHash = Record.calculateHash(value);
 			if(hash[0] != calculateHash){
-				throw new RecordSerializationCorruptDataException( hash[0],calculateHash);
+				throw new RecordSerializationCorruptDataException( "IntegerField",hash[0],calculateHash);
 			}
 		}
 	} 

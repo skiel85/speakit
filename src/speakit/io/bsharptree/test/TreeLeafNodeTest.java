@@ -40,6 +40,15 @@ public class TreeLeafNodeTest {
 	}
 
 	@Test
+	public void testGetNodeKey() throws RecordSerializationException, IOException {
+		this.sut.insertRecord(new TestIndexRecord("adios", 3));
+		this.sut.insertRecord(new TestIndexRecord("mundo", 1));
+		this.sut.insertRecord(new TestIndexRecord("cruel", 2));
+		StringField retrievedKey = (StringField) this.sut.getNodeKey();
+		Assert.assertEquals("adios", retrievedKey.getString());
+	}
+
+	@Test
 	public void testInsertAndRetrieve() throws RecordSerializationException, IOException {
 		this.sut.insertRecord(new TestIndexRecord("hola", 1));
 		this.sut.insertRecord(new TestIndexRecord("mundo", 3));
@@ -62,15 +71,6 @@ public class TreeLeafNodeTest {
 		TreeLeafNodeElement thirdElement = (TreeLeafNodeElement) this.sut.getElements().get(2);
 		Assert.assertEquals("mundo", ((StringField) thirdElement.getKey()).getString());
 		Assert.assertEquals(1, ((TestIndexRecord) thirdElement.getRecord()).getBlockNumber());
-	}
-
-	@Test
-	public void testGetNodeKey() throws RecordSerializationException, IOException {
-		this.sut.insertRecord(new TestIndexRecord("adios", 3));
-		this.sut.insertRecord(new TestIndexRecord("mundo", 1));
-		this.sut.insertRecord(new TestIndexRecord("cruel", 2));
-		StringField retrievedKey = (StringField) this.sut.getNodeKey();
-		Assert.assertEquals("adios", retrievedKey.getString());
 	}
 
 	@Test

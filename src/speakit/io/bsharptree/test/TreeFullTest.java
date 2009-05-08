@@ -20,9 +20,34 @@ import speakit.test.TestFileManager;
 @Ignore
 public class TreeFullTest {
 
+	/**
+	 * Simula un numero de bloque. Devuelve el tamaño de la palabra como numero
+	 * de bloque
+	 * 
+	 * @param word
+	 * @return
+	 */
+	private static int simulateBlockNumber(String word) {
+		return word.length();
+	}
+	public static void testRetrieveAllRecords(Tree<InvertedIndexIndexRecord, StringField> sut, TextDocument words) throws RecordSerializationException, IOException {
+		for (String word : words) {
+			StringField key = new StringField(word);
+			InvertedIndexIndexRecord record = sut.getRecord(key);
+			verifyCorrectRecord(record, word, key);
+		}
+	}
+	private static void verifyCorrectRecord(InvertedIndexIndexRecord record, String word, StringField key) {
+		// verifica que el record obtenido sea el correcto
+		Assert.assertEquals(0, record.getKey().compareTo(key));
+		Assert.assertEquals(simulateBlockNumber(word), record.getBlockNumber());
+	}
 	private Tree<InvertedIndexIndexRecord, StringField> sut;
+
 	private TestFileManager filemanager;
+
 	private RecordEncoder encoder;
+
 	private TextDocument wikipediaArticle;
 
 	@Before
@@ -43,17 +68,6 @@ public class TreeFullTest {
 	}
 
 	/**
-	 * Prueba obtener todos los registros
-	 * 
-	 * @throws IOException
-	 * @throws RecordSerializationException
-	 */
-	@Test
-	public void testRetrieveAllRecords() throws RecordSerializationException, IOException {
-		testRetrieveAllRecords(this.sut, wikipediaArticle);
-	}
-
-	/**
 	 * Cierra el archivo y realiza la prueba de obtener todos los registros
 	 * 
 	 * @throws IOException
@@ -66,28 +80,14 @@ public class TreeFullTest {
 	}
 
 	/**
-	 * Simula un numero de bloque. Devuelve el tamaño de la palabra como numero
-	 * de bloque
+	 * Prueba obtener todos los registros
 	 * 
-	 * @param word
-	 * @return
+	 * @throws IOException
+	 * @throws RecordSerializationException
 	 */
-	private static int simulateBlockNumber(String word) {
-		return word.length();
-	}
-
-	public static void testRetrieveAllRecords(Tree<InvertedIndexIndexRecord, StringField> sut, TextDocument words) throws RecordSerializationException, IOException {
-		for (String word : words) {
-			StringField key = new StringField(word);
-			InvertedIndexIndexRecord record = sut.getRecord(key);
-			verifyCorrectRecord(record, word, key);
-		}
-	}
-
-	private static void verifyCorrectRecord(InvertedIndexIndexRecord record, String word, StringField key) {
-		// verifica que el record obtenido sea el correcto
-		Assert.assertEquals(0, record.getKey().compareTo(key));
-		Assert.assertEquals(simulateBlockNumber(word), record.getBlockNumber());
+	@Test
+	public void testRetrieveAllRecords() throws RecordSerializationException, IOException {
+		testRetrieveAllRecords(this.sut, wikipediaArticle);
 	}
 
 }

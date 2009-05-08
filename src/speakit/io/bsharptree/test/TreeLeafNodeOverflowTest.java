@@ -47,27 +47,34 @@ public class TreeLeafNodeOverflowTest {
 	}
 
 	@Test
-	public void testOverflows() throws RecordSerializationException, IOException {
-		tree.create(30);
+	public void testExtractMaximumCapacityExcedent() throws RecordSerializationException, IOException {
+		tree.create(255);
 		this.sut = (TreeLeafNode) tree.getRoot();
-		Assert.assertFalse(this.sut.isInOverflow());
-		this.sut.insertRecord(new TestIndexRecord("hola", 2));
-		Assert.assertFalse(this.sut.isInOverflow());
-		this.sut.insertRecord(new TestIndexRecord("supercalifragilisticoespialidoso", 2));
-		this.sut.insertRecord(new TestIndexRecord("aaa_supercalifragilisticoespialidoso", 3));
-		Assert.assertTrue(this.sut.isInOverflow());
-	}
+		Assert.assertFalse("El nodo no debe estar en overflow al principio pero lo está.", this.sut.isInOverflow());
+		Assert.assertTrue("El nodo debe estar en underflow al principio pero no lo está.", this.sut.isInUnderflow());
 
-	@Test
-	public void testNotOverflows() throws RecordSerializationException, IOException {
-		tree.create(1024);
-		this.sut = (TreeLeafNode) tree.getRoot();
-		Assert.assertFalse(this.sut.isInOverflow());
-		this.sut.insertRecord(new TestIndexRecord("hola", 2));
-		Assert.assertFalse(this.sut.isInOverflow());
-		this.sut.insertRecord(new TestIndexRecord("supercalifragilisticoespialidoso", 2));
-		this.sut.insertRecord(new TestIndexRecord("aaa_supercalifragilisticoespialidoso", 3));
-		Assert.assertFalse(this.sut.isInOverflow());
+		while (!this.sut.isInOverflow()) {
+			this.sut.insertRecord(new TestIndexRecord(testStrings.next(), 2));
+		}
+
+		// El caracter ~ es para que se inserte al final, ya que se inserta
+		// ordenado.
+		this.sut.insertRecord(new TestIndexRecord("~parte", 8));
+		this.sut.insertRecord(new TestIndexRecord("~512", 5));
+		this.sut.insertRecord(new TestIndexRecord("~ciclo", 3));
+
+		List<TreeNodeElement> excedent = this.sut.extractUpperExcedent();
+
+		Assert.assertFalse("Luego de extraer el excedente el nodo no debería estar en overflow.", this.sut.isInOverflow());
+
+		Assert.assertFalse("El registro no debería estar en el nodo.", this.sut.contains(new StringField("~parte")));
+		Assert.assertFalse("El registro no debería estar en el nodo.", this.sut.contains(new StringField("~512")));
+		Assert.assertFalse("El registro no debería estar en el nodo.", this.sut.contains(new StringField("~ciclo")));
+
+		// Recordar que el excedente sale ordenado.
+		Assert.assertEquals(new StringField("~512").getString(), ((StringField) excedent.get(excedent.size() - 3).getKey()).getString());
+		Assert.assertEquals(new StringField("~ciclo").getString(), ((StringField) excedent.get(excedent.size() - 2).getKey()).getString());
+		Assert.assertEquals(new StringField("~parte").getString(), ((StringField) excedent.get(excedent.size() - 1).getKey()).getString());
 	}
 
 	@Test
@@ -102,34 +109,27 @@ public class TreeLeafNodeOverflowTest {
 	}
 
 	@Test
-	public void testExtractMaximumCapacityExcedent() throws RecordSerializationException, IOException {
-		tree.create(255);
+	public void testNotOverflows() throws RecordSerializationException, IOException {
+		tree.create(1024);
 		this.sut = (TreeLeafNode) tree.getRoot();
-		Assert.assertFalse("El nodo no debe estar en overflow al principio pero lo está.", this.sut.isInOverflow());
-		Assert.assertTrue("El nodo debe estar en underflow al principio pero no lo está.", this.sut.isInUnderflow());
+		Assert.assertFalse(this.sut.isInOverflow());
+		this.sut.insertRecord(new TestIndexRecord("hola", 2));
+		Assert.assertFalse(this.sut.isInOverflow());
+		this.sut.insertRecord(new TestIndexRecord("supercalifragilisticoespialidoso", 2));
+		this.sut.insertRecord(new TestIndexRecord("aaa_supercalifragilisticoespialidoso", 3));
+		Assert.assertFalse(this.sut.isInOverflow());
+	}
 
-		while (!this.sut.isInOverflow()) {
-			this.sut.insertRecord(new TestIndexRecord(testStrings.next(), 2));
-		}
-
-		// El caracter ~ es para que se inserte al final, ya que se inserta
-		// ordenado.
-		this.sut.insertRecord(new TestIndexRecord("~parte", 8));
-		this.sut.insertRecord(new TestIndexRecord("~512", 5));
-		this.sut.insertRecord(new TestIndexRecord("~ciclo", 3));
-
-		List<TreeNodeElement> excedent = this.sut.extractUpperExcedent();
-
-		Assert.assertFalse("Luego de extraer el excedente el nodo no debería estar en overflow.", this.sut.isInOverflow());
-
-		Assert.assertFalse("El registro no debería estar en el nodo.", this.sut.contains(new StringField("~parte")));
-		Assert.assertFalse("El registro no debería estar en el nodo.", this.sut.contains(new StringField("~512")));
-		Assert.assertFalse("El registro no debería estar en el nodo.", this.sut.contains(new StringField("~ciclo")));
-
-		// Recordar que el excedente sale ordenado.
-		Assert.assertEquals(new StringField("~512").getString(), ((StringField) excedent.get(excedent.size() - 3).getKey()).getString());
-		Assert.assertEquals(new StringField("~ciclo").getString(), ((StringField) excedent.get(excedent.size() - 2).getKey()).getString());
-		Assert.assertEquals(new StringField("~parte").getString(), ((StringField) excedent.get(excedent.size() - 1).getKey()).getString());
+	@Test
+	public void testOverflows() throws RecordSerializationException, IOException {
+		tree.create(30);
+		this.sut = (TreeLeafNode) tree.getRoot();
+		Assert.assertFalse(this.sut.isInOverflow());
+		this.sut.insertRecord(new TestIndexRecord("hola", 2));
+		Assert.assertFalse(this.sut.isInOverflow());
+		this.sut.insertRecord(new TestIndexRecord("supercalifragilisticoespialidoso", 2));
+		this.sut.insertRecord(new TestIndexRecord("aaa_supercalifragilisticoespialidoso", 3));
+		Assert.assertTrue(this.sut.isInOverflow());
 	}
 
 }

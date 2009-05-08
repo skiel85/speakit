@@ -9,13 +9,18 @@ public class TreeIndexNodeElement extends CompositeField implements TreeNodeElem
 	private Field key;
 	private IntegerField rightChild = new IntegerField();
 
+	public TreeIndexNodeElement() {
+		// Dejado intencionalmente en blanco.
+	}
+
 	public TreeIndexNodeElement(Field key, int rightChild) {
 		this.key = key;
 		this.rightChild.setInteger(rightChild);
 	}
 
-	public TreeIndexNodeElement() {
-		// Dejado intencionalmente en blanco.
+	@Override
+	protected int compareToSameClass(Field o) {
+		return this.key.compareTo(((TreeIndexNodeElement) o).key);
 	}
 
 	@Override
@@ -28,21 +33,8 @@ public class TreeIndexNodeElement extends CompositeField implements TreeNodeElem
 		return this.key;
 	}
 
-	public void setKey(Field key) {
-		this.key = key;
-	}
-
 	public int getRightChildNodeNumber() {
 		return this.rightChild.getInteger();
-	}
-
-	public void setRightChild(int rightChild) {
-		this.rightChild.setInteger(rightChild);
-	}
-
-	@Override
-	protected int compareToSameClass(Field o) {
-		return this.key.compareTo(((TreeIndexNodeElement) o).key);
 	}
 
 	@Override
@@ -58,6 +50,14 @@ public class TreeIndexNodeElement extends CompositeField implements TreeNodeElem
 	 */
 	public boolean pointsTo(TreeNode aNode) {
 		return this.getRightChildNodeNumber() == aNode.getNodeNumber();
+	}
+
+	public void setKey(Field key) {
+		this.key = key;
+	}
+
+	public void setRightChild(int rightChild) {
+		this.rightChild.setInteger(rightChild);
 	}
 
 }

@@ -134,11 +134,6 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 		return this.record.getElements();
 	}
 
-	@Override
-	public void setNodeNumber(int i) {
-		this.record.setNodeNumber(i);
-	}
-
 	public int getLeftChildNodeNumber() {
 		return this.record.getLeftChildNodeNumber();
 	}
@@ -146,11 +141,6 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	@Override
 	public Field getNodeKey() {
 		return this.getElements().get(0).getKey();
-	}
-
-	@Override
-	public int getNodeNumber() {
-		return this.record.getNodeNumber();
 	}
 
 	@Override

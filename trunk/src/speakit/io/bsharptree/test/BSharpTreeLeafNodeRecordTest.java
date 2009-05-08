@@ -1,5 +1,6 @@
 package speakit.io.bsharptree.test;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.After;
@@ -9,30 +10,21 @@ import org.junit.Test;
 
 import speakit.ftrs.index.InvertedIndexIndexRecord;
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
+import speakit.io.bsharptree.BSharpTree;
 import speakit.io.bsharptree.BSharpTreeLeafNodeElement;
 import speakit.io.bsharptree.BSharpTreeLeafNodeRecord;
-import speakit.io.bsharptree.RecordEncoder;
-import speakit.io.record.Record;
-import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 
+@SuppressWarnings("unchecked")
 public class BSharpTreeLeafNodeRecordTest {
-	private RecordFactory				recordFactory;
-	private RecordEncoder				encoder;
-
 	private BSharpTreeLeafNodeRecord	sut;
+	private BSharpTree tree;
+	private File file;
 
 	@Before
 	public void setUp() throws Exception { 
-		encoder = new InvertedIndexIndexRecordEncoder();
-		recordFactory = new RecordFactory() {
-			@Override
-			public Record createRecord() {
-				return new InvertedIndexIndexRecord();
-			}
-
-		};
-		this.sut = new BSharpTreeLeafNodeRecord(recordFactory, encoder);
+		this.tree = new BSharpTree(this.file, InvertedIndexIndexRecord.createRecordFactory() , new InvertedIndexIndexRecordEncoder());
+		this.sut = new BSharpTreeLeafNodeRecord(this.tree);
 		this.sut.insertElement(new BSharpTreeLeafNodeElement(new InvertedIndexIndexRecord("cuadrado", 1)));
 		this.sut.insertElement(new BSharpTreeLeafNodeElement(new InvertedIndexIndexRecord("cuadratura", 2)));
 		this.sut.insertElement(new BSharpTreeLeafNodeElement(new InvertedIndexIndexRecord("cuaderno", 2)));
@@ -61,7 +53,7 @@ public class BSharpTreeLeafNodeRecordTest {
 	@Test
 	public void testFrontCoding() throws RecordSerializationException, IOException {
 		byte[] serialization = this.sut.serialize();
-		BSharpTreeLeafNodeRecord deserialized = new BSharpTreeLeafNodeRecord(recordFactory, encoder);
+		BSharpTreeLeafNodeRecord deserialized = new BSharpTreeLeafNodeRecord(this.tree);
 		deserialized.deserialize(serialization);
 //		System.out.println("sut: " + sut.toString());
 //		System.out.println("des: " + deserialized.toString());

@@ -33,20 +33,20 @@ public class BSharpTreeNodeRetrievingTest {
 		this.file.delete();
 	}
 
-	@Test
-	public void testInstallation() throws RecordSerializationException, IOException {
-		BasicBlockFile blocksFile = this.sut.getBlockFile();
-
-		Assert.assertEquals(2, blocksFile.getBlockCount());
-		Assert.assertEquals(2, sut.getRootNoteBlocksQty());
-
-		// Se hace sólo para probar que no arroja excepción
-		ArrayList<byte[]> rootSerializationParts = new ArrayList<byte[]>();
-		rootSerializationParts.add(blocksFile.read(0));
-		rootSerializationParts.add(blocksFile.read(1));
-		BSharpTreeLeafNodeRecord record = new BSharpTreeLeafNodeRecord(this.sut,new InvertedIndexIndexRecordEncoder());
-		record.deserializeFromParts(rootSerializationParts);
-	}
+//	@Test
+//	public void testInstallation() throws RecordSerializationException, IOException {
+//		BasicBlockFile blocksFile = this.sut.getBlockFile();
+//
+//		Assert.assertEquals(2, blocksFile.getBlockCount());
+//		Assert.assertEquals(2, sut.getRootNoteBlocksQty());
+//
+//		// Se hace sólo para probar que no arroja excepción
+//		ArrayList<byte[]> rootSerializationParts = new ArrayList<byte[]>();
+//		rootSerializationParts.add(blocksFile.read(0));
+//		rootSerializationParts.add(blocksFile.read(1));
+//		BSharpTreeLeafNodeRecord record = new BSharpTreeLeafNodeRecord(this.sut,new InvertedIndexIndexRecordEncoder());
+//		record.deserializeFromParts(rootSerializationParts);
+//	}
 
 	@Test @Ignore
 	public void testGetNode() throws RecordSerializationException, IOException {

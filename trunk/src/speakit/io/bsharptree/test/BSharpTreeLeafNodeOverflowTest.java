@@ -36,7 +36,7 @@ public class BSharpTreeLeafNodeOverflowTest {
 		this.file = this.testFileManager.openFile("testTree.dat");
 		encoder = new IdentityRecordEncoder(TestIndexRecord.createFactory());
 		this.tree = new BSharpTree<TestIndexRecord, StringField>(this.file,TestIndexRecord.createFactory(), encoder); 
-		this.sut = new BSharpTreeLeafNode(this.tree, 1, this.encoder);
+		this.sut = new BSharpTreeLeafNode(this.tree);
 		this.testStrings = new TextDocument(
 				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur lacinia eleifend ante ut suscipit. Pellentesque porta urna sit amet leo egestas eu rhoncus dui faucibus. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris ut massa ante. Suspendisse potenti. Curabitur a nisi non mi viverra elementum id et magna. Mauris eu ipsum eu nulla posuere bibendum. Suspendisse et elit magna. Sed malesuada, turpis eget dapibus vestibulum, augue arcu hendrerit mi, sit amet scelerisque ipsum nulla ullamcorper ipsum. Integer aliquet, leo ac commodo malesuada, augue justo auctor elit, vel auctor nulla mi ac nulla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ac justo sit amet massa varius tempus eu at ipsum. Etiam semper nisl ac nulla molestie vestibulum. Nunc nec ante at nisl tempus placerat.")
 				.iterator();

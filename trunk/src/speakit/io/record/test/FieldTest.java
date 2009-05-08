@@ -1,4 +1,4 @@
-package speakit.dictionary.test;
+package speakit.io.record.test;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -36,6 +36,14 @@ public class FieldTest {
 	public void testCompleteSerialization() {
 		IntegerField original = new IntegerField(123);
 		IntegerField deserialized = new IntegerField();
+		serializeAndUnserialize(out, original, deserialized);
+		Assert.assertEquals(original.getInteger(), deserialized.getInteger());
+	}
+	
+	@Test
+	public void testCompleteHashedSerialization() {
+		IntegerField original = new IntegerField(123,true);
+		IntegerField deserialized = new IntegerField(true);
 		serializeAndUnserialize(out, original, deserialized);
 		Assert.assertEquals(original.getInteger(), deserialized.getInteger());
 	}
@@ -96,7 +104,7 @@ public class FieldTest {
 		StringField deserialized2 = new StringField();
 		deserializeAndTest(deserialized, deserialized2);
 	}
-
+ 
 	@Test
 	public void testByteArrayFieldComparison() {
 		byte[] bytes1 = new byte[] { 12, 21, 34, 12, 29, 8 };

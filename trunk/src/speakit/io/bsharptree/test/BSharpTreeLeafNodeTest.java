@@ -84,7 +84,7 @@ public class BSharpTreeLeafNodeTest {
 				return new TestIndexRecord("", 0);
 			}
 		};
-		tree.create(25);
+		tree.create(30);
 		this.sut = new BSharpTreeLeafNode(tree, 1,encoder);
 		Assert.assertFalse(this.sut.isInOverflow());
 		this.sut.insertRecord(new TestIndexRecord("hola", 2));

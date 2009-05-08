@@ -9,36 +9,22 @@ import java.util.Iterator;
 import java.util.List;
 
 public abstract class ArrayField<FIELDTYPE extends Field> extends Field implements Iterable<FIELDTYPE> {
-	private IntegerField size = new IntegerField();
+	
 	private ArrayList<FIELDTYPE> values = new ArrayList<FIELDTYPE>();
 
-//	@Override
-//	protected Field[] getFields() {
-//		return Field.JoinFields(new Field[] { this.size }, this.values.toArray(new Field[this.values.size()]));
-//	}
-
- 
-	
-	private void updateSize(){
-		this.size.setInteger(this.values.size());
-	}
-
 	public void addItem(FIELDTYPE item) {
-		this.values.add(item);
-		this.updateSize();
+		this.values.add(item); 
 	}
 
 	public void removeItem(int index) {
 		if (index < 0) {
 			throw new IndexOutOfBoundsException();
 		}
-		this.values.remove(index);
-		this.updateSize();
+		this.values.remove(index); 
 	}
 
 	public void removeItem(FIELDTYPE field) {
-		this.values.remove(field);
-		this.updateSize();
+		this.values.remove(field); 
 	}
 
 	public FIELDTYPE get(int index) {
@@ -74,8 +60,7 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 	}
 
 	public void clear() {
-		this.values.clear();
-		this.updateSize();
+		this.values.clear(); 
 	}
 	
 	public void sort() {
@@ -84,22 +69,23 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 
 	@Override
 	protected void actuallyDeserialize(InputStream in) throws IOException {
-		this.size.deserialize(in);
+		IntegerField size = new IntegerField(true);//crea un campo entero con hash, para verificar que el tamaño sea un dato válido
+		size.deserialize(in);
 		for (int i = 0; i < size.getInteger(); i++) {
 			FIELDTYPE createdField = this.createField();
 			deserializeField(in, createdField);
 			this.values.add(createdField);
 		}
 	} 
-
+	
 	private void deserializeField(InputStream in, FIELDTYPE createdField) throws IOException {
 		createdField.deserialize(in);
 	}
 
 	@Override
 	protected void actuallySerialize(OutputStream out) throws IOException {
-		this.updateSize();
-		this.size.serialize(out);
+		IntegerField size = new IntegerField(this.values.size(),true);//crea un campo entero con hash, para persistir el hash actual
+		size.serialize(out);
 		for (int i = 0; i < this.values.size(); i++) {
 			serializeField(out, i);
 		}
@@ -132,7 +118,7 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 	
 	@Override
 	protected String getStringRepresentation() {
-		String result="A[" + this.size.toString() + "]{";
+		String result="A[" + this.values.size() + "]{";
 		int i=0;
 		for (Field field : this.values) {
 			result += (i!=0?",":"") + field.toString();

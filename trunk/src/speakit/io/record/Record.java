@@ -12,6 +12,7 @@ import java.util.List;
  * Representa un registro. Un objeto serializable y comparable. Para extender
  * Record es necesario sobreescribir el metodo getKey y getFields.
  * 
+ * Incluye un campo de hash que sirve para detectar datos corruptos al momento de deserializarlo. Si esto sucede se arroja una excepción.
  */
 public abstract class Record<KEYTYPE extends Field> implements Comparable<Record<KEYTYPE>> {
 
@@ -38,26 +39,46 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 	 */
 	public long serialize(OutputStream stream) throws RecordSerializationException {
 		long byteCount = 0;
+		byte hash = 0;
 		try {
 			for (Field field : this.getFields()) {
-				byteCount += field.serialize(stream);
+				byte[] serialize = field.serialize();
+				stream.write(serialize);
+				byteCount += serialize.length;
+				//modifica el hash actual con los datos de la serialización del campo
+				hash = calculateHash(hash,serialize);
 			}
+			//graba el hash al final
+			stream.write(new byte[]{hash});
 		} catch (IOException e) {
 			throw new RecordSerializationException();
-		}
+		} 
 		return byteCount;
 	}
 
+	public static byte calculateHash(byte hash,byte[] serialize) {
+		for (int i = 0; i < serialize.length; i++) {
+			hash += calculateHash(serialize[i]);
+		}
+		return hash;
+	}
+
+	public static byte calculateHash(int source) {
+		return (byte) ((source * 371) >> 2);
+	}
+
 	/**
-	 * Serializa el registro y devuelve la serialización en varias partes de tamaño partSize, tantas como necesite.
+	 * Serializa el registro y devuelve la serialización en varias partes de
+	 * tamaño partSize, tantas como necesite.
 	 * 
-	 * @param partSize tamaño de cada parte expresado en bytes. Debe ser >0
+	 * @param partSize
+	 *            tamaño de cada parte expresado en bytes. Debe ser >0
 	 * @return
 	 * @throws IOException
 	 * @throws RecordSerializationException
 	 */
 	public List<byte[]> serializeInParts(int partSize) throws RecordSerializationException, IOException {
-		if(!(partSize>0)){
+		if (!(partSize > 0)) {
 			throw new IllegalArgumentException("PartSize debe ser > 0.");
 		}
 		List<byte[]> parts = new ArrayList<byte[]>();
@@ -69,9 +90,12 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 		}
 		return parts;
 	}
-	
+
 	/**
-	 * Deserializa el registro a partir de un array de partes de serializacion. Primero concatena los bytes de todas las partes y despues delega la deserialización al metodo deserialize 
+	 * Deserializa el registro a partir de un array de partes de serializacion.
+	 * Primero concatena los bytes de todas las partes y despues delega la
+	 * deserialización al metodo deserialize
+	 * 
 	 * @param serializationParts
 	 * @throws IOException
 	 */
@@ -93,12 +117,22 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 	 */
 	public long deserialize(InputStream stream) throws RecordSerializationException {
 		long byteCount = 0;
+		byte calculatedHash = 0;
+		byte deserializedHash=0;
 		try {
 			for (Field field : this.getFields()) {
 				byteCount += field.deserialize(stream);
+				//agrega al hash actual el hash del campo
+				calculatedHash = calculateHash(calculatedHash,field.serialize());
 			}
+			//carga el hash serializado
+			deserializedHash=(byte) stream.read();
+			
 		} catch (IOException e) {
 			throw new RecordSerializationException();
+		}
+		if(deserializedHash!=calculatedHash){
+			throw new RecordSerializationCorruptDataException(deserializedHash,calculatedHash);
 		}
 		return byteCount;
 	}
@@ -128,23 +162,23 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
 		this.deserialize(in);
 	}
-	
+
 	@Override
 	public String toString() {
 		String stringRepresention = this.getStringRepresentation();
-		int i=0;
-		if(stringRepresention.length()==0){
-			String res = "Record (" +this.getClass().getSimpleName() +"): {";
+		int i = 0;
+		if (stringRepresention.length() == 0) {
+			String res = "Record (" + this.getClass().getSimpleName() + "): {";
 			for (Field field : this.getFields()) {
-				res+= (i!=0?",":"") + field.toString();
+				res += (i != 0 ? "," : "") + field.toString();
 				i++;
 			}
-			res+= "}";
+			res += "}";
 			return res;
-		}else{
+		} else {
 			return stringRepresention;
 		}
-		
+
 	}
 
 	protected abstract String getStringRepresentation();

@@ -16,7 +16,7 @@ import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.RecordFile;
 
 @SuppressWarnings("unchecked")
-public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE>, RecordFactory {
+public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE>, RecordFactory {
 	/**
 	 * Indica la cantidad de bloques que ocupa la raiz
 	 */
@@ -26,7 +26,10 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	protected BasicBlockFile blockFile;
 	protected RecordEncoder encoder;
 
-	public BSharpTree(File file, RecordEncoder encoder) {
+	private RecordFactory	recordFactory;
+ 
+	public BSharpTree(File file, RecordFactory recordFactory, RecordEncoder encoder) {
+		this.recordFactory = recordFactory;
 		this.blockFile = new BasicBlockFileImpl(file);
 		this.encoder = encoder;
 	}
@@ -228,6 +231,11 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 		BSharpTreeNode node = this.createNonRootNode(80);
 		this.saveNode(node, true);
 		return node;
+	}
+
+	@Override
+	public Record createRecord() {
+		return recordFactory.createRecord();
 	}
 
 }

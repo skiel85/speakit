@@ -1,10 +1,12 @@
 package speakit.ftrs.index;
 
 import speakit.io.record.IndexRecord;
+import speakit.io.record.Record;
+import speakit.io.record.RecordFactory;
 import speakit.io.record.StringField;
 
-public class InvertedIndexIndexRecord extends IndexRecord<StringField>  {
-	private StringField key = new StringField();
+public class InvertedIndexIndexRecord extends IndexRecord<StringField> {
+	private StringField	key	= new StringField();
 
 	@Override
 	public StringField getKey() {
@@ -15,13 +17,21 @@ public class InvertedIndexIndexRecord extends IndexRecord<StringField>  {
 		this.key.setString(key);
 		this.setBlockNumber(block);
 	}
-	
+
 	public InvertedIndexIndexRecord() {
-		this("",0);
+		this("", 0);
 	}
 
 	@Override
 	protected String getStringRepresentation() {
-		return "InvertedIndexIndexRecord{key:"+this.key.toString()+",block:"+this.getBlockNumber()+"}";
-	} 
-}
+		return "InvertedIndexIndexRecord{key:" + this.key.toString() + ",block:" + this.getBlockNumber() + "}";
+	}
+
+	public static RecordFactory createRecordFactory() {
+		return new RecordFactory(){
+			@Override
+			public Record createRecord() {
+				return new InvertedIndexIndexRecord( "",-1);
+			}
+		};
+	}}

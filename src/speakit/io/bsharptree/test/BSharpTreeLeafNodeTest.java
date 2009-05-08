@@ -77,13 +77,7 @@ public class BSharpTreeLeafNodeTest {
 	@Test
 	public void testOverflow() throws RecordSerializationException, IOException {
 		File file = File.createTempFile(this.getClass().getName(), ".dat");
-		BSharpTree<TestIndexRecord, StringField> tree = new BSharpTree<TestIndexRecord, StringField>(file,new InvertedIndexIndexRecordEncoder()) {
-			@SuppressWarnings("unchecked")
-			@Override
-			public Record createRecord() {
-				return new TestIndexRecord("", 0);
-			}
-		};
+		BSharpTree<TestIndexRecord, StringField> tree = new BSharpTree<TestIndexRecord, StringField>(file,TestIndexRecord.createFactory(),new InvertedIndexIndexRecordEncoder());
 		tree.create(30);
 		this.sut = new BSharpTreeLeafNode(tree, 1,encoder);
 		Assert.assertFalse(this.sut.isInOverflow());

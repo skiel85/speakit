@@ -18,7 +18,7 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 	private HashMap<Integer, BSharpTreeNode> nodes;
 
 	public BSharpTreeMock(File file) {
-		super(file, new InvertedIndexIndexRecordEncoder());
+		super(file,TestIndexRecord.createFactory(), new InvertedIndexIndexRecordEncoder());
 		this.nodes = new HashMap<Integer, BSharpTreeNode>();
 	}
 
@@ -40,12 +40,6 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 	@Override
 	public void saveNode(BSharpTreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		this.registerNodeInMock(node);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Record createRecord() {
-		return new TestIndexRecord("", 0);
 	}
 
 	@Override

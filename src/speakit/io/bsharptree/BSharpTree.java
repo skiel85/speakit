@@ -20,11 +20,12 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	/**
 	 * Indica la cantidad de bloques que ocupa la raiz
 	 */
-	protected static final int	ROOT_NODE_BLOCKS_QTY	= 2;
+	protected static final int ROOT_NODE_BLOCKS_QTY = 2;
 
-	protected BSharpTreeNode	root;
-	protected BasicBlockFile	blockFile;
-	protected RecordEncoder		encoder;
+	protected BSharpTreeNode root;
+	protected BasicBlockFile blockFile;
+	protected RecordEncoder encoder;
+
 	public BSharpTree(File file, RecordEncoder encoder) {
 		this.blockFile = new BasicBlockFileImpl(file);
 		this.encoder = encoder;
@@ -84,29 +85,31 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 		this.root.insertRecord(record);
 		// TODO implementar balanceo y split para el caso de que quede en
 		// overflow luego de insertar.
-		if (false) {
-			if (this.root.isInOverflow()) {
-				if (this.root.getLevel() == 0) {
-					BSharpTreeLeafNode oldRoot = (BSharpTreeLeafNode) this.root;
-					BSharpTreeIndexNode newRoot = new BSharpTreeIndexNode(this, 1);
-					ArrayList<BSharpTreeNode> leafs = new ArrayList<BSharpTreeNode>();
-					leafs.add(new BSharpTreeLeafNode(this, 1, encoder));
-					leafs.add(new BSharpTreeLeafNode(this, 1, encoder));
-					leafs.add(new BSharpTreeLeafNode(this, 1, encoder));
 
-					leafs.get(0).insertElements((oldRoot.getElements()));
-					// this.root.balance(leafs);
+		if (this.root.isInOverflow()) {
+			if (this.root.getLevel() == 0) {
+				BSharpTreeLeafNode oldRoot = (BSharpTreeLeafNode) this.root;
+				BSharpTreeIndexNode newRoot = (BSharpTreeIndexNode) this.createRootNode();
+								
+				ArrayList<BSharpTreeNode> leafs = new ArrayList<BSharpTreeNode>();
+				leafs.add(this.createLeafNode());
+				leafs.add(this.createLeafNode());
+				leafs.add(this.createLeafNode());
 
-					newRoot.indexChild(leafs.get(0));
-					newRoot.indexChild(leafs.get(1));
-					newRoot.indexChild(leafs.get(2));
-					this.root = newRoot;
+				leafs.get(0).insertElements((oldRoot.extractAllElements()));
+				leafs.get(0).passMinimumCapacityExcedentToTheRight(leafs.get(1));
+				leafs.get(1).passMinimumCapacityExcedentToTheRight(leafs.get(2));
 
-					if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
-						throw new RuntimeException("ERROR");
-					}
+				newRoot.indexChild(leafs.get(0));
+				newRoot.indexChild(leafs.get(1));
+				newRoot.indexChild(leafs.get(2));
+				this.root = newRoot;
+
+				if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
+					throw new RuntimeException("ERROR");
 				}
 			}
+
 		}
 		this.saveNode(this.root);
 		return 0;

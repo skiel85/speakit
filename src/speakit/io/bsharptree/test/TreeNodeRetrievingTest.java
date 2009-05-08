@@ -12,20 +12,20 @@ import org.junit.Test;
 
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.blockfile.BasicBlockFile;
-import speakit.io.bsharptree.BSharpTree;
-import speakit.io.bsharptree.BSharpTreeLeafNodeRecord;
-import speakit.io.bsharptree.BSharpTreeNode;
+import speakit.io.bsharptree.Tree;
+import speakit.io.bsharptree.TreeLeafNodeRecord;
+import speakit.io.bsharptree.TreeNode;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
-public class BSharpTreeNodeRetrievingTest { 
+public class TreeNodeRetrievingTest { 
 	private File				file;
-	private  BSharpTree	sut;
+	private  Tree	sut;
 
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		this.sut = new  BSharpTree(file,TestIndexRecord.createFactory());
+		this.sut = new  Tree(file,TestIndexRecord.createFactory());
 		this.sut.create(15);
 	}
 
@@ -45,14 +45,14 @@ public class BSharpTreeNodeRetrievingTest {
 		ArrayList<byte[]> rootSerializationParts = new ArrayList<byte[]>();
 		rootSerializationParts.add(blocksFile.read(0));
 		rootSerializationParts.add(blocksFile.read(1));
-		BSharpTreeLeafNodeRecord record = new BSharpTreeLeafNodeRecord(this.sut);
+		TreeLeafNodeRecord record = new TreeLeafNodeRecord(this.sut);
 		record.deserializeFromParts(rootSerializationParts);
 	}
 
 	@Test @Ignore
 	public void testGetNode() throws RecordSerializationException, IOException {
 		this.sut.insertRecord(new TestIndexRecord("prueba", 123));
-		BSharpTreeNode node = this.sut.getNode(0, null);
+		TreeNode node = this.sut.getNode(0, null);
 		Assert.assertNotNull("Es nulo", node);
 		Assert.assertNotNull("Es nulo", node.getRecord(new StringField("prueba")));
 	}
@@ -60,7 +60,7 @@ public class BSharpTreeNodeRetrievingTest {
 	@Test
 	public void testSaveNode() throws RecordSerializationException, IOException {
 		this.sut.insertRecord(new TestIndexRecord("prueba", 123));
-		BSharpTreeNode node = this.sut.getNode(0, this.sut.getRoot());
+		TreeNode node = this.sut.getNode(0, this.sut.getRoot());
 		this.sut.saveNode(node);
 	}
 }

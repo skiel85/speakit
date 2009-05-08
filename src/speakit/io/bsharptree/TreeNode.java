@@ -13,13 +13,13 @@ import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 
 @SuppressWarnings("unchecked")
-public abstract class BSharpTreeNode {
+public abstract class TreeNode {
 
-	private final BSharpTree tree;
+	private final Tree tree;
 	private final int size;
 	private int nodeNumber;
 
-	public BSharpTreeNode(BSharpTree tree, int size) {
+	public TreeNode(Tree tree, int size) {
 		this.tree = tree;
 		this.size = size;
 	}
@@ -34,8 +34,8 @@ public abstract class BSharpTreeNode {
 
 	public abstract int getLevel(); 
 
-	private List<BSharpTreeNodeElement> extractExcedent(boolean upper) throws RecordSerializationException, IOException {
-		Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();
+	private List<TreeNodeElement> extractExcedent(boolean upper) throws RecordSerializationException, IOException {
+		Stack<TreeNodeElement> stack = new Stack<TreeNodeElement>();
 
 		// Extraigo todos los elementos que exceden a la capacidad mínima.
 		while (this.isInOverflow()) {
@@ -47,7 +47,7 @@ public abstract class BSharpTreeNode {
 		}
 
 		// Creo una lista con los elementos extraidos.
-		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>();
+		ArrayList<TreeNodeElement> result = new ArrayList<TreeNodeElement>();
 		while (!stack.empty()) {
 			result.add(stack.pop());
 		}
@@ -56,46 +56,46 @@ public abstract class BSharpTreeNode {
 		return result;
 	}
 
-	public List<BSharpTreeNodeElement> extractUpperExcedent() throws RecordSerializationException, IOException {
+	public List<TreeNodeElement> extractUpperExcedent() throws RecordSerializationException, IOException {
 		return this.extractExcedent(true);
 	}
 
-	public List<BSharpTreeNodeElement> extractLowerExcedent() throws RecordSerializationException, IOException {
+	public List<TreeNodeElement> extractLowerExcedent() throws RecordSerializationException, IOException {
 		return this.extractExcedent(false);
 	}
 
-	public void passMaximumCapacityExcedentToTheRight(BSharpTreeNode rightNode) throws RecordSerializationException, IOException {
+	public void passMaximumCapacityExcedentToTheRight(TreeNode rightNode) throws RecordSerializationException, IOException {
 		rightNode.insertElements(this.extractUpperExcedent());
 	}
 
-	public void passMaximumCapacityExcedentToTheLeft(BSharpTreeNode leftNode) throws RecordSerializationException, IOException {
+	public void passMaximumCapacityExcedentToTheLeft(TreeNode leftNode) throws RecordSerializationException, IOException {
 		leftNode.insertElements(this.extractLowerExcedent());
 	}
 
-	public void passMinimumCapacityExcedentToTheRight(BSharpTreeNode rightNode) throws RecordSerializationException, IOException {
+	public void passMinimumCapacityExcedentToTheRight(TreeNode rightNode) throws RecordSerializationException, IOException {
 		rightNode.insertElements(this.extractMinimumCapacityExcedent());
 	}
 
-	public void insertElements(List<BSharpTreeNodeElement> elements) {
-		for (BSharpTreeNodeElement sharpTreeNodeElement : elements) {
+	public void insertElements(List<TreeNodeElement> elements) {
+		for (TreeNodeElement sharpTreeNodeElement : elements) {
 			this.insertElement(sharpTreeNodeElement);
 		}
 	}
 
-	protected abstract void insertElement(BSharpTreeNodeElement element);
+	protected abstract void insertElement(TreeNodeElement element);
 
-	protected abstract BSharpTreeNodeElement extractLastElement();
+	protected abstract TreeNodeElement extractLastElement();
 
-	protected abstract BSharpTreeNodeElement extractFirstElement();
+	protected abstract TreeNodeElement extractFirstElement();
 
-	public abstract List<BSharpTreeNodeElement> getElements();
+	public abstract List<TreeNodeElement> getElements();
 
 	// public abstract List<BSharpTreeNodeElement>
 	// extractMinimumCapacityExcedent() throws RecordSerializationException,
 	// IOException;
 
-	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() throws RecordSerializationException, IOException {
-		Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();
+	public List<TreeNodeElement> extractMinimumCapacityExcedent() throws RecordSerializationException, IOException {
+		Stack<TreeNodeElement> stack = new Stack<TreeNodeElement>();
 
 		// Extraigo todos los elementos que exceden a la capacidad mínima.
 		while (!this.isInUnderflow()) {
@@ -106,7 +106,7 @@ public abstract class BSharpTreeNode {
 		this.insertElement(stack.pop());
 
 		// Creo una lista con los elementos extraidos.
-		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>();
+		ArrayList<TreeNodeElement> result = new ArrayList<TreeNodeElement>();
 		while (!stack.empty()) {
 			result.add(stack.pop());
 		}
@@ -119,7 +119,7 @@ public abstract class BSharpTreeNode {
 	 * Deprecado: No se debería tener necesidad de acceder al registro del nodo para obtener los valores de su estado.
 	 */
 	@Deprecated
-	protected abstract BSharpTreeNodeRecord getNodeRecord();
+	protected abstract TreeNodeRecord getNodeRecord();
 
 	public int getMaximumCapacity() {
 		return this.tree.getNodeSize() * this.size;
@@ -141,7 +141,7 @@ public abstract class BSharpTreeNode {
 		return (this.getNodeRecord().serialize().length < this.getMinimumCapacity());
 	}
 
-	protected BSharpTree getTree() {
+	protected Tree getTree() {
 		return this.tree;
 	}
 
@@ -160,9 +160,9 @@ public abstract class BSharpTreeNode {
 
 	public abstract Field getNodeKey();
 
-	public abstract List<BSharpTreeNodeElement> extractAllElements();
+	public abstract List<TreeNodeElement> extractAllElements();
 
-	public abstract BSharpTreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException;
+	public abstract TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException;
 	
 	public byte[] serialize() throws RecordSerializationException, IOException {
 		return this.getNodeRecord().serialize();

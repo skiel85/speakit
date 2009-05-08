@@ -13,43 +13,43 @@ import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 
 @SuppressWarnings("unchecked")
-public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
-	public class ArrayFieldExtension extends ArrayField<BSharpTreeLeafNodeElement> {
+public class TreeLeafNodeRecord extends TreeNodeRecord {
+	public class ArrayFieldExtension extends ArrayField<TreeLeafNodeElement> {
 		RecordFactory recordFactory;
 		public ArrayFieldExtension(RecordFactory recordFactory) {
 			this.recordFactory = recordFactory; 
 		}
 		
 		@Override
-		protected BSharpTreeLeafNodeElement createField() {
-			return new BSharpTreeLeafNodeElement(this.recordFactory.createRecord());
+		protected TreeLeafNodeElement createField() {
+			return new TreeLeafNodeElement(this.recordFactory.createRecord());
 		}
 	}
 	
-	public class FrontCodedElementArrayField extends ArrayField<BSharpTreeLeafNodeElement> {
+	public class FrontCodedElementArrayField extends ArrayField<TreeLeafNodeElement> {
 		RecordFactory recordFactory;
 		public FrontCodedElementArrayField(RecordFactory recordFactory) {
 			this.recordFactory = recordFactory; 
 		}
 		
 		@Override
-		protected BSharpTreeLeafNodeElement createField() {
+		protected TreeLeafNodeElement createField() {
 //			BSharpTreeLeafNodeRecord.this;
-			return new BSharpTreeLeafNodeElement(this.recordFactory.createRecord());
+			return new TreeLeafNodeElement(this.recordFactory.createRecord());
 		}
 	}
 
-	private ArrayField<BSharpTreeLeafNodeElement> elements ;
-	private ArrayField<BSharpTreeLeafNodeElement> frontCodedElements ;
+	private ArrayField<TreeLeafNodeElement> elements ;
+	private ArrayField<TreeLeafNodeElement> frontCodedElements ;
 	private IntegerField nextSecuenceNodeNumber = new IntegerField();
 	
-	private BSharpTree tree;
+	private Tree tree;
 
-	public BSharpTreeLeafNodeRecord(BSharpTree tree) {
+	public TreeLeafNodeRecord(Tree tree) {
 		this(tree, 1);
 	}
 	
-	public BSharpTreeLeafNodeRecord(BSharpTree tree, int size){
+	public TreeLeafNodeRecord(Tree tree, int size){
 		if(tree==null){
 			throw new IllegalArgumentException("El argumento árbol es nulo.");
 		}
@@ -63,13 +63,13 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 		return new Field[] {this.frontCodedElements, this.nextSecuenceNodeNumber };
 	}
 
-	public List<BSharpTreeNodeElement> getElements() {
-		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>(this.elements.getArray());
+	public List<TreeNodeElement> getElements() {
+		ArrayList<TreeNodeElement> result = new ArrayList<TreeNodeElement>(this.elements.getArray());
 		return result;
 	}
 
-	public BSharpTreeNodeElement extractLastElement() {
-		BSharpTreeNodeElement element = this.elements.get(this.elements.size() - 1);
+	public TreeNodeElement extractLastElement() {
+		TreeNodeElement element = this.elements.get(this.elements.size() - 1);
 		this.elements.removeItem(this.elements.size() - 1);
 		return element;
 	}
@@ -78,9 +78,9 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 	public long serialize(OutputStream stream) throws RecordSerializationException {
 		this.frontCodedElements.clear();
 		this.tree.getEncoder().clear();
-		for (BSharpTreeLeafNodeElement element : this.elements) {
+		for (TreeLeafNodeElement element : this.elements) {
 			Record encodedRecord = this.tree.getEncoder().encode(element.getRecord());
-			BSharpTreeLeafNodeElement encodedElement = new BSharpTreeLeafNodeElement(encodedRecord);
+			TreeLeafNodeElement encodedElement = new TreeLeafNodeElement(encodedRecord);
 			this.frontCodedElements.addItem(encodedElement);
 		}
 		long serializationResult = super.serialize(stream);		
@@ -94,23 +94,23 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 		long deserializationResult = super.deserialize(stream);
 		this.tree.getEncoder().clear();
 		this.elements.clear();
-		for (BSharpTreeLeafNodeElement element : this.frontCodedElements) {
+		for (TreeLeafNodeElement element : this.frontCodedElements) {
 			Record decodedRecord = this.tree.getEncoder().decode(element.getRecord());
-			BSharpTreeLeafNodeElement decodedElement = new BSharpTreeLeafNodeElement(decodedRecord);
+			TreeLeafNodeElement decodedElement = new TreeLeafNodeElement(decodedRecord);
 			this.elements.addItem(decodedElement);
 		}
 //		System.out.println("Deserialización: " + this.toString());
 		return deserializationResult;
 	} 
 	
-	public BSharpTreeNodeElement extractFirstElement() {
-		BSharpTreeNodeElement element = this.elements.get(0);
+	public TreeNodeElement extractFirstElement() {
+		TreeNodeElement element = this.elements.get(0);
 		this.elements.removeItem(0);
 		return element;
 	}
 	
-	public void insertElement(BSharpTreeNodeElement element) {
-		this.elements.addItem((BSharpTreeLeafNodeElement) element);
+	public void insertElement(TreeNodeElement element) {
+		this.elements.addItem((TreeLeafNodeElement) element);
 		this.elements.sort();
 	}
 	
@@ -120,9 +120,9 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 		
 	}
 
-	public List<BSharpTreeNodeElement> extractAllElements() {
-		ArrayList<BSharpTreeNodeElement> elementList = new ArrayList<BSharpTreeNodeElement>();
-		for (BSharpTreeNodeElement element : this.elements) {
+	public List<TreeNodeElement> extractAllElements() {
+		ArrayList<TreeNodeElement> elementList = new ArrayList<TreeNodeElement>();
+		for (TreeNodeElement element : this.elements) {
 			elementList.add(element);
 		}
 		this.elements.clear();

@@ -9,15 +9,15 @@ import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 
-public class BSharpTreeLeafNodeElement extends Field implements BSharpTreeNodeElement {
+public class TreeLeafNodeElement extends Field implements TreeNodeElement {
 	
 	private Record record;
 
-	public BSharpTreeLeafNodeElement(Record record) {
+	public TreeLeafNodeElement(Record record) {
 		this.record = record;
 	}
 	
-	public BSharpTreeLeafNodeElement(RecordFactory factory) {
+	public TreeLeafNodeElement(RecordFactory factory) {
 		this.record = factory.createRecord();
 	}
 
@@ -33,7 +33,7 @@ public class BSharpTreeLeafNodeElement extends Field implements BSharpTreeNodeEl
 
 	@Override
 	protected int compareToSameClass(Field o) {
-		return record.compareTo(((BSharpTreeLeafNodeElement) o).getRecord());
+		return record.compareTo(((TreeLeafNodeElement) o).getRecord());
 	}
 
 	@Override

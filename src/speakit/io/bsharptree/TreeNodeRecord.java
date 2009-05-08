@@ -3,7 +3,7 @@ package speakit.io.bsharptree;
 import speakit.io.record.IntegerField;
 import speakit.io.record.Record;
 
-public abstract class BSharpTreeNodeRecord extends Record<IntegerField> {
+public abstract class TreeNodeRecord extends Record<IntegerField> {
 	private IntegerField nodeNumber = new IntegerField();
 	
 	public int getNodeNumber() {
@@ -19,9 +19,9 @@ public abstract class BSharpTreeNodeRecord extends Record<IntegerField> {
 		return this.nodeNumber;
 	}
 	
-	public abstract void insertElement(BSharpTreeNodeElement element);
+	public abstract void insertElement(TreeNodeElement element);
 	
-	public abstract BSharpTreeNodeElement extractLastElement();
-	public abstract BSharpTreeNodeElement extractFirstElement(); 
+	public abstract TreeNodeElement extractLastElement();
+	public abstract TreeNodeElement extractFirstElement(); 
 	public abstract int getLevel() ;
 }

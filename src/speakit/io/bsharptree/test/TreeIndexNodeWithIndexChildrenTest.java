@@ -8,13 +8,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.io.bsharptree.BSharpTreeIndexNode;
-import speakit.io.bsharptree.BSharpTreeIndexNodeElement;
+import speakit.io.bsharptree.TreeIndexNode;
+import speakit.io.bsharptree.TreeIndexNodeElement;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
-public class BSharpTreeIndexNodeWithIndexChildrenTest {
-	private BSharpTreeIndexNode sut;
+public class TreeIndexNodeWithIndexChildrenTest {
+	private TreeIndexNode sut;
 	private TestBSharpTree tree;
 	private File file;
 
@@ -37,7 +37,7 @@ public class BSharpTreeIndexNodeWithIndexChildrenTest {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
 		this.tree = new TestBSharpTree(this.file);
 
-		this.sut = (BSharpTreeIndexNode) this.tree.getRoot();
+		this.sut = (TreeIndexNode) this.tree.getRoot();
 		this.sut.setNodeNumber(0);
 	}
 
@@ -49,10 +49,10 @@ public class BSharpTreeIndexNodeWithIndexChildrenTest {
 	@Test
 	public void testIndexChildren() {
 		Assert.assertEquals(2, this.sut.getLeftChildNodeNumber());
-		BSharpTreeIndexNodeElement element0 = (BSharpTreeIndexNodeElement) this.sut.getElements().get(0);
+		TreeIndexNodeElement element0 = (TreeIndexNodeElement) this.sut.getElements().get(0);
 		Assert.assertEquals("040", ((StringField)element0.getKey()).getString());
 		Assert.assertEquals(3, element0.getRightChildNodeNumber());
-		BSharpTreeIndexNodeElement element1 = (BSharpTreeIndexNodeElement) this.sut.getElements().get(1);
+		TreeIndexNodeElement element1 = (TreeIndexNodeElement) this.sut.getElements().get(1);
 		Assert.assertEquals("400", ((StringField)element1.getKey()).getString());
 		Assert.assertEquals(4, element1.getRightChildNodeNumber());
 	}

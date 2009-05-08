@@ -8,12 +8,12 @@ import speakit.io.record.RecordFactory;
  * @author Nahuel
  *
  */
-public class IdentityRecordEncoder extends RecordEncoder {
+public class DefaultRecordEncoder extends RecordEncoder {
 
 	
 	private final RecordFactory	recordFactory;
 
-	public IdentityRecordEncoder(RecordFactory recordFactory){
+	public DefaultRecordEncoder(RecordFactory recordFactory){
 		this.recordFactory = recordFactory;		
 	}
 	

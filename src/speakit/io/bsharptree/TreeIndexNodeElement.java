@@ -4,17 +4,17 @@ import speakit.io.record.CompositeField;
 import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
 
-public class BSharpTreeIndexNodeElement extends CompositeField implements BSharpTreeNodeElement {
+public class TreeIndexNodeElement extends CompositeField implements TreeNodeElement {
 
 	private Field key;
 	private IntegerField rightChild = new IntegerField();
 
-	public BSharpTreeIndexNodeElement(Field key, int rightChild) {
+	public TreeIndexNodeElement(Field key, int rightChild) {
 		this.key = key;
 		this.rightChild.setInteger(rightChild);
 	}
 
-	public BSharpTreeIndexNodeElement() {
+	public TreeIndexNodeElement() {
 		// Dejado intencionalmente en blanco.
 	}
 
@@ -42,7 +42,7 @@ public class BSharpTreeIndexNodeElement extends CompositeField implements BSharp
 
 	@Override
 	protected int compareToSameClass(Field o) {
-		return this.key.compareTo(((BSharpTreeIndexNodeElement)o).key);
+		return this.key.compareTo(((TreeIndexNodeElement)o).key);
 	}
 	
 	@Override
@@ -55,7 +55,7 @@ public class BSharpTreeIndexNodeElement extends CompositeField implements BSharp
 	 * @param aNode
 	 * @return
 	 */
-	public boolean pointsTo(BSharpTreeNode aNode) {
+	public boolean pointsTo(TreeNode aNode) {
 		return this.getRightChildNodeNumber()==aNode.getNodeNumber();
 	}
 	

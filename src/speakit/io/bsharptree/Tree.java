@@ -16,23 +16,23 @@ import speakit.io.record.RecordSerializationException;
 import speakit.io.recordfile.RecordFile;
 
 @SuppressWarnings("unchecked")
-public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE>, RecordFactory {
+public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implements RecordFile<RECTYPE, KEYTYPE>, RecordFactory {
 	/**
 	 * Indica la cantidad de bloques que ocupa la raiz
 	 */
 	protected static final int	ROOT_NODE_BLOCKS_QTY	= 2;
 
-	protected BSharpTreeNode	root;
+	protected TreeNode	root;
 	protected BasicBlockFile	blockFile;
 	protected RecordEncoder		encoder;
 
 	private RecordFactory		recordFactory;
 
-	public BSharpTree(File file, RecordFactory recordFactory) {
-		this(file, recordFactory, new IdentityRecordEncoder(recordFactory));
+	public Tree(File file, RecordFactory recordFactory) {
+		this(file, recordFactory, new DefaultRecordEncoder(recordFactory));
 	}
 
-	public BSharpTree(File file, RecordFactory recordFactory, RecordEncoder encoder) {
+	public Tree(File file, RecordFactory recordFactory, RecordEncoder encoder) {
 		this.recordFactory = recordFactory;
 		this.blockFile = new BasicBlockFileImpl(file);
 		this.encoder = encoder;
@@ -55,15 +55,15 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 		this.load();
 	}
 
-	public BSharpTreeNode createIndexNodeAndSave(int level) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
-		BSharpTreeIndexNode node = new BSharpTreeIndexNode(this, 1);
+	public TreeNode createIndexNodeAndSave(int level) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		TreeIndexNode node = new TreeIndexNode(this, 1);
 		node.setLevel(level);
 		this.saveNode(node, true);
 		return node;
 	}
 
-	public BSharpTreeNode createLeafNodeAndSave() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
-		BSharpTreeNode node =  new BSharpTreeLeafNode(this);
+	public TreeNode createLeafNodeAndSave() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		TreeNode node =  new TreeLeafNode(this);
 		this.saveNode(node, true);
 		return node;
 	}
@@ -74,13 +74,13 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	}
 
 	//Creacion y cargado de nodos
-	protected BSharpTreeNode createRootNode(int level) {
-		BSharpTreeNode node = null;
+	protected TreeNode createRootNode(int level) {
+		TreeNode node = null;
 		if (level == 0) {
-			node = new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY);
+			node = new TreeLeafNode(this, ROOT_NODE_BLOCKS_QTY);
 		} else if (level >= 0) {
-			node = new BSharpTreeIndexNode(this, ROOT_NODE_BLOCKS_QTY);
-			((BSharpTreeIndexNode) node).setLevel(level);
+			node = new TreeIndexNode(this, ROOT_NODE_BLOCKS_QTY);
+			((TreeIndexNode) node).setLevel(level);
 		} else {
 			throw new IllegalArgumentException("Condicion Level>0, pero vino: " + level);
 		}
@@ -89,7 +89,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 		return node;
 	}
 
-	private BSharpTreeNode deserializeNode(int nodeNumber, BSharpTreeNode newNode) throws IOException, RecordSerializationException {
+	private TreeNode deserializeNode(int nodeNumber, TreeNode newNode) throws IOException, RecordSerializationException {
 		List<byte[]> parts = new ArrayList<byte[]>();
 		for (int i = 0; i < newNode.getBlockQty(); i++) {
 			parts.add(blockFile.read(nodeNumber + i));
@@ -109,15 +109,15 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	 * @return
 	 * @throws IOException
 	 */
-	public BSharpTreeNode getNode(int nodeNumber, BSharpTreeNode parent) throws IOException {
+	public TreeNode getNode(int nodeNumber, TreeNode parent) throws IOException {
 		if(nodeNumber==0){
 			return this.root;
 		}else{
-			BSharpTreeNode node;
+			TreeNode node;
 			if (parent.getLevel() == 0) {
-				node= new BSharpTreeLeafNode(this, 1);
+				node= new TreeLeafNode(this, 1);
 			} else if (parent.getLevel() > 0) {
-				node= new BSharpTreeIndexNode(this, 1);
+				node= new TreeIndexNode(this, 1);
 			}else{
 				throw new IllegalArgumentException("No se puede construir un nodo con level: " + parent.getLevel());
 			}
@@ -136,7 +136,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	}
 
 	
-	public BSharpTreeNode getRoot() {
+	public TreeNode getRoot() {
 		return root;
 	}
 
@@ -149,7 +149,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 	 * @param node
 	 * @throws IOException
 	 */
-	private void initializeNodeInFile(BSharpTreeNode node) throws IOException {
+	private void initializeNodeInFile(TreeNode node) throws IOException {
 		int blockNumber = appendBlock();
 		for (int i = 1; i < node.getBlockQty(); i++) {
 			this.appendBlock();
@@ -165,11 +165,11 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 
 		if (this.root.isInOverflow()) {
 			if (this.root.getLevel() == 0) {
-				BSharpTreeLeafNode oldRoot = (BSharpTreeLeafNode) this.root;
-				BSharpTreeIndexNode newRoot = (BSharpTreeIndexNode) this.createRootNode(oldRoot.getLevel() + 1);
+				TreeLeafNode oldRoot = (TreeLeafNode) this.root;
+				TreeIndexNode newRoot = (TreeIndexNode) this.createRootNode(oldRoot.getLevel() + 1);
 				this.root = newRoot;
 				
-				ArrayList<BSharpTreeNode> leafs = new ArrayList<BSharpTreeNode>();
+				ArrayList<TreeNode> leafs = new ArrayList<TreeNode>();
 				leafs.add(this.createLeafNodeAndSave());
 				leafs.add(this.createLeafNodeAndSave());
 				leafs.add(this.createLeafNodeAndSave());
@@ -205,11 +205,11 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 		this.blockFile.load();
 		if (this.blockFile.getBlockCount() > this.ROOT_NODE_BLOCKS_QTY) {
 			// hay mas nodos que una raiz --> la raiz es un indice
-			this.root = new BSharpTreeIndexNode(this, this.ROOT_NODE_BLOCKS_QTY);
+			this.root = new TreeIndexNode(this, this.ROOT_NODE_BLOCKS_QTY);
 		} else {
 			if (this.blockFile.getBlockCount() == this.ROOT_NODE_BLOCKS_QTY) {
 				// hay solamente un nodo raiz --> es hoja
-				this.root = new BSharpTreeLeafNode(this, this.ROOT_NODE_BLOCKS_QTY);
+				this.root = new TreeLeafNode(this, this.ROOT_NODE_BLOCKS_QTY);
 			} else {
 				throw new RecordSerializationException("Archivo de B# Tree inválido.");
 			}
@@ -218,15 +218,15 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 		deserializeNode(0,this.root);
 	}
 
-	public void saveNode(BSharpTreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+	public void saveNode(TreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		saveNode(node, false);
 	}
 	
-	public void saveNode(BSharpTreeNode node, boolean create) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+	public void saveNode(TreeNode node, boolean create) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		if (create) {
 			initializeNodeInFile(node);
 		}
-		if(node.getLevel()==0 && node instanceof BSharpTreeIndexNode){
+		if(node.getLevel()==0 && node instanceof TreeIndexNode){
 			throw new RuntimeException("Un nodo indice no puede tener nivel 0. Nodo: "+node.toString());
 		}
 		Record nodeRecord = node.getNodeRecord();
@@ -241,7 +241,7 @@ public class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> 
 		}
 	}
 
-	protected void setRoot(BSharpTreeNode root) {
+	protected void setRoot(TreeNode root) {
 		this.root = root;
 	}
 	

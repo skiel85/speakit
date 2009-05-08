@@ -7,38 +7,38 @@ import java.util.HashMap;
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.blockfile.BlockFileOverflowException;
 import speakit.io.blockfile.WrongBlockNumberException;
-import speakit.io.bsharptree.BSharpTree;
-import speakit.io.bsharptree.BSharpTreeNode;
+import speakit.io.bsharptree.Tree;
+import speakit.io.bsharptree.TreeNode;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
-public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
+public class TreeMock extends Tree<TestIndexRecord, StringField> {
 
-	private HashMap<Integer, BSharpTreeNode> nodes;
+	private HashMap<Integer, TreeNode> nodes;
 
-	public BSharpTreeMock(File file) {
+	public TreeMock(File file) {
 		super(file,TestIndexRecord.createFactory(), new InvertedIndexIndexRecordEncoder());
-		this.nodes = new HashMap<Integer, BSharpTreeNode>();
+		this.nodes = new HashMap<Integer, TreeNode>();
 	}
 
 	@Override
-	public BSharpTreeNode getNode(int nodeNumber, BSharpTreeNode parent) throws IOException {
+	public TreeNode getNode(int nodeNumber, TreeNode parent) throws IOException {
 		return this.nodes.get(nodeNumber);
 	}
 
-	public void registerNodeInMock(BSharpTreeNode node) {
+	public void registerNodeInMock(TreeNode node) {
 		this.nodes.put(node.getNodeNumber(), node);
 	}
 
-	public void registerNodesInMock(BSharpTreeNode[] nodes) {
-		for (BSharpTreeNode node : nodes) {
+	public void registerNodesInMock(TreeNode[] nodes) {
+		for (TreeNode node : nodes) {
 			this.registerNodeInMock(node);
 		}
 	}
 
 	@Override
-	public void saveNode(BSharpTreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+	public void saveNode(TreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		this.registerNodeInMock(node);
 	}
 
@@ -48,7 +48,7 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 	}
 
 	@Override
-	public void saveNode(BSharpTreeNode node, boolean create) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+	public void saveNode(TreeNode node, boolean create) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		if (create) {
 			node.setNodeNumber(this.nodes.size() + 100);
 		}

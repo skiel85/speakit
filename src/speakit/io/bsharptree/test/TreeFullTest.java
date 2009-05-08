@@ -11,16 +11,16 @@ import org.junit.Test;
 import speakit.TextDocument;
 import speakit.ftrs.index.InvertedIndexIndexRecord;
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
-import speakit.io.bsharptree.BSharpTree;
+import speakit.io.bsharptree.Tree;
 import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
 
 @Ignore
-public class BSharpTreeFullTest {
+public class TreeFullTest {
 
-	private BSharpTree<InvertedIndexIndexRecord, StringField>	sut;
+	private Tree<InvertedIndexIndexRecord, StringField>	sut;
 	private TestFileManager										filemanager;
 	private RecordEncoder										encoder;
 	private TextDocument										wikipediaArticle;
@@ -29,7 +29,7 @@ public class BSharpTreeFullTest {
 	public void setUp() throws Exception {
 		this.filemanager = new TestFileManager("");
 		encoder = new InvertedIndexIndexRecordEncoder();
-		this.sut = new BSharpTree<InvertedIndexIndexRecord, StringField>(filemanager.openFile("FullBSTree.dat"), InvertedIndexIndexRecord.createRecordFactory(), encoder);
+		this.sut = new Tree<InvertedIndexIndexRecord, StringField>(filemanager.openFile("FullBSTree.dat"), InvertedIndexIndexRecord.createRecordFactory(), encoder);
 		this.sut.create(150);
 		wikipediaArticle = new TextDocument(
 				"El brote de gripe A (H1N1) de 2009,60 causado por una variante del Influenzavirus A originalmente de origen porcino (subtipo H1N1), Según la Organización Mundial de la Salud (OMS), los primeros casos de influenza en México se detectaron el 11 de abril en el estado mexicano de Veracruz, pero el primer enfermo registrado en el mundo fue un niño de 10 años de edad quien enfermó el 30 de marzo en San Diego, Estados Unidos61 que no habia tenido ningún contacto con cerdos y además no habia tenído ningún antecedente de haber viajado a México. Al mes se extendio por varios estados de México (Distrito Federal, Estado de México y San Luis Potosí) y Estados Unidos (Texas y California), para exportarse a partir de entonces, con aparición de numerosos casos en otros países de pacientes que habían viajado a México. Se han constatado unos pocos casos de contagios indirectos, de personas que no han estado en dicha región, que se han dado en España, Alemania, Corea del Sur y Reino Unido.62 El 29 de abril la Organización Mundial de la Salud (OMS) la clasificó como de nivel de alerta cinco, es decir, pandemia inminente.63 Ese nivel de alerta no define la gravedad de la enfermedad producida por el virus, sino su extensión geográfica.");
@@ -60,7 +60,7 @@ public class BSharpTreeFullTest {
 	 */
 	@Test
 	public void testRetrieveAllFromRecentlyOpenBTree() throws IOException {
-		BSharpTree<InvertedIndexIndexRecord, StringField> newTree = new BSharpTree<InvertedIndexIndexRecord, StringField>(filemanager.openFile("FullBSTree.dat"),
+		Tree<InvertedIndexIndexRecord, StringField> newTree = new Tree<InvertedIndexIndexRecord, StringField>(filemanager.openFile("FullBSTree.dat"),
 				InvertedIndexIndexRecord.createRecordFactory(), encoder);
 		newTree.load();
 		testRetrieveAllRecords(newTree, wikipediaArticle);
@@ -77,7 +77,7 @@ public class BSharpTreeFullTest {
 		return word.length();
 	}
 
-	public static void testRetrieveAllRecords(BSharpTree<InvertedIndexIndexRecord, StringField> sut, TextDocument words) throws RecordSerializationException, IOException {
+	public static void testRetrieveAllRecords(Tree<InvertedIndexIndexRecord, StringField> sut, TextDocument words) throws RecordSerializationException, IOException {
 		for (String word : words) {
 			StringField key = new StringField(word);
 			InvertedIndexIndexRecord record = sut.getRecord(key);

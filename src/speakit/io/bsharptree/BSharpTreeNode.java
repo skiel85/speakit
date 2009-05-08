@@ -16,6 +16,7 @@ public abstract class BSharpTreeNode {
 
 	private final BSharpTree tree;
 	private final int size;
+	private int nodeNumber;
 
 	public BSharpTreeNode(BSharpTree tree, int size) {
 		this.tree = tree;
@@ -54,8 +55,6 @@ public abstract class BSharpTreeNode {
 		return result;
 	}
 
-	
-	
 	public List<BSharpTreeNodeElement> extractUpperExcedent() throws RecordSerializationException, IOException {
 		return this.extractExcedent(true);
 	}
@@ -71,16 +70,16 @@ public abstract class BSharpTreeNode {
 	public void passMaximumCapacityExcedentToTheLeft(BSharpTreeNode leftNode) throws RecordSerializationException, IOException {
 		leftNode.insertElements(this.extractLowerExcedent());
 	}
-	
+
 	public void passMinimumCapacityExcedentToTheRight(BSharpTreeNode rightNode) throws RecordSerializationException, IOException {
 		rightNode.insertElements(this.extractMinimumCapacityExcedent());
 	}
-	
+
 	public void insertElements(List<BSharpTreeNodeElement> elements) {
 		for (BSharpTreeNodeElement sharpTreeNodeElement : elements) {
 			this.insertElement(sharpTreeNodeElement);
 		}
-	} 
+	}
 
 	protected abstract void insertElement(BSharpTreeNodeElement element);
 
@@ -90,7 +89,9 @@ public abstract class BSharpTreeNode {
 
 	public abstract List<BSharpTreeNodeElement> getElements();
 
-//	public abstract List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() throws RecordSerializationException, IOException;
+	// public abstract List<BSharpTreeNodeElement>
+	// extractMinimumCapacityExcedent() throws RecordSerializationException,
+	// IOException;
 
 	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() throws RecordSerializationException, IOException {
 		Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();
@@ -138,18 +139,23 @@ public abstract class BSharpTreeNode {
 	protected BSharpTree getTree() {
 		return this.tree;
 	}
-	
+
 	protected int getSize() {
 		return this.size;
 	}
 
-	public abstract int getNodeNumber();
+	public int getNodeNumber() {
+		return this.nodeNumber;
+	}
+
+	public void setNodeNumber(int nodeNumber) {
+		this.nodeNumber = nodeNumber;
+		this.getNodeRecord().setNodeNumber(nodeNumber);
+	}
 
 	public abstract Field getNodeKey();
 
 	public abstract List<BSharpTreeNodeElement> extractAllElements();
-	
-	public abstract BSharpTreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException;
 
-	public abstract void setNodeNumber(int nodeNumber);
+	public abstract BSharpTreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException;
 }

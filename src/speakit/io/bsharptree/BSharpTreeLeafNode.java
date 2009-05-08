@@ -109,16 +109,6 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	}
 
 	@Override
-	public void setNodeNumber(int nodeNumber) {
-		this.record.setNodeNumber(nodeNumber);
-	}
-
-	@Override
-	public int getNodeNumber() {
-		return this.record.getNodeNumber();
-	}
-
-	@Override
 	protected BSharpTreeNodeElement extractFirstElement() {
 		return this.record.extractFirstElement();
 	}

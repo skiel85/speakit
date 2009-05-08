@@ -12,7 +12,7 @@ import speakit.io.bsharptree.BSharpTreeIndexNodeElement;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
-public class BSharpTreeIndexNodeTest {
+public class BSharpTreeNodeTest {
 
 	private BSharpTreeIndexNode sut;
 

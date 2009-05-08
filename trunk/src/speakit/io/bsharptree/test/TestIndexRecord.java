@@ -10,6 +10,10 @@ public class TestIndexRecord extends InvertedIndexIndexRecord  {
 		super(key,blockNumber);
 	}
 	
+	public TestIndexRecord() {
+		// Dejado indentencionalmente en blanco.
+	}
+
 	public static RecordFactory createFactory(){
 		return new RecordFactory(){
 

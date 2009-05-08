@@ -265,5 +265,15 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 	public void insertElement(BSharpTreeNodeElement element) {
 		this.record.insertElement(element);
 	}
+	
+	@Override
+	public String toString() {
+		String result = this.getNodeNumber() + ": " + this.record.getLeftChildNodeNumber();
+		for (BSharpTreeNodeElement element : this.record.getElements()) {
+			BSharpTreeIndexNodeElement indexElement = (BSharpTreeIndexNodeElement) element;
+			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber();
+		}
+		return result;
+	}
 
 }

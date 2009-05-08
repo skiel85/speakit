@@ -63,27 +63,29 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 		return this.record.getElements();
 	}
 
-//	@Override
-//	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() throws RecordSerializationException, IOException {
-//		Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();
-//
-//		// Extraigo todos los elementos que exceden a la capacidad mínima.
-//		while (!this.isInUnderflow()) {
-//			stack.add(this.record.extractLastElement());
-//		}
-//
-//		// Reinserto el último para estar por encima de la capacidad mínima.
-//		this.record.insertElement(stack.pop());
-//
-//		// Creo una lista con los elementos extraidos.
-//		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>();
-//		while (!stack.empty()) {
-//			result.add(stack.pop());
-//		}
-//
-//		// Devuelvo la lista de elementos extraidos.
-//		return result;
-//	}
+	// @Override
+	// public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent()
+	// throws RecordSerializationException, IOException {
+	// Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();
+	//
+	// // Extraigo todos los elementos que exceden a la capacidad mínima.
+	// while (!this.isInUnderflow()) {
+	// stack.add(this.record.extractLastElement());
+	// }
+	//
+	// // Reinserto el último para estar por encima de la capacidad mínima.
+	// this.record.insertElement(stack.pop());
+	//
+	// // Creo una lista con los elementos extraidos.
+	// ArrayList<BSharpTreeNodeElement> result = new
+	// ArrayList<BSharpTreeNodeElement>();
+	// while (!stack.empty()) {
+	// result.add(stack.pop());
+	// }
+	//
+	// // Devuelvo la lista de elementos extraidos.
+	// return result;
+	// }
 
 	public void passOneElementTo(BSharpTreeLeafNode node) {
 		node.record.getElements().add(this.record.extractLastElement());
@@ -137,6 +139,15 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	@Override
 	protected void insertElement(BSharpTreeNodeElement element) {
 		this.record.insertElement(element);
+	}
+
+	@Override
+	public String toString() {
+		String result = this.getNodeNumber() + ": ";
+		for (BSharpTreeNodeElement element : this.record.getElements()) {
+			result += "(" + element.getKey().toString() + ")";
+		}
+		return result;
 	}
 
 }

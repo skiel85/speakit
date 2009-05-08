@@ -50,7 +50,7 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 
 	@Override
 	public int getNodeSize() {
-		return 128;
+		return 15;
 	}
 
 	@Override

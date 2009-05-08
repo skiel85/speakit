@@ -132,7 +132,7 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 			throw new RecordSerializationException(e);
 		}
 		if(deserializedHash!=calculatedHash){
-			throw new RecordSerializationCorruptDataException(deserializedHash,calculatedHash);
+			throw new RecordSerializationCorruptDataException("Record",deserializedHash,calculatedHash);
 		}
 		return byteCount;
 	}

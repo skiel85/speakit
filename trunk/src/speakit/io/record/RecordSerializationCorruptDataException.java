@@ -5,8 +5,8 @@ public class RecordSerializationCorruptDataException extends RecordSerialization
 	 * 
 	 */
 	private static final long	serialVersionUID	= 1L;
-
-	public RecordSerializationCorruptDataException(byte savedHash,byte calculatedHash) {
-		super("Datos corruptos (hash invalido).\nHash guardado:"+savedHash+"\nHash calculado:"+calculatedHash);
+ 
+	public RecordSerializationCorruptDataException(String source, byte savedHash, byte calculatedHash) {
+		super("Datos corruptos (hash invalido). Origen: "+source+". \nHash guardado:"+savedHash+"\nHash calculado:"+calculatedHash);
 	}
 }

@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
+import speakit.io.blockfile.BlockFileOverflowException;
+import speakit.io.blockfile.WrongBlockNumberException;
 import speakit.io.bsharptree.BSharpTree;
 import speakit.io.bsharptree.BSharpTreeNode;
 import speakit.io.record.Record;
+import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
 public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
@@ -33,10 +36,28 @@ public class BSharpTreeMock extends BSharpTree<TestIndexRecord, StringField> {
 			this.registerNodeInMock(node);
 		}
 	}
+	
+	@Override
+	public void saveNode(BSharpTreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		this.registerNodeInMock(node);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Record createRecord() {
 		return new TestIndexRecord("",0);
+	}
+	
+	@Override
+	public int getNodeSize() {
+		return 15;
+	}
+	
+	@Override
+	public void saveNode(BSharpTreeNode node, boolean create) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		if(create){
+			node.setNodeNumber(this.nodes.size()+6);	
+		}
+		this.registerNodeInMock(node);
 	}
 }

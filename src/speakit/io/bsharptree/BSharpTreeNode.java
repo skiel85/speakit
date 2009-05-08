@@ -73,16 +73,43 @@ public abstract class BSharpTreeNode {
 	public void passMinimumCapacityExcedentToTheRight(BSharpTreeNode rightNode) throws RecordSerializationException, IOException {
 		rightNode.insertElements(this.extractMinimumCapacityExcedent());
 	}
+	
+	public void insertElements(List<BSharpTreeNodeElement> elements) {
+		for (BSharpTreeNodeElement sharpTreeNodeElement : elements) {
+			this.insertElement(sharpTreeNodeElement);
+		}
+	} 
+
+	protected abstract void insertElement(BSharpTreeNodeElement element);
 
 	protected abstract BSharpTreeNodeElement extractLastElement();
 
 	protected abstract BSharpTreeNodeElement extractFirstElement();
 
-	public abstract void insertElements(List<BSharpTreeNodeElement> allRecords);
-
 	public abstract List<BSharpTreeNodeElement> getElements();
 
-	public abstract List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() throws RecordSerializationException, IOException;
+//	public abstract List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() throws RecordSerializationException, IOException;
+
+	public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent() throws RecordSerializationException, IOException {
+		Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();
+
+		// Extraigo todos los elementos que exceden a la capacidad mínima.
+		while (!this.isInUnderflow()) {
+			stack.add(this.extractLastElement());
+		}
+
+		// Reinserto el último para estar por encima de la capacidad mínima.
+		this.insertElement(stack.pop());
+
+		// Creo una lista con los elementos extraidos.
+		ArrayList<BSharpTreeNodeElement> result = new ArrayList<BSharpTreeNodeElement>();
+		while (!stack.empty()) {
+			result.add(stack.pop());
+		}
+
+		// Devuelvo la lista de elementos extraidos.
+		return result;
+	}
 
 	protected abstract BSharpTreeNodeRecord getNodeRecord();
 
@@ -121,4 +148,6 @@ public abstract class BSharpTreeNode {
 	public abstract List<BSharpTreeNodeElement> extractAllElements();
 	
 	public abstract BSharpTreeNode createSibling();
+
+	public abstract void setNodeNumber(int nodeNumber);
 }

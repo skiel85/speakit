@@ -32,14 +32,22 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 
 	public void create(int nodeSize) throws IOException {
 		this.blockFile.create(nodeSize);
-		this.blockFile.appendBlock();
-		this.blockFile.appendBlock();
+		appendBlock();
+		appendBlock();
 		this.root = new BSharpTreeLeafNode(this, ROOT_NODE_BLOCKS_QTY, encoder);
 		this.saveNode(this.root);
 		this.load();
 	}
 
 	public void saveNode(BSharpTreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		saveNode(node, false);
+	}
+
+	public void saveNode(BSharpTreeNode node, boolean create) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		if (create) {
+			int blockNumber = appendBlock();
+			node.setNodeNumber(blockNumber);
+		}
 		Record nodeRecord = node.getNodeRecord();
 		List<byte[]> serializationParts = nodeRecord.serializeInParts(this.getNodeSize());
 		if (serializationParts.size() > node.getBlockQty()) {
@@ -50,6 +58,10 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 			this.blockFile.write(i + node.getNodeNumber(), part);
 			// TODO falta el offset que es el numero de bloque
 		}
+	}
+
+	private int appendBlock() throws IOException {
+		return this.blockFile.appendBlock();
 	}
 
 	public void load() throws IOException {
@@ -124,7 +136,21 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	 * @return
 	 * @throws IOException
 	 */
-	private BSharpTreeNode createNode(int nodeNumber, BSharpTreeNode parent) throws IOException {
+	public BSharpTreeNode createNode(BSharpTreeNode parent) throws IOException {
+		BSharpTreeNode node = this.createNonRootNode(parent.getLevel());
+		this.saveNode(node, true);
+		return node;
+	}
+
+	/**
+	 * Crea un nodo raiz o no raiz
+	 * 
+	 * @param nodeNumber
+	 * @param parent
+	 * @return
+	 * @throws IOException
+	 */
+	public BSharpTreeNode createNode(int nodeNumber, BSharpTreeNode parent) throws IOException {
 		if (nodeNumber == 0) {
 			return this.createRootNode();
 		} else {
@@ -140,7 +166,7 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	 * @return
 	 * @throws IOException
 	 */
-	private BSharpTreeNode createRootNode() throws IOException {
+	protected BSharpTreeNode createRootNode() throws IOException {
 		int blockCount = this.blockFile.getBlockCount();
 		if (blockCount == ROOT_NODE_BLOCKS_QTY) {
 			// Es un nodo hoja
@@ -154,7 +180,7 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	/**
 	 * Fabrica de nodos no hojas a partir del nivel
 	 */
-	private BSharpTreeNode createNonRootNode(int level) {
+	protected BSharpTreeNode createNonRootNode(int level) {
 		if (level == 0) {
 			return new BSharpTreeLeafNode(this, 1, encoder);
 		} else if (level > 0) {

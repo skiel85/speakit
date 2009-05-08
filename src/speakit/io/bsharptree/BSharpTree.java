@@ -136,6 +136,7 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 	 * @return
 	 * @throws IOException
 	 */
+	@Deprecated
 	public BSharpTreeNode createNode(BSharpTreeNode parent) throws IOException {
 		BSharpTreeNode node = this.createNonRootNode(parent.getLevel());
 		this.saveNode(node, true);
@@ -212,6 +213,18 @@ public abstract class BSharpTree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extend
 
 	public BasicBlockFile getBlockFile() {
 		return this.blockFile;
+	}
+
+	public BSharpTreeNode createLeafNode() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		BSharpTreeNode node = this.createNonRootNode(0);
+		this.saveNode(node, true);
+		return node;
+	}
+
+	public BSharpTreeNode createIndexNode() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		BSharpTreeNode node = this.createNonRootNode(80);
+		this.saveNode(node, true);
+		return node;
 	}
 
 }

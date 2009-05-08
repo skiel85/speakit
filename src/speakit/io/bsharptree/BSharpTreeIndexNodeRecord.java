@@ -20,7 +20,7 @@ public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
 
 	@Override
 	protected Field[] getFields() {
-		return new Field[] { this.leftChild, this.elements, };
+		return new Field[] { this.leftChild, this.elements };
 	}
 
 	public int getLeftChildNodeNumber() {

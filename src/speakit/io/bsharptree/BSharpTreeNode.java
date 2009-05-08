@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import speakit.io.blockfile.BlockFileOverflowException;
+import speakit.io.blockfile.WrongBlockNumberException;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
@@ -147,7 +149,7 @@ public abstract class BSharpTreeNode {
 
 	public abstract List<BSharpTreeNodeElement> extractAllElements();
 	
-	public abstract BSharpTreeNode createSibling();
+	public abstract BSharpTreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException;
 
 	public abstract void setNodeNumber(int nodeNumber);
 }

@@ -19,8 +19,10 @@ public class OccurrenceStorageImpl implements OccurrenceStorage, RecordFactory {
 	private Integer partNumber = new Integer(0);
 	private static String SORT_PREFIX = "sortedPart";
 	private static String PART_EXTENSION = ".part";
+	private String generatedMergeFile = "";
 	
 	private ArrayList<String> parts;
+	private boolean dataProcessed = false;
 	
 	public OccurrenceStorageImpl() throws IOException{
 		BUFFER_LIMIT = BUFFER_LIMIT_DEFAULT;
@@ -74,16 +76,16 @@ public class OccurrenceStorageImpl implements OccurrenceStorage, RecordFactory {
 		return recordFile;
 	}
 	
-	private SecuentialRecordFile<OccurrenceRecord, IntegerField> createOutputFile() throws IOException{
-		File out = new File(getOutputFileName());
+	private SecuentialRecordFile<OccurrenceRecord, IntegerField> createOutputFile(String fileName) throws IOException{
+		File out = new File(fileName);
 		out.setWritable(true);
 		//out.setReadable(true);
 		SecuentialRecordFile<OccurrenceRecord, IntegerField> recordFile = new SecuentialRecordFile<OccurrenceRecord, IntegerField>(out, this);
 		return recordFile;
 	}
 	
-	private void eraseOutputFile(){
-		File out = new File(getOutputFileName());
+	private void eraseOutputFile(String outputFile){
+		File out = new File(outputFile);
 		out.delete();
 	}
 	
@@ -110,12 +112,51 @@ public class OccurrenceStorageImpl implements OccurrenceStorage, RecordFactory {
 	
 	@Override
 	public ArrayList<Occurrence> getApearanceListFor(int termId) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Occurrence> list = null;
+		try {
+		String mergedFile = processFile();		
+		SecuentialRecordFile<OccurrenceRecord, IntegerField> output = createOutputFile(mergedFile); 
+		list = generateSortedListForTerm(output, termId);
+		output.close();
+		//eraseOutputFile(mergedFile);
+		//deleteParts();
+		} catch (IOException e) {
+			//No se puede generar el archvo de salida... q garron!
+		}
+		return list;
 	}
+
+	private String processFile() throws IOException {
+		//por si quedan registros en los buffers
+		if (dataProcessed )
+			return generatedMergeFile;
+		sort();
+		flush();
+		OccurrencePartMerger merger = new OccurrencePartMerger(parts);
+		String mergedFile = merger.merge();
+		dataProcessed = true;
+		generatedMergeFile = mergedFile;
+		return mergedFile;
+	}
+	private ArrayList<Occurrence> generateSortedListForTerm( SecuentialRecordFile<OccurrenceRecord, IntegerField> output, int termId) throws IOException {
+		output.resetReadOffset();
+		ArrayList<Occurrence> list = new ArrayList<Occurrence>();
+		while (!output.eof()) {
+			OccurrenceRecord record = output.readRecord();
+			if (record.getTerm().getInteger() == termId)
+				list.add(new Occurrence(record.getTerm().getInteger(), record.getDocument().getLong()));
+			else if (record.getTerm().getInteger() > termId) {
+				//Se encontro un termino mayr, y dado q esta ordenado, ya no voy a encontrar mas de los q buscaba
+				return list;
+			}
+		}
+		return list;
+	}
+
 	/**
 	 * Devuelve la lista completa de apariciones ordenadas por termino y nro de documento
 	 */
+	/*
 	@Override
 	public ArrayList<Occurrence> getSortedAppearanceList() {
 		ArrayList<Occurrence> list = null;
@@ -134,6 +175,25 @@ public class OccurrenceStorageImpl implements OccurrenceStorage, RecordFactory {
 		}
 		return list;
 	}
+*/
+	/**
+	 * Devuelve la lista completa de apariciones ordenadas por termino y nro de documento
+	 */
+	@Override
+	public ArrayList<Occurrence> getSortedAppearanceList() {
+		ArrayList<Occurrence> list = null;
+		try {
+		String mergedFile = processFile();
+		SecuentialRecordFile<OccurrenceRecord, IntegerField> output = createOutputFile(mergedFile); 
+		list = generateSortedList(output);
+		output.close();
+		eraseOutputFile(mergedFile);
+		deleteParts();
+		} catch (IOException e) {
+			//No se puede generar el archvo de salida... q garron!
+		}
+		return list;
+	}
 	
 	private void deleteParts() {
 		for (Iterator<String> iterator = parts.iterator(); iterator.hasNext();) {
@@ -141,7 +201,6 @@ public class OccurrenceStorageImpl implements OccurrenceStorage, RecordFactory {
 			File file = new File(part);
 			file.delete();
 		}
-		
 	}
 
 	private ArrayList<Occurrence> generateSortedList(SecuentialRecordFile<OccurrenceRecord, IntegerField> output) throws IOException {

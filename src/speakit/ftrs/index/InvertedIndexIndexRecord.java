@@ -24,7 +24,7 @@ public class InvertedIndexIndexRecord extends IndexRecord<StringField> {
 
 	@Override
 	protected String getStringRepresentation() {
-		return "InvertedIndexIndexRecord{key:" + this.key.toString() + ",block:" + this.getBlockNumber() + "}";
+		return  this.key.toString() + "," + this.getBlockNumber();
 	}
 
 	public static RecordFactory createRecordFactory() {

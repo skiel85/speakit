@@ -60,7 +60,7 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 	
 	@Override
 	protected Field[] getFields() { 
-		return new Field[] { this.frontCodedElements, this.nextSecuenceNodeNumber };
+		return new Field[] {this.frontCodedElements, this.nextSecuenceNodeNumber };
 	}
 
 	public List<BSharpTreeNodeElement> getElements() {
@@ -116,7 +116,8 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 	
 	@Override
 	protected String getStringRepresentation() {
-		return "B#LN{num:"+this.getNodeNumber()+",frontCodedElements:"+this.frontCodedElements.toString()+",secuenceNext:"+this.nextSecuenceNodeNumber.toString()+",elements:"+this.elements.toString()+"}";
+		return "LN "+ this.getNodeNumber()+",next:"+this.nextSecuenceNodeNumber.toString()+","+this.elements.toString()+",FCElements:"+this.frontCodedElements.toString();
+		
 	}
 
 	public List<BSharpTreeNodeElement> extractAllElements() {
@@ -126,5 +127,10 @@ public class BSharpTreeLeafNodeRecord extends BSharpTreeNodeRecord {
 		}
 		this.elements.clear();
 		return elementList;
+	}
+
+	@Override
+	public int getLevel() {
+		return 0;
 	}
 }

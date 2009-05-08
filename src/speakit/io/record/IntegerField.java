@@ -10,7 +10,7 @@ public class IntegerField extends Field {
 
 	private static final int	INTSIZE	= Integer.SIZE / BYTE_SIZE;
 	private int value = 0;
-	private boolean	hashed=true;
+	private boolean	hashed=false;
 
 	public IntegerField(int value) {
 		this.value = value;
@@ -40,7 +40,7 @@ public class IntegerField extends Field {
 
 	@Override
 	public int getSerializationSize() {
-		return (hashed?1:0)  + INTSIZE;
+		return (hashed==true?1:0)  + INTSIZE;
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class IntegerField extends Field {
 	
 	@Override
 	protected String getStringRepresentation() {
-		return "I"+this.value+(hashed?Record.calculateHash(value):"");
+		return "I"+this.value+(hashed==true?"(hash:"+Record.calculateHash(value)+")":"");
 	}
 
 	public static FieldFactory createFactory() {

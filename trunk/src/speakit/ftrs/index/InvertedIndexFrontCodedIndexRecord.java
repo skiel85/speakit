@@ -44,9 +44,4 @@ public class InvertedIndexFrontCodedIndexRecord extends Record<FrontCodedStringF
 
 	public InvertedIndexFrontCodedIndexRecord() { 
 	}
-
-	@Override
-	protected String getStringRepresentation() {
-		return "InvertedIndexFrontCodedIndexRecord{encodedKey:"+this.encodedKey.toString()+",block:"+this.getBlockNumber()+"}";
-	}
 }

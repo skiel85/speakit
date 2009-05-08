@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.blockfile.BasicBlockFile;
+import speakit.io.bsharptree.BSharpTree;
 import speakit.io.bsharptree.BSharpTreeLeafNodeRecord;
 import speakit.io.bsharptree.BSharpTreeNode;
 import speakit.io.record.RecordSerializationException;
@@ -19,12 +20,12 @@ import speakit.io.record.StringField;
 
 public class BSharpTreeNodeRetrievingTest { 
 	private File				file;
-	private TestBSharpTree	sut;
+	private  BSharpTree	sut;
 
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		this.sut = new TestBSharpTree(file);
+		this.sut = new  BSharpTree(file,TestIndexRecord.createFactory());
 		this.sut.create(15);
 	}
 

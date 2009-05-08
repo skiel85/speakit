@@ -248,7 +248,7 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 
 	@Override
 	public BSharpTreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
-		return this.getTree().createIndexNode();
+		return this.getTree().createIndexNodeAndSave(this.getLevel());
 	}
 
 	@Override
@@ -264,6 +264,10 @@ public class BSharpTreeIndexNode extends BSharpTreeNode {
 			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber();
 		}
 		return result;
+	}
+ 
+	public int setLevel(int level) {
+		return this.record.getLevel();
 	}
 
 }

@@ -32,7 +32,7 @@ public abstract class BSharpTreeNode {
 
 	public abstract void insertRecord(Record record) throws IOException, RecordSerializationException;
 
-	public abstract int getLevel();
+	public abstract int getLevel(); 
 
 	private List<BSharpTreeNodeElement> extractExcedent(boolean upper) throws RecordSerializationException, IOException {
 		Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();

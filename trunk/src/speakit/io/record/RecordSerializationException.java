@@ -11,6 +11,10 @@ public class RecordSerializationException extends IOException {
 	public RecordSerializationException( ) { 
 	}
 
+	public RecordSerializationException(IOException e) {
+		super(e);
+	}
+
 	/**
 	 * 
 	 */

@@ -56,6 +56,6 @@ public class BSharpTreeLeafNodeElement extends Field implements BSharpTreeNodeEl
 	
 	@Override
 	protected String getStringRepresentation() {
-		return "(B#LE|"+ this.record.toString() +")";
+		return this.record.toString();
 	} 
 }

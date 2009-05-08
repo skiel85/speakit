@@ -10,6 +10,8 @@ import speakit.io.record.IntegerField;
 
 public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
 	private IntegerField leftChild = new IntegerField();
+	private IntegerField level = new IntegerField();
+	
 	private ArrayField<BSharpTreeIndexNodeElement> elements = new ArrayField<BSharpTreeIndexNodeElement>() {
 		@Override
 		protected BSharpTreeIndexNodeElement createField() {
@@ -20,7 +22,7 @@ public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
 
 	@Override
 	protected Field[] getFields() {
-		return new Field[] { this.leftChild, this.elements };
+		return new Field[] { this.level,this.leftChild, this.elements };
 	}
 
 	public int getLeftChildNodeNumber() {
@@ -55,7 +57,7 @@ public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
 
 	@Override
 	protected String getStringRepresentation() {
-		return "B#IN{num:" + this.getNodeNumber() + ",Lchild:" + this.leftChild.toString() + ",elements:" + this.elements.toString() + "}";
+		return "IN "+ this.getNodeNumber() + ",LChild:" + this.leftChild.toString() + "," + this.elements.toString();
 	}
 
 	public BSharpTreeNodeElement extractLastElement() {
@@ -77,5 +79,13 @@ public class BSharpTreeIndexNodeRecord extends BSharpTreeNodeRecord {
 		}
 		this.elements.clear();
 		return elementList;
+	}
+
+	public void setLevel(int level) {
+		this.level.setInteger(level);
+	}
+ 
+	public int getLevel() {
+		return this.level.getInteger();
 	}
 }

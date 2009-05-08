@@ -120,7 +120,7 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 
 	@Override
 	public BSharpTreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
-		return this.getTree().createLeafNode();
+		return this.getTree().createLeafNodeAndSave();
 	}
 
 	@Override
@@ -134,12 +134,8 @@ public class BSharpTreeLeafNode extends BSharpTreeNode {
 	}
 
 	@Override
-	public String toString() {
-		String result = this.getNodeNumber() + ": ";
-		for (BSharpTreeNodeElement element : this.record.getElements()) {
-			result += "(" + element.getKey().toString() + ")";
-		}
-		return result;
-	}
+	public String toString() { 
+		return record.toString();
+	}  
 
 }

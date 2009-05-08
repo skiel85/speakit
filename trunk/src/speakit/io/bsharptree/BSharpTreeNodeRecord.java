@@ -22,5 +22,6 @@ public abstract class BSharpTreeNodeRecord extends Record<IntegerField> {
 	public abstract void insertElement(BSharpTreeNodeElement element);
 	
 	public abstract BSharpTreeNodeElement extractLastElement();
-	public abstract BSharpTreeNodeElement extractFirstElement();
+	public abstract BSharpTreeNodeElement extractFirstElement(); 
+	public abstract int getLevel() ;
 }

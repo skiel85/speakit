@@ -121,7 +121,7 @@ public abstract class ArrayField<FIELDTYPE extends Field> extends Field implemen
 		String result="A[" + this.values.size() + "]{";
 		int i=0;
 		for (Field field : this.values) {
-			result += (i!=0?",":"") + field.toString();
+			result += (i!=0?",":"")+ "("  + field.toString() + ")";
 			i++;
 		}
 		result+="}";

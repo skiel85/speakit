@@ -129,7 +129,7 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 			deserializedHash=(byte) stream.read();
 			
 		} catch (IOException e) {
-			throw new RecordSerializationException();
+			throw new RecordSerializationException(e);
 		}
 		if(deserializedHash!=calculatedHash){
 			throw new RecordSerializationCorruptDataException(deserializedHash,calculatedHash);
@@ -168,12 +168,12 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 		String stringRepresention = this.getStringRepresentation();
 		int i = 0;
 		if (stringRepresention.length() == 0) {
-			String res = "Record (" + this.getClass().getSimpleName() + "): {";
+			String res = "";
 			for (Field field : this.getFields()) {
 				res += (i != 0 ? "," : "") + field.toString();
 				i++;
 			}
-			res += "}";
+			res += "";
 			return res;
 		} else {
 			return stringRepresention;
@@ -181,5 +181,7 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 
 	}
 
-	protected abstract String getStringRepresentation();
+	protected String getStringRepresentation(){
+		return "";
+	}
 }

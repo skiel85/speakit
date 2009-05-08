@@ -121,4 +121,6 @@ public abstract class Field implements Comparable<Field> {
 	}
 	
 	protected abstract String getStringRepresentation();
+//	protected abstract byte calculateHash();
+	
 }

@@ -23,7 +23,7 @@ public class SpeakitIssue40ReproductionTest {
 		this.fileManager = new TestFileManager(this.getClass().getName());
 		this.sut = new Speakit();
 		Configuration conf = new Configuration();
-		conf.setBlockSize(512);
+		conf.setBlockSize(518);
 		conf.setTrieDepth(4);
 		this.sut.install(this.fileManager, conf);
 		this.sut.load(this.fileManager);

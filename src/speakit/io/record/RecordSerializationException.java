@@ -4,6 +4,13 @@ import java.io.IOException;
 
 public class RecordSerializationException extends IOException {
 
+	public RecordSerializationException(String string) {
+		super(string);
+	}
+	
+	public RecordSerializationException( ) { 
+	}
+
 	/**
 	 * 
 	 */

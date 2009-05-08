@@ -55,7 +55,7 @@ public class BSharpTreeLeafNodeOverflowTest {
 
 	@Test
 	public void testOverflows() throws RecordSerializationException, IOException {
-		tree.create(10);
+		tree.create(30);
 		this.sut = (BSharpTreeLeafNode) tree.getRoot();
 		Assert.assertFalse(this.sut.isInOverflow());
 		this.sut.insertRecord(new TestIndexRecord("hola", 2));

@@ -1,4 +1,4 @@
-package speakit.dictionary.test;
+package speakit.io.record.test;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +16,7 @@ public class ByteArrayConverterTest {
 		Assert.assertEquals(9898984, ByteArrayConverter.toInt(ByteArrayConverter.toByteArray(9898984)));
 		Assert.assertEquals(0, ByteArrayConverter.toInt(new byte[] { 0x00, 0x00, 0x01 }));
 
-	}
+	} 
 
 	// @Test
 	// public void testConvertToInt3() throws Exception {

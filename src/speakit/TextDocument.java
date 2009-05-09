@@ -16,22 +16,27 @@ public class TextDocument implements Iterable<String> {
 	private String text;
 	private WordReader wordReader;
 	private long id;
+	private boolean filterRepeated;
 
-	public TextDocument(String text) {
-		this(0,text);
-	}
-	
-	public TextDocument(long id,String text) {
-		this.id=id;
+	public TextDocument(long id, String text, boolean filterRepeated) {
+		this.filterRepeated = filterRepeated;
+		this.id = id;
 		this.text = text;
 		wordReader = new WordReaderImpl(this.text);
+	}
+
+	public TextDocument(long id, String text) {
+		this(id, text, false);
+	}
+
+	public TextDocument(String text) {
+		this(0, text, false);
 	}
 
 	public TextDocument() {
 		this("");
 	}
 
-	
 	public void loadFromFile(File file) throws IOException {
 		FileInputStream in = new FileInputStream(file);
 		InputStreamReader reader = new InputStreamReader(in);
@@ -45,9 +50,11 @@ public class TextDocument implements Iterable<String> {
 		wordReader = new WordReaderImpl(this.text);
 		List<String> words = new ArrayList<String>();
 		if (wordReader.hasNext()) {
-			for (; wordReader.hasNext();) {
+			while (wordReader.hasNext()) {
 				String word = wordReader.next();
-				words.add(word);
+				if (!this.filterRepeated || !words.contains(word)) {
+					words.add(word);
+				}
 			}
 		}
 		return words.iterator();
@@ -78,17 +85,17 @@ public class TextDocument implements Iterable<String> {
 	public String getText() {
 		return this.text;
 	}
-	
+
 	/**
 	 * Compara por id y por texto
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		TextDocument other = (TextDocument) obj;
-		if(this.id!=other.id){
+		if (this.id != other.id) {
 			return false;
-		}else{
-			return this.text.compareTo(other.text)==0;
+		} else {
+			return this.text.compareTo(other.text) == 0;
 		}
 	}
 }

@@ -10,6 +10,9 @@ import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 
+/**
+ * Nodo hoja del árbol B#.
+ */
 @SuppressWarnings("unchecked")
 public class TreeLeafNode extends TreeNode {
 	private List<TreeNodeElement>	elements;

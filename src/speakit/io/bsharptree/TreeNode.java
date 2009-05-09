@@ -14,6 +14,9 @@ import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 
+/**
+ * Nodo del árbol B#.
+ */
 @SuppressWarnings("unchecked")
 public abstract class TreeNode {
 

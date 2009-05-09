@@ -1,14 +1,9 @@
 package speakit.io.bsharptree.test;
 
-import static org.junit.Assert.*;
-
-import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
 import junit.framework.Assert;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -88,6 +83,7 @@ public class TreeIndexNodeBalanceTest {
 		Assert.assertEquals(0, record.getKey().compareTo(key));
 		Assert.assertEquals(simulateBlockNumber(word), record.getBlockNumber());
 	}
+	
 	@Test
 	public void testBalanceChildsWithUpperExcedent() throws IOException {
 		String splitter = "california";
@@ -99,6 +95,13 @@ public class TreeIndexNodeBalanceTest {
 		sut.insertRecord(new InvertedIndexIndexRecord(splitter, simulateBlockNumber(splitter)));
 		//System.out.println(sut.toString());
 		Assert.assertEquals("Split desencadenado, se esperaban 6 bloques", 5, this.sut.getBlockFile().getBlockCount());
+		
+		testRetrieveAllRecords(this.sut, wikipediaArticle);
+		
+		StringField key = new StringField(splitter);
+		InvertedIndexIndexRecord record = sut.getRecord(key);
+		verifyCorrectRecord(record, splitter, key);
+		
 		}
 	@Test
 	public void testBalanceChildsWithLowerExcedent() throws IOException {
@@ -112,6 +115,11 @@ public class TreeIndexNodeBalanceTest {
 		//System.out.println(sut.toString());
 		Assert.assertEquals("Split desencadenado, se esperaban 6 bloques", 5, this.sut.getBlockFile().getBlockCount());
 		
+		testRetrieveAllRecords(this.sut, wikipediaArticle);
+		
+		StringField key = new StringField(splitter);
+		InvertedIndexIndexRecord record = sut.getRecord(key);
+		verifyCorrectRecord(record, splitter, key);
 		}
 	
 	@Test

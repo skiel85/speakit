@@ -2,9 +2,11 @@ package speakit.io.bsharptree.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -35,11 +37,22 @@ public class TreeIndexNodeSplitTest {
 		this.file.delete();
 	}
 
-	@Ignore
 	@Test
-	public void testRootOverflow() throws RecordSerializationException, IOException {
-		while (testStrings.hasNext() && !this.sut.getRoot().isInOverflow()) {
-			this.sut.insertRecord(new TestIndexRecord(testStrings.next(), 2));
+	public void testRootFirstSplit() throws RecordSerializationException, IOException {
+		ArrayList<String> insertedStrings = new ArrayList<String>();
+		while (this.sut.getRoot().getChildren().size() == 0) {
+			Assert.assertFalse(this.sut.getRoot().isInOverflow());
+			String testString = testStrings.next();
+			insertedStrings.add(testString);
+			this.sut.insertRecord(new TestIndexRecord(testString, 2));
+		}
+		Assert.assertFalse(this.sut.getRoot().isInOverflow());
+		Assert.assertEquals(3, this.sut.getRoot().getChildren().size());
+		
+		for(String testString : insertedStrings) {
+			TestIndexRecord record = this.sut.getRecord(new StringField(testString));
+			Assert.assertNotNull(record);
+			Assert.assertEquals(testString,	((StringField)record.getKey()).getString());
 		}
 	}
 

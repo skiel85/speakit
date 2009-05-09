@@ -379,6 +379,17 @@ public class TreeIndexNode extends TreeNode {
 		clear();
 		return childNodes;
 	}
+	
+	@Override
+	public List<TreeNode> getChildren() throws IOException {
+		ArrayList<TreeNode> result = new ArrayList<TreeNode>();
+		result.add(this.getTree().getNode(this.getLeftChildNodeNumber(), this));
+		for (TreeNodeElement element : this.elements) {
+			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) element;
+			result.add(this.getTree().getNode(indexElement.getRightChildNodeNumber(), this));
+		}
+		return result;
+	}
 
 	private void clear() {
 		this.leftChildNodeNumber=NULL_NODE_NUMBER;

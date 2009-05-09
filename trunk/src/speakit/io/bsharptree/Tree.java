@@ -313,7 +313,8 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	}
 
 	public void updateRecord(Record record) throws IOException {
-		this.root.updateRecord(record);		
+		this.root.updateRecord(record);
+		this.updateNode(this.root);
 	}
 	
 }

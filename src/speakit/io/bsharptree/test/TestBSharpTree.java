@@ -30,28 +30,28 @@ public class TestBSharpTree extends TreeMock {
 		// ... 12: (400)(500)(600)
 		// ... 13: (700)(800)(900)
 
-		this.root = new TreeIndexNode(this, 2);
+		this.root = new TreeIndexNode(this,0, 2);
 		this.root.setNodeNumber(0);
 
 		this.leafNodes = new TreeLeafNode[9];
-		leafNodes[0] = new TreeLeafNode(this);
-		leafNodes[0].setNodeNumber(5);
-		leafNodes[1] = new TreeLeafNode(this);
-		leafNodes[1].setNodeNumber(6);
-		leafNodes[2] = new TreeLeafNode(this);
-		leafNodes[2].setNodeNumber(7);
-		leafNodes[3] = new TreeLeafNode(this);
-		leafNodes[3].setNodeNumber(8);
-		leafNodes[4] = new TreeLeafNode(this);
-		leafNodes[4].setNodeNumber(9);
-		leafNodes[5] = new TreeLeafNode(this);
-		leafNodes[5].setNodeNumber(10);
-		leafNodes[6] = new TreeLeafNode(this);
-		leafNodes[6].setNodeNumber(11);
-		leafNodes[7] = new TreeLeafNode(this);
-		leafNodes[7].setNodeNumber(12);
-		leafNodes[8] = new TreeLeafNode(this);
-		leafNodes[8].setNodeNumber(13);
+		leafNodes[0] = new TreeLeafNode(this,5);
+//		leafNodes[0].setNodeNumber(5);
+		leafNodes[1] = new TreeLeafNode(this,6);
+//		leafNodes[1].setNodeNumber(6);
+		leafNodes[2] = new TreeLeafNode(this,7);
+//		leafNodes[2].setNodeNumber(7);
+		leafNodes[3] = new TreeLeafNode(this,8);
+//		leafNodes[3].setNodeNumber(8);
+		leafNodes[4] = new TreeLeafNode(this,9);
+//		leafNodes[4].setNodeNumber(9);
+		leafNodes[5] = new TreeLeafNode(this,10);
+//		leafNodes[5].setNodeNumber(10);
+		leafNodes[6] = new TreeLeafNode(this,11);
+//		leafNodes[6].setNodeNumber(11);
+		leafNodes[7] = new TreeLeafNode(this,12);
+//		leafNodes[7].setNodeNumber(12);
+		leafNodes[8] = new TreeLeafNode(this,13);
+//		leafNodes[8].setNodeNumber(13);
 
 		this.records = new TestIndexRecord[27];
 		records[0] = new TestIndexRecord("001", 1);
@@ -111,12 +111,12 @@ public class TestBSharpTree extends TreeMock {
 		leafNodes[8].insertRecord(records[26]);
 
 		this.indexNodes = new TreeIndexNode[3];
-		this.indexNodes[0] = new TreeIndexNode(this, 1);
-		this.indexNodes[0].setNodeNumber(2);
-		this.indexNodes[1] = new TreeIndexNode(this, 1);
-		this.indexNodes[1].setNodeNumber(3);
-		this.indexNodes[2] = new TreeIndexNode(this, 1);
-		this.indexNodes[2].setNodeNumber(4);
+		this.indexNodes[0] = new TreeIndexNode(this,2, 1);
+//		this.indexNodes[0].setNodeNumber(2);
+		this.indexNodes[1] = new TreeIndexNode(this,3, 1);
+//		this.indexNodes[1].setNodeNumber(3);
+		this.indexNodes[2] = new TreeIndexNode(this,4, 1);
+//		this.indexNodes[2].setNodeNumber(4);
 
 		this.indexNodes[0].indexChild(leafNodes[0]);
 		this.indexNodes[0].indexChild(leafNodes[1]);

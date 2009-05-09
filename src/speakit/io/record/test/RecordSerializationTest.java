@@ -64,5 +64,18 @@ public class RecordSerializationTest {
 		}
 		Assert.fail("Se esperaba excepción de datos corruptos.");
 	}
+	
+	@Test
+	public void testDetectsCorruptDataWhenSerializationIsEmpty() throws RecordSerializationException, IOException {
+		TestIndexRecord deserialized = new TestIndexRecord("",0);
+		byte[] corruptData =new byte[9999];
+		try{
+			deserialized.deserialize(corruptData);
+			Assert.fail("Se esperaba excepción de datos corruptos.");
+		}catch(RecordSerializationCorruptDataException ex){
+			return;
+		}
+		Assert.fail("Se esperaba excepción de datos corruptos.");
+	}
 
 }

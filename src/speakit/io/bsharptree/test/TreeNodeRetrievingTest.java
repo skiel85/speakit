@@ -61,6 +61,6 @@ public class TreeNodeRetrievingTest {
 	public void testSaveNode() throws RecordSerializationException, IOException {
 		this.sut.insertRecord(new TestIndexRecord("prueba", 123));
 		TreeNode node = this.sut.getNode(0, this.sut.getRoot());
-		this.sut.saveNode(node);
+		this.sut.updateNode(node);
 	}
 }

@@ -18,8 +18,8 @@ public class TreeIndexNode extends TreeNode {
 	private int leftChildNodeNumber;
 	List<TreeNodeElement> elements;
 
-	public TreeIndexNode(Tree tree, int size) {
-		super(tree, size);
+	public TreeIndexNode(Tree tree,int nodeNumber, int size) {
+		super(tree,nodeNumber, size);
 		this.elements = new ArrayList<TreeNodeElement>();
 	}
 
@@ -59,7 +59,7 @@ public class TreeIndexNode extends TreeNode {
 
 	@Override
 	public TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
-		return this.getTree().createIndexNodeAndSave(this.getLevel());
+		return this.getTree().instantiateNewIndexNodeAndSave(this.getLevel());
 	}
 
 	private int getChildFor(Field key) {
@@ -189,8 +189,10 @@ public class TreeIndexNode extends TreeNode {
 		int nodeNumberWhereToInsert = this.getChildFor(record.getKey());
 		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert, this);
 		if(nodeWhereToInsert.getNodeNumber()==this.getNodeNumber()){
+			System.out.println(this.getTree().toString());
 			throw new RuntimeException("El nodeNumberWhereToInsert es el mismo nodo.");
 		}
+		
 		nodeWhereToInsert.insertRecord(record);
 
 		// TODO balanceo
@@ -203,7 +205,7 @@ public class TreeIndexNode extends TreeNode {
 			int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
 			splitChildsOf(elementIndexThatPointsToNode);
 		} else {
-			this.getTree().saveNode(nodeWhereToInsert);
+			this.getTree().updateNode(nodeWhereToInsert);
 		}
 	}
 
@@ -258,9 +260,9 @@ public class TreeIndexNode extends TreeNode {
 		this.indexChild(middleChild);
 		this.indexChild(rightChild);
 
-		this.getTree().saveNode(leftChild);
-		this.getTree().saveNode(middleChild);
-		this.getTree().saveNode(rightChild);
+		this.getTree().updateNode(leftChild);
+		this.getTree().updateNode(middleChild);
+		this.getTree().updateNode(rightChild);
 	}
 
 	@Override

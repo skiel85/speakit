@@ -299,30 +299,53 @@ public class TreeIndexNode extends TreeNode {
 	 * @throws RecordSerializationException
 	 * @throws IOException
 	 */
-	private void split( TreeNode[] childsToSplit,int middleKeyIndex) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException,
-			IOException {
+	private void split(TreeNode[] childsToSplit, int middleKeyIndex) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		// Remuevo la clave del padre.
+		TreeNodeElement removedIndexElement = this.getElement(middleKeyIndex);
 		this.removeElement(middleKeyIndex);
-		
+
+		// Obtengo los dos nodos a unir y creo uno nuevo vacío en el medio.
 		TreeNode leftChild = childsToSplit[0];
 		TreeNode rightChild = childsToSplit[1];
-		// this.getTree().createNode(this);
 		TreeNode middleChild = leftChild.createSibling();
+
+		// Si el nodo actual es padre de nodos índice:
+		if (this.getLevel() > 1) {
+			// agrego al leftChild un nuevo elemento formado por
+			TreeIndexNodeElement indexElementFromParent = new TreeIndexNodeElement();
+			// la clave removida del padre
+			indexElementFromParent.setKey(removedIndexElement.getKey());
+			// y el puntero izquierdo de rightChild.
+			indexElementFromParent.setRightChild(((TreeIndexNode) rightChild).getLeftChildNodeNumber());
+			// Inserto el elemento.
+			leftChild.insertElement(indexElementFromParent);
+		}
+
+		// Agrego luego todos los elementos de rightChild.
 		leftChild.insertElements(rightChild.extractAllElements());
 
-		int allElementsBeforeSplit = leftChild.getElementCount();
+		// Guardo cantidad de elementos para luego validar consistencia.
+		int elementCountBeforeSplit = leftChild.getElementCount();
+
+		// Paso a la derecha lo que excede a la minima capacidad,
 		leftChild.passMinimumCapacityExcedentToTheRight(middleChild);
+		// y luego el del medio queda con excedente y lo pasa a su vez a la
+		// derecha
 		middleChild.passMinimumCapacityExcedentToTheRight(rightChild);
 
+		// Agrego la referencia de los hijos.
 		this.indexChild(middleChild);
 		this.indexChild(rightChild);
 
+		// Guardo los hijos.
 		this.getTree().updateNode(leftChild);
 		this.getTree().updateNode(middleChild);
 		this.getTree().updateNode(rightChild);
 
-		int allElementsAfterSplit = leftChild.getElementCount() + middleChild.getElementCount() + rightChild.getElementCount();
-		if (allElementsBeforeSplit != allElementsAfterSplit) {
-			throw new RuntimeException("Error en el split. allElementsBeforeSplit:" + allElementsBeforeSplit + ",allElementsAfterSplit:" + allElementsAfterSplit);
+		// Verifico consistencia.
+		int elementCountAfterSplit = leftChild.getElementCount() + middleChild.getElementCount() + rightChild.getElementCount();
+		if (elementCountBeforeSplit != elementCountAfterSplit) {
+			throw new RuntimeException("Error en el split. cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:" + elementCountAfterSplit);
 		}
 	}
 

@@ -98,8 +98,8 @@ public class TreeLeafNode extends TreeNode {
 	}
 	
 	@Override
-	public String toString() {
-		String result = this.getNodeNumber() + ": ";
+	public String toString() { 	 
+		String result = formatNodeNumber(this.getNodeNumber()) + ": ";
 		for (TreeNodeElement element : this.elements) {
 			result += "(" + element.getKey().toString() + ")";
 		}

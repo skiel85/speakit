@@ -1,6 +1,7 @@
 package speakit.io.bsharptree;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -380,8 +381,8 @@ public class TreeIndexNode extends TreeNode {
 	}
 
 	@Override
-	public String toString() {
-		String result = this.getNodeNumber() + ": " + this.getLeftChildNodeNumber();  
+	public String toString() { 	
+		String result = formatNodeNumber(this.getNodeNumber()  ) + ": " + this.getLeftChildNodeNumber();  
 		for (TreeNodeElement element : this.elements) {
 			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) element;
 			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber(); 
@@ -391,7 +392,7 @@ public class TreeIndexNode extends TreeNode {
 			try {
 				result += "\n" + getCorrectIndent() + this.getTree().getNode(nodeNumber, this).toString();
 			} catch (IOException e) {
-				result += "IOException(nodo:" + nodeNumber + ")";
+				result += "\n" + getCorrectIndent() + formatNodeNumber(nodeNumber) + ": IOException";
 			}
 		}
 

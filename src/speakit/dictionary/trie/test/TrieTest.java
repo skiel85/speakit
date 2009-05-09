@@ -36,7 +36,7 @@ public class TrieTest {
 		this.fileManager.destroyFiles();
 	}
 
-	@Ignore
+	
 	@Test
 	public void testAddWord() throws IOException, WordNotFoundException, RecordSerializationException {
 		this.trie.addWord("o", 15);
@@ -64,7 +64,7 @@ public class TrieTest {
 		//Assert.assertEquals(12152, this.trie.getOffset("hora"));
 	}
 
-	@Ignore
+	
 	@Test
 	public void testAddBigWord() throws IOException, WordNotFoundException, RecordSerializationException {
 		this.trie.addWord("supercalifragilisticoespialidoso", 3);
@@ -72,7 +72,7 @@ public class TrieTest {
 		Assert.assertEquals(3, this.trie.getOffset("supercalifragilisticoespialidoso"));
 	}
 
-	@Ignore
+	
 	@Test
 	public void testAddFewWordsWithSameBegining() throws RecordSerializationException, IOException, WordNotFoundException {
 		this.trie.addWord("codo", 3);
@@ -89,7 +89,7 @@ public class TrieTest {
 		testAddWords(trie, words, fileManager, conf);
 	}
 
-	@Ignore
+	
 	@Test
 	public void testAddSeveralWordsWithSameBegining2() throws Exception {
 		String[] words = new String[] { "codo", "codazo", "codearse", "codera", "cordon", "cordura" };

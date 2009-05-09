@@ -25,6 +25,7 @@ public class TreeLeafNodeRecordTest {
 	public void setUp() throws Exception {
 		this.tree = new Tree(this.file, InvertedIndexIndexRecord.createRecordFactory(), new InvertedIndexIndexRecordEncoder());
 		this.sut = new TreeLeafNodeRecord(2, this.tree);
+		 
 		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuadrado", 1)));
 		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuadratura", 2)));
 		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuaderno", 2)));

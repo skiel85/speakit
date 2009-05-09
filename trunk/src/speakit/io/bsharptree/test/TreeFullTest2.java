@@ -18,7 +18,6 @@ import speakit.io.record.StringField;
 import speakit.test.SpeakitSearchRealDocumentsTest;
 import speakit.test.TestFileManager;
 
-@Ignore
 public class TreeFullTest2 {
 
 	private Tree<InvertedIndexIndexRecord, StringField>	sut;
@@ -33,8 +32,8 @@ public class TreeFullTest2 {
 	public void setUp() throws Exception {
 		this.filemanager = new TestFileManager("");
 		encoder = new InvertedIndexIndexRecordEncoder();
-		this.sut = new Tree<InvertedIndexIndexRecord, StringField>(filemanager.openFile("FullBSTree.dat"), InvertedIndexIndexRecord.createRecordFactory(), encoder);
-		this.sut.create(180);
+		this.sut = new Tree<InvertedIndexIndexRecord, StringField>(filemanager.openFile("FullBSTree.dat"), InvertedIndexIndexRecord.createRecordFactory());
+		this.sut.create(512);
 		 
 		List<TextDocument> documents=new ArrayList<TextDocument>();
 		documents.add(SpeakitSearchRealDocumentsTest.ARTICLE_ABSTRACCION);
@@ -65,6 +64,7 @@ public class TreeFullTest2 {
 	@Test
 	public void testRetrieveAllRecords() throws RecordSerializationException, IOException {
 		TreeFullTest.testRetrieveAllRecords(this.sut, words);
+//		System.out.println(this.sut);
 	} 
 
 }

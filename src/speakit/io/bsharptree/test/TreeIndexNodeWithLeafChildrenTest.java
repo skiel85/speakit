@@ -11,13 +11,14 @@ import org.junit.Test;
 import speakit.io.bsharptree.TreeIndexNode;
 import speakit.io.bsharptree.TreeIndexNodeElement;
 import speakit.io.bsharptree.TreeLeafNode;
+import speakit.io.bsharptree.TreeNode;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
 public class TreeIndexNodeWithLeafChildrenTest {
 	private TreeIndexNode sut;
 	private TestIndexRecord[] records;
-	private TreeLeafNode[] nodes;
+	private TreeNode[] nodes;
 	private TreeMock tree;
 	private File file;
 
@@ -29,7 +30,7 @@ public class TreeIndexNodeWithLeafChildrenTest {
 		this.sut = new TreeIndexNode(this.tree,0, 2);
 //		this.sut.setNodeNumber(0);
 
-		this.nodes = new TreeLeafNode[3];
+		this.nodes = new TreeNode[3];
 		nodes[0] = new TreeLeafNode(this.tree,2);
 //		nodes[0].setNodeNumber(2);
 		nodes[1] = new TreeLeafNode(this.tree,3);

@@ -15,6 +15,7 @@ import speakit.io.bsharptree.DefaultRecordEncoder;
 import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.bsharptree.Tree;
 import speakit.io.bsharptree.TreeLeafNode;
+import speakit.io.bsharptree.TreeNode;
 import speakit.io.bsharptree.TreeNodeElement;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
@@ -22,7 +23,7 @@ import speakit.test.TestFileManager;
 
 public class TreeLeafNodeOverflowTest {
 
-	private TreeLeafNode sut;
+	private TreeNode sut;
 	private Tree<TestIndexRecord, StringField> tree;
 	private RecordEncoder encoder;
 	private Iterator<String> testStrings;
@@ -49,7 +50,7 @@ public class TreeLeafNodeOverflowTest {
 	@Test
 	public void testExtractMaximumCapacityExcedent() throws RecordSerializationException, IOException {
 		tree.create(255);
-		this.sut = (TreeLeafNode) tree.getRoot();
+		this.sut = (TreeNode) tree.getRoot();
 		Assert.assertFalse("El nodo no debe estar en overflow al principio pero lo está.", this.sut.isInOverflow());
 		Assert.assertTrue("El nodo debe estar en underflow al principio pero no lo está.", this.sut.isInUnderflow());
 
@@ -80,7 +81,7 @@ public class TreeLeafNodeOverflowTest {
 	@Test
 	public void testExtractMinimumCapacityExcedent() throws RecordSerializationException, IOException {
 		tree.create(255);
-		this.sut = (TreeLeafNode) tree.getRoot();
+		this.sut = (TreeNode) tree.getRoot();
 		Assert.assertFalse("El nodo no debe estar en overflow al principio pero lo está.", this.sut.isInOverflow());
 		Assert.assertTrue("El nodo debe estar en underflow al principio pero no lo está.", this.sut.isInUnderflow());
 
@@ -111,7 +112,7 @@ public class TreeLeafNodeOverflowTest {
 	@Test
 	public void testNotOverflows() throws RecordSerializationException, IOException {
 		tree.create(1024);
-		this.sut = (TreeLeafNode) tree.getRoot();
+		this.sut = (TreeNode) tree.getRoot();
 		Assert.assertFalse(this.sut.isInOverflow());
 		this.sut.insertRecord(new TestIndexRecord("hola", 2));
 		Assert.assertFalse(this.sut.isInOverflow());
@@ -123,7 +124,7 @@ public class TreeLeafNodeOverflowTest {
 	@Test
 	public void testOverflows() throws RecordSerializationException, IOException {
 		tree.create(30);
-		this.sut = (TreeLeafNode) tree.getRoot();
+		this.sut = (TreeNode) tree.getRoot();
 		Assert.assertFalse(this.sut.isInOverflow());
 		this.sut.insertRecord(new TestIndexRecord("hola", 2));
 		Assert.assertFalse(this.sut.isInOverflow());

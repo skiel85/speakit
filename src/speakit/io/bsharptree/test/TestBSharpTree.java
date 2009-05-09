@@ -11,7 +11,7 @@ import speakit.io.record.RecordSerializationException;
 public class TestBSharpTree extends TreeMock {
 	private TreeIndexNode root;
 	private TestIndexRecord[] records;
-	private TreeLeafNode[] leafNodes;
+	private TreeNode[] leafNodes;
 	private TreeIndexNode[] indexNodes;
 
 	public TestBSharpTree(File file) throws IOException {
@@ -33,7 +33,7 @@ public class TestBSharpTree extends TreeMock {
 		this.root = new TreeIndexNode(this,0, 2);
 		this.root.setNodeNumber(0);
 
-		this.leafNodes = new TreeLeafNode[9];
+		this.leafNodes = new TreeNode[9];
 		leafNodes[0] = new TreeLeafNode(this,5);
 //		leafNodes[0].setNodeNumber(5);
 		leafNodes[1] = new TreeLeafNode(this,6);
@@ -143,7 +143,7 @@ public class TestBSharpTree extends TreeMock {
 		return this.indexNodes;
 	}
 
-	public TreeLeafNode[] getLeafNodes() {
+	public TreeNode[] getLeafNodes() {
 		return this.leafNodes;
 	}
 

@@ -13,13 +13,14 @@ import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.bsharptree.Tree;
 import speakit.io.bsharptree.TreeLeafNode;
 import speakit.io.bsharptree.TreeLeafNodeElement;
+import speakit.io.bsharptree.TreeNode;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
 
 public class TreeLeafNodeTest {
 
-	private TreeLeafNode sut;
+	private TreeNode sut;
 	private TestBSharpTree tree;
 	private RecordEncoder encoder;
 	private TestFileManager testFileManager;

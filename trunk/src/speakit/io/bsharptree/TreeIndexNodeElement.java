@@ -2,10 +2,11 @@ package speakit.io.bsharptree;
 
 import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
+import speakit.io.record.StringField;
 
 public class TreeIndexNodeElement extends TreeNodeElement {
 
-	private Field key;
+	private Field key=new StringField();
 	private IntegerField rightChild = new IntegerField();
 
 	public TreeIndexNodeElement() {

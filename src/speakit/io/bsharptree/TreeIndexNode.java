@@ -204,7 +204,10 @@ public class TreeIndexNode extends TreeNode {
 			TreeNode overflowNode = nodeWhereToInsert;
 			int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
 			splitChildsOf(elementIndexThatPointsToNode);
-		} 
+		}
+		if (nodeWhereToInsert.isInOverflow()) {
+			throw new RuntimeException("Despues de tratar un overflow no puede seguir en overflow");
+		}
 		this.getTree().updateNode(nodeWhereToInsert);
 	}
 

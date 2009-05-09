@@ -86,9 +86,13 @@ public abstract class TreeNode {
 	}
 
 	public final TreeNodeElement extractLastElement() {
-		TreeNodeElement element = this.getElements().get(this.getElements().size() - 1);
-		this.getElements().remove(this.getElements().size() - 1);
-		return element;
+		if(this.getElements().size()>0){
+			TreeNodeElement element = this.getElements().get(this.getElements().size() - 1);
+			this.getElements().remove(this.getElements().size() - 1);
+			return element;	
+		}else{
+			throw new RuntimeException("Tree: el nodo "+this.getNodeNumber()+" está vacío y no puede estarlo, no es posible hacer extractLastElement.");
+		}
 	}
 
 	public List<TreeNodeElement> extractLowerExcedent() throws RecordSerializationException, IOException {

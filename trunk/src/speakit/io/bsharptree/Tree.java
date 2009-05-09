@@ -158,7 +158,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 				((TreeIndexNode)this.root).indexChild(leafs.get(2));
 
 				if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
-					throw new RuntimeException("ERROR: No se pudo hacer el split. Un nodo quedï¿½ en overflow. Pruebe agrandando el tamaï¿½o de bloques.");
+					throw new RuntimeException("ERROR: No se pudo hacer el split. Un nodo quedó en overflow. Pruebe agrandando el tamaño de bloques.");
 				}
 
 				this.updateNode(leafs.get(0));
@@ -245,7 +245,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		}
 		List<byte[]> serializationParts = node.serializeInParts(this.getNodeSize());
 		if (serializationParts.size() > node.getBlockQty()) {
-			throw new BlockFileOverflowException(serializationParts.size() * this.getNodeSize(), node.getBlockQty() * this.getNodeSize());
+			throw new BlockFileOverflowException("La cantidad de partes es mayor a la esperada.",node.getBlockQty(),serializationParts.size());
 		}
 		for (int i = 0; i < serializationParts.size(); i++) {
 			byte[] part = serializationParts.get(i);

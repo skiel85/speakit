@@ -101,4 +101,9 @@ public class FTRSImpl implements FTRS {
 		return this.index.isInstalled(filemanager) & this.repository.isInstalled(filemanager);
 	}
 
+	@Override
+	public String printIndexForDebug() {
+		return index.toString();
+	}
+
 }

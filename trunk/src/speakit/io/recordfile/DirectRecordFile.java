@@ -3,6 +3,7 @@ package speakit.io.recordfile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 
 import speakit.io.blockfile.Block;
 import speakit.io.blockfile.BlockFile;
@@ -172,5 +173,23 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 			this.blocksFile.saveBlock(block);
 			return this.insertRecord(record);
 		} 
+	}
+	public String toString() {
+		String out = "";
+		try {
+			RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block = this.getBlock(0);
+			List<RECTYPE> list = block.getRecords();
+			for (RECTYPE rectype : list) {
+				out += rectype.toString();
+				out += "\n";
+			}
+		} catch (RecordSerializationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return out;
 	}
 }

@@ -100,5 +100,8 @@ public class InvertedIndex implements File, RecordFactory {
 	public InvertedIndexRecord createRecord() {
 		return new InvertedIndexRecord();
 	}
-
+	
+	public String toString() {
+		return invertedListsFile.toString();
+	}
 }

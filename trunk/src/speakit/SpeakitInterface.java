@@ -46,4 +46,6 @@ public interface SpeakitInterface extends Installable {
 
 	public abstract TextDocumentList search(TextDocument searchText) throws IOException;
 
+	public abstract String printIndexForDebug();
+
 }

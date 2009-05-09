@@ -149,4 +149,9 @@ public class Speakit implements SpeakitInterface {
 		this.fileManager = fileManager;
 	}
 
+	@Override
+	public String printIndexForDebug() {
+		return ftrs.printIndexForDebug();
+	}
+
 }

@@ -21,7 +21,13 @@ import datos.capturaaudio.exception.SimpleAudioRecorderException;
 public class Menu {
 	protected AudioManager audioManager;
 	private SpeakitInterface speakit;
+	private boolean DEBUG_MODE = false;
 
+	public Menu(boolean debug) {
+		this();
+		DEBUG_MODE = debug;
+	}
+	
 	public Menu() {
 		audioManager = new AudioManager();
 		speakit = new Speakit();
@@ -305,11 +311,20 @@ public class Menu {
 				System.out.println("Terminado.");
 				finished = true;
 				break;
+			case 5:
+				if (DEBUG_MODE) {
+					printIndexFile();
+					break;
+				}
 			default:
 				System.out.println("Opción inválida.\n");
 				break;
 			}
 		}
+	}
+
+	private void printIndexFile() {
+		System.out.println(speakit.printIndexForDebug());
 	}
 
 	/**
@@ -477,7 +492,13 @@ public class Menu {
 
 	private void displayMainMenu() {
 		System.out.println("Speak It!");
-		System.out.println("Menu Principal\n" + "		1.- Procesar un archivo de Texto\n" + "		2.- Procesar varios archivos de Texto\n" + "		3.- Reproducir Archivo\n" + "		4.- Realizar una consulta\n" + "\n" + "	0.- Salir");
+		System.out.println("Menu Principal\n" + "		1.- Procesar un archivo de Texto\n" + "		2.- Procesar varios archivos de Texto\n" + "		3.- Reproducir Archivo\n" + "		4.- Realizar una consulta\n");
+		if (DEBUG_MODE) {
+			System.out.println("Bienvenido al lado oscuro\n");
+			System.out.println("\t\t5 - Imprimir archivo indice\n");
+		}
+		System.out.println("\n" + "	0.- Salir");
+		
 	}
 
 }

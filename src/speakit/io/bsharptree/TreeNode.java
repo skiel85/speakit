@@ -50,8 +50,9 @@ public abstract class TreeNode {
 	}
 
 	public final List<TreeNodeElement> extractAllElements() {
-		List<TreeNodeElement> result = this.getElements();
-		this.clearElements();
+		List<TreeNodeElement> result = new ArrayList<TreeNodeElement>(this.getElements());
+		this.getElements().clear();
+		//this.clearElements();
 		return result;
 	}
 

@@ -185,13 +185,13 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 				newRoot.indexChild(leafs.get(1));
 				newRoot.indexChild(leafs.get(2));
 
+				if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
+					throw new RuntimeException("ERROR: No se pudo hacer el split. Un nodo qued� en overflow. Pruebe agrandando el tama�o de bloques.");
+				}
+
 				this.saveNode(leafs.get(0));
 				this.saveNode(leafs.get(1));
 				this.saveNode(leafs.get(2));
-
-				if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
-					throw new RuntimeException("ERROR");
-				}
 			}
 
 		}

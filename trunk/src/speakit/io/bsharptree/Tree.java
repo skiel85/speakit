@@ -93,7 +93,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		for (int i = 0; i < newNode.getBlockQty(); i++) {
 			parts.add(blockFile.read(nodeNumber + i));
 		}
-		newNode.getNodeRecord().deserializeFromParts(parts);
+		newNode.deserializeFromParts(parts);
 		return newNode;
 	}
 
@@ -232,8 +232,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		if (node.getLevel() == 0 && node instanceof TreeIndexNode) {
 			throw new RuntimeException("Un nodo indice no puede tener nivel 0. Nodo: " + node.toString());
 		}
-		Record nodeRecord = node.getNodeRecord();
-		List<byte[]> serializationParts = nodeRecord.serializeInParts(this.getNodeSize());
+		List<byte[]> serializationParts = node.serializeInParts(this.getNodeSize());
 		if (serializationParts.size() > node.getBlockQty()) {
 			throw new BlockFileOverflowException(serializationParts.size() * this.getNodeSize(), node.getBlockQty() * this.getNodeSize());
 		}

@@ -1,7 +1,9 @@
 package speakit.io.bsharptree;
 
+import speakit.io.record.CompositeField;
 import speakit.io.record.Field;
 
-public interface TreeNodeElement {
-	public Field getKey();
+public abstract class TreeNodeElement extends CompositeField {
+	public abstract Field getKey();
+
 }

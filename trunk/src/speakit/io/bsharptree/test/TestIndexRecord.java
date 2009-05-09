@@ -16,6 +16,7 @@ public class TestIndexRecord extends InvertedIndexIndexRecord {
 
 		};
 	}
+
 	// private StringField key = new StringField();
 	//
 	// @Override

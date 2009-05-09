@@ -6,9 +6,7 @@ import speakit.io.record.Record;
 public abstract class TreeNodeRecord extends Record<IntegerField> {
 	private IntegerField nodeNumber = new IntegerField();
 
-	public abstract TreeNodeElement extractFirstElement();
-
-	public abstract TreeNodeElement extractLastElement();
+	public abstract void addElement(TreeNodeElement element);
 
 	@Override
 	public IntegerField getKey() {
@@ -20,8 +18,6 @@ public abstract class TreeNodeRecord extends Record<IntegerField> {
 	public int getNodeNumber() {
 		return this.nodeNumber.getInteger();
 	}
-
-	public abstract void insertElement(TreeNodeElement element);
 
 	public void setNodeNumber(int nodeNumber) {
 		this.nodeNumber.setInteger(nodeNumber);

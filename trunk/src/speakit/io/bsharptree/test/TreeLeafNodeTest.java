@@ -62,13 +62,13 @@ public class TreeLeafNodeTest {
 		this.sut.insertRecord(new TestIndexRecord("adios", 3));
 		this.sut.insertRecord(new TestIndexRecord("mundo", 1));
 		this.sut.insertRecord(new TestIndexRecord("cruel", 2));
-		TreeLeafNodeElement firstElement = (TreeLeafNodeElement) this.sut.getElements().get(0);
+		TreeLeafNodeElement firstElement = (TreeLeafNodeElement) this.sut.getElement(0);
 		Assert.assertEquals("adios", ((StringField) firstElement.getKey()).getString());
 		Assert.assertEquals(3, ((TestIndexRecord) firstElement.getRecord()).getBlockNumber());
-		TreeLeafNodeElement secondElement = (TreeLeafNodeElement) this.sut.getElements().get(1);
+		TreeLeafNodeElement secondElement = (TreeLeafNodeElement) this.sut.getElement(1);
 		Assert.assertEquals("cruel", ((StringField) secondElement.getKey()).getString());
 		Assert.assertEquals(2, ((TestIndexRecord) secondElement.getRecord()).getBlockNumber());
-		TreeLeafNodeElement thirdElement = (TreeLeafNodeElement) this.sut.getElements().get(2);
+		TreeLeafNodeElement thirdElement = (TreeLeafNodeElement) this.sut.getElement(2);
 		Assert.assertEquals("mundo", ((StringField) thirdElement.getKey()).getString());
 		Assert.assertEquals(1, ((TestIndexRecord) thirdElement.getRecord()).getBlockNumber());
 	}

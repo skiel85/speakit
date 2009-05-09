@@ -9,12 +9,13 @@ import org.junit.Test;
 
 import speakit.io.bsharptree.TreeIndexNode;
 import speakit.io.bsharptree.TreeIndexNodeElement;
+import speakit.io.bsharptree.TreeNode;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
 public class TreeNodeTest {
 
-	private TreeIndexNode sut;
+	private TreeNode sut;
 
 	@Before
 	public void setUp() throws Exception {
@@ -39,13 +40,13 @@ public class TreeNodeTest {
 		this.sut.insertElement(new TreeIndexNodeElement(new StringField("adios"), 3));
 		this.sut.insertElement(new TreeIndexNodeElement(new StringField("mundo"), 1));
 		this.sut.insertElement(new TreeIndexNodeElement(new StringField("cruel"), 2));
-		TreeIndexNodeElement firstElement = (TreeIndexNodeElement) this.sut.getElements().get(0);
+		TreeIndexNodeElement firstElement = (TreeIndexNodeElement) this.sut.getElement(0);
 		Assert.assertEquals("adios", ((StringField) firstElement.getKey()).getString());
 		Assert.assertEquals(3, firstElement.getRightChildNodeNumber());
-		TreeIndexNodeElement secondElement = (TreeIndexNodeElement) this.sut.getElements().get(1);
+		TreeIndexNodeElement secondElement = (TreeIndexNodeElement) this.sut.getElement(1);
 		Assert.assertEquals("cruel", ((StringField) secondElement.getKey()).getString());
 		Assert.assertEquals(2, secondElement.getRightChildNodeNumber());
-		TreeIndexNodeElement thirdElement = (TreeIndexNodeElement) this.sut.getElements().get(2);
+		TreeIndexNodeElement thirdElement = (TreeIndexNodeElement) this.sut.getElement(2);
 		Assert.assertEquals("mundo", ((StringField) thirdElement.getKey()).getString());
 		Assert.assertEquals(1, thirdElement.getRightChildNodeNumber());
 	}

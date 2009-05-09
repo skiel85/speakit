@@ -1,7 +1,7 @@
 package speakit.io.bsharptree;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 import speakit.io.blockfile.BlockFileOverflowException;
@@ -12,7 +12,8 @@ import speakit.io.record.RecordSerializationException;
 
 @SuppressWarnings("unchecked")
 public class TreeLeafNode extends TreeNode {
-	private TreeLeafNodeRecord record;
+	private List<TreeNodeElement> elements;
+	private int nextSecuenceNodeNumber;
 
 	public TreeLeafNode(Tree tree) {
 		this(tree, 1);
@@ -20,7 +21,12 @@ public class TreeLeafNode extends TreeNode {
 
 	public TreeLeafNode(Tree tree, int size) {
 		super(tree, size);
-		this.record = new TreeLeafNodeRecord(tree, size);
+		this.elements = new ArrayList<TreeNodeElement>();
+	}
+
+	@Override
+	protected TreeNodeRecord createNodeRecord() {
+		return new TreeLeafNodeRecord(this.getTree());
 	}
 
 	@Override
@@ -29,34 +35,13 @@ public class TreeLeafNode extends TreeNode {
 	}
 
 	@Override
-	public List<TreeNodeElement> extractAllElements() {
-		return this.record.extractAllElements();
+	protected List<TreeNodeElement> getElements() {
+		return this.elements;
 	}
 
 	@Override
-	protected TreeNodeElement extractFirstElement() {
-		return this.record.extractFirstElement();
-	}
-
-	@Override
-	protected TreeNodeElement extractLastElement() {
-		return this.record.extractLastElement();
-	}
-
-	public TreeLeafNodeElement getElement(Field key) throws IOException, RecordSerializationException {
-		Iterator<TreeNodeElement> it = this.record.getElements().iterator();
-		while (it.hasNext()) {
-			TreeLeafNodeElement element = (TreeLeafNodeElement) it.next();
-			if (element.getRecord().compareToKey(key) == 0) {
-				return (TreeLeafNodeElement) element;
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public List<TreeNodeElement> getElements() {
-		return this.record.getElements();
+	public int getLevel() {
+		return 0;
 	}
 
 	// @Override
@@ -83,24 +68,18 @@ public class TreeLeafNode extends TreeNode {
 	// return result;
 	// }
 
-	@Override
-	public int getLevel() {
-		return 0;
+	public int getNextSecuenceNodeNumber() {
+		return this.nextSecuenceNodeNumber;
 	}
 
 	@Override
 	public Field getNodeKey() {
-		return ((TreeLeafNodeElement) this.record.getElements().get(0)).getRecord().getKey();
-	}
-
-	@Override
-	protected TreeNodeRecord getNodeRecord() {
-		return this.record;
+		return ((TreeLeafNodeElement) this.elements.get(0)).getRecord().getKey();
 	}
 
 	@Override
 	public Record getRecord(Field key) throws IOException, RecordSerializationException {
-		TreeLeafNodeElement element = this.getElement(key);
+		TreeLeafNodeElement element = (TreeLeafNodeElement) this.getElement(key);
 		if (element != null) {
 			return element.getRecord();
 		} else {
@@ -109,33 +88,36 @@ public class TreeLeafNode extends TreeNode {
 	}
 
 	@Override
-	protected void insertElement(TreeNodeElement element) {
-		this.record.insertElement(element);
-	}
-
-	@Override
 	public void insertRecord(Record record) throws IOException, RecordSerializationException {
 		TreeLeafNodeElement element = new TreeLeafNodeElement(record);
-		this.record.insertElement(element);
+		this.insertElement(element);
 	}
 
 	@Override
-	public boolean isInOverflow() throws RecordSerializationException, IOException {
-		return (this.record.serialize().length > this.getMaximumCapacity());
-	}
-
-	@Override
-	public boolean isInUnderflow() throws RecordSerializationException, IOException {
-		return (this.record.serialize().length < this.getMinimumCapacity());
+	protected void load(TreeNodeRecord nodeRecord) {
+		super.load(nodeRecord);
+		TreeLeafNodeRecord leafNodeRecord = (TreeLeafNodeRecord) nodeRecord;
+		this.nextSecuenceNodeNumber = leafNodeRecord.getNextSecuenceNodeNumber();
+		for (TreeNodeElement element : leafNodeRecord.getElements()) {
+			elements.add(element);
+		}
 	}
 
 	public void passOneElementTo(TreeLeafNode node) {
-		node.record.getElements().add(this.record.extractLastElement());
+		node.elements.add(this.extractLastElement());
 	}
 
 	@Override
-	public String toString() {
-		return record.toString();
+	protected void save(TreeNodeRecord nodeRecord) {
+		super.save(nodeRecord);
+		TreeLeafNodeRecord leafNodeRecord = (TreeLeafNodeRecord) nodeRecord;
+		leafNodeRecord.setNextSecuenceNodeNumber(getNextSecuenceNodeNumber());
+		for (TreeNodeElement element : elements) {
+			leafNodeRecord.addElement(element);
+		}
 	}
 
+	public void setNextSecuenceNodeNumber(int nextSecuenceNodeNumber) {
+		this.nextSecuenceNodeNumber = nextSecuenceNodeNumber;
+	}
 }

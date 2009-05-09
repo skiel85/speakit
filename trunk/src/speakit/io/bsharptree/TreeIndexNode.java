@@ -1,6 +1,7 @@
 package speakit.io.bsharptree;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,11 +13,14 @@ import speakit.io.record.RecordSerializationException;
 
 @SuppressWarnings("unchecked")
 public class TreeIndexNode extends TreeNode {
-	private TreeIndexNodeRecord record;
+
+	private int level = 80;
+	private int leftChildNodeNumber;
+	List<TreeNodeElement> elements;
 
 	public TreeIndexNode(Tree tree, int size) {
 		super(tree, size);
-		this.record = new TreeIndexNodeRecord();
+		this.elements = new ArrayList<TreeNodeElement>();
 	}
 
 	public boolean balanceChilds() throws IOException {
@@ -49,32 +53,22 @@ public class TreeIndexNode extends TreeNode {
 	}
 
 	@Override
+	protected TreeNodeRecord createNodeRecord() {
+		return new TreeIndexNodeRecord();
+	}
+
+	@Override
 	public TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		return this.getTree().createIndexNodeAndSave(this.getLevel());
 	}
 
-	@Override
-	public List<TreeNodeElement> extractAllElements() {
-		return this.record.extractAllElements();
-	}
-
-	@Override
-	protected TreeNodeElement extractFirstElement() {
-		return record.extractFirstElement();
-	}
-
-	@Override
-	protected TreeNodeElement extractLastElement() {
-		return record.extractLastElement();
-	}
-
 	private int getChildFor(Field key) {
-		int childForKey = this.record.getLeftChildNodeNumber();
-		Iterator<TreeIndexNodeElement> it = this.record.getElementsIterator();
+		int childForKey = this.getLeftChildNodeNumber();
+		Iterator<TreeNodeElement> it = this.elements.iterator();
 
 		boolean found = false;
 		while (it.hasNext() && !found) {
-			TreeIndexNodeElement element = it.next();
+			TreeIndexNodeElement element = (TreeIndexNodeElement) it.next();
 			if (key.compareTo((Field) element.getKey()) > 0) {
 				childForKey = element.getRightChildNodeNumber();
 			} else {
@@ -88,7 +82,7 @@ public class TreeIndexNode extends TreeNode {
 	private TreeNode[] getChildsOf(int elementIndex) throws IOException {
 		TreeNode leftChild;
 		if (elementIndex == 0) {
-			leftChild = this.getTree().getNode(this.record.getLeftChildNodeNumber(), this);
+			leftChild = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
 		} else {
 			TreeIndexNodeElement leftElement = (TreeIndexNodeElement) this.getElements().get(elementIndex - 1);
 			leftChild = this.getTree().getNode(leftElement.getRightChildNodeNumber(), this);
@@ -100,17 +94,6 @@ public class TreeIndexNode extends TreeNode {
 		return new TreeNode[] { leftChild, rightChild };
 	}
 
-	public TreeIndexNodeElement getElement(Field key) throws IOException, RecordSerializationException {
-		Iterator<TreeNodeElement> it = this.record.getElements().iterator();
-		while (it.hasNext()) {
-			TreeIndexNodeElement element = (TreeIndexNodeElement) it.next();
-			if (element.getKey().compareTo(key) == 0) {
-				return element;
-			}
-		}
-		return null;
-	}
-
 	/**
 	 * Devuelve la posición de la clave especificada dentro del array de
 	 * elementos.
@@ -119,7 +102,7 @@ public class TreeIndexNode extends TreeNode {
 	 * @return
 	 */
 	private int getElementIndexOf(Field key) {
-		List<TreeNodeElement> elements = this.record.getElements();
+		List<TreeNodeElement> elements = this.elements;
 		for (int i = 0; i < elements.size(); i++) {
 			TreeNodeElement element = elements.get(i);
 			if (element.getKey().compareTo(key) == 0) {
@@ -137,10 +120,10 @@ public class TreeIndexNode extends TreeNode {
 	 * @return
 	 */
 	private int getElementIndexThatPointsToNode(TreeNode node) {
-		if (this.record.getLeftChildNodeNumber() == node.getNodeNumber()) {
+		if (this.getLeftChildNodeNumber() == node.getNodeNumber()) {
 			return 0;
 		} else {
-			Iterator<TreeNodeElement> iterator = this.record.getElements().iterator();
+			Iterator<TreeNodeElement> iterator = this.elements.iterator();
 			int counter = 0;
 			while (iterator.hasNext()) {
 				TreeIndexNodeElement eachElement = (TreeIndexNodeElement) iterator.next();// casteo
@@ -161,27 +144,22 @@ public class TreeIndexNode extends TreeNode {
 	}
 
 	@Override
-	public List<TreeNodeElement> getElements() {
-		return this.record.getElements();
+	protected List<TreeNodeElement> getElements() {
+		return this.elements;
 	}
 
 	public int getLeftChildNodeNumber() {
-		return this.record.getLeftChildNodeNumber();
+		return this.leftChildNodeNumber;
 	}
 
 	@Override
 	public int getLevel() {
-		return 80;
+		return this.level;
 	}
 
 	@Override
 	public Field getNodeKey() {
 		return this.getElements().get(0).getKey();
-	}
-
-	@Override
-	protected TreeNodeRecord getNodeRecord() {
-		return this.record;
 	}
 
 	@Override
@@ -193,18 +171,13 @@ public class TreeIndexNode extends TreeNode {
 
 	public void indexChild(TreeNode newChild) {
 		if (this.getLeftChildNodeNumber() == 0) {
-			this.record.setLeftChildNodeNumber(newChild.getNodeNumber());
+			this.setLeftChildNodeNumber(newChild.getNodeNumber());
 		} else {
 			TreeIndexNodeElement element = new TreeIndexNodeElement();
 			element.setKey(newChild.getNodeKey());
 			element.setRightChild(newChild.getNodeNumber());
 			this.insertElement(element);
 		}
-	}
-
-	@Override
-	public void insertElement(TreeNodeElement element) {
-		this.record.insertElement(element);
 	}
 
 	/**
@@ -230,8 +203,32 @@ public class TreeIndexNode extends TreeNode {
 		}
 	}
 
-	public int setLevel(int level) {
-		return this.record.getLevel();
+	@Override
+	protected void load(TreeNodeRecord nodeRecord) {
+		super.load(nodeRecord);
+		TreeIndexNodeRecord indexNodeRecord = (TreeIndexNodeRecord) nodeRecord;
+		this.leftChildNodeNumber = indexNodeRecord.getLeftChildNodeNumber();
+		for (TreeNodeElement element : indexNodeRecord.getElements()) {
+			elements.add(element);
+		}
+	}
+
+	@Override
+	protected void save(TreeNodeRecord nodeRecord) {
+		super.save(nodeRecord);
+		TreeIndexNodeRecord indexNodeRecord = (TreeIndexNodeRecord) nodeRecord;
+		indexNodeRecord.setLeftChildNodeNumber(getLeftChildNodeNumber());
+		for (TreeNodeElement element : elements) {
+			indexNodeRecord.addElement(element);
+		}
+	}
+
+	public void setLeftChildNodeNumber(int leftChildNodeNumber) {
+		this.leftChildNodeNumber = leftChildNodeNumber;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	private void splitChildsOf(Field key) throws IOException {
@@ -244,7 +241,7 @@ public class TreeIndexNode extends TreeNode {
 		TreeNode leftChild = childs[0];
 		TreeNode rightChild = childs[1];
 
-		this.record.removeElement(elementIndex);
+		this.removeElement(elementIndex);
 
 		// this.getTree().createNode(this);
 		TreeNode middleChild = leftChild.createSibling();
@@ -262,12 +259,11 @@ public class TreeIndexNode extends TreeNode {
 
 	@Override
 	public String toString() {
-		String result = this.getNodeNumber() + ": " + this.record.getLeftChildNodeNumber();
-		for (TreeNodeElement element : this.record.getElements()) {
+		String result = this.getNodeNumber() + ": " + this.getLeftChildNodeNumber();
+		for (TreeNodeElement element : this.elements) {
 			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) element;
 			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber();
 		}
 		return result;
 	}
-
 }

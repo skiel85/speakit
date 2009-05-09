@@ -106,7 +106,7 @@ public class Speakit implements SpeakitInterface {
 	 * @throws IOException
 	 */
 	private void indexDocument(TextDocument doc) throws IOException, RecordSerializationException {
-		this.ftrs.indexDocuments(doc);
+		this.ftrs.indexDocument(doc);
 	}
 
 	private void indexDocuments (TextDocumentList docs)throws IOException, RecordSerializationException {

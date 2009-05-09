@@ -15,7 +15,7 @@ public class OccurrencePartMerger implements RecordFactory{
 	private ArrayList<String> parts;
 	private ArrayList<String> mergeParts;
 	private ArrayList<Buffer> buffers;
-	private static int MAX_SIZE_PARTS = 100;
+	private static int MAX_SIZE_PARTS = 128;
 	private FileManager manager;
 	private Integer partNumber = 0;
 	private static String FINAL_MERGE_NAME = "mergedList.merge";

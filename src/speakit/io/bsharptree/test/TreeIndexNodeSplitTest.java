@@ -1,13 +1,17 @@
 package speakit.io.bsharptree.test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import speakit.TextDocument;
 import speakit.io.bsharptree.Tree;
+import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 
 public class TreeIndexNodeSplitTest {
@@ -30,12 +34,12 @@ public class TreeIndexNodeSplitTest {
 		this.file.delete();
 	}
 
-	// @Test
-	// public void testRootOverflow() throws RecordSerializationException,
-	// IOException {
-	// while (!this.sut.getRoot().isInOverflow()) {
-	// this.sut.insertRecord(new TestIndexRecord(testStrings.next(), 2));
-	// }
-	// }
+	@Ignore
+	@Test
+	public void testRootOverflow() throws RecordSerializationException, IOException {
+		while (!this.sut.getRoot().isInOverflow()) {
+			this.sut.insertRecord(new TestIndexRecord(testStrings.next(), 2));
+		}
+	}
 
 }

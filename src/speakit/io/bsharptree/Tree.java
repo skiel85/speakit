@@ -181,7 +181,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 				((TreeIndexNode) this.root).indexChild(leafs.get(2));
 
 				if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
-					throw new RuntimeException("ERROR: No se pudo hacer el split. Un nodo quedó en overflow. Pruebe agrandando el tamaño de bloques.");
+					throw new RuntimeException("ERROR: No se pudo hacer el split al insertar el registro (" + record + "). Un nodo quedó en overflow. Pruebe agrandando el tamaño de bloques.");
 				}
 
 				this.updateNode(leafs.get(0));

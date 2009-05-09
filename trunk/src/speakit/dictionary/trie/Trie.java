@@ -8,6 +8,7 @@ import speakit.Configuration;
 import speakit.FileManager;
 import speakit.dictionary.audiofile.WordNotFoundException;
 import speakit.io.File;
+import speakit.io.record.IntegerField;
 import speakit.io.record.LongField;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
@@ -15,10 +16,12 @@ import speakit.io.recordfile.DirectRecordFile;
 
 public class Trie implements File, RecordFactory{
 	private static final String TRIE_INDEX_DAT = "TrieIndex.dat";
-	private long lastNodeNumber;
-	// private ArrayList<TrieNode> TrieNodeList;
+	private static final String TRIE_NODE_BLOCK_INDEX_DAT = "TrieNodeBlockIndex.dat";
+	private long nextNodeNumber;
+	
 	private int depth;
 	private DirectRecordFile<TrieNode, LongField> nodeFile;
+	private TrieNodeBlockIndexFile nodeBlockIndexFile;
 
 	public DirectRecordFile<TrieNode, LongField> getNodeFile() {
 		return nodeFile;
@@ -29,19 +32,8 @@ public class Trie implements File, RecordFactory{
 	}
 
 	public Trie() {
-
-		// TrieNodeList = new ArrayList<TrieNode>();
-		// this.depth = 4;
-		this.lastNodeNumber = 1;
+		this.nextNodeNumber = 1;
 	}
-
-	// public ArrayList<TrieNode> getTrieNodeList() {
-	// return nodeFile;
-	// }
-	//
-	// public void setTrieNodeList(ArrayList<TrieNode> trieNodeList) {
-	// nodeFile = trieNodeList;
-	// }
 
 	public int getDepth() {
 		return depth;
@@ -51,21 +43,31 @@ public class Trie implements File, RecordFactory{
 		this.depth = depth;
 	}
 
-	public long getLastNodeNumber() {
-		return lastNodeNumber;
+	public long getNextNodeNumber() {
+		return nextNodeNumber;
 	}
 
-	public void setLastNodeNumber(long lastNodeNumber) {
-		this.lastNodeNumber = lastNodeNumber;
+	public void setNextNodeNumber(long nextNodeNumber) {
+		this.nextNodeNumber = nextNodeNumber;
 	}
 
 	public void addWord(String word, long offset) throws RecordSerializationException, IOException {
 
-		String firstPart = word.substring(0, this.getDepth() - 1);
+		String firstPart = "";
 		String lastPart = "";
+		if (word.length()<this.getDepth()) word=word+" "; 
+		
+		
+		if (word.length()<this.getDepth()-1){
+			firstPart=word.substring(0);
+		} else {
+			firstPart=word.substring(0, this.getDepth() - 1);
+		}
+			
 		
 		if (word.length() >= this.getDepth())
 			lastPart = word.substring(this.getDepth() - 1);
+		
 		
 		this.addWordToNode(this.getNode(0), firstPart, lastPart, 0, offset);
 		
@@ -78,14 +80,26 @@ public class Trie implements File, RecordFactory{
 		TrieNode nodo6=this.getNode(6);
 		TrieNode nodo7=this.getNode(7);
 		TrieNode nodo8=this.getNode(8);
+		TrieNode nodo9=this.getNode(9);
+		
+		
 		
 
 	}
 
 	public boolean contains(String word) throws RecordSerializationException, IOException {
 		
-		String firstPart = word.substring(0, this.getDepth() - 1);
+		String firstPart = "";
 		String lastPart = "";
+		if (word.length()<this.getDepth()) word=word+" "; 
+		
+		
+		if (word.length()<this.getDepth()-1){
+			firstPart=word.substring(0);
+		} else {
+			firstPart=word.substring(0, this.getDepth() - 1);
+		}
+			
 		
 		if (word.length() >= this.getDepth())
 			lastPart = word.substring(this.getDepth() - 1);
@@ -95,8 +109,7 @@ public class Trie implements File, RecordFactory{
 		Iterator<WordOffsetField> recordIterator = this.getNode(nodeNumber).getWordOffsetList().iterator();
 		while (recordIterator.hasNext()) {
 			WordOffsetField wordOffset=recordIterator.next();
-			/** TODO ARREGLAR QUE SUCEDE CUANDO LA PALABRA TIENE MENOS CARACTERES QUE EL DEPTH **/
-			if (wordOffset.isLast() && wordOffset.getWord().equals(lastPart))
+			if (wordOffset.isLast() && (wordOffset.getWord().equals(lastPart) || wordOffset.getWord().equals(" ")))
 				return true;
 		}
 		
@@ -104,28 +117,40 @@ public class Trie implements File, RecordFactory{
 	}
 
 	public long getOffset(String word) throws WordNotFoundException, RecordSerializationException, IOException {
-		if (!this.contains(word))
-			throw new WordNotFoundException(word);
-		else {
-			String firstPart = word.substring(0, this.getDepth() - 1);
-			String lastPart = "";
-			
-			if (word.length() >= this.getDepth())
-				lastPart = word.substring(this.getDepth() - 1);
-			
-			TrieNode trieNode = getNode(0);
-			long nodeNumber = this.searchTrieNode(trieNode, firstPart, lastPart, 0);
-			boolean found = false;
-			Iterator<WordOffsetField> recordIterator = this.getNode(nodeNumber).getWordOffsetList().iterator();
-			WordOffsetField wordOffset = new WordOffsetField(0, "", false);
-			while (recordIterator.hasNext() & !found) {
-				wordOffset = recordIterator.next();
-				if (wordOffset.isLast())
-					found = true;
-			}
-			return wordOffset.getNextRecord();
-
+		String firstPart = "";
+		String lastPart = "";
+		if (word.length()<this.getDepth()) word=word+" "; 
+		
+		
+		if (word.length()<this.getDepth()-1){
+			firstPart=word.substring(0);
+		} else {
+			firstPart=word.substring(0, this.getDepth() - 1);
 		}
+			
+		
+		if (word.length() >= this.getDepth())
+			lastPart = word.substring(this.getDepth() - 1);
+		
+		long nodeNumber = this.searchTrieNode(this.getNode(0), firstPart, lastPart, 0);
+		
+		boolean offsetFound=false;
+		long offset=0;
+		Iterator<WordOffsetField> recordIterator = this.getNode(nodeNumber).getWordOffsetList().iterator();
+		while (recordIterator.hasNext()) {
+			WordOffsetField wordOffset=recordIterator.next();
+			if (wordOffset.isLast() && (wordOffset.getWord().equals(lastPart) || wordOffset.getWord().equals(" "))){
+				offsetFound=true;
+				offset=wordOffset.getNextRecord();
+				
+			}
+				
+		}
+		if (!offsetFound) throw new WordNotFoundException(word);
+		
+		return offset;
+		
+		
 	}
 
 	private TrieNode getNode(long nodeNumber) throws IOException, RecordSerializationException {
@@ -134,16 +159,17 @@ public class Trie implements File, RecordFactory{
 		 * para saber el numero de bloque del nodo nodeNumber y luego llamar a
 		 * getRecord( key,blockNumber)
 		 */
-		return this.nodeFile.getRecord(new LongField(nodeNumber));
+		this.nodeBlockIndexFile.getNodeBlockIndexFile().getRecord(new IntegerField(0));
+		TrieNodeBlockIndex trieBlockIndex=this.nodeBlockIndexFile.getNodeBlockIndexFile().getRecord(new IntegerField((int)nodeNumber));
+		if (!(trieBlockIndex==null)){
+		int blockNumber=trieBlockIndex.getBlockNumber();
+		return this.nodeFile.getRecord(new LongField(nodeNumber),blockNumber);
+		} else {
+			return null;
+		}
+			
 		
 	}
-	
-	private void setNode(long nodeNumber, TrieNode node) throws RecordSerializationException, IOException{
-		
-		this.nodeFile.insertRecord(node, 0);
-		
-	}
-
 	/**
 	 * Función recursiva que recorre los nodos y chequea si cada letra de la
 	 * palabra esta en un nodo y devuelve el indice del ultimo nodo recorrido
@@ -157,48 +183,45 @@ public class Trie implements File, RecordFactory{
 		boolean foundString=false;
 		long nodeFound=0;
 		
-		while(wordOffsetListIterator.hasNext() && !foundString){
+		while (wordOffsetListIterator.hasNext() && !foundString){
 			WordOffsetField wordOffset = wordOffsetListIterator.next();
-			if (indexFirstPart<firstPart.length() && wordOffset.getWord().equals(firstPart.substring(indexFirstPart, indexFirstPart+1))){
-				foundString=true;
-				nodeFound=searchTrieNode(this.getNode(wordOffset.getNextRecord()), firstPart,lastPart, indexFirstPart+1);
-			} else{
-				if(!(indexFirstPart<firstPart.length()) && wordOffset.getWord().equals(lastPart) ){
+				
+			if (indexFirstPart<firstPart.length()){
+				String actualChar="";
+				
+				if(indexFirstPart==(firstPart.length()-1) && firstPart.length()<this.getDepth()){
+					actualChar=firstPart.substring(indexFirstPart);
+				} else {
+					actualChar=firstPart.substring(indexFirstPart, indexFirstPart+1);
+				}
+				if (wordOffset.getWord().equals(actualChar)){
+					foundString=true;
+					if(wordOffset.isLast()){
+						nodeFound=node.getNodeNumber();
+					} else {
+						nodeFound=searchTrieNode(this.getNode(wordOffset.getNextRecord()), firstPart,lastPart, indexFirstPart+1);
+					}
+				}
+				
+			} else {
+				if (wordOffset.getWord().equals(lastPart)){
 					foundString=true;
 					nodeFound=node.getNodeNumber();
 				}
+				
 			}
+				
 			
 			
 		}
 		
 		return nodeFound;
-		/*Iterator<WordOffsetField> nodeIterator = node.getWordOffsetList().iterator();
-		boolean foundString=false;
-		
-		
-		while (nodeIterator.hasNext() && !foundString){
-			WordOffsetField record = nodeIterator.next();
-			
-			if (indexFirstPart<firstPart.length() && record.getWord().equals(firstPart.substring(indexFirstPart, indexFirstPart+1))){
-				foundString=true;
-				searchTrieNode(this.getNode(record.getNextRecord()),firstPart, lastPart,indexFirstPart+1);
-				 
-				} else {
-				if(record.getWord().equals(lastPart)){
-					foundString=true;
-					return record.getNextRecord();
-				}
-			}
-		}
-		
-		return node.getNodeNumber();*/
 	}
 	
 	
 	
-	private void incrementLastNodeNumber(){
-		this.lastNodeNumber++;
+	private void incrementNextNodeNumber(){
+		this.nextNodeNumber++;
 	}
 	
 	private void addWordToNode(TrieNode initialNode, String firstPart, String lastPart, int indexFirstPart, long offset) throws RecordSerializationException, IOException{
@@ -207,8 +230,15 @@ public class Trie implements File, RecordFactory{
 		boolean foundString=false;
 		while (initialNodeIterator.hasNext() && !foundString){
 			WordOffsetField record = initialNodeIterator.next();
+			String actualChar="";
+			if((indexFirstPart==(firstPart.length()-1) && firstPart.length()<this.getDepth()) || (indexFirstPart==this.getDepth()-1)){
+				actualChar=firstPart.substring(indexFirstPart);
+			} else {
+				actualChar=firstPart.substring(indexFirstPart, indexFirstPart+1);
+			}
 			
-			if (indexFirstPart<firstPart.length() && record.getWord().equals(firstPart.substring(indexFirstPart, indexFirstPart+1))){
+			
+			if (indexFirstPart<firstPart.length() && record.getWord().equals(actualChar)){
 				addWordToNode(this.getNode(record.getNextRecord()),firstPart,lastPart,indexFirstPart+1, offset);
 				foundString=true;
 			} else {
@@ -219,7 +249,7 @@ public class Trie implements File, RecordFactory{
 		int i=indexFirstPart;
 		if (!foundString){
 			if (i<firstPart.length()){
-				addFirstPartToNodes(initialNode, firstPart, indexFirstPart, i);
+				addFirstPartToNodes(initialNode, firstPart, indexFirstPart, i, offset);
 			}
 			if(!lastPart.equals("")) addLastPartToNode(initialNode, lastPart, offset, indexFirstPart);
 			
@@ -242,16 +272,24 @@ public class Trie implements File, RecordFactory{
 			ArrayList<WordOffsetField> newWordOffsetList=new ArrayList<WordOffsetField>();
 			WordOffsetField newWordOffsetField=new WordOffsetField(offset, lastPart, true);
 			newWordOffsetList.add(newWordOffsetField);
-			TrieNode newNode=new TrieNode(newWordOffsetList,this.getLastNodeNumber()-1);
-			this.nodeFile.insertRecord(newNode);
-			//incrementLastNodeNumber();
+			TrieNode newNode=new TrieNode(newWordOffsetList,this.getNextNodeNumber());
+			long blockNumber=this.nodeFile.insertRecord(newNode);
+			TrieNodeBlockIndex trieNodeBlockIndex=new TrieNodeBlockIndex(new IntegerField((int)blockNumber),new IntegerField((int)newNode.getNodeNumber()));
+			this.nodeBlockIndexFile.getNodeBlockIndexFile().insertRecord(trieNodeBlockIndex);
+			incrementNextNodeNumber();
+			
 		} else {
 			WordOffsetField wordOffsetField=new WordOffsetField(offset, lastPart, true);
 			ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>) initialNode.getWordOffsetList();
 			wordOffsetList.add(wordOffsetField);
 			initialNode.clearWordOffsetRecordList();
 			initialNode.setWordOffsetRecordList(wordOffsetList);
-			this.nodeFile.updateRecord(initialNode);
+			long updatedBlockNumber=this.nodeFile.updateRecord(initialNode);
+			
+			TrieNodeBlockIndex updatedTrieNodeBlockIndex=new TrieNodeBlockIndex();
+			updatedTrieNodeBlockIndex=this.nodeBlockIndexFile.getNodeBlockIndexFile().getRecord(new IntegerField((int)initialNode.getNodeNumber()));
+			updatedTrieNodeBlockIndex.setBlockNumber((int)updatedBlockNumber);
+			this.nodeBlockIndexFile.getNodeBlockIndexFile().updateRecord(updatedTrieNodeBlockIndex);
 		}
 		
 	}
@@ -261,40 +299,63 @@ public class Trie implements File, RecordFactory{
 	 * @param firstPart
 	 * @param indexFirstPart
 	 * @param i
+	 * @param offset 
 	 * @throws RecordSerializationException
 	 * @throws IOException
 	 */
 	private void addFirstPartToNodes(TrieNode initialNode, String firstPart,
-			int indexFirstPart, int i) throws RecordSerializationException,
+			int indexFirstPart, int i, long offset) throws RecordSerializationException,
 			IOException {
 		// Agrego la primer letra del resto de la primer parte de la palabra al nodo actual
-		//this.incrementLastNodeNumber();
-		String actualChar = firstPart.substring(indexFirstPart, indexFirstPart+1);
-		WordOffsetField wordOffsetField=new WordOffsetField(this.getLastNodeNumber(), actualChar, false);
+		
+		WordOffsetField wordOffsetField=new WordOffsetField();
+		if (firstPart.length()==1){
+			wordOffsetField=new WordOffsetField(offset, firstPart, true);
+		} else {
+			String actualChar = firstPart.substring(indexFirstPart, indexFirstPart+1);
+			wordOffsetField=new WordOffsetField(this.getNextNodeNumber(), actualChar, false);
+		}
+		
 		ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>) initialNode.getWordOffsetList();
 		wordOffsetList.add(wordOffsetField);
 		initialNode.clearWordOffsetRecordList();
 		initialNode.setWordOffsetRecordList(wordOffsetList);
-		this.nodeFile.updateRecord(initialNode);
+		long updatedBlockNumber=this.nodeFile.updateRecord(initialNode);
+		
+		TrieNodeBlockIndex updatedTrieNodeBlockIndex=new TrieNodeBlockIndex();
+		updatedTrieNodeBlockIndex=this.nodeBlockIndexFile.getNodeBlockIndexFile().getRecord(new IntegerField((int)initialNode.getNodeNumber()));
+		updatedTrieNodeBlockIndex.setBlockNumber((int)updatedBlockNumber);
+		this.nodeBlockIndexFile.getNodeBlockIndexFile().updateRecord(updatedTrieNodeBlockIndex);
+		
 		i++;
-		this.incrementLastNodeNumber();
 		
 		// Agrego el resto de la primer parte de la palabra a nuevos nodos
 		while(i<firstPart.length()){
-			//this.incrementLastNodeNumber();
+			this.incrementNextNodeNumber();
 			ArrayList<WordOffsetField> newWordOffsetList=new ArrayList<WordOffsetField>();
+			WordOffsetField newWordOffsetField= new WordOffsetField();
 			String newActualChar = firstPart.substring((int) i, (int) i + 1);
-			WordOffsetField newWordOffsetField=new WordOffsetField(this.getLastNodeNumber(), newActualChar, false);
+			
+			if (newActualChar.equals(" ")){
+				newWordOffsetField=new WordOffsetField(offset, newActualChar, true);
+			} else {
+				newWordOffsetField=new WordOffsetField(this.getNextNodeNumber(), newActualChar, false);
+			}
+			
 			newWordOffsetList.add(newWordOffsetField);
-			TrieNode newNode=new TrieNode(newWordOffsetList,this.getLastNodeNumber()-1);
-			this.nodeFile.insertRecord(newNode);
-			this.incrementLastNodeNumber();
+			TrieNode newNode=new TrieNode(newWordOffsetList,this.getNextNodeNumber()-1);
+			long blockNumber=this.nodeFile.insertRecord(newNode);
+			TrieNodeBlockIndex trieNodeBlockIndex=new TrieNodeBlockIndex(new IntegerField((int)blockNumber),new IntegerField((int)newNode.getNodeNumber()));
+			this.nodeBlockIndexFile.getNodeBlockIndexFile().insertRecord(trieNodeBlockIndex);
+			
 			i++;
 		}
 	}
 
 	private void createDataFile(FileManager fileManager) throws IOException {
-		nodeFile = new DirectRecordFile<TrieNode, LongField>(fileManager.openFile(TRIE_INDEX_DAT), this);
+		this.nodeFile = new DirectRecordFile<TrieNode, LongField>(fileManager.openFile(TRIE_INDEX_DAT), this);
+		this.nodeBlockIndexFile=new TrieNodeBlockIndexFile(fileManager.openFile(TRIE_NODE_BLOCK_INDEX_DAT));
+		
 	}
 
 	@Override
@@ -302,6 +363,7 @@ public class Trie implements File, RecordFactory{
 		this.depth = conf.getTrieDepth();
 		createDataFile(fileManager);
 		nodeFile.load();
+		this.nodeBlockIndexFile.getNodeBlockIndexFile().load();
 	}
 
 	@Override
@@ -309,18 +371,21 @@ public class Trie implements File, RecordFactory{
 		createDataFile(fileManager);
 		this.depth = conf.getTrieDepth();
 		nodeFile.create(conf.getBlockSize());
+		this.nodeBlockIndexFile.getNodeBlockIndexFile().create(conf.getBlockSize());
+		
 		int j = 0;
-		//while (j < depth) {
-			ArrayList<WordOffsetField> wordOffsetList=new ArrayList<WordOffsetField>();
-			TrieNode node=new TrieNode(wordOffsetList,j);
-			this.nodeFile.insertRecord(node);
-			//j++;
-		//}
+		ArrayList<WordOffsetField> wordOffsetList=new ArrayList<WordOffsetField>();
+		TrieNode node=new TrieNode(wordOffsetList,j);
+		long blockNumber=this.nodeFile.insertRecord(node);
+		TrieNodeBlockIndex trieNodeBlockIndex=new TrieNodeBlockIndex(new IntegerField((int)blockNumber),new IntegerField(0));
+		this.nodeBlockIndexFile.getNodeBlockIndexFile().insertRecord(trieNodeBlockIndex);
+		this.nodeBlockIndexFile.getNodeBlockIndexFile().getRecord(new IntegerField(0));
+		
 	}
 
 	@Override
 	public boolean isInstalled(FileManager filemanager) throws IOException {
-		return filemanager.exists(TRIE_INDEX_DAT);
+		return filemanager.exists(TRIE_INDEX_DAT) && filemanager.exists(TRIE_NODE_BLOCK_INDEX_DAT);
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import java.util.Iterator;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.Configuration;
@@ -29,13 +30,16 @@ public class SpeakitTest {
 	public void setUp() throws Exception {
 		this.fileManager = new TestFileManager(this.getClass().getName());
 		this.sut = new Speakit();
-		Configuration conf = new Configuration();
-		conf.setBlockSize(1024);
-		conf.setTrieDepth(4);
-		this.sut.install(this.fileManager, conf);
-		this.sut.load(this.fileManager);
+		this.sut.setFileManager((TestFileManager) fileManager);
+		this.sut.load();
+		//Configuration conf = new Configuration();
+		//conf.setBlockSize(1024);
+		//conf.setTrieDepth(4);
+		//this.sut.install(this.fileManager, conf);
+		//this.sut.load(this.fileManager);
 	}
 
+	
 	@After
 	public void tearDown() throws Exception {
 		this.fileManager.destroyFiles();
@@ -53,7 +57,8 @@ public class SpeakitTest {
 
 		return textDocument;
 	}
-
+	
+	
 	@Test
 	public void testCreateTextDocument() throws FileNotFoundException, IOException {
 		Iterator<String> it = createTextDocument("Hola mundo.").iterator();
@@ -62,7 +67,8 @@ public class SpeakitTest {
 		Assert.assertFalse(it.hasNext());
 
 	}
-
+	
+	
 	@Test
 	public void testAddDocumentAndGetUnknownWords() throws IOException {
 		Iterator<String> it = this.sut.addDocument(createTextDocument("Ser o no ser, esa es la cuestión.")).iterator();
@@ -75,7 +81,8 @@ public class SpeakitTest {
 		Assert.assertEquals("cuestion", it.next());
 		Assert.assertFalse(it.hasNext());
 	}
-
+	
+	
 	@Test
 	public void testAddWordAndGetUnknownWords() throws IOException, RecordSerializationException {
 		WordAudio wordAudio = new WordAudio("esa", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
@@ -91,7 +98,7 @@ public class SpeakitTest {
 
 		Assert.assertFalse(it.hasNext());
 	}
-
+	
 	@Test
 	public void testConvertToAudioDocument() throws IOException, RecordSerializationException {
 		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
@@ -119,11 +126,13 @@ public class SpeakitTest {
 		Assert.assertArrayEquals(wordAudioCuestion.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertFalse(it.hasNext());
 	}
-
+	
+	
 	@Test
 	public void testRestartSpeakitAndContinueAddingWords() throws IOException, RecordSerializationException {
 		this.sut = new Speakit();
-		this.sut.load(this.fileManager);
+		this.sut.setFileManager((TestFileManager) fileManager);
+		this.sut.load();
 
 		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
 		WordAudio wordAudioO = new WordAudio("o", new Audio(new byte[] { 3, 8, -65, 54, 82 }));
@@ -135,7 +144,8 @@ public class SpeakitTest {
 		this.sut.addWordAudio(wordAudioEsa);
 
 		this.sut = new Speakit();
-		this.sut.load(this.fileManager);
+		this.sut.setFileManager((TestFileManager) fileManager);
+		this.sut.load();
 
 		WordAudio wordAudioEs = new WordAudio("es", new Audio(new byte[] { 111, 34, -65, 8, 82 }));
 		WordAudio wordAudioLa = new WordAudio("la", new Audio(new byte[] { 112, 0, -65, 65, 82 }));

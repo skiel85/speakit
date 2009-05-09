@@ -136,6 +136,7 @@ public class Speakit implements SpeakitInterface {
 
 	@Override
 	public void install(FileManager filemanager, Configuration conf) throws IOException {
+		this.conf=conf;
 		this.ftrs.install(filemanager, conf);
 		this.dataBase.install(filemanager, conf);
 	}

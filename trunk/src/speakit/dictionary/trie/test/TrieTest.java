@@ -100,7 +100,7 @@ public class TrieTest {
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
 
-			System.out.println("Adding: " + word + ", " + i);
+//			System.out.println("Adding: " + word + ", " + i);
 			initialTrie.addWord(word, i);
 
 		}

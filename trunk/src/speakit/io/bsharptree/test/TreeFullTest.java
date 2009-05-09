@@ -14,6 +14,7 @@ import speakit.ftrs.index.InvertedIndexIndexRecord;
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.bsharptree.Tree;
+import speakit.io.bsharptree.TreeDuplicatedRecordException;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
@@ -116,7 +117,11 @@ public class TreeFullTest {
 
 	public static void insertAllWords(Tree<InvertedIndexIndexRecord, StringField> tree, Iterable<String> words) throws RecordSerializationException, IOException {
 		for (String word : words) {
-			 tree.insertRecord(new InvertedIndexIndexRecord(word, simulateBlockNumber(word)));
+			try{
+				 tree.insertRecord(new InvertedIndexIndexRecord(word, simulateBlockNumber(word)));				
+			}catch (TreeDuplicatedRecordException e) {
+				//words tiene palabras duplicadas, no interfiere con la prueba
+			}
 		}
 	}
 

@@ -39,7 +39,7 @@ public class TreeFullTest {
 	public static void testRetrieveAllRecords(Tree<InvertedIndexIndexRecord, StringField> sut, Iterable<String> words) throws RecordSerializationException, IOException {
 		for (String word : words) {
 			StringField key = new StringField(word);
-			InvertedIndexIndexRecord record = sut.getRecord(key);
+			InvertedIndexIndexRecord record = sut.getRecord(key);			
 			verifyCorrectRecord(record, word, key);
 		}
 	}

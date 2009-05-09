@@ -230,7 +230,9 @@ public abstract class TreeNode {
 	}
 
 	public List<byte[]> serializeInParts(int partSize) throws RecordSerializationException, IOException {
-		return this.createNodeRecord().serializeInParts(partSize);
+		TreeNodeRecord nodeRecord = this.createNodeRecord();
+		this.save(nodeRecord);
+		return nodeRecord.serializeInParts(partSize);
 	}
 
 	public void setNodeNumber(int nodeNumber) {

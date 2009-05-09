@@ -106,7 +106,7 @@ public class BlockFile implements Iterable<Block> {
 		this.file.write(block.getBlockNumber(), outputStream.toByteArray());
 	}
 
-	protected int getBlockCount() throws IOException {
+	public int getBlockCount() throws IOException {
 		return this.file.getBlockCount();
 	}
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import speakit.Configuration;
 import speakit.FileManager;
 import speakit.io.File;
+import speakit.io.blockfile.WrongBlockNumberException;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
@@ -102,6 +103,6 @@ public class InvertedIndex implements File, RecordFactory {
 	}
 	
 	public String toString() {
-		return invertedListsFile.toString();
+		return  invertedListsFile.toString();
 	}
 }

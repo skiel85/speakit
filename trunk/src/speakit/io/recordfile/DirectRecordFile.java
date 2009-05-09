@@ -9,6 +9,7 @@ import speakit.io.blockfile.Block;
 import speakit.io.blockfile.BlockFile;
 import speakit.io.blockfile.BlockFileOverflowException;
 import speakit.io.blockfile.RemovableBlockFile;
+import speakit.io.blockfile.WrongBlockNumberException;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
@@ -177,18 +178,23 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 	public String toString() {
 		String out = "";
 		try {
-			RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block = this.getBlock(0);
-			List<RECTYPE> list = block.getRecords();
-			for (RECTYPE rectype : list) {
-				out += rectype.toString();
-				out += "\n";
+			for (int i = 0; i < this.blocksFile.getBlockCount(); i++) {
+				RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block = this.getBlock(i);
+				List<RECTYPE> list = block.getRecords();
+				for (RECTYPE rectype : list) {
+					out += rectype.toString();
+					out += "\n";
+				}
+				out += "--------------------------------- Siguiente Bloque del Archivo -----------------------------------------\n";
 			}
+		}
+		catch (WrongBlockNumberException we) {
+				//no existe un bloque o algun problema interno, no imprimo nada
+				return "Arbol vacio";
 		} catch (RecordSerializationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return "Problema en el archivo, no se puede imprimir";
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return "No anda nada!!!";
 		}
 		return out;
 	}

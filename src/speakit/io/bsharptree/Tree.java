@@ -134,103 +134,99 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	public int getRootNoteBlocksQty() {
 		return ROOT_NODE_BLOCKS_QTY;
 	}
-
-	boolean	found	= false;
+ 
 	@Override
 	public long insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
-		if(record.getKey().compareTo(new StringField("producida"))==0){
-			System.out.println("Insertando producida: \n" + this.toString());
-		}
 		this.root.insertRecord(record);
-		if(record.getKey().compareTo(new StringField("producida"))==0){
-			System.out.println("Insertando producida: \n" + this.toString());
-		}
-//		if(record.getKey().compareTo(new StringField("california"))==0){
-//			System.out.println("Insertando california: " + this.toString());
-//		}
-//		if (found) {
-//			if((this.getRecord((KEYTYPE) new StringField("california"))==null)){
-//				System.out.println("Se perdió: " + this.toString());
-//			}
-//		}else{
-//			found=(this.getRecord((KEYTYPE) new StringField("california"))!=null);
-//		}
-//		if(found){
-//			System.out.println("Found: " + this.toString());	
-//		}
 		
 		// TODO implementar balanceo y split para el caso de que quede en
 		// overflow luego de insertar.
 
 		if (this.root.isInOverflow()) {
-			if (this.root.getLevel() == 0) {
-				TreeLeafNode oldRoot = (TreeLeafNode) this.root;
-				this.root = this.instantiateRootNode(oldRoot.getLevel() + 1);
-
-				ArrayList<TreeNode> leafs = new ArrayList<TreeNode>();
-				leafs.add(this.instantiateNewLeafNodeAndSave());
-				leafs.add(this.instantiateNewLeafNodeAndSave());
-				leafs.add(this.instantiateNewLeafNodeAndSave());
-
-				leafs.get(0).insertElements((oldRoot.extractAllElements()));
-				leafs.get(0).passMinimumCapacityExcedentToTheRight(leafs.get(1));
-				leafs.get(1).passMinimumCapacityExcedentToTheRight(leafs.get(2));
-
-				((TreeIndexNode) this.root).indexChild(leafs.get(0));
-				((TreeIndexNode) this.root).indexChild(leafs.get(1));
-				((TreeIndexNode) this.root).indexChild(leafs.get(2));
-
-				if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
-					throw new RuntimeException("ERROR: No se pudo hacer el split al insertar el registro (" + record + "). Un nodo quedó en overflow. Pruebe agrandando el tamaño de bloques.");
-				}
-
-				this.updateNode(leafs.get(0));
-				this.updateNode(leafs.get(1));
-				this.updateNode(leafs.get(2));
-				this.updateNode(this.root);
-			}else{
-				/**
-				 * Descripción:
-				 * -Extrae todos los hijos de la raiz y los deja en una lista temporal
-				 * -crea 3 nodos nuevos que serán hijos de la raiz
-				 * -para cada nodo{
-				 * --indexa viejos hijos de la raiz en cada nuevo nodo y los va eliminando de la lista temporal
-				 * --indexa el nuevo nodo en la raiz
-				 * -}
-				 * -guarda todos los nodos nuevos
-				 * -guarda la raiz
-				 * 
-				 */
-				
-				ArrayList<TreeIndexNode> newRootChilds = new ArrayList<TreeIndexNode>();
-				newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
-				newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
-				newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
-				
-				List<TreeNode> oldRootChildsTempList = ((TreeIndexNode) this.root).getExtractChildNodes();
-				
-				Iterator<TreeNode> oldRootChildsTempListIterator = oldRootChildsTempList.iterator();
-				//recorro los nuevos nodos que acabo de crear, serán los nuevos hijos de root
-				for (TreeIndexNode newRootChild : newRootChilds) {
-					//mientras el nodos esté en underflow le indexo hijos viejos de root y lo elimino de la lista temporal
-					while(newRootChild.isInUnderflow() && oldRootChildsTempListIterator.hasNext()){
-						newRootChild.indexChild(oldRootChildsTempListIterator.next());
-						oldRootChildsTempListIterator.remove();
-					}
-					//indexo el nuevo hijo de la raiz
-					((TreeIndexNode) this.root).indexChild(newRootChild);
-				}
-				((TreeIndexNode) this.root).setLevel(this.root.getLevel()+1);
-				
-				for (TreeIndexNode newRootChild : newRootChilds) {
-					this.updateNode(newRootChild);
-				}
-				this.updateNode(this.root);
-			}
+			splitRootNode(record);
 		}else{
 			this.updateNode(this.root);
 		}
 		return 0;
+	}
+
+	private void splitRootNode(RECTYPE record) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		if (this.root.getLevel() == 0) {
+			//Splitea la raiz cuando es un nodo hoja
+			splitRootLeafNode(record);
+		}else{
+			//Splitea la raiz cuando es un nodo indice
+			splitRootIndexNode(record);
+		}
+	}
+
+	private void splitRootLeafNode(RECTYPE record) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		TreeNode oldRoot = (TreeNode) this.root;
+		this.root = this.instantiateRootNode(oldRoot.getLevel() + 1);
+
+		ArrayList<TreeNode> leafs = new ArrayList<TreeNode>();
+		leafs.add(this.instantiateNewLeafNodeAndSave());
+		leafs.add(this.instantiateNewLeafNodeAndSave());
+		leafs.add(this.instantiateNewLeafNodeAndSave());
+
+		leafs.get(0).insertElements((oldRoot.extractAllElements()));
+		leafs.get(0).passMinimumCapacityExcedentToTheRight(leafs.get(1));
+		leafs.get(1).passMinimumCapacityExcedentToTheRight(leafs.get(2));
+
+		((TreeIndexNode) this.root).indexChild(leafs.get(0));
+		((TreeIndexNode) this.root).indexChild(leafs.get(1));
+		((TreeIndexNode) this.root).indexChild(leafs.get(2));
+
+		if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
+			throw new RuntimeException("ERROR: No se pudo hacer el split al insertar el registro (" + record + "). Un nodo quedó en overflow. Pruebe agrandando el tamaño de bloques.");
+		}
+
+		this.updateNode(leafs.get(0));
+		this.updateNode(leafs.get(1));
+		this.updateNode(leafs.get(2));
+		this.updateNode(this.root);
+	}
+
+	private void splitRootIndexNode(RECTYPE record) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		/**
+		 * Descripción:
+		 * -Extrae todos los hijos de la raiz y los deja en una lista temporal
+		 * -crea 3 nodos nuevos que serán hijos de la raiz
+		 * -para cada nodo{
+		 * --indexa viejos hijos de la raiz en cada nuevo nodo y los va eliminando de la lista temporal
+		 * --indexa el nuevo nodo en la raiz
+		 * -}
+		 * -guarda todos los nodos nuevos
+		 * -guarda la raiz
+		 * 
+		 */
+//		System.out.println("Before split. Record = ("+record.toString()+"): \n" + this.toString());
+		
+		ArrayList<TreeIndexNode> newRootChilds = new ArrayList<TreeIndexNode>();
+		newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
+		newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
+		newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
+		
+		List<TreeNode> oldRootChildsTempList = ((TreeIndexNode) this.root).getExtractChildNodes();
+		
+		Iterator<TreeNode> oldRootChildsTempListIterator = oldRootChildsTempList.iterator();
+		//recorro los nuevos nodos que acabo de crear, serán los nuevos hijos de root
+		for (TreeIndexNode newRootChild : newRootChilds) {
+			//mientras el nodos esté en underflow le indexo hijos viejos de root y lo elimino de la lista temporal
+			while(newRootChild.isInUnderflow() && oldRootChildsTempListIterator.hasNext()){
+				newRootChild.indexChild(oldRootChildsTempListIterator.next());
+				oldRootChildsTempListIterator.remove();
+			}
+			//indexo el nuevo hijo de la raiz
+			((TreeIndexNode) this.root).indexChild(newRootChild);
+		}
+		((TreeIndexNode) this.root).setLevel(this.root.getLevel()+1);
+		
+		for (TreeIndexNode newRootChild : newRootChilds) {
+			this.updateNode(newRootChild);
+		}
+		this.updateNode(this.root);
+//				System.out.println("After split. Record = ("+record.toString()+"): \n" + this.toString());
 	}
 
 	public TreeNode instantiateNewIndexNodeAndSave(int level) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {

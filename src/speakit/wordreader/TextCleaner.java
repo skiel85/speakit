@@ -93,7 +93,7 @@ public class TextCleaner {
 			}
 		}
 		
-		return new TextDocument(filteredWords);
+		return new TextDocument(textDocument.getId(), filteredWords);
 	}
 	
 	/**
@@ -107,7 +107,7 @@ public class TextCleaner {
 		TextDocument relevantDocument = getRelevantWords(document);
 		String cleanWords = cleanText(relevantDocument.getText());
 		
-		return new TextDocument(cleanWords);
+		return new TextDocument(document.getId(), cleanWords);
 	}
 	
 }

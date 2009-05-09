@@ -117,9 +117,9 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 			return this.root;
 		} else {
 			TreeNode node;
-			if (parent.getLevel() == 0) {
-				node = new TreeLeafNode(this, 1);
-			} else if (parent.getLevel() > 0) {
+			if (parent.getLevel() == 1) {
+				node = new TreeLeafNode(this , 1);
+			} else if (parent.getLevel() > 1) {
 				node = new TreeIndexNode(this, 1);
 			} else {
 				throw new IllegalArgumentException("No se puede construir un nodo con level: " + parent.getLevel());

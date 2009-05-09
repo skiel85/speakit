@@ -179,14 +179,18 @@ public class TreeIndexNode extends TreeNode {
 			this.insertElement(element);
 		}
 	}
-
+	
 	/**
 	 * Inserta un registro recursivamente y balancea o splittea si hace falta
 	 */
+	
 	@Override
 	public void insertRecord(Record record) throws IOException, RecordSerializationException {
 		int nodeNumberWhereToInsert = this.getChildFor(record.getKey());
 		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert, this);
+		if(nodeWhereToInsert.getNodeNumber()==this.getNodeNumber()){
+			throw new RuntimeException("El nodeNumberWhereToInsert es el mismo nodo.");
+		}
 		nodeWhereToInsert.insertRecord(record);
 
 		// TODO balanceo

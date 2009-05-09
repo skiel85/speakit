@@ -16,6 +16,7 @@ import speakit.io.record.RecordSerializationException;
 @SuppressWarnings("unchecked")
 public class TreeIndexNode extends TreeNode {
 
+	private static final int	NULL_NODE_NUMBER	= 0;
 	private int				level	= -1;
 	private int				leftChildNodeNumber;
 	List<TreeNodeElement>	elements;
@@ -191,7 +192,7 @@ public class TreeIndexNode extends TreeNode {
 	}
 
 	public void indexChild(TreeNode newChild) {
-		if (this.getLeftChildNodeNumber() == 0) {
+		if (this.getLeftChildNodeNumber() == NULL_NODE_NUMBER) {
 			this.setLeftChildNodeNumber(newChild.getNodeNumber());
 		} else {
 			TreeIndexNodeElement element = new TreeIndexNodeElement();
@@ -375,9 +376,13 @@ public class TreeIndexNode extends TreeNode {
 		for (TreeNodeElement element : this.elements) {
 			childNodes.add(this.getTree().getNode(((TreeIndexNodeElement) element).getRightChildNodeNumber(),this));
 		}
-		this.leftChildNodeNumber=-1;
-		this.elements.clear();
+		clear();
 		return childNodes;
+	}
+
+	private void clear() {
+		this.leftChildNodeNumber=NULL_NODE_NUMBER;
+		this.elements.clear();
 	}
 
 	@Override

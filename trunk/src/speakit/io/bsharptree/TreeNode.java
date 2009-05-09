@@ -39,14 +39,14 @@ public abstract class TreeNode {
 
 	public void deserialize(byte[] data) throws RecordSerializationException, IOException {
 		TreeNodeRecord nodeRecord = this.createNodeRecord();
-		this.load(nodeRecord);
 		nodeRecord.deserialize(data);
+		this.load(nodeRecord);
 	}
 
 	public void deserializeFromParts(List<byte[]> serializationParts) throws IOException {
 		TreeNodeRecord nodeRecord = this.createNodeRecord();
-		this.load(nodeRecord);
 		nodeRecord.deserializeFromParts(serializationParts);
+		this.load(nodeRecord);
 	}
 
 	public final List<TreeNodeElement> extractAllElements() {

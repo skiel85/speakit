@@ -30,7 +30,7 @@ public class TreeIndexNode extends TreeNode {
 		this.elements = new ArrayList<TreeNodeElement>();
 	}
 
-	public boolean balanceChilds() throws IOException {
+	/*public boolean balanceChilds(TreeNode nodeWhereToInsert) throws IOException {
 		TreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
 		Iterator<TreeNodeElement> elementIt = this.getElements().iterator();
 		while (elementIt.hasNext()) {
@@ -40,6 +40,98 @@ public class TreeIndexNode extends TreeNode {
 			lastNode = node;
 		}
 		return childrenAreInOverflow();
+	}*/
+	public boolean balanceChilds(TreeNode overflowNode) throws IOException {
+		final int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
+		TreeNode[] childsToSplit = getSibilingToSplit(overflowNode, elementIndexThatPointsToNode);
+		balance(childsToSplit,elementIndexThatPointsToNode);
+		
+		return childrenAreInOverflow();
+	}
+	
+	/**
+	 * Hace split entre los nodos pasados por parámetro. Se supone que childsToSplit[0] es el izquierdo y childsToSplit[1] el derecho.
+	 * @param childsToSplit
+	 * @param middleKeyIndex
+	 * @throws BlockFileOverflowException
+	 * @throws WrongBlockNumberException
+	 * @throws RecordSerializationException
+	 * @throws IOException
+	 */
+	private void balance(TreeNode[] childsToSplit, int middleKeyIndex) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+
+		//Tengo q ver si saco las claves mayores o las menores
+		TreeNode giverNode;
+		TreeNode receiverNode;
+		if (childsToSplit[0].isInOverflow()) {
+			giverNode = childsToSplit[0];
+			receiverNode = childsToSplit[1];
+		} else {
+			giverNode = childsToSplit[1];
+			receiverNode = childsToSplit[0];
+		}
+		int elementCountBeforeOperation = giverNode.getElementCount() + receiverNode.getElementCount();
+		
+		List<TreeNodeElement> excedent;
+		boolean lowerExcedent = false;
+		if (giverNode.getNodeKey().compareTo(receiverNode.getNodeKey()) < 0) {
+			//la clave de giver es menor, el excedente lo saco del final
+			excedent = giverNode.extractUpperExcedent();
+		} else {
+			excedent = giverNode.extractLowerExcedent();
+			lowerExcedent = true;
+		}
+		
+		receiverNode.insertElements(excedent);
+		int postOperationCount = giverNode.getElementCount() + receiverNode.getElementCount();
+		
+		if (receiverNode.isInOverflow()) {
+			//Me esta dando overflow el receptor, significa q no puedo balancear. Deshago los cambios
+			giverNode.insertElements(excedent);
+			verifyOperation(elementCountBeforeOperation, "balanceo", postOperationCount);
+			return;
+		}
+		
+		// Remuevo la clave del padre.
+		TreeNodeElement removedIndexElement = this.getElement(middleKeyIndex);
+		this.removeElement(middleKeyIndex);
+		
+		if (lowerExcedent) {
+			//debo reindexar el nodo q "dono" elementos
+			this.indexChild(giverNode);
+		} else {
+			//reindexo el nodo q recibio los elementos
+			this.indexChild(receiverNode);
+		}
+		// chequear overflow
+		
+		this.getTree().updateNode(giverNode);
+		this.getTree().updateNode(receiverNode);
+		
+		/*
+		 * // Si el nodo actual es padre de nodos índice:
+		if (this.getLevel() > 1) {
+			// agrego al leftChild un nuevo elemento formado por
+			TreeIndexNodeElement indexElementFromParent = new TreeIndexNodeElement();
+			// la clave removida del padre
+			indexElementFromParent.setKey(removedIndexElement.getKey());
+			// y el puntero izquierdo de rightChild.
+			indexElementFromParent.setRightChild(((TreeIndexNode) rightChild).getLeftChildNodeNumber());
+			// Inserto el elemento.
+			leftChild.insertElement(indexElementFromParent);
+		}
+		 */
+		
+		verifyOperation(elementCountBeforeOperation, "balanceo", postOperationCount);
+		
+	}
+
+	private void verifyOperation(int elementCountBeforeOperation,
+			String operation, int postOperationCount) {
+		// Verifico consistencia
+		if (elementCountBeforeOperation != postOperationCount) {
+			throw new RuntimeException("Error en el " + operation + ". cantidad de elementos antes:" + elementCountBeforeOperation + ", cantidad de elementos después:" + postOperationCount);
+		}
 	}
 
 	private boolean childrenAreInOverflow() throws RecordSerializationException, IOException {
@@ -227,9 +319,10 @@ public class TreeIndexNode extends TreeNode {
 
 		nodeWhereToInsert.insertRecord(record);
 
-		// TODO balanceo
+		// balanceo
 		if (nodeWhereToInsert.isInOverflow()) {
-			// ...some beauty code...
+			//throw new RecordSerializationException("El nodo debio rebalancearse");
+			balanceChilds(nodeWhereToInsert);
 		}
 		// split
 		if (nodeWhereToInsert.isInOverflow()) {

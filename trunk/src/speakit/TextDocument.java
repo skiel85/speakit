@@ -70,7 +70,7 @@ public class TextDocument implements Iterable<String> {
 		if (this.text.length() > 100) {
 			return this.text.substring(0, 100);
 		} else {
-			return this.text;
+			return this.text + "....";
 		}
 	}
 

@@ -63,8 +63,33 @@ public class SpeakitSearchRealDocumentsTest {
 		for (TextDocument textDocument : result) {
 			resultList.add(textDocument);
 		}
-		System.out.println(sut.printIndexForDebug());
+		//System.out.println(sut.printIndexForDebug());
 		Assert.assertTrue("Deberia contenerlo",resultList.contains(ARTICLE_ABSTRACCION));
 		Assert.assertTrue("Deberia contenerlo",resultList.contains(ARTICLE_INSTINTO));
 	}
+	
+	@Test
+	public void testSearchWithTildes() throws IOException{ 
+		TextDocumentList result = this.sut.search(new TextDocument("latin"));
+		
+		List<TextDocument> resultList = new ArrayList<TextDocument>();
+		for (TextDocument textDocument : result) {
+			resultList.add(textDocument);
+		}
+		//System.out.println(sut.printIndexForDebug());
+		Assert.assertTrue("Deberia contenerlo",resultList.contains(ARTICLE_ADOLESCENCIA));
+	}
+	
+	@Test
+	public void testSearchWithStopWords() throws IOException{ 
+		TextDocumentList result = this.sut.search(new TextDocument("de"));
+		
+		List<TextDocument> resultList = new ArrayList<TextDocument>();
+		for (TextDocument textDocument : result) {
+			resultList.add(textDocument);
+		}
+		//System.out.println(sut.printIndexForDebug());
+		Assert.assertEquals("Deberia ser un resultado vacio por ser una Stop Word", 0, resultList.size());
+	}
+	
 }

@@ -1,0 +1,556 @@
+package speakit.io.bsharptree;
+
+import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+import speakit.io.blockfile.BlockFileOverflowException;
+import speakit.io.blockfile.WrongBlockNumberException;
+import speakit.io.record.Field;
+import speakit.io.record.Record;
+import speakit.io.record.RecordSerializationException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+/**
+ * Nodo índice del árbol B#.
+ */
+@SuppressWarnings("unchecked")
+public class TreeIndexNode extends TreeNode {
+
+	private static final int	NULL_NODE_NUMBER	= 0;
+	private int					level				= -1;
+	private int					leftChildNodeNumber;
+	List<TreeNodeElement>		elements;
+
+	public TreeIndexNode(Tree tree, int nodeNumber, int size) {
+		super(tree, nodeNumber, size);
+		this.elements = new ArrayList<TreeNodeElement>();
+	}
+
+	/*public boolean balanceChilds(TreeNode nodeWhereToInsert) throws IOException {
+		TreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+		Iterator<TreeNodeElement> elementIt = this.getElements().iterator();
+		while (elementIt.hasNext()) {
+			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) elementIt.next();
+			TreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
+			lastNode.passMaximumCapacityExcedentToTheRight(node);
+			lastNode = node;
+		}
+		return childrenAreInOverflow();
+	}*/
+	public boolean balanceChilds(TreeNode overflowNode) throws IOException {
+		final int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
+		TreeNode[] childsToSplit = getSibilingToSplit(overflowNode, elementIndexThatPointsToNode);
+		balance(childsToSplit,elementIndexThatPointsToNode);
+		
+		return childrenAreInOverflow();
+	}
+	
+	/**
+	 * Hace split entre los nodos pasados por parámetro. Se supone que childsToSplit[0] es el izquierdo y childsToSplit[1] el derecho.
+	 * @param childsToSplit
+	 * @param middleKeyIndex
+	 * @throws BlockFileOverflowException
+	 * @throws WrongBlockNumberException
+	 * @throws RecordSerializationException
+	 * @throws IOException
+	 */
+	private void balance(TreeNode[] childsToSplit, int middleKeyIndex) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+
+		//Tengo q ver si saco las claves mayores o las menores
+		TreeNode giverNode;
+		TreeNode receiverNode;
+		if (childsToSplit[0].isInOverflow()) {
+			giverNode = childsToSplit[0];
+			receiverNode = childsToSplit[1];
+		} else {
+			giverNode = childsToSplit[1];
+			receiverNode = childsToSplit[0];
+		}
+		int elementCountBeforeOperation = giverNode.getElementCount() + receiverNode.getElementCount();
+		
+		List<TreeNodeElement> excedent;
+		boolean lowerExcedent = false;
+		if (giverNode.getNodeKey().compareTo(receiverNode.getNodeKey()) < 0) {
+			//la clave de giver es menor, el excedente lo saco del final
+			excedent = giverNode.extractUpperExcedent();
+		} else {
+			excedent = giverNode.extractLowerExcedent();
+			lowerExcedent = true;
+		}
+		
+		receiverNode.insertElements(excedent);
+		int postOperationCount = giverNode.getElementCount() + receiverNode.getElementCount();
+		
+		if (receiverNode.isInOverflow()) {
+			//Me esta dando overflow el receptor, significa q no puedo balancear. Deshago los cambios
+			giverNode.insertElements(excedent);
+			verifyOperation(elementCountBeforeOperation, "balanceo", postOperationCount);
+			return;
+		}
+		
+		// Remuevo la clave del padre.
+		TreeNodeElement removedIndexElement = this.getElement(middleKeyIndex);
+		this.removeElement(middleKeyIndex);
+		
+		if (lowerExcedent) {
+			//debo reindexar el nodo q "dono" elementos
+			this.indexChild(giverNode);
+		} else {
+			//reindexo el nodo q recibio los elementos
+			this.indexChild(receiverNode);
+		}
+		// chequear overflow
+		
+		this.getTree().updateNode(giverNode);
+		this.getTree().updateNode(receiverNode);
+		
+		/*
+		 * // Si el nodo actual es padre de nodos índice:
+		if (this.getLevel() > 1) {
+			// agrego al leftChild un nuevo elemento formado por
+			TreeIndexNodeElement indexElementFromParent = new TreeIndexNodeElement();
+			// la clave removida del padre
+			indexElementFromParent.setKey(removedIndexElement.getKey());
+			// y el puntero izquierdo de rightChild.
+			indexElementFromParent.setRightChild(((TreeIndexNode) rightChild).getLeftChildNodeNumber());
+			// Inserto el elemento.
+			leftChild.insertElement(indexElementFromParent);
+		}
+		 */
+		
+		verifyOperation(elementCountBeforeOperation, "balanceo", postOperationCount);
+		
+	}
+
+	private void verifyOperation(int elementCountBeforeOperation,
+			String operation, int postOperationCount) {
+		// Verifico consistencia
+		if (elementCountBeforeOperation != postOperationCount) {
+			throw new RuntimeException("Error en el " + operation + ". cantidad de elementos antes:" + elementCountBeforeOperation + ", cantidad de elementos después:" + postOperationCount);
+		}
+	}
+
+	private boolean childrenAreInOverflow() throws RecordSerializationException, IOException {
+		TreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+		if (lastNode.isInOverflow()) {
+			return true;
+		} else {
+			Iterator<TreeNodeElement> elementIt = this.getElements().iterator();
+			while (elementIt.hasNext()) {
+				TreeIndexNodeElement indexElement = (TreeIndexNodeElement) elementIt.next();
+				TreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
+				if (node.isInOverflow()) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
+	@Override
+	protected TreeNodeRecord createNodeRecord(int nodeNumber) {
+		return new TreeIndexNodeRecord(nodeNumber);
+	}
+
+	@Override
+	public TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		return this.getTree().instantiateNewIndexNodeAndSave(this.getLevel());
+	}
+
+	private int getChildFor(Field key) {
+		int childForKey = this.getLeftChildNodeNumber();
+		Iterator<TreeNodeElement> it = this.elements.iterator();
+
+		boolean found = false;
+		while (it.hasNext() && !found) {
+			TreeIndexNodeElement element = (TreeIndexNodeElement) it.next();
+			if (key.compareTo((Field) element.getKey()) >= 0) {
+				childForKey = element.getRightChildNodeNumber();
+			} else {
+				found = true;
+			}
+		}
+
+		return childForKey;
+	}
+
+	// private TreeNode[] getChildsOf(int elementIndex) throws IOException {
+	// TreeNode leftChild;
+	// if (elementIndex == 0) {
+	// leftChild = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+	// } else {
+	// TreeIndexNodeElement leftElement = (TreeIndexNodeElement)
+	// this.getElements().get(elementIndex - 1);
+	// leftChild = this.getTree().getNode(leftElement.getRightChildNodeNumber(),
+	// this);
+	// }
+	// TreeNode rightChild;
+	// TreeIndexNodeElement element = (TreeIndexNodeElement)
+	// this.getElements().get(elementIndex);
+	// rightChild = this.getTree().getNode(element.getRightChildNodeNumber(),
+	// this);
+	//
+	// return new TreeNode[] { leftChild, rightChild };
+	// }
+
+	private int[] getChildsIndexOf(int elementIndex) throws IOException {
+		int leftChild;
+		if (elementIndex == 0) {
+			leftChild = this.getLeftChildNodeNumber();
+		} else {
+			TreeIndexNodeElement leftElement = (TreeIndexNodeElement) this.getElements().get(elementIndex - 1);
+			leftChild = leftElement.getRightChildNodeNumber();
+		}
+		int rightChild;
+		TreeIndexNodeElement element = (TreeIndexNodeElement) this.getElements().get(elementIndex);
+		rightChild = element.getRightChildNodeNumber();
+
+		return new int[]{leftChild, rightChild};
+	}
+
+	// /**
+	// * Devuelve la posición de la clave especificada dentro del array de
+	// * elementos.
+	// *
+	// * @param key
+	// * @return
+	// */
+	// private int getElementIndexOf(Field key) {
+	// List<TreeNodeElement> elements = this.elements;
+	// for (int i = 0; i < elements.size(); i++) {
+	// TreeNodeElement element = elements.get(i);
+	// if (element.getKey().compareTo(key) == 0) {
+	// return i;
+	// }
+	// }
+	// throw new
+	// IllegalArgumentException("La clave pasada no está en el array de elementos");
+	// }
+
+	/**
+	 * Devuelve el indice de la clave que está entre medio de el nodo overflow y
+	 * el nodo con el que voy a splitear
+	 * 
+	 * @param node
+	 * @return
+	 */
+	private int getElementIndexThatPointsToNode(TreeNode node) {
+		if (this.getLeftChildNodeNumber() == node.getNodeNumber()) {
+			return 0;
+		} else {
+			Iterator<TreeNodeElement> iterator = this.elements.iterator();
+			int counter = 0;
+			while (iterator.hasNext()) {
+				TreeIndexNodeElement eachElement = (TreeIndexNodeElement) iterator.next();// casteo
+				// porque
+				// son
+				// elementos
+				// de
+				// este
+				// mismo
+				// nodo
+				if (eachElement.pointsTo(node)) {
+					return counter;
+				}
+				counter++;
+			}
+		}
+		throw new IllegalArgumentException("El nodo no es apuntado por este nodo.");
+	}
+
+	@Override
+	protected List<TreeNodeElement> getElements() {
+		return this.elements;
+	}
+
+	public int getLeftChildNodeNumber() {
+		return this.leftChildNodeNumber;
+	}
+
+	@Override
+	public int getLevel() {
+		return this.level;
+	}
+
+	@Override
+	public Field getNodeKey() {
+		return this.getElements().get(0).getKey();
+	}
+
+	@Override
+	public Record getRecord(Field key) throws IOException, RecordSerializationException {
+		int nodeNumberWhereToSearch = this.getChildFor(key);
+		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToSearch, this);
+		return nodeWhereToInsert.getRecord(key);
+	}
+
+	public void indexChild(TreeNode newChild) {
+		try {
+			if (this.getLeftChildNodeNumber() == NULL_NODE_NUMBER) {
+				this.setLeftChildNodeNumber(newChild.getNodeNumber());
+			} else {
+				TreeIndexNodeElement element = new TreeIndexNodeElement();
+				element.setKey(newChild.getNodeKey());
+				element.setRightChild(newChild.getNodeNumber());
+				this.insertElement(element);
+			}
+		} catch (RuntimeException ex) {
+			throw new RuntimeException("No se puede indexar el nodo. " + ex.getMessage(), ex);
+		}
+
+	}
+
+	/**
+	 * Inserta un registro recursivamente y balancea o splittea si hace falta
+	 */
+
+	@Override
+	public void insertRecord(Record record) throws IOException, RecordSerializationException {
+		int nodeNumberWhereToInsert = this.getChildFor(record.getKey());
+		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert, this);
+		if (nodeWhereToInsert.getNodeNumber() == this.getNodeNumber()) {
+			System.out.println(this.getTree().toString());
+			throw new RuntimeException("El nodeNumberWhereToInsert es el mismo nodo.");
+		}
+
+		nodeWhereToInsert.insertRecord(record);
+
+		// balanceo
+		if (nodeWhereToInsert.isInOverflow()) {
+			//throw new RecordSerializationException("El nodo debio rebalancearse");
+			balanceChilds(nodeWhereToInsert);
+		}
+		// split
+		if (nodeWhereToInsert.isInOverflow()) {
+			// el split guarda el nodo en overflow, no hace falta hacerlo de
+			// vuelta
+			split(nodeWhereToInsert);
+		} else {
+			// se guarda acá porque en caso de overflow deberia guardarse dentro
+			// del metodo que hace split
+			this.getTree().updateNode(nodeWhereToInsert);
+		}
+	}
+
+	@Override
+	protected void load(TreeNodeRecord nodeRecord) {
+		super.load(nodeRecord);
+		this.level = ((TreeIndexNodeRecord) nodeRecord).getLevel();
+		TreeIndexNodeRecord indexNodeRecord = (TreeIndexNodeRecord) nodeRecord;
+		this.leftChildNodeNumber = indexNodeRecord.getLeftChildNodeNumber();
+		for (TreeNodeElement element : indexNodeRecord.getElements()) {
+			elements.add(element);
+		}
+	}
+
+	@Override
+	protected void save(TreeNodeRecord nodeRecord) {
+		super.save(nodeRecord);
+		((TreeIndexNodeRecord) nodeRecord).setLevel(this.level);
+		TreeIndexNodeRecord indexNodeRecord = (TreeIndexNodeRecord) nodeRecord;
+		indexNodeRecord.setLeftChildNodeNumber(getLeftChildNodeNumber());
+		for (TreeNodeElement element : elements) {
+			indexNodeRecord.addElement(element);
+		}
+	}
+
+	public void setLeftChildNodeNumber(int leftChildNodeNumber) {
+		this.leftChildNodeNumber = leftChildNodeNumber;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	/**
+	 * hace split del nodo especificado con el nodo hermano que corresponda
+	 * 
+	 * @param overflowNode
+	 * @throws IOException
+	 */
+	private void split(TreeNode overflowNode) throws IOException {
+		final int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
+		TreeNode[] childsToSplit = getSibilingToSplit(overflowNode, elementIndexThatPointsToNode);
+		split(childsToSplit, elementIndexThatPointsToNode);
+	}
+
+	/**
+	 * A partir de un nodo y el numero de elemento que lo indexa arma un array
+	 * con dos nodos entre los cuales se va a realizar el split. Uno de los dos
+	 * será el mismo nodo pasado como parámetro.
+	 * 
+	 * @param overflowNode
+	 * @param elementIndexThatPointsToNode
+	 * @return
+	 * @throws IOException
+	 */
+	private TreeNode[] getSibilingToSplit(TreeNode overflowNode, final int elementIndexThatPointsToNode) throws IOException {
+		TreeNode[] childsToSplit = new TreeNode[2];
+		final int[] childsindex = this.getChildsIndexOf(elementIndexThatPointsToNode);
+		for (int i = 0; i < childsindex.length; i++) {
+			int childindex = childsindex[i];
+			if (childindex == overflowNode.getNodeNumber()) {
+				childsToSplit[i] = overflowNode;
+			} else {
+				childsToSplit[i] = this.getTree().getNode(childindex, this);
+			}
+		}
+		return childsToSplit;
+	}
+
+	/**
+	 * Hace split entre los nodos pasados por parámetro. Se supone que
+	 * childsToSplit[0] es el izquierdo y childsToSplit[1] el derecho.
+	 * 
+	 * @param childsToSplit
+	 * @param middleKeyIndex
+	 * @throws BlockFileOverflowException
+	 * @throws WrongBlockNumberException
+	 * @throws RecordSerializationException
+	 * @throws IOException
+	 */
+	private void split(TreeNode[] childsToSplit, int middleKeyIndex) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+		// Remuevo la clave del padre.
+		TreeNodeElement removedIndexElement = this.getElement(middleKeyIndex);
+		this.removeElement(middleKeyIndex);
+
+		// Obtengo los dos nodos a unir y creo uno nuevo vacío en el medio.
+		TreeNode leftChild = childsToSplit[0];
+		TreeNode rightChild = childsToSplit[1];
+		TreeNode middleChild = leftChild.createSibling();
+
+		// Si el nodo actual es padre de nodos índice:
+		if (this.getLevel() > 1) {
+			// agrego al leftChild un nuevo elemento formado por
+			TreeIndexNodeElement indexElementFromParent = new TreeIndexNodeElement();
+			// la clave removida del padre
+			indexElementFromParent.setKey(removedIndexElement.getKey());
+			// y el puntero izquierdo de rightChild.
+			indexElementFromParent.setRightChild(((TreeIndexNode) rightChild).getLeftChildNodeNumber());
+			// Inserto el elemento.
+			leftChild.insertElement(indexElementFromParent);
+		}
+
+		// Agrego luego todos los elementos de rightChild.
+		leftChild.insertElements(rightChild.extractAllElements());
+
+		// Guardo cantidad de elementos para luego validar consistencia.
+		int elementCountBeforeSplit = leftChild.getElementCount();
+
+		// Paso a la derecha lo que excede a la minima capacidad,
+		leftChild.passMinimumCapacityExcedentToTheRight(middleChild);
+		// y luego el del medio queda con excedente y lo pasa a su vez a la
+		// derecha
+		middleChild.passMinimumCapacityExcedentToTheRight(rightChild);
+
+		
+		// Agrego la referencia de los hijos.
+		if (middleChild.getElementCount() > 0) {
+			this.indexChild(middleChild);
+		} else {
+			throw new AssertionError("Algún nodo hijo nuevo está vacio.");
+		}
+		if(rightChild.getElementCount() >0) {
+			this.indexChild(rightChild);
+		} else {
+			throw new AssertionError("Algún nodo hijo nuevo está vacio.");
+		}
+		// }catch(IndexOutOfBoundsException ex){
+		// System.out.println(rightChild);
+		// }
+
+		// Guardo los hijos.
+		this.getTree().updateNode(leftChild);
+		this.getTree().updateNode(middleChild);
+		this.getTree().updateNode(rightChild);
+
+		// Verifico consistencia.
+		int elementCountAfterSplit = leftChild.getElementCount() + middleChild.getElementCount() + rightChild.getElementCount();
+		if (elementCountBeforeSplit != elementCountAfterSplit) {
+			throw new AssertionError("Error en el split. cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:" + elementCountAfterSplit);
+		}
+	}
+
+	/**
+	 * Obtiene la una lista de los numeros de todos sus nodos hijos
+	 * 
+	 * @return
+	 */
+	public List<Integer> getChildNodeNumbers() {
+		List<Integer> childNodes = new ArrayList<Integer>();
+		childNodes.add(this.leftChildNodeNumber);
+		for (TreeNodeElement element : this.elements) {
+			childNodes.add(((TreeIndexNodeElement) element).getRightChildNodeNumber());
+		}
+		return childNodes;
+	}
+
+	/**
+	 * Obtiene la una lista de todos sus nodos hijos y elimina todos los
+	 * elementos
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	public List<TreeNode> getExtractChildNodes() throws IOException {
+		List<TreeNode> childNodes = getChildren();
+		clear();
+		return childNodes;
+	}
+	
+	@Override
+	public List<TreeNode> getChildren() throws IOException {
+		ArrayList<TreeNode> result = new ArrayList<TreeNode>();
+		result.add(this.getTree().getNode(this.getLeftChildNodeNumber(), this));
+		for (TreeNodeElement element : this.elements) {
+			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) element;
+			result.add(this.getTree().getNode(indexElement.getRightChildNodeNumber(), this));
+		}
+		return result;
+	}
+
+	private void clear() {
+		this.leftChildNodeNumber = NULL_NODE_NUMBER;
+		this.elements.clear();
+	}
+
+	@Override
+	public String toString() {
+		String result = formatNodeNumber(this.getNodeNumber()) + " L" + this.getLevel() +getUnderflowMark()+ getItemCountString() + ":" + " " + this.getLeftChildNodeNumber();
+		for (TreeNodeElement element : this.elements) {
+			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) element;
+			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber();
+		}
+
+		for (Integer nodeNumber : getChildNodeNumbers()) {
+			try {
+				result += "\n" + getCorrectIndent() + this.getTree().getNode(nodeNumber, this).toString();
+			} catch (IOException e) {
+				result += "\n" + getCorrectIndent() + formatNodeNumber(nodeNumber) + ": IOException";
+			}
+		}
+
+		return result;
+	} 
+
+	private String getCorrectIndent() {
+		String res = "";
+		int indentationSize = this.getTree().getRoot().getLevel() - this.getLevel();
+		for (int i = 0; i <= indentationSize; i++) {
+			res += "\t";
+		}
+		return res;
+	}
+
+	@Override
+	public void updateRecord(Record record) throws IOException {
+		int childNodeNumberWhereToUpdate = this.getChildFor(record.getKey());
+		TreeNode childNodeWhereToUpdate = this.getTree().getNode(childNodeNumberWhereToUpdate, this);
+		childNodeWhereToUpdate.updateRecord(record);
+		this.getTree().updateNode(childNodeWhereToUpdate);
+	}
+}

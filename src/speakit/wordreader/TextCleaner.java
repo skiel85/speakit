@@ -20,7 +20,13 @@ public class TextCleaner {
 	 * @return Texto con los caracteres no latinos eliminados.
 	 */
 	public String replaceStrangeCharacters(String text) {
-		Pattern p = Pattern.compile("[^a-z0-9ביםףתאטלעשגךמפûסüח]");
+		text = text.replace('ב', 'a');
+		text = text.replace('י', 'e');
+		text = text.replace('ם', 'i');	
+		text = text.replace('ף', 'o');
+		text = text.replace('ת', 'u');
+		text = text.replace('ü', 'u');
+		Pattern p = Pattern.compile("[^a-z0-9]");
 		Matcher m = p.matcher(text.toLowerCase());
 		return m.replaceAll(" ");
 	}

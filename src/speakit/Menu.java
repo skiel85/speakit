@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import speakit.audio.Audio;
@@ -110,13 +111,17 @@ public class Menu {
 	 */
 	private void addSeveralDocuments()throws IOException, RecordSerializationException {
 		System.out.println("Ingrese cada una de las rutas de los documentos que desea ingresar separadas por coma");
-		String paths = this.userInput.readLine();
+		
+		String paths = this.userInput.readLine().trim();
 		char[] charsOfPaths = new char[paths.length()];
 		charsOfPaths = paths.toCharArray();
+		
 		TextDocumentList documents = new TextDocumentList();
 		int position = 0;
 		String path = "";
+		ArrayList<String> pathToShow = new ArrayList<String>();
 		boolean endOfString = false;
+		
 		while(endOfString == false){
 			if((position != paths.length()) && (charsOfPaths[position] != ',')){ 
 				path = path + charsOfPaths[position];
@@ -126,17 +131,23 @@ public class Menu {
 					if(position == paths.length())endOfString = true;
 					TextDocument document = this.speakit.getTextDocumentFromFile(path);
 					documents.add(document);
+					showFileFoundMessage(path);
+					pathToShow.add(path);
 					path = "";
-					position++;
+					position++;	
 				}catch (FileNotFoundException fnf){
 					showFileNotFoundMessage(path);
-					return;
+					path = "";
+					position++;
 				}	
 			}	
 		}
+		Iterator<String> iterator = pathToShow.iterator();
 		Iterable <TextDocument> documentIterable = this.speakit.addDocuments(documents);
 		for(TextDocument document : documentIterable){
-			System.out.println("El documento contiene palabras desconocidas, que deberá grabar a continuación.");
+			System.out.println();
+			String showedPath = iterator.next();
+			System.out.println("El documento" + " " + showedPath + " " + "contiene palabras desconocidas, que deberá grabar a continuación.");
 			Iterator<String> wordIterator = document.iterator();
 			while(wordIterator.hasNext()){
 				WordAudio audio = getAudio((String)wordIterator.next());
@@ -144,14 +155,20 @@ public class Menu {
 					speakit.addWordAudio(audio);
 				}
 			}
+			System.out.println("El documento" + " " + showedPath + " " + "fue agregado con éxito.");
 		}
-		System.out.println("Los documentos fueron agregados con éxito.");
+		System.out.println();
 	}
 	
 		
 		
 
 	
+	private void showFileFoundMessage(String path) {
+		System.out.println("Pudo encontrarse el archivo '" + path + "'.");
+		
+	}
+
 	/**
 	 * Despliega el menu para la reproduccion de los archivos.
 	 * 
@@ -464,23 +481,27 @@ public class Menu {
 	 */
 	
 	private void chooseDocumentToPlay(TextDocumentList documentList) throws IOException {
-		String number = "";
 		System.out.println("Elija el numero de documento que desea reproducir");
-		number = this.userInput.readLine();
-		Integer integer = new Integer(number);
+		int number = Integer.parseInt(userInput.readLine());
 		TextDocument document;
 		int counter = 1;
 		Iterator<TextDocument> iterator = documentList.iterator();
-		while ((iterator.hasNext()) && (counter != integer.intValue())) {
+		
+		while ((iterator.hasNext()) && (counter != number)){
 			iterator.next();
 			counter++;
 		}
 		document = iterator.next();
-		WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(document);
-		System.out.println("Se va a reproducir el siguiente documento");
-		System.out.println(document.getText());
-		while (audioDocument.hasNext()) {
-			this.playSound(audioDocument.next());
+		if(document != null){
+			WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(document);
+			System.out.println("Se va a reproducir el siguiente documento");
+			System.out.println(document.getText());
+			while (audioDocument.hasNext()) {
+				this.playSound(audioDocument.next());
+			}
+		}else{
+			System.out.println("EL número de documento que eligió es incorrecto, elija de nuevo");
+			chooseDocumentToPlay(documentList);
 		}
 	}
 

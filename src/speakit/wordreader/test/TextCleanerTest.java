@@ -24,12 +24,12 @@ public class TextCleanerTest {
 
 	@Test
 	public void testNotReplaceAccentedCharacters() {
-		Assert.assertEquals("excepción", this.sut.replaceStrangeCharacters("excepción"));
+		Assert.assertEquals("excepcion", this.sut.replaceStrangeCharacters("excepción"));
 	}
 
 	@Test
 	public void testLongTextTakenFromWikipedia() {
-		Assert.assertEquals("Todo ser inteligente  decía el geómetra  debe comprender el destino científico de esta figura ".toLowerCase(), this.sut.replaceStrangeCharacters("Todo ser inteligente -decía el geómetra- debe comprender el destino científico de esta figura."));
+		Assert.assertEquals("Todo ser inteligente  decia el geometra  debe comprender el destino cientifico de esta figura ".toLowerCase(), this.sut.replaceStrangeCharacters("Todo ser inteligente -decía el geómetra- debe comprender el destino científico de esta figura."));
 	}
 
 	@Test
@@ -44,13 +44,13 @@ public class TextCleanerTest {
 
 	@Test
 	public void testCleanText() {
-		Assert.assertEquals("Todo ser inteligente decía el geómetra debe comprender el destino científico de esta figura Los selenitas si existen responderán con una figura semejante y una vez establecida la comunicación fácil será crear un alfabeto que permita conversar con los habitantes de la Luna".toLowerCase(), this.sut
-				.cleanText("Todo ser inteligente -decía el geómetra- debe comprender el destino científico de esta figura. Los selenitas, si existen, responderán con una figura semejante, y una vez establecida la comunicación, fácil será crear un alfabeto que permita conversar con los habitantes de la Luna"));
+		Assert.assertEquals("Todo ser inteligente decia el geometra debe comprender el destino cientifico de esta figura Los selenitas si existen responderan con una figura semejante y una vez establecida la comunicacion facil sera crear un alfabeto que permita conversar con los habitantes de la Luna".toLowerCase(), this.sut
+				.cleanText("Todo ser inteligente -decia el geometra- debe comprender el destino cientifico de esta figura. Los selenitas, si existen, responderan con una figura semejante, y una vez establecida la comunicacion, facil sera crear un alfabeto que permita conversar con los habitantes de la Luna"));
 	}
 
 	@Test
 	public void testDiaeresis() {
-		Assert.assertEquals("Argüello".toLowerCase(), this.sut.cleanText("Argüello"));
+		Assert.assertEquals("Arguello".toLowerCase(), this.sut.cleanText("Argüello"));
 	}
 
 	@Test
@@ -66,14 +66,14 @@ public class TextCleanerTest {
 	public void testGetRelevantWords(){
 		String text = "un camión estaba ante nosotros argüello //,";
 		TextDocument document = new TextDocument(text);
-		Assert.assertEquals("camión argüello", this.sut.getRelevantWords(document).getText());
+		Assert.assertEquals("camion arguello", this.sut.getRelevantWords(document).getText());
 	}
 	
 	@Test
 	public void testcleanDocument(){
 		String text = "habia un        camión andando por la vereda, argüello// ";
 		TextDocument document = new TextDocument(text);
-		Assert.assertEquals("habia camión andando vereda argüello", this.sut.cleanDocument(document).getText());
+		Assert.assertEquals("habia camion andando vereda arguello", this.sut.cleanDocument(document).getText());
 	}
 	
 	@After

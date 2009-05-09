@@ -41,6 +41,7 @@ public class TreeFullTest {
 
 	private static void verifyCorrectRecord(InvertedIndexIndexRecord record, String word, StringField key) {
 		// verifica que el record obtenido sea el correcto
+		Assert.assertNotNull("El arbol no devolvió el registro que se había insertado.", record);
 		Assert.assertEquals(0, record.getKey().compareTo(key));
 		Assert.assertEquals(simulateBlockNumber(word), record.getBlockNumber());
 	}

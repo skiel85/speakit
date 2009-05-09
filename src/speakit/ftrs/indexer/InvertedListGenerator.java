@@ -1,5 +1,6 @@
 package speakit.ftrs.indexer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -19,8 +20,9 @@ public class InvertedListGenerator {
 	 *            Docs aaprocesar
 	 * @param lexicon
 	 *            Lexico
+	 * @throws IOException 
 	 */
-	public void processTextDocuments(ArrayList<TextDocument> documents, Lexicon lexicon) {
+	public void processTextDocuments(ArrayList<TextDocument> documents, Lexicon lexicon) throws IOException {
 		for (TextDocument doc : documents) {
 			for (String word : doc) {
 				int termId = lexicon.getAppearanceOrder(word);
@@ -37,8 +39,9 @@ public class InvertedListGenerator {
 	 * 
 	 * @param termId
 	 * @return
+	 * @throws IOException 
 	 */
-	public InvertedList generate(int termId) {
+	public InvertedList generate(int termId) throws IOException {
 		ArrayList<TermOcurrence> invListItems = new ArrayList<TermOcurrence>();
 		ArrayList<Occurrence> appearanceList = getStorage().getApearanceListFor(termId);
 		if (appearanceList.size() == 0) {
@@ -67,9 +70,9 @@ public class InvertedListGenerator {
 		return resultList.sortByFrecuency();
 	}
 
-	private OccurrenceStorage getStorage() {
+	private OccurrenceStorage getStorage() throws IOException {
 		if (storage == null)
-			storage = new MockAppearanceStorageImpl();
+			storage = new OccurrenceStorageImpl();
 		return storage;
 	}
 }

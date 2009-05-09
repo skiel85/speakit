@@ -64,14 +64,20 @@ public class FTRSImpl implements FTRS {
 
 	@Override
 	public void indexDocuments(TextDocumentList documentList) throws IOException {
-		Iterator<TextDocument> iterator = documentList.iterator();
-		while(iterator.hasNext()){
-			indexDocuments((TextDocument)iterator.next());
+		InvertedIndexRecordGenerator generator = new InvertedIndexRecordGenerator();
+		for (TextDocument textDocument : documentList) {
+			this.repository.store(textDocument);
+			TextDocument cleanDocument = applyFilters(textDocument);
+			generator.addSingleDocument(cleanDocument);
 		}
+		ArrayList<InvertedIndexRecord> records = generator.generateNewRegisters();
+		// TODO faltaría mergear los index records preexistentes con los nuevos
+		// index records
+		getIndex().updateRecords(records);
 	}
 
 	@Override
-	public void indexDocuments(TextDocument textDocument) throws IOException {
+	public void indexDocument(TextDocument textDocument) throws IOException {
 		this.repository.store(textDocument);
 		InvertedIndexRecordGenerator generator = new InvertedIndexRecordGenerator();
 		// a modo de prueba, agrego un document, este metodo seguramente no

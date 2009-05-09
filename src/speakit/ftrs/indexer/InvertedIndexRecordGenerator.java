@@ -1,9 +1,11 @@
 package speakit.ftrs.indexer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import speakit.TextDocument;
+import speakit.documentstorage.TextDocumentList;
 import speakit.ftrs.index.InvertedIndexRecord;
 import speakit.ftrs.index.InvertedList;
 import speakit.ftrs.index.Term;
@@ -19,8 +21,8 @@ public class InvertedIndexRecordGenerator {
 		lexicon = new Lexicon();
 	}
 
-	public void addDocuments(ArrayList<TextDocument> documentList) {
-
+	public void addDocuments(TextDocumentList documentList) {
+		
 	}
 
 	/**
@@ -38,7 +40,7 @@ public class InvertedIndexRecordGenerator {
 		}
 	}
 
-	public ArrayList<InvertedIndexRecord> generateNewRegisters() {
+	public ArrayList<InvertedIndexRecord> generateNewRegisters() throws IOException {
 		ArrayList<InvertedIndexRecord> result = new ArrayList<InvertedIndexRecord>();
 		getInvertedListGenerator().processTextDocuments(getDocuments(), getLexicon());
 		for (Iterator<Term> iterator = getLexicon().iterator(); iterator.hasNext();) {

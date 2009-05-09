@@ -24,7 +24,7 @@ public interface FTRS extends File {
 	 */
 	public void indexDocuments(TextDocumentList documentList) throws IOException;
 
-	public void indexDocuments(TextDocument textDocument) throws IOException;
+	public void indexDocument(TextDocument textDocument) throws IOException;
 
 	public String printIndexForDebug();
 	

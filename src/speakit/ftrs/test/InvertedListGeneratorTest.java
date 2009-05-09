@@ -1,5 +1,6 @@
 package speakit.ftrs.test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
@@ -69,9 +70,10 @@ public class InvertedListGeneratorTest {
 	/**
 	 * Smoke test. Solo tstea q no rompa con la generacion de listas invertidas.
 	 * TODO Ajustarlo cuando inverted list tenga mas funcionalidad
+	 * @throws IOException 
 	 */
 	@Test
-	public void testGenerateInvertedList() {
+	public void testGenerateInvertedList() throws IOException {
 		prepareDocumentsForSimpleTest();
 		InvertedListGenerator generator = new InvertedListGenerator();
 		generator.processTextDocuments(docs, lexico);
@@ -92,7 +94,7 @@ public class InvertedListGeneratorTest {
 	}
 
 	@Test
-	public void testLocalFrecuencyGenerated() {
+	public void testLocalFrecuencyGenerated() throws IOException {
 		prepareDocumentsForFrecuencyTest();
 		InvertedListGenerator generator = new InvertedListGenerator();
 		generator.processTextDocuments(docs, lexico);

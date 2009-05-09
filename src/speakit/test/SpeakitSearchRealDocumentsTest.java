@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.event.DocumentListener;
+
 import junit.framework.Assert;
 
 import org.junit.After;
@@ -27,6 +29,8 @@ public class SpeakitSearchRealDocumentsTest {
 	private static final TextDocument	ARTICLE_ABSTRACCION	= new TextDocument(4, "La abstracción (Lat. abstractio = sacar fuera de) es un proceso que implica reducir los componentes fundamentales de información de un fenómeno para conservar sus rasgos más relevantes con el objetivo de formar categorías o conceptos. Por ejemplo, abstraer de un sauce el concepto de árbol, implica retener solamente la información (características, funciones, etc) del sauce que se pueden aplicar para ser incluido dentro de la categoría general de los árboles.\n Una pregunta esencial en psicología consiste en intentar explicar este proceso de abstracción. Por ejemplo, como las personas logran formar conceptos a partir de experiencias con objetos individuales.\n El psicólogo Piaget propone que el sujeto extrae información de los objetos (abstracción simple) o de sus propias acciones sobre los objetos (abstracción reflexiva).\n En educación, la idea de abstraer, se relaciona con el momento en que el conocimiento entra a formar parte de la vida del sujeto; inicialmente en una categoría mental y se confirma con un comportamiento explícito que nos permite ver que se ha logrado la \"abstracción\"");
 	private static final TextDocument	ARTICLE_CONECTIVISMO	= new TextDocument(5, "El conectivismo es una teoría del aprendizaje para la era digital que ha sido desarrollada por George Siemens basado en el análisis de las limitaciones del conductismo, el cognitivismo y el constructivismo, para explicar el efecto que la tecnología ha tenido sobre la manera en que actualmente vivimos, nos comunicamos y aprendemos.\n El conectivismo es la integración de los principios explorados por las teorías del caos, redes neuronales, complejidad y auto-organización. El aprendizaje es un proceso que ocurre dentro de una amplia gama de ambientes que no están necesariamente bajo el control del individuo. Es por esto que él mismo (entendido como conocimiento aplicable) puede residir fuera del ser humano, por ejemplo dentro de una organización o una base de datos, y se enfoca en la conexión especializada en conjuntos de información que nos permite aumentar cada vez más nuestro estado actual de conocimiento.\n Esta teoría es conducida por el entendimiento de que las decisiones están basadas en la transformación acelerada de los basamentos. Continuamente nueva información es adquirida dejando obsoleta la anterior. La habilidad para discernir entre la información que es importante y la que es trivial es vital, así como la capacidad para reconocer cuándo esta nueva información altera las decisiones tomadas en base a información pasada.\n El punto de inicio del conectivismo es el individuo. El conocimiento personal se hace de una red, que alimenta de información a organizaciones e instituciones, que a su vez retroalimentan información en la misma red, que finalmente termina proveyendo nuevo aprendizaje al individuo. Este ciclo de desarrollo del conocimiento permite a los aprendices mantenerse actualizados en el campo en el cual han formado conexiones.");
 	private static final TextDocument	ARTICLE_ADOLESCENCIA	= new TextDocument(6, "La adolescencia (del latín \"adolescere\": crecer, desarrollarse) es un continuo de la existencia del joven, en donde se realiza la transición entre el infante o niño de edad escolar y el adulto. Esta transición de cuerpo y mente, proviene no solamente de sí mismo, sino que se conjuga con su entorno, el cual es trascendental para que los grandes cambios fisiológicos que se produce en el individuo lo hagan llegar a la edad adulta. La adolescencia es un fenómeno biológico, cultural y social, por lo tanto sus límites no se asocian solamente a características físicas.\n A diferencia de la pubertad, que comienza a una edad determinada a los doce o trece debido a cambios hormonales, la adolescencia puede variar mucho en edad y en duración en cada individuo pues está relacionada no solamente con la maduración de la psiquis del individuo sino que depende de factores psico-sociales más amplios y complejos, originados principalmente en el seno familiar.[cita requerida]\n Muchas culturas difieren en cuál es la edad en la que las personas llegan a ser adultas. En diversas regiones, el paso de la adolescencia a la edad adulta va unido a ceremonias y/o fiestas.");
+	private static final TextDocument	ARTICLE_EQUIPAMIENTO	= new TextDocument(7, "En el fútbol asociación, el equipamiento se refiere a la indumentaria y accesorios que deben llevar los jugadores a lo largo del desarrollo de un partido oficial de la FIFA. Las Reglas del juego establecen un equipamiento básico que cada jugador debe usar, además de prohibir aquellos otros objetos que puedan resultar peligrosos tanto para el que los lleva como para otra persona. Algunas competiciones pueden estipular otras restricciones, como la regulación del tamaño de los escudos en las camisetas o aclarar que en partidos en que los dos equipos vistan colores idénticos o similares, el equipo visitante debe cambiar a un equipamiento diferente.\n Los futbolistas generalmente llevan números identificatorios —denominados dorsales— en la parte trasera de sus camisetas y en ocasiones en la parte delantera y pantalones. Originalmente, un equipo usaba los números del 1 al 11, correspondiéndose abiertamente con su posición dentro del campo, pero a nivel profesional, esta práctica se suplantó por la numeración del equipo, en el que cada miembro lleva un número fijo a lo largo de una determinada temporada o competición.");
+	private static final TextDocument	ARTICLE_PORTUGA	        = new TextDocument(8,	"A Bandeira Nacional da Índia foi aprovada na sua forma atual durante uma reunião ad hoc da Assembleia Constituinte realizada em 22 de julho de 1947, vinte e dois dias antes da independência indiana do Império Britânico em 15 de agosto. Ela foi usada como bandeira nacional do Domínio da Índia entre 15 de agosto de 1947 e 26 de janeiro de 1950 e, logo após, da República da Índia. Na Índia, o termo \"tricolor\" quase sempre é utilizado para referir-se a sua bandeira nacional.\nA bandeira nacional, adotada em 1947, baseia-se na do Congresso Nacional Indiano, desenhada por Pingali Venkayya. A bandeira é um tricolor horizontal: \"açafrão escuro\" no topo, branco no meio e verde na parte inferior. No centro, há uma roda azul-marinho com vinte e quatro raios, conhecida como Ashoka Chakra, extraída do Capitel do Leão de Ashoka erguido em cima do Pilar de Ashoka em Sarnath. O diâmetro desse Chacra é três-quartos da altura da faixa branca. A relação da largura da bandeira para o seu comprimento é 2:3. Ela é também a bandeira de guerra do exército da Índia, hasteada diariamente em instalações militares indianas.");
 	
 	private FileManager	fileManager;
 	private Speakit		sut;
@@ -41,12 +45,22 @@ public class SpeakitSearchRealDocumentsTest {
 		this.sut.install(this.fileManager, conf);
 		this.sut.load(this.fileManager);
 		
-		this.sut.addDocument(ARTICLE_AUTOESTIMA);
-		this.sut.addDocument(ARTICLE_EFECTO_TETRIS);
+		TextDocumentList list = new TextDocumentList();
+		list.add(ARTICLE_ABSTRACCION);
+		list.add(ARTICLE_ADOLESCENCIA);
+		list.add(ARTICLE_AUTOESTIMA);
+		list.add(ARTICLE_CONECTIVISMO);
+		list.add(ARTICLE_EFECTO_TETRIS);
+		list.add(ARTICLE_INSTINTO);
+		list.add(ARTICLE_PORTUGA);
+		
+		this.sut.addDocuments(list);
+		this.sut.addDocument(ARTICLE_EQUIPAMIENTO);
+		/*this.sut.addDocument(ARTICLE_EFECTO_TETRIS);
 		this.sut.addDocument(ARTICLE_INSTINTO);
 		this.sut.addDocument(ARTICLE_ABSTRACCION);
 		this.sut.addDocument(ARTICLE_CONECTIVISMO);
-		this.sut.addDocument(ARTICLE_ADOLESCENCIA);
+		this.sut.addDocument(ARTICLE_ADOLESCENCIA);*/
 	}
 
 	@After
@@ -68,6 +82,17 @@ public class SpeakitSearchRealDocumentsTest {
 		Assert.assertTrue("Deberia contenerlo",resultList.contains(ARTICLE_INSTINTO));
 	}
 	
+	@Test
+	public void testSearchPortugues() throws IOException{ 
+		TextDocumentList result = this.sut.search(new TextDocument("relação"));
+		
+		List<TextDocument> resultList = new ArrayList<TextDocument>();
+		for (TextDocument textDocument : result) {
+			resultList.add(textDocument);
+		}
+		//System.out.println(sut.printIndexForDebug());
+		Assert.assertTrue("Deberia contenerlo",resultList.contains(ARTICLE_PORTUGA));
+	}
 	@Test
 	public void testSearchWithTildes() throws IOException{ 
 		TextDocumentList result = this.sut.search(new TextDocument("latin"));

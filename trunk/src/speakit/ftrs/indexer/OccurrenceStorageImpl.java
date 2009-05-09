@@ -41,6 +41,8 @@ public class OccurrenceStorageImpl implements OccurrenceStorage, RecordFactory {
 	@Override
 	public void addOccurrence(Occurrence occ) {
 		buffer.add(occ);
+		if (dataProcessed)
+			dataProcessed = false;
 		if (buffer.size() == BUFFER_LIMIT) {
 			sort();
 			flush();

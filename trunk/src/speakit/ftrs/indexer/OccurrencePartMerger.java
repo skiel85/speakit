@@ -172,13 +172,13 @@ private class Buffer implements Comparable<Buffer> {
 	}
 	
 	public OccurrenceRecord next(){
-		if (records.isEmpty()) {
-			this.fill();
-			if (records.isEmpty())
-				return null;
-		}
+		if (records.isEmpty())
+			return null;
 		OccurrenceRecord record = records.get(0);
 		records.remove(0);
+		if (records.isEmpty()) {
+			this.fill();
+		}
 		return record;
 	}
 	public void releaseFile() {

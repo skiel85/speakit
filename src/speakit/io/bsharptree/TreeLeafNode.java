@@ -25,8 +25,8 @@ public class TreeLeafNode extends TreeNode {
 	}
 
 	@Override
-	protected TreeNodeRecord createNodeRecord() {
-		return new TreeLeafNodeRecord(this.getTree());
+	protected TreeNodeRecord createNodeRecord(int nodeNumber) {
+		return new TreeLeafNodeRecord(nodeNumber, this.getTree());
 	}
 
 	@Override

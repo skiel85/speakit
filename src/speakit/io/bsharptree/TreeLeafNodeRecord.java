@@ -45,7 +45,9 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 
 	private Tree tree;
 
-	public TreeLeafNodeRecord(Tree tree) {
+	public TreeLeafNodeRecord(int nodeNumber, Tree tree) {
+		super(nodeNumber);
+		
 		if (tree == null) {
 			throw new IllegalArgumentException("El argumento árbol es nulo.");
 		}

@@ -24,7 +24,7 @@ public class TreeLeafNodeRecordTest {
 	@Before
 	public void setUp() throws Exception {
 		this.tree = new Tree(this.file, InvertedIndexIndexRecord.createRecordFactory(), new InvertedIndexIndexRecordEncoder());
-		this.sut = new TreeLeafNodeRecord(this.tree);
+		this.sut = new TreeLeafNodeRecord(2, this.tree);
 		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuadrado", 1)));
 		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuadratura", 2)));
 		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuaderno", 2)));
@@ -53,7 +53,7 @@ public class TreeLeafNodeRecordTest {
 	@Test
 	public void testFrontCoding() throws RecordSerializationException, IOException {
 		byte[] serialization = this.sut.serialize();
-		TreeLeafNodeRecord deserialized = new TreeLeafNodeRecord(this.tree);
+		TreeLeafNodeRecord deserialized = new TreeLeafNodeRecord(2, this.tree);
 		deserialized.deserialize(serialization);
 		// System.out.println("sut: " + sut.toString());
 		// System.out.println("des: " + deserialized.toString());

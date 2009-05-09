@@ -13,7 +13,7 @@ public class StropWordsTest {
 		StopWords stopWords = new StopWords();
 		Assert.assertTrue(stopWords.getStopWords().contains("un"));
 		Assert.assertTrue(stopWords.getStopWords().contains("una"));
-		Assert.assertTrue(stopWords.getStopWords().contains("también"));
+		Assert.assertTrue(stopWords.getStopWords().contains("tambien"));
 		Assert.assertTrue(stopWords.getStopWords().contains("estamos"));
 		
 	}

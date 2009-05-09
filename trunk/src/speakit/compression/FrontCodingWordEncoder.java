@@ -16,7 +16,6 @@ public class FrontCodingWordEncoder {
 	 * @return FrontCodedWord
 	 */
 	public FrontCodedWord encode(String string) {
-		FrontCodedWord encodedWord;
 		if (lastWord == null) {
 			lastWord = string;
 			return new FrontCodedWord((short) 0, string);

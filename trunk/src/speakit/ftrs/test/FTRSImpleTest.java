@@ -17,7 +17,7 @@ public class FTRSImpleTest {
 	}
 	@Test
 	public void testApplyFilters(){
-		TextDocument document = new TextDocument ("habia una casa en donde        estabamos todos, eramos -muchos-.");
-		Assert.assertEquals("habia casa estabamos todos", this.ftrs.applyFilters(document).getText());
+		TextDocument document = new TextDocument ("habia una casa en donde        estabamos todos, eramos -muchos- y no sabiamos como hacer para resolver el problema.");
+		Assert.assertEquals("habia casa estabamos sabiamos resolver problema", this.ftrs.applyFilters(document).getText());
 	}
 }

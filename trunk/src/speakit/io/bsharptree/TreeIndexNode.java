@@ -268,10 +268,22 @@ public class TreeIndexNode extends TreeNode {
 	@Override
 	public String toString() {
 		String result = this.getNodeNumber() + ": " + this.getLeftChildNodeNumber();
+		ArrayList<Integer> childNodes = new ArrayList<Integer>();
+		childNodes.add(this.leftChildNodeNumber);
 		for (TreeNodeElement element : this.elements) {
 			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) element;
 			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber();
+			childNodes.add(indexElement.getRightChildNodeNumber());
 		}
+		
+		for (Integer nodeNumber : childNodes) {
+			try {
+				result+="\n\t"+this.getTree().getNode(nodeNumber, this).toString();
+			} catch (IOException e) {
+				result+="IOException(nodo:"+nodeNumber+")";
+			}
+		}
+		
 		return result;
 	}
 }

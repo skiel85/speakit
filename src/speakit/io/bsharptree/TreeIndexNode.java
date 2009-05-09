@@ -204,9 +204,8 @@ public class TreeIndexNode extends TreeNode {
 			TreeNode overflowNode = nodeWhereToInsert;
 			int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
 			splitChildsOf(elementIndexThatPointsToNode);
-		} else {
-			this.getTree().updateNode(nodeWhereToInsert);
-		}
+		} 
+		this.getTree().updateNode(nodeWhereToInsert);
 	}
 
 	@Override

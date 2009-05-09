@@ -18,6 +18,7 @@ import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
 
 
+@Ignore
 public class TreeFullTest {
 
 	/**
@@ -59,7 +60,7 @@ public class TreeFullTest {
 		this.filemanager = new TestFileManager("");
 		encoder = new InvertedIndexIndexRecordEncoder();
 		this.sut = new Tree<InvertedIndexIndexRecord, StringField>(filemanager.openFile("FullBSTree.dat"), InvertedIndexIndexRecord.createRecordFactory(), encoder);
-		this.sut.create(80);
+		this.sut.create(440);
 		wikipediaArticle = new TextDocument(
 				0,
 				"El brote de gripe A (H1N1) de 2009,60 causado por una variante del Influenzavirus A originalmente de origen porcino (subtipo H1N1), Según la Organización Mundial de la Salud (OMS), los primeros casos de influenza en México se detectaron el 11 de abril en el estado mexicano de Veracruz, pero el primer enfermo registrado en el mundo fue un niño de 10 años de edad quien enfermó el 30 de marzo en San Diego, Estados Unidos61 que no habia tenido ningún contacto con cerdos y además no habia tenído ningún antecedente de haber viajado a México. Al mes se extendio por varios estados de México (Distrito Federal, Estado de México y San Luis Potosí) y Estados Unidos (Texas y California), para exportarse a partir de entonces, con aparición de numerosos casos en otros países de pacientes que habían viajado a México. Se han constatado unos pocos casos de contagios indirectos, de personas que no han estado en dicha región, que se han dado en España, Alemania, Corea del Sur y Reino Unido.62 El 29 de abril la Organización Mundial de la Salud (OMS) la clasificó como de nivel de alerta cinco, es decir, pandemia inminente.63 Ese nivel de alerta no define la gravedad de la enfermedad producida por el virus, sino su extensión geográfica.",

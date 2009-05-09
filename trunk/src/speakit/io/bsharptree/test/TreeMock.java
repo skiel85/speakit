@@ -40,17 +40,14 @@ public class TreeMock extends Tree<TestIndexRecord, StringField> {
 			this.registerNodeInMock(node);
 		}
 	}
-
+	
 	@Override
-	public void saveNode(TreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
+	public void updateNode(TreeNode node) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		this.registerNodeInMock(node);
 	}
-
+	
 	@Override
-	public void saveNode(TreeNode node, boolean create) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
-		if (create) {
-			node.setNodeNumber(this.nodes.size() + 100);
-		}
-		this.registerNodeInMock(node);
-	}
+	protected int allocateNodeSpace(int blockQty) throws IOException {
+		return (this.nodes.size() + 100);
+	} 
 }

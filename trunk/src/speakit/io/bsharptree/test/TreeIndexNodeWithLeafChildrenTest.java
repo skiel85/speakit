@@ -26,16 +26,16 @@ public class TreeIndexNodeWithLeafChildrenTest {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
 		this.tree = new TreeMock(this.file);
 
-		this.sut = new TreeIndexNode(this.tree, 2);
-		this.sut.setNodeNumber(0);
+		this.sut = new TreeIndexNode(this.tree,0, 2);
+//		this.sut.setNodeNumber(0);
 
 		this.nodes = new TreeLeafNode[3];
-		nodes[0] = new TreeLeafNode(this.tree);
-		nodes[0].setNodeNumber(2);
-		nodes[1] = new TreeLeafNode(this.tree);
-		nodes[1].setNodeNumber(3);
-		nodes[2] = new TreeLeafNode(this.tree);
-		nodes[2].setNodeNumber(4);
+		nodes[0] = new TreeLeafNode(this.tree,2);
+//		nodes[0].setNodeNumber(2);
+		nodes[1] = new TreeLeafNode(this.tree,3);
+//		nodes[1].setNodeNumber(3);
+		nodes[2] = new TreeLeafNode(this.tree,4);
+//		nodes[2].setNodeNumber(4);
 
 		this.tree.registerNodesInMock(nodes);
 

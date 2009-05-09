@@ -15,12 +15,12 @@ public class TreeLeafNode extends TreeNode {
 	private List<TreeNodeElement> elements;
 	private int nextSecuenceNodeNumber;
 
-	public TreeLeafNode(Tree tree) {
-		this(tree, 1);
+	public TreeLeafNode(Tree tree,int nodeNumber) {
+		this(tree,nodeNumber, 1);
 	}
 
-	public TreeLeafNode(Tree tree, int size) {
-		super(tree, size);
+	public TreeLeafNode(Tree tree,int nodeNumber, int size) {
+		super(tree,nodeNumber, size);
 		this.elements = new ArrayList<TreeNodeElement>();
 	}
 
@@ -31,7 +31,7 @@ public class TreeLeafNode extends TreeNode {
 
 	@Override
 	public TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
-		return this.getTree().createLeafNodeAndSave();
+		return this.getTree().instantiateNewLeafNodeAndSave();
 	}
 
 	@Override
@@ -42,31 +42,7 @@ public class TreeLeafNode extends TreeNode {
 	@Override
 	public int getLevel() {
 		return 0;
-	}
-
-	// @Override
-	// public List<BSharpTreeNodeElement> extractMinimumCapacityExcedent()
-	// throws RecordSerializationException, IOException {
-	// Stack<BSharpTreeNodeElement> stack = new Stack<BSharpTreeNodeElement>();
-	//
-	// // Extraigo todos los elementos que exceden a la capacidad mínima.
-	// while (!this.isInUnderflow()) {
-	// stack.add(this.record.extractLastElement());
-	// }
-	//
-	// // Reinserto el último para estar por encima de la capacidad mínima.
-	// this.record.insertElement(stack.pop());
-	//
-	// // Creo una lista con los elementos extraidos.
-	// ArrayList<BSharpTreeNodeElement> result = new
-	// ArrayList<BSharpTreeNodeElement>();
-	// while (!stack.empty()) {
-	// result.add(stack.pop());
-	// }
-	//
-	// // Devuelvo la lista de elementos extraidos.
-	// return result;
-	// }
+	} 
 
 	public int getNextSecuenceNodeNumber() {
 		return this.nextSecuenceNodeNumber;

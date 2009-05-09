@@ -64,7 +64,7 @@ public abstract class Record<KEYTYPE extends Field> implements Comparable<Record
 	}
 
 	public static byte calculateHash(int source) {
-		return (byte) ((source * 371) >> 2);
+		return (byte) (((source+1) * 379) >> 2);
 	}
 
 	/**

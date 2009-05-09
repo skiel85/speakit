@@ -20,7 +20,8 @@ public abstract class TreeNode {
 	private final int size;
 	private int nodeNumber;
 
-	public TreeNode(Tree tree, int size) {
+	public TreeNode(Tree tree,int nodeNumber, int size) {
+		this.nodeNumber = nodeNumber;
 		this.tree = tree;
 		this.size = size;
 	}
@@ -38,7 +39,8 @@ public abstract class TreeNode {
 	public abstract TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException;
 
 	public void deserialize(byte[] data) throws RecordSerializationException, IOException {
-		TreeNodeRecord nodeRecord = this.createNodeRecord();
+		TreeNodeRecord nodeRecord = this.createNodeRecord();		
+		nodeRecord.deserialize(data);
 		nodeRecord.deserialize(data);
 		this.load(nodeRecord);
 	}
@@ -223,16 +225,18 @@ public abstract class TreeNode {
 		nodeRecord.setNodeNumber(nodeNumber);
 	}
 
-	public byte[] serialize() throws RecordSerializationException, IOException {
+	private TreeNodeRecord saveToRecord() {
 		TreeNodeRecord nodeRecord = this.createNodeRecord();
 		this.save(nodeRecord);
-		return nodeRecord.serialize();
+		return nodeRecord;
+	}
+
+	public byte[] serialize() throws RecordSerializationException, IOException {
+		return saveToRecord().serialize();
 	}
 
 	public List<byte[]> serializeInParts(int partSize) throws RecordSerializationException, IOException {
-		TreeNodeRecord nodeRecord = this.createNodeRecord();
-		this.save(nodeRecord);
-		return nodeRecord.serializeInParts(partSize);
+		return saveToRecord().serializeInParts(partSize);
 	}
 
 	public void setNodeNumber(int nodeNumber) {

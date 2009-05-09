@@ -31,7 +31,7 @@ public class TreeLeafNodeTest {
 		this.testFileManager = new TestFileManager("");
 		this.file = this.testFileManager.openFile("testTree.dat");
 		this.tree = new TestBSharpTree(this.file);
-		this.sut = new TreeLeafNode(this.tree);
+		this.sut = new TreeLeafNode(this.tree,-1);
 	}
 
 	@After
@@ -78,7 +78,7 @@ public class TreeLeafNodeTest {
 		File file = File.createTempFile(this.getClass().getName(), ".dat");
 		Tree<TestIndexRecord, StringField> tree = new Tree<TestIndexRecord, StringField>(file, TestIndexRecord.createFactory(), new InvertedIndexIndexRecordEncoder());
 		tree.create(30);
-		this.sut = new TreeLeafNode(tree);
+		this.sut = new TreeLeafNode(tree,-1);
 		Assert.assertFalse(this.sut.isInOverflow());
 		this.sut.insertRecord(new TestIndexRecord("hola", 2));
 		Assert.assertFalse(this.sut.isInOverflow());

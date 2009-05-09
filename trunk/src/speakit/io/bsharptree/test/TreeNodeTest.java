@@ -19,7 +19,7 @@ public class TreeNodeTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.sut = new TreeIndexNode(null, 1);
+		this.sut = new TreeIndexNode(null,-1, 1);
 	}
 
 	@After

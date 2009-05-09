@@ -120,4 +120,13 @@ public class TreeLeafNode extends TreeNode {
 	public void setNextSecuenceNodeNumber(int nextSecuenceNodeNumber) {
 		this.nextSecuenceNodeNumber = nextSecuenceNodeNumber;
 	}
+	
+	@Override
+	public String toString() {
+		String result = this.getNodeNumber() + ": ";
+		for (TreeNodeElement element : this.elements) {
+			result += "(" + element.getKey().toString() + ")";
+		}
+		return result;
+	}
 }

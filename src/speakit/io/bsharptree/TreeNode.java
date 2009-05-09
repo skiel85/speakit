@@ -1,6 +1,7 @@
 package speakit.io.bsharptree;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -244,5 +245,11 @@ public abstract class TreeNode {
 
 	public void setNodeNumber(int nodeNumber) {
 		this.nodeNumber = nodeNumber;
+	}
+
+	protected String formatNodeNumber(int number) {
+		NumberFormat numberFormat = NumberFormat.getInstance();
+		numberFormat.setMinimumIntegerDigits(2);		
+		return numberFormat.format(number);
 	}
 }

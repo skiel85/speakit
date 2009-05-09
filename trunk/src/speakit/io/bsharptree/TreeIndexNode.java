@@ -14,12 +14,12 @@ import speakit.io.record.RecordSerializationException;
 @SuppressWarnings("unchecked")
 public class TreeIndexNode extends TreeNode {
 
-	private int level = -1;
-	private int leftChildNodeNumber;
-	List<TreeNodeElement> elements;
+	private int				level	= -1;
+	private int				leftChildNodeNumber;
+	List<TreeNodeElement>	elements;
 
-	public TreeIndexNode(Tree tree,int nodeNumber, int size) {
-		super(tree,nodeNumber, size);
+	public TreeIndexNode(Tree tree, int nodeNumber, int size) {
+		super(tree, nodeNumber, size);
 		this.elements = new ArrayList<TreeNodeElement>();
 	}
 
@@ -79,38 +79,57 @@ public class TreeIndexNode extends TreeNode {
 		return childForKey;
 	}
 
-	private TreeNode[] getChildsOf(int elementIndex) throws IOException {
-		TreeNode leftChild;
+	// private TreeNode[] getChildsOf(int elementIndex) throws IOException {
+	// TreeNode leftChild;
+	// if (elementIndex == 0) {
+	// leftChild = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+	// } else {
+	// TreeIndexNodeElement leftElement = (TreeIndexNodeElement)
+	// this.getElements().get(elementIndex - 1);
+	// leftChild = this.getTree().getNode(leftElement.getRightChildNodeNumber(),
+	// this);
+	// }
+	// TreeNode rightChild;
+	// TreeIndexNodeElement element = (TreeIndexNodeElement)
+	// this.getElements().get(elementIndex);
+	// rightChild = this.getTree().getNode(element.getRightChildNodeNumber(),
+	// this);
+	//
+	// return new TreeNode[] { leftChild, rightChild };
+	// }
+
+	private int[] getChildsIndexOf(int elementIndex) throws IOException {
+		int leftChild;
 		if (elementIndex == 0) {
-			leftChild = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+			leftChild = this.getLeftChildNodeNumber();
 		} else {
 			TreeIndexNodeElement leftElement = (TreeIndexNodeElement) this.getElements().get(elementIndex - 1);
-			leftChild = this.getTree().getNode(leftElement.getRightChildNodeNumber(), this);
+			leftChild = leftElement.getRightChildNodeNumber();
 		}
-		TreeNode rightChild;
+		int rightChild;
 		TreeIndexNodeElement element = (TreeIndexNodeElement) this.getElements().get(elementIndex);
-		rightChild = this.getTree().getNode(element.getRightChildNodeNumber(), this);
+		rightChild = element.getRightChildNodeNumber();
 
-		return new TreeNode[] { leftChild, rightChild };
+		return new int[]{leftChild, rightChild};
 	}
 
-	/**
-	 * Devuelve la posición de la clave especificada dentro del array de
-	 * elementos.
-	 * 
-	 * @param key
-	 * @return
-	 */
-	private int getElementIndexOf(Field key) {
-		List<TreeNodeElement> elements = this.elements;
-		for (int i = 0; i < elements.size(); i++) {
-			TreeNodeElement element = elements.get(i);
-			if (element.getKey().compareTo(key) == 0) {
-				return i;
-			}
-		}
-		throw new IllegalArgumentException("La clave pasada no está en el array de elementos");
-	}
+//	/**
+//	 * Devuelve la posición de la clave especificada dentro del array de
+//	 * elementos.
+//	 * 
+//	 * @param key
+//	 * @return
+//	 */
+//	private int getElementIndexOf(Field key) {
+//		List<TreeNodeElement> elements = this.elements;
+//		for (int i = 0; i < elements.size(); i++) {
+//			TreeNodeElement element = elements.get(i);
+//			if (element.getKey().compareTo(key) == 0) {
+//				return i;
+//			}
+//		}
+//		throw new IllegalArgumentException("La clave pasada no está en el array de elementos");
+//	}
 
 	/**
 	 * Devuelve el indice de la clave que está entre medio de el nodo overflow y
@@ -179,20 +198,20 @@ public class TreeIndexNode extends TreeNode {
 			this.insertElement(element);
 		}
 	}
-	
+
 	/**
 	 * Inserta un registro recursivamente y balancea o splittea si hace falta
 	 */
-	
+
 	@Override
 	public void insertRecord(Record record) throws IOException, RecordSerializationException {
 		int nodeNumberWhereToInsert = this.getChildFor(record.getKey());
 		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert, this);
-		if(nodeWhereToInsert.getNodeNumber()==this.getNodeNumber()){
+		if (nodeWhereToInsert.getNodeNumber() == this.getNodeNumber()) {
 			System.out.println(this.getTree().toString());
 			throw new RuntimeException("El nodeNumberWhereToInsert es el mismo nodo.");
 		}
-		
+
 		nodeWhereToInsert.insertRecord(record);
 
 		// TODO balanceo
@@ -201,20 +220,18 @@ public class TreeIndexNode extends TreeNode {
 		}
 		// split
 		if (nodeWhereToInsert.isInOverflow()) {
-			TreeNode overflowNode = nodeWhereToInsert;
-			int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
-			splitChildsOf(elementIndexThatPointsToNode);
+			// el split guarda el nodo en overflow, no hace falta hacerlo de vuelta 
+			split(nodeWhereToInsert);
+		} else {
+			// se guarda acá porque en caso de overflow deberia guardarse dentro
+			this.getTree().updateNode(nodeWhereToInsert);
 		}
-		if (nodeWhereToInsert.isInOverflow()) {
-			throw new RuntimeException("Despues de tratar un overflow no puede seguir en overflow");
-		}
-		this.getTree().updateNode(nodeWhereToInsert);
 	}
 
 	@Override
 	protected void load(TreeNodeRecord nodeRecord) {
 		super.load(nodeRecord);
-		this.level=((TreeIndexNodeRecord)nodeRecord).getLevel();
+		this.level = ((TreeIndexNodeRecord) nodeRecord).getLevel();
 		TreeIndexNodeRecord indexNodeRecord = (TreeIndexNodeRecord) nodeRecord;
 		this.leftChildNodeNumber = indexNodeRecord.getLeftChildNodeNumber();
 		for (TreeNodeElement element : indexNodeRecord.getElements()) {
@@ -225,7 +242,7 @@ public class TreeIndexNode extends TreeNode {
 	@Override
 	protected void save(TreeNodeRecord nodeRecord) {
 		super.save(nodeRecord);
-		((TreeIndexNodeRecord)nodeRecord).setLevel(this.level);
+		((TreeIndexNodeRecord) nodeRecord).setLevel(this.level);
 		TreeIndexNodeRecord indexNodeRecord = (TreeIndexNodeRecord) nodeRecord;
 		indexNodeRecord.setLeftChildNodeNumber(getLeftChildNodeNumber());
 		for (TreeNodeElement element : elements) {
@@ -241,21 +258,58 @@ public class TreeIndexNode extends TreeNode {
 		this.level = level;
 	}
 
-	private void splitChildsOf(Field key) throws IOException {
-		int elementIndex = this.getElementIndexOf(key);
-		this.splitChildsOf(elementIndex);
+	/**
+	 * hace split del nodo especificado con el nodo hermano que corresponda
+	 * @param overflowNode
+	 * @throws IOException
+	 */
+	private void split(TreeNode overflowNode) throws IOException {
+		final int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
+		TreeNode[] childsToSplit = getSibilingToSplit(overflowNode, elementIndexThatPointsToNode);
+		split(childsToSplit,elementIndexThatPointsToNode);
 	}
 
-	private void splitChildsOf(int elementIndex) throws IOException {
-		TreeNode[] childs = this.getChildsOf(elementIndex);
-		TreeNode leftChild = childs[0];
-		TreeNode rightChild = childs[1];
+	/**
+	 * A partir de un nodo y el numero de elemento que lo indexa arma un array con dos nodos entre los cuales se va a realizar el split. Uno de los dos será el mismo nodo pasado como parámetro.
+	 * @param overflowNode
+	 * @param elementIndexThatPointsToNode
+	 * @return
+	 * @throws IOException
+	 */
+	private TreeNode[] getSibilingToSplit(TreeNode overflowNode, final int elementIndexThatPointsToNode) throws IOException {
+		TreeNode[] childsToSplit = new TreeNode[2];		
+		final int[] childsindex = this.getChildsIndexOf(elementIndexThatPointsToNode);		
+		for (int i = 0; i < childsindex.length; i++) {
+			int childindex = childsindex[i];
+			if (childindex == overflowNode.getNodeNumber()) {
+				childsToSplit[i] = overflowNode;
+			} else {
+				childsToSplit[i] = this.getTree().getNode(childindex, this);
+			}
+		}
+		return childsToSplit;
+	}
 
-		this.removeElement(elementIndex);
-
+	/**
+	 * Hace split entre los nodos pasados por parámetro. Se supone que childsToSplit[0] es el izquierdo y childsToSplit[1] el derecho.
+	 * @param childsToSplit
+	 * @param middleKeyIndex
+	 * @throws BlockFileOverflowException
+	 * @throws WrongBlockNumberException
+	 * @throws RecordSerializationException
+	 * @throws IOException
+	 */
+	private void split( TreeNode[] childsToSplit,int middleKeyIndex) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException,
+			IOException {
+		this.removeElement(middleKeyIndex);
+		
+		TreeNode leftChild = childsToSplit[0];
+		TreeNode rightChild = childsToSplit[1];
 		// this.getTree().createNode(this);
 		TreeNode middleChild = leftChild.createSibling();
 		leftChild.insertElements(rightChild.extractAllElements());
+
+		int allElementsBeforeSplit = leftChild.getElementCount();
 		leftChild.passMinimumCapacityExcedentToTheRight(middleChild);
 		middleChild.passMinimumCapacityExcedentToTheRight(rightChild);
 
@@ -265,6 +319,11 @@ public class TreeIndexNode extends TreeNode {
 		this.getTree().updateNode(leftChild);
 		this.getTree().updateNode(middleChild);
 		this.getTree().updateNode(rightChild);
+
+		int allElementsAfterSplit = leftChild.getElementCount() + middleChild.getElementCount() + rightChild.getElementCount();
+		if (allElementsBeforeSplit != allElementsAfterSplit) {
+			throw new RuntimeException("Error en el split. allElementsBeforeSplit:" + allElementsBeforeSplit + ",allElementsAfterSplit:" + allElementsAfterSplit);
+		}
 	}
 
 	@Override
@@ -277,15 +336,15 @@ public class TreeIndexNode extends TreeNode {
 			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber();
 			childNodes.add(indexElement.getRightChildNodeNumber());
 		}
-		
+
 		for (Integer nodeNumber : childNodes) {
 			try {
-				result+="\n\t"+this.getTree().getNode(nodeNumber, this).toString();
+				result += "\n\t" + this.getTree().getNode(nodeNumber, this).toString();
 			} catch (IOException e) {
-				result+="IOException(nodo:"+nodeNumber+")";
+				result += "IOException(nodo:" + nodeNumber + ")";
 			}
 		}
-		
+
 		return result;
 	}
 }

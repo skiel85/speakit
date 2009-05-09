@@ -36,17 +36,32 @@ public class TrieTest {
 		this.fileManager.destroyFiles();
 	}
 
-	
+	@Ignore
 	@Test
 	public void testAddWord() throws IOException, WordNotFoundException, RecordSerializationException {
-		this.trie.addWord("hola", 12150);
-		this.trie.addWord("hora", 12152);
-		this.trie.addWord("horma", 1000);
-		this.trie.addWord("gatos", 15);
+		this.trie.addWord("o", 15);
+		this.trie.addWord("ah", 12150);
+		this.trie.addWord("hola", 30);
+		this.trie.addWord("hora", 45);
+		this.trie.addWord("ahi", 12152);
+		this.trie.addWord("ahora", 1000);
+		
 		//Assert.assertTrue(this.trie.contains("hola"));
-		Assert.assertTrue(this.trie.contains("horma"));
-		Assert.assertTrue(this.trie.contains("gatos"));
-		Assert.assertEquals(12152, this.trie.getOffset("hora"));
+		Assert.assertTrue(this.trie.contains("o"));
+		Assert.assertTrue(this.trie.contains("ah"));
+		Assert.assertTrue(this.trie.contains("hola"));
+		Assert.assertTrue(this.trie.contains("hora"));
+		Assert.assertTrue(this.trie.contains("ahi"));
+		Assert.assertTrue(this.trie.contains("ahora"));
+		
+		Assert.assertEquals(15,this.trie.getOffset("o"));
+		Assert.assertEquals(12150,this.trie.getOffset("ah"));
+		Assert.assertEquals(30,this.trie.getOffset("hola"));
+		Assert.assertEquals(45,this.trie.getOffset("hora"));
+		Assert.assertEquals(12152,this.trie.getOffset("ahi"));
+		Assert.assertEquals(1000,this.trie.getOffset("ahora"));
+		
+		//Assert.assertEquals(12152, this.trie.getOffset("hora"));
 	}
 
 	@Ignore
@@ -59,12 +74,15 @@ public class TrieTest {
 
 	@Ignore
 	@Test
-	public void testAddFewWordsWithSameBegining() throws RecordSerializationException, IOException {
+	public void testAddFewWordsWithSameBegining() throws RecordSerializationException, IOException, WordNotFoundException {
 		this.trie.addWord("codo", 3);
 		this.trie.addWord("codazo", 3);
+		Assert.assertTrue(this.trie.contains("codazo"));
+		Assert.assertEquals(3, this.trie.getOffset("codazo"));
+		
 	}
 
-	@Ignore
+	
 	@Test
 	public void testAddSeveralWordsWithSameBegining1() throws Exception {
 		String[] words = new String[] { "cama", "casa", "casarse", "casino", "catarvino" };
@@ -99,7 +117,6 @@ public class TrieTest {
 		for (int i = 0; i < words.length; i++) {
 			String word = words[i];
 			Assert.assertTrue("No contiene " + word, trie.contains(word));
-			Assert.assertEquals(i, trie.getOffset("supercalifragilisticoespialidoso"));
 		}
 	}
 

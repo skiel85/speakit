@@ -129,6 +129,12 @@ public abstract class TreeNode {
 		return result;
 	}
 
+	/**
+	 * Devuelve la minima cantidad de elementos q me dejen el nodo por debajo del valor de underflow
+	 * @return
+	 * @throws RecordSerializationException
+	 * @throws IOException
+	 */
 	public List<TreeNodeElement> extractUpperExcedent() throws RecordSerializationException, IOException {
 		return this.extractExcedent(true);
 	}

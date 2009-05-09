@@ -206,13 +206,13 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	 */
 	public void load() throws IOException {
 		this.blockFile.load();
-		if (this.blockFile.getBlockCount() > this.ROOT_NODE_BLOCKS_QTY) {
+		if (this.blockFile.getBlockCount() > Tree.ROOT_NODE_BLOCKS_QTY) {
 			// hay mas nodos que una raiz --> la raiz es un indice
-			this.root = new TreeIndexNode(this, this.ROOT_NODE_BLOCKS_QTY);
+			this.root = new TreeIndexNode(this, Tree.ROOT_NODE_BLOCKS_QTY);
 		} else {
-			if (this.blockFile.getBlockCount() == this.ROOT_NODE_BLOCKS_QTY) {
+			if (this.blockFile.getBlockCount() == Tree.ROOT_NODE_BLOCKS_QTY) {
 				// hay solamente un nodo raiz --> es hoja
-				this.root = new TreeLeafNode(this, this.ROOT_NODE_BLOCKS_QTY);
+				this.root = new TreeLeafNode(this, Tree.ROOT_NODE_BLOCKS_QTY);
 			} else {
 				throw new RecordSerializationException("Archivo de B# Tree inválido.");
 			}

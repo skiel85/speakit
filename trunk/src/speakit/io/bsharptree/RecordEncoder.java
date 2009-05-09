@@ -3,6 +3,7 @@ package speakit.io.bsharptree;
 import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
 
+@SuppressWarnings("unchecked")
 public abstract class RecordEncoder implements RecordFactory {
 
 	public abstract void clear();

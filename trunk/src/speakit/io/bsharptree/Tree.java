@@ -137,16 +137,10 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
  
 	@Override
 	public long insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
-		if(record.getKey().compareTo(new StringField("salud"))==0){
-			//sarasa
-			int a=0;
-		}
 		this.root.insertRecord(record);
-		
-		// TODO implementar balanceo y split para el caso de que quede en
-		// overflow luego de insertar.
-
 		if (this.root.isInOverflow()) {
+			// TODO implementar balanceo y split para el caso de que quede en
+			// overflow luego de insertar.
 			splitRootNode(record);
 		}else{
 			this.updateNode(this.root);

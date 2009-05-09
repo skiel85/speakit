@@ -252,6 +252,18 @@ public abstract class TreeNode {
 		numberFormat.setMinimumIntegerDigits(2);		
 		return numberFormat.format(number);
 	}
+	
+	protected String getUnderflowMark() {
+		try {
+			return (this.isInUnderflow()?"(underflow)":"");
+		}  catch (IOException e) {
+			return "(error calculando underflow)";
+		}
+	}
+	
+	protected String getItemCountString() {
+		return "("+this.getElementCount()+")";
+	}
 
 	public abstract List<TreeNode> getChildren() throws IOException;
 }

@@ -12,15 +12,15 @@ import speakit.io.record.RecordSerializationException;
 
 @SuppressWarnings("unchecked")
 public class TreeLeafNode extends TreeNode {
-	private List<TreeNodeElement> elements;
-	private int nextSecuenceNodeNumber;
+	private List<TreeNodeElement>	elements;
+	private int						nextSecuenceNodeNumber;
 
-	public TreeLeafNode(Tree tree,int nodeNumber) {
-		this(tree,nodeNumber, 1);
+	public TreeLeafNode(Tree tree, int nodeNumber) {
+		this(tree, nodeNumber, 1);
 	}
 
-	public TreeLeafNode(Tree tree,int nodeNumber, int size) {
-		super(tree,nodeNumber, size);
+	public TreeLeafNode(Tree tree, int nodeNumber, int size) {
+		super(tree, nodeNumber, size);
 		this.elements = new ArrayList<TreeNodeElement>();
 	}
 
@@ -42,7 +42,7 @@ public class TreeLeafNode extends TreeNode {
 	@Override
 	public int getLevel() {
 		return 0;
-	} 
+	}
 
 	public int getNextSecuenceNodeNumber() {
 		return this.nextSecuenceNodeNumber;
@@ -50,6 +50,9 @@ public class TreeLeafNode extends TreeNode {
 
 	@Override
 	public Field getNodeKey() {
+		if (this.elements.size() == 0) {
+			throw new RuntimeException("El nodo está vacío: " + this.toString());
+		}
 		return ((TreeLeafNodeElement) this.elements.get(0)).getRecord().getKey();
 	}
 
@@ -96,10 +99,10 @@ public class TreeLeafNode extends TreeNode {
 	public void setNextSecuenceNodeNumber(int nextSecuenceNodeNumber) {
 		this.nextSecuenceNodeNumber = nextSecuenceNodeNumber;
 	}
-	
+
 	@Override
-	public String toString() { 	 
-		String result = formatNodeNumber(this.getNodeNumber()) + ": ";
+	public String toString() {
+		String result = formatNodeNumber(this.getNodeNumber()) + " L" +this.getLevel()+" "+ getUnderflowMark() +getItemCountString() + ":";
 		for (TreeNodeElement element : this.elements) {
 			result += "(" + element.getKey().toString() + ")";
 		}

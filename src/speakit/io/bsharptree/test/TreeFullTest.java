@@ -30,6 +30,7 @@ public class TreeFullTest {
 	private static int simulateBlockNumber(String word) {
 		return word.length();
 	}
+
 	public static void testRetrieveAllRecords(Tree<InvertedIndexIndexRecord, StringField> sut, TextDocument words) throws RecordSerializationException, IOException {
 		for (String word : words) {
 			StringField key = new StringField(word);
@@ -37,11 +38,13 @@ public class TreeFullTest {
 			verifyCorrectRecord(record, word, key);
 		}
 	}
+
 	private static void verifyCorrectRecord(InvertedIndexIndexRecord record, String word, StringField key) {
 		// verifica que el record obtenido sea el correcto
 		Assert.assertEquals(0, record.getKey().compareTo(key));
 		Assert.assertEquals(simulateBlockNumber(word), record.getBlockNumber());
 	}
+
 	private Tree<InvertedIndexIndexRecord, StringField> sut;
 
 	private TestFileManager filemanager;

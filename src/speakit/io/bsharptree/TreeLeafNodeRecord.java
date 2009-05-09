@@ -2,8 +2,6 @@ package speakit.io.bsharptree;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import speakit.io.record.ArrayField;
 import speakit.io.record.Field;
@@ -48,16 +46,17 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 	private Tree tree;
 
 	public TreeLeafNodeRecord(Tree tree) {
-		this(tree, 1);
-	}
-
-	public TreeLeafNodeRecord(Tree tree, int size) {
 		if (tree == null) {
 			throw new IllegalArgumentException("El argumento árbol es nulo.");
 		}
 		this.tree = tree;
 		elements = new ArrayFieldExtension(tree);
 		frontCodedElements = new FrontCodedElementArrayField(tree.getEncoder());
+	}
+
+	@Override
+	public void addElement(TreeNodeElement element) {
+		this.elements.addItem((TreeLeafNodeElement) element);
 	}
 
 	@Override
@@ -75,30 +74,8 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 		return deserializationResult;
 	}
 
-	public List<TreeNodeElement> extractAllElements() {
-		ArrayList<TreeNodeElement> elementList = new ArrayList<TreeNodeElement>();
-		for (TreeNodeElement element : this.elements) {
-			elementList.add(element);
-		}
-		this.elements.clear();
-		return elementList;
-	}
-
-	public TreeNodeElement extractFirstElement() {
-		TreeNodeElement element = this.elements.get(0);
-		this.elements.removeItem(0);
-		return element;
-	}
-
-	public TreeNodeElement extractLastElement() {
-		TreeNodeElement element = this.elements.get(this.elements.size() - 1);
-		this.elements.removeItem(this.elements.size() - 1);
-		return element;
-	}
-
-	public List<TreeNodeElement> getElements() {
-		ArrayList<TreeNodeElement> result = new ArrayList<TreeNodeElement>(this.elements.getArray());
-		return result;
+	public ArrayField<TreeLeafNodeElement> getElements() {
+		return this.elements;
 	}
 
 	@Override
@@ -111,15 +88,14 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 		return 0;
 	}
 
+	public int getNextSecuenceNodeNumber() {
+		return this.nextSecuenceNodeNumber.getInteger();
+	}
+
 	@Override
 	protected String getStringRepresentation() {
 		return "LN " + this.getNodeNumber() + ",next:" + this.nextSecuenceNodeNumber.toString() + "," + this.elements.toString() + ",FCElements:" + this.frontCodedElements.toString();
 
-	}
-
-	public void insertElement(TreeNodeElement element) {
-		this.elements.addItem((TreeLeafNodeElement) element);
-		this.elements.sort();
 	}
 
 	@Override
@@ -134,5 +110,9 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 		long serializationResult = super.serialize(stream);
 		// System.out.println("Serialización: " + this.toString());
 		return serializationResult;
+	}
+
+	public void setNextSecuenceNodeNumber(int nextSecuenceNodeNumber) {
+		this.nextSecuenceNodeNumber.setInteger(nextSecuenceNodeNumber);
 	}
 }

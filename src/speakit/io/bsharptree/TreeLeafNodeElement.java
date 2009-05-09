@@ -8,9 +8,10 @@ import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class TreeLeafNodeElement extends Field implements TreeNodeElement {
-
+@SuppressWarnings("unchecked")
+public class TreeLeafNodeElement extends TreeNodeElement {
 	private Record record;
 
 	public TreeLeafNodeElement(Record record) {
@@ -34,6 +35,11 @@ public class TreeLeafNodeElement extends Field implements TreeNodeElement {
 	@Override
 	protected int compareToSameClass(Field o) {
 		return record.compareTo(((TreeLeafNodeElement) o).getRecord());
+	}
+
+	@Override
+	protected Field[] getFields() {
+		throw new NotImplementedException();
 	}
 
 	@Override

@@ -1,10 +1,9 @@
 package speakit.io.bsharptree;
 
-import speakit.io.record.CompositeField;
 import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
 
-public class TreeIndexNodeElement extends CompositeField implements TreeNodeElement {
+public class TreeIndexNodeElement extends TreeNodeElement {
 
 	private Field key;
 	private IntegerField rightChild = new IntegerField();

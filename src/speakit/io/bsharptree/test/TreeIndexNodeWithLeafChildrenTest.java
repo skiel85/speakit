@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.bsharptree.TreeIndexNode;
 import speakit.io.bsharptree.TreeIndexNodeElement;
 import speakit.io.bsharptree.TreeLeafNode;
@@ -21,7 +20,6 @@ public class TreeIndexNodeWithLeafChildrenTest {
 	private TreeLeafNode[] nodes;
 	private TreeMock tree;
 	private File file;
-	private InvertedIndexIndexRecordEncoder encoder;
 
 	@Before
 	public void setUp() throws Exception {
@@ -30,7 +28,6 @@ public class TreeIndexNodeWithLeafChildrenTest {
 
 		this.sut = new TreeIndexNode(this.tree, 2);
 		this.sut.setNodeNumber(0);
-		encoder = new InvertedIndexIndexRecordEncoder();
 
 		this.nodes = new TreeLeafNode[3];
 		nodes[0] = new TreeLeafNode(this.tree);
@@ -72,29 +69,29 @@ public class TreeIndexNodeWithLeafChildrenTest {
 	@Test
 	public void testIndexChildren() {
 		{
-			Assert.assertEquals(0, this.sut.getElements().size());
+			Assert.assertEquals(0, this.sut.getElementCount());
 		}
 		{
 			this.sut.indexChild(nodes[0]);
 			Assert.assertEquals(2, this.sut.getLeftChildNodeNumber());
-			Assert.assertEquals(0, this.sut.getElements().size());
+			Assert.assertEquals(0, this.sut.getElementCount());
 		}
 		{
 			this.sut.indexChild(nodes[1]);
 			Assert.assertEquals(2, this.sut.getLeftChildNodeNumber());
-			Assert.assertEquals(1, this.sut.getElements().size());
-			TreeIndexNodeElement element0 = (TreeIndexNodeElement) this.sut.getElements().get(0);
+			Assert.assertEquals(1, this.sut.getElementCount());
+			TreeIndexNodeElement element0 = (TreeIndexNodeElement) this.sut.getElement(0);
 			Assert.assertEquals("del", ((StringField) element0.getKey()).getString());
 			Assert.assertEquals(3, element0.getRightChildNodeNumber());
 		}
 		{
 			this.sut.indexChild(nodes[2]);
 			Assert.assertEquals(2, this.sut.getLeftChildNodeNumber());
-			Assert.assertEquals(2, this.sut.getElements().size());
-			TreeIndexNodeElement element0 = (TreeIndexNodeElement) this.sut.getElements().get(0);
+			Assert.assertEquals(2, this.sut.getElementCount());
+			TreeIndexNodeElement element0 = (TreeIndexNodeElement) this.sut.getElement(0);
 			Assert.assertEquals("del", ((StringField) element0.getKey()).getString());
 			Assert.assertEquals(3, element0.getRightChildNodeNumber());
-			TreeIndexNodeElement element1 = (TreeIndexNodeElement) this.sut.getElements().get(1);
+			TreeIndexNodeElement element1 = (TreeIndexNodeElement) this.sut.getElement(1);
 			Assert.assertEquals("nación", ((StringField) element1.getKey()).getString());
 			Assert.assertEquals(4, element1.getRightChildNodeNumber());
 		}

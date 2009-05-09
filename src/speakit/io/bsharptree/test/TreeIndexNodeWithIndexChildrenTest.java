@@ -49,10 +49,10 @@ public class TreeIndexNodeWithIndexChildrenTest {
 	@Test
 	public void testIndexChildren() {
 		Assert.assertEquals(2, this.sut.getLeftChildNodeNumber());
-		TreeIndexNodeElement element0 = (TreeIndexNodeElement) this.sut.getElements().get(0);
+		TreeIndexNodeElement element0 = (TreeIndexNodeElement) this.sut.getElement(0);
 		Assert.assertEquals("040", ((StringField) element0.getKey()).getString());
 		Assert.assertEquals(3, element0.getRightChildNodeNumber());
-		TreeIndexNodeElement element1 = (TreeIndexNodeElement) this.sut.getElements().get(1);
+		TreeIndexNodeElement element1 = (TreeIndexNodeElement) this.sut.getElement(1);
 		Assert.assertEquals("400", ((StringField) element1.getKey()).getString());
 		Assert.assertEquals(4, element1.getRightChildNodeNumber());
 	}

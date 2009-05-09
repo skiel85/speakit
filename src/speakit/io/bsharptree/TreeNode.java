@@ -2,6 +2,8 @@ package speakit.io.bsharptree;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -23,21 +25,35 @@ public abstract class TreeNode {
 		this.size = size;
 	}
 
+	public final void clearElements() {
+		this.getElements().clear();
+	}
+
 	public boolean contains(Field key) throws IOException, RecordSerializationException {
 		return this.getRecord(key) != null;
 	}
 
+	protected abstract TreeNodeRecord createNodeRecord();
+
 	public abstract TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException;
 
 	public void deserialize(byte[] data) throws RecordSerializationException, IOException {
-		this.getNodeRecord().deserialize(data);
+		TreeNodeRecord nodeRecord = this.createNodeRecord();
+		this.load(nodeRecord);
+		nodeRecord.deserialize(data);
 	}
 
 	public void deserializeFromParts(List<byte[]> serializationParts) throws IOException {
-		this.getNodeRecord().deserializeFromParts(serializationParts);
+		TreeNodeRecord nodeRecord = this.createNodeRecord();
+		this.load(nodeRecord);
+		nodeRecord.deserializeFromParts(serializationParts);
 	}
 
-	public abstract List<TreeNodeElement> extractAllElements();
+	public final List<TreeNodeElement> extractAllElements() {
+		List<TreeNodeElement> result = this.getElements();
+		this.clearElements();
+		return result;
+	}
 
 	private List<TreeNodeElement> extractExcedent(boolean upper) throws RecordSerializationException, IOException {
 		Stack<TreeNodeElement> stack = new Stack<TreeNodeElement>();
@@ -61,9 +77,17 @@ public abstract class TreeNode {
 		return result;
 	}
 
-	protected abstract TreeNodeElement extractFirstElement();
+	public final TreeNodeElement extractFirstElement() {
+		TreeNodeElement element = this.getElements().get(0);
+		this.getElements().remove(0);
+		return element;
+	}
 
-	protected abstract TreeNodeElement extractLastElement();
+	public final TreeNodeElement extractLastElement() {
+		TreeNodeElement element = this.getElements().get(this.getElements().size() - 1);
+		this.getElements().remove(this.getElements().size() - 1);
+		return element;
+	}
 
 	public List<TreeNodeElement> extractLowerExcedent() throws RecordSerializationException, IOException {
 		return this.extractExcedent(false);
@@ -98,17 +122,40 @@ public abstract class TreeNode {
 		return this.size;
 	}
 
-	public abstract List<TreeNodeElement> getElements();
+	public TreeNodeElement getElement(Field key) throws IOException, RecordSerializationException {
+		Iterator<TreeNodeElement> it = this.getElements().iterator();
+		while (it.hasNext()) {
+			TreeNodeElement element = it.next();
+			if (element.getKey().compareTo(key) == 0) {
+				return element;
+			}
+		}
+		return null;
+	}
+
+	// public abstract List<BSharpTreeNodeElement>
+	// extractMinimumCapacityExcedent() throws RecordSerializationException,
+	// IOException;
+
+	public final TreeNodeElement getElement(int index) {
+		return this.getElements().get(index);
+	}
+
+	public int getElementCount() {
+		return this.getElements().size();
+	}
+
+	protected abstract List<TreeNodeElement> getElements();
+
+	public final Iterator<TreeNodeElement> getElementsIterator() {
+		return this.getElements().iterator();
+	}
 
 	public abstract int getLevel();
 
 	public int getMaximumCapacity() {
 		return this.tree.getNodeSize() * this.size;
 	}
-
-	// public abstract List<BSharpTreeNodeElement>
-	// extractMinimumCapacityExcedent() throws RecordSerializationException,
-	// IOException;
 
 	public int getMinimumCapacity() {
 		return this.getMaximumCapacity() * 2 / 3;
@@ -120,13 +167,6 @@ public abstract class TreeNode {
 		return this.nodeNumber;
 	}
 
-	/**
-	 * Deprecado: No se debería tener necesidad de acceder al registro del nodo
-	 * para obtener los valores de su estado.
-	 */
-	@Deprecated
-	protected abstract TreeNodeRecord getNodeRecord();
-
 	public abstract Record getRecord(Field key) throws IOException, RecordSerializationException;
 
 	protected int getSize() {
@@ -137,7 +177,10 @@ public abstract class TreeNode {
 		return this.tree;
 	}
 
-	protected abstract void insertElement(TreeNodeElement element);
+	public void insertElement(TreeNodeElement element) {
+		this.getElements().add((TreeNodeElement) element);
+		Collections.sort(this.getElements());
+	}
 
 	public void insertElements(List<TreeNodeElement> elements) {
 		for (TreeNodeElement sharpTreeNodeElement : elements) {
@@ -147,12 +190,16 @@ public abstract class TreeNode {
 
 	public abstract void insertRecord(Record record) throws IOException, RecordSerializationException;
 
-	public boolean isInOverflow() throws RecordSerializationException, IOException {
-		return (this.getNodeRecord().serialize().length > this.getMaximumCapacity());
+	public final boolean isInOverflow() throws RecordSerializationException, IOException {
+		return (this.serialize().length > this.getMaximumCapacity());
 	}
 
-	public boolean isInUnderflow() throws RecordSerializationException, IOException {
-		return (this.getNodeRecord().serialize().length < this.getMinimumCapacity());
+	public final boolean isInUnderflow() throws RecordSerializationException, IOException {
+		return (this.serialize().length < this.getMinimumCapacity());
+	}
+
+	protected void load(TreeNodeRecord nodeRecord) {
+		this.nodeNumber = nodeRecord.getNodeNumber();
 	}
 
 	public void passMaximumCapacityExcedentToTheLeft(TreeNode leftNode) throws RecordSerializationException, IOException {
@@ -167,16 +214,25 @@ public abstract class TreeNode {
 		rightNode.insertElements(this.extractMinimumCapacityExcedent());
 	}
 
+	protected void removeElement(int elementIndex) {
+		this.getElements().remove(elementIndex);
+	}
+
+	protected void save(TreeNodeRecord nodeRecord) {
+		nodeRecord.setNodeNumber(nodeNumber);
+	}
+
 	public byte[] serialize() throws RecordSerializationException, IOException {
-		return this.getNodeRecord().serialize();
+		TreeNodeRecord nodeRecord = this.createNodeRecord();
+		this.save(nodeRecord);
+		return nodeRecord.serialize();
 	}
 
 	public List<byte[]> serializeInParts(int partSize) throws RecordSerializationException, IOException {
-		return this.getNodeRecord().serializeInParts(partSize);
+		return this.createNodeRecord().serializeInParts(partSize);
 	}
 
 	public void setNodeNumber(int nodeNumber) {
 		this.nodeNumber = nodeNumber;
-		this.getNodeRecord().setNodeNumber(nodeNumber);
 	}
 }

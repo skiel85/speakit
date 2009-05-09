@@ -25,24 +25,24 @@ public class TreeLeafNodeRecordTest {
 	public void setUp() throws Exception {
 		this.tree = new Tree(this.file, InvertedIndexIndexRecord.createRecordFactory(), new InvertedIndexIndexRecordEncoder());
 		this.sut = new TreeLeafNodeRecord(this.tree);
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuadrado", 1)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuadratura", 2)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuaderno", 2)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cereza", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cereza", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("las", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("las", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("las", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("maniobra", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("política", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("ocultaba", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("las", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("auténticas", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("intenciones", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("independentistas", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("de", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("los", 3)));
-		this.sut.insertElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("revolucionarios", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuadrado", 1)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuadratura", 2)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cuaderno", 2)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cereza", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("cereza", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("las", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("las", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("las", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("maniobra", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("política", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("ocultaba", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("las", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("auténticas", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("intenciones", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("independentistas", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("de", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("los", 3)));
+		this.sut.addElement(new TreeLeafNodeElement(new InvertedIndexIndexRecord("revolucionarios", 3)));
 
 	}
 

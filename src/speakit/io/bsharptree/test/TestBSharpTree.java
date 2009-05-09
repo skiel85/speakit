@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import speakit.io.bsharptree.TreeIndexNode;
 import speakit.io.bsharptree.TreeLeafNode;
+import speakit.io.bsharptree.TreeNode;
 import speakit.io.record.RecordSerializationException;
 
 public class TestBSharpTree extends TreeMock {
@@ -138,7 +139,7 @@ public class TestBSharpTree extends TreeMock {
 		this.setRoot(root);
 	}
 
-	public TreeIndexNode[] getIndexNodes() {
+	public TreeNode[] getIndexNodes() {
 		return this.indexNodes;
 	}
 

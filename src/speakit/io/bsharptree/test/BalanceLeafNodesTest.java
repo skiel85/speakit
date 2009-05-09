@@ -16,7 +16,7 @@ import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
 
-public class TreeIndexNodeBalanceTest {
+public class BalanceLeafNodesTest {
 	private Tree<InvertedIndexIndexRecord, StringField> sut;
 
 	private TestFileManager filemanager;

@@ -105,4 +105,8 @@ public class TreeLeafNode extends TreeNode {
 		}
 		return result;
 	}
+
+	public List<TreeNode> getChildren() throws IOException {
+		return new ArrayList<TreeNode>();
+	}
 }

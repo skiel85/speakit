@@ -252,4 +252,6 @@ public abstract class TreeNode {
 		numberFormat.setMinimumIntegerDigits(2);		
 		return numberFormat.format(number);
 	}
+
+	public abstract List<TreeNode> getChildren() throws IOException;
 }

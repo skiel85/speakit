@@ -9,6 +9,7 @@ import speakit.io.record.RecordFactory;
  * @author Nahuel
  * 
  */
+@SuppressWarnings("unchecked")
 public class DefaultRecordEncoder extends RecordEncoder {
 
 	private final RecordFactory recordFactory;

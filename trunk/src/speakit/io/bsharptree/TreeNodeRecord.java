@@ -8,6 +8,10 @@ public abstract class TreeNodeRecord extends Record<IntegerField> {
 
 	public abstract void addElement(TreeNodeElement element);
 
+	public TreeNodeRecord(int nodeNumber) {
+		this.nodeNumber.setInteger(nodeNumber);
+	}
+
 	@Override
 	public IntegerField getKey() {
 		return this.nodeNumber;

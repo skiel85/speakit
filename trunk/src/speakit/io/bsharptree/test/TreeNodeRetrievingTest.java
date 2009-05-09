@@ -53,7 +53,7 @@ public class TreeNodeRetrievingTest {
 		ArrayList<byte[]> rootSerializationParts = new ArrayList<byte[]>();
 		rootSerializationParts.add(blocksFile.read(0));
 		rootSerializationParts.add(blocksFile.read(1));
-		TreeLeafNodeRecord record = new TreeLeafNodeRecord(this.sut);
+		TreeLeafNodeRecord record = new TreeLeafNodeRecord(2, this.sut);
 		record.deserializeFromParts(rootSerializationParts);
 	}
 

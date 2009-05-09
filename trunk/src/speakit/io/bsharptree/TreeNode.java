@@ -34,19 +34,18 @@ public abstract class TreeNode {
 		return this.getRecord(key) != null;
 	}
 
-	protected abstract TreeNodeRecord createNodeRecord();
+	protected abstract TreeNodeRecord createNodeRecord(int nodeNumber);
 
 	public abstract TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException;
 
-	public void deserialize(byte[] data) throws RecordSerializationException, IOException {
-		TreeNodeRecord nodeRecord = this.createNodeRecord();		
-		nodeRecord.deserialize(data);
+	public void deserialize(byte[] data, int nodeNumber) throws RecordSerializationException, IOException {
+		TreeNodeRecord nodeRecord = this.createNodeRecord(nodeNumber);		
 		nodeRecord.deserialize(data);
 		this.load(nodeRecord);
 	}
 
-	public void deserializeFromParts(List<byte[]> serializationParts) throws IOException {
-		TreeNodeRecord nodeRecord = this.createNodeRecord();
+	public void deserializeFromParts(List<byte[]> serializationParts, int nodeNumber) throws IOException {
+		TreeNodeRecord nodeRecord = this.createNodeRecord(nodeNumber);
 		nodeRecord.deserializeFromParts(serializationParts);
 		this.load(nodeRecord);
 	}
@@ -226,7 +225,7 @@ public abstract class TreeNode {
 	}
 
 	private TreeNodeRecord saveToRecord() {
-		TreeNodeRecord nodeRecord = this.createNodeRecord();
+		TreeNodeRecord nodeRecord = this.createNodeRecord(this.nodeNumber);
 		this.save(nodeRecord);
 		return nodeRecord;
 	}

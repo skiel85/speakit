@@ -53,8 +53,8 @@ public class TreeIndexNode extends TreeNode {
 	}
 
 	@Override
-	protected TreeNodeRecord createNodeRecord() {
-		return new TreeIndexNodeRecord();
+	protected TreeNodeRecord createNodeRecord(int nodeNumber) {
+		return new TreeIndexNodeRecord(nodeNumber);
 	}
 
 	@Override

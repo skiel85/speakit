@@ -5,6 +5,10 @@ import speakit.io.record.Field;
 import speakit.io.record.IntegerField;
 
 public class TreeIndexNodeRecord extends TreeNodeRecord {
+	public TreeIndexNodeRecord(int nodeNumber) {
+		super(nodeNumber);
+	}
+
 	private IntegerField leftChild = new IntegerField();
 	private IntegerField level = new IntegerField();
 

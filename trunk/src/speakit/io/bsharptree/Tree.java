@@ -81,7 +81,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		for (int i = 0; i < newNode.getBlockQty(); i++) {
 			parts.add(blockFile.read(nodeNumber + i));
 		}
-		newNode.deserializeFromParts(parts);
+		newNode.deserializeFromParts(parts, nodeNumber);
 		return newNode;
 	}
 

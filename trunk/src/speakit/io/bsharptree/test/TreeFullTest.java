@@ -17,7 +17,7 @@ import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
 
-@Ignore
+
 public class TreeFullTest {
 
 	/**
@@ -41,7 +41,7 @@ public class TreeFullTest {
 
 	private static void verifyCorrectRecord(InvertedIndexIndexRecord record, String word, StringField key) {
 		// verifica que el record obtenido sea el correcto
-		Assert.assertNotNull("El arbol no devolvió ningún registro cuando se le pidió uno que había sido insertado.", record);
+		Assert.assertNotNull("El arbol no devolvió ningún registro cuando se le pidió uno que había sido insertado. Palabra buscada: " + key.toString(), record);
 		Assert.assertEquals(0, record.getKey().compareTo(key));
 		Assert.assertEquals(simulateBlockNumber(word), record.getBlockNumber());
 	}
@@ -64,6 +64,8 @@ public class TreeFullTest {
 				0,
 				"El brote de gripe A (H1N1) de 2009,60 causado por una variante del Influenzavirus A originalmente de origen porcino (subtipo H1N1), Según la Organización Mundial de la Salud (OMS), los primeros casos de influenza en México se detectaron el 11 de abril en el estado mexicano de Veracruz, pero el primer enfermo registrado en el mundo fue un niño de 10 años de edad quien enfermó el 30 de marzo en San Diego, Estados Unidos61 que no habia tenido ningún contacto con cerdos y además no habia tenído ningún antecedente de haber viajado a México. Al mes se extendio por varios estados de México (Distrito Federal, Estado de México y San Luis Potosí) y Estados Unidos (Texas y California), para exportarse a partir de entonces, con aparición de numerosos casos en otros países de pacientes que habían viajado a México. Se han constatado unos pocos casos de contagios indirectos, de personas que no han estado en dicha región, que se han dado en España, Alemania, Corea del Sur y Reino Unido.62 El 29 de abril la Organización Mundial de la Salud (OMS) la clasificó como de nivel de alerta cinco, es decir, pandemia inminente.63 Ese nivel de alerta no define la gravedad de la enfermedad producida por el virus, sino su extensión geográfica.",
 				true);
+		
+//		wikipediaArticle = new TextDocument("a,able,about,across,after,all,almost,also,am,among,an,and,any,are,as,at,be,because,been,but,by,can,cannot,could,dear,did,do,does,either,else,ever,every,for,from,get,got,had,has,have,he,her,hers,him,his,how,however,i,if,in,into,is,it,its,just,least,let,like,likely,may,me,might,most,must,my,neither,no,nor,not,of,off,often,on,only,or,other,our,own,rather,said,say,says,she,should,since,so,some,than,that,the,their,them,then,there,these,they,this,tis,to,too,twas,us,wants,was,we,were,what,when,where,which,while,who,whom,why,will,with,would,yet,you,your");
 		for (String word : wikipediaArticle) {
 			// if (word.equals("h1n1")) {
 			// System.out.println(word);

@@ -15,7 +15,12 @@ public class Main {
 	 * @throws RecordSerializationException
 	 */
 	public static void main(String[] args) throws SimpleAudioRecorderException, IOException, RecordSerializationException {
-		Menu menu = new Menu();
+		Menu menu = null;
+		if (args.length != 0)
+			if (args[0].compareToIgnoreCase("GOD") == 0)
+				menu = new Menu(true);
+		if (menu == null)
+			menu = new Menu();
 		menu.start();
 	}
 

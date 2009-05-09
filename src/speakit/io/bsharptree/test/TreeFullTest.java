@@ -17,7 +17,7 @@ import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
 
-@Ignore
+
 public class TreeFullTest {
 
 	/**

@@ -69,7 +69,7 @@ public class TreeIndexNode extends TreeNode {
 		boolean found = false;
 		while (it.hasNext() && !found) {
 			TreeIndexNodeElement element = (TreeIndexNodeElement) it.next();
-			if (key.compareTo((Field) element.getKey()) > 0) {
+			if (key.compareTo((Field) element.getKey()) >= 0) {
 				childForKey = element.getRightChildNodeNumber();
 			} else {
 				found = true;

@@ -81,6 +81,10 @@ public class Trie implements File, RecordFactory{
 		TrieNode nodo7=this.getNode(7);
 		TrieNode nodo8=this.getNode(8);
 		TrieNode nodo9=this.getNode(9);
+		TrieNode nodo10=this.getNode(10);
+		TrieNode nodo11=this.getNode(11);
+		TrieNode nodo12=this.getNode(12);
+		TrieNode nodo13=this.getNode(13);
 		
 		
 		
@@ -300,6 +304,7 @@ public class Trie implements File, RecordFactory{
 	 * @param indexFirstPart
 	 * @param i
 	 * @param offset 
+	 * @param lastPart 
 	 * @throws RecordSerializationException
 	 * @throws IOException
 	 */
@@ -308,13 +313,18 @@ public class Trie implements File, RecordFactory{
 			IOException {
 		// Agrego la primer letra del resto de la primer parte de la palabra al nodo actual
 		
+		String actualChar="";
+		
 		WordOffsetField wordOffsetField=new WordOffsetField();
-		if (firstPart.length()==1){
-			wordOffsetField=new WordOffsetField(offset, firstPart, true);
+		// Si la palabra es más chica que el depth y esta la ultima letra a agregar, hay que poner el offset.
+		if (indexFirstPart==firstPart.length()-1 && firstPart.substring(indexFirstPart).equals(" ")){
+			actualChar = firstPart.substring(indexFirstPart);
+			wordOffsetField=new WordOffsetField(offset, actualChar, true);
 		} else {
-			String actualChar = firstPart.substring(indexFirstPart, indexFirstPart+1);
+			actualChar = firstPart.substring(indexFirstPart, indexFirstPart+1);
 			wordOffsetField=new WordOffsetField(this.getNextNodeNumber(), actualChar, false);
 		}
+		
 		
 		ArrayList<WordOffsetField> wordOffsetList=(ArrayList<WordOffsetField>) initialNode.getWordOffsetList();
 		wordOffsetList.add(wordOffsetField);
@@ -360,10 +370,20 @@ public class Trie implements File, RecordFactory{
 
 	@Override
 	public void load(FileManager fileManager, Configuration conf) throws IOException {
+		
 		this.depth = conf.getTrieDepth();
 		createDataFile(fileManager);
 		nodeFile.load();
 		this.nodeBlockIndexFile.getNodeBlockIndexFile().load();
+		
+		boolean foundLastNode=false;
+		int i=0;
+		while (!foundLastNode){
+			if (this.getNode(i)==null) foundLastNode=true;
+			i++;
+		}
+		this.setNextNodeNumber(i-1);
+		
 	}
 
 	@Override
@@ -381,6 +401,7 @@ public class Trie implements File, RecordFactory{
 		this.nodeBlockIndexFile.getNodeBlockIndexFile().insertRecord(trieNodeBlockIndex);
 		this.nodeBlockIndexFile.getNodeBlockIndexFile().getRecord(new IntegerField(0));
 		
+		
 	}
 
 	@Override
@@ -391,6 +412,14 @@ public class Trie implements File, RecordFactory{
 	@Override
 	public TrieNode createRecord() {
 		return new TrieNode();
+	}
+	
+	public String getTrieFileName() {
+		return TRIE_INDEX_DAT;
+	}
+
+	public String getTrieNodeBlockIndexFileName() {
+		return TRIE_NODE_BLOCK_INDEX_DAT;
 	}
 
 }

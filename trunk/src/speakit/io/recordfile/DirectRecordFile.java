@@ -144,10 +144,9 @@ public class DirectRecordFile<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends F
 	 * @throws RecordSerializationException
 	 * @throws IOException
 	 */
-	public boolean updateRecord(RECTYPE record, int blockNumber) throws RecordSerializationException, IOException {
+	public long updateRecord(RECTYPE record, int blockNumber) throws RecordSerializationException, IOException {
 		RecordsListBlockInterpreter<RECTYPE, KEYTYPE> block = this.getBlock(blockNumber);
-		updateRecord(record, block);
-		return false;
+		return updateRecord(record, block);
 	}
 
 	/**

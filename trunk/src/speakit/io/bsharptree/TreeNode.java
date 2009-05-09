@@ -109,7 +109,12 @@ public abstract class TreeNode {
 		}
 
 		// Reinserto el último para estar por encima de la capacidad mínima.
-		this.insertElement(stack.pop());
+		if(!stack.isEmpty()) {
+			this.insertElement(stack.pop());
+		}
+		else {
+			throw new AssertionError("No hay excedente a la mínima capacidad del nodo.");
+		}
 
 		// Creo una lista con los elementos extraidos.
 		ArrayList<TreeNodeElement> result = new ArrayList<TreeNodeElement>();

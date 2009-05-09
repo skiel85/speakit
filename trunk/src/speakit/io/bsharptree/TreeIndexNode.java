@@ -12,6 +12,7 @@ import speakit.io.blockfile.WrongBlockNumberException;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @SuppressWarnings("unchecked")
 public class TreeIndexNode extends TreeNode {
@@ -352,9 +353,16 @@ public class TreeIndexNode extends TreeNode {
 
 		
 		// Agrego la referencia de los hijos.
-		this.indexChild(middleChild);
-		// try{
-		this.indexChild(rightChild);
+		if (middleChild.getElementCount() > 0) {
+			this.indexChild(middleChild);
+		} else {
+			throw new AssertionError("Algún nodo hijo nuevo está vacio.");
+		}
+		if(rightChild.getElementCount() >0) {
+			this.indexChild(rightChild);
+		} else {
+			throw new AssertionError("Algún nodo hijo nuevo está vacio.");
+		}
 		// }catch(IndexOutOfBoundsException ex){
 		// System.out.println(rightChild);
 		// }
@@ -367,7 +375,7 @@ public class TreeIndexNode extends TreeNode {
 		// Verifico consistencia.
 		int elementCountAfterSplit = leftChild.getElementCount() + middleChild.getElementCount() + rightChild.getElementCount();
 		if (elementCountBeforeSplit != elementCountAfterSplit) {
-			throw new RuntimeException("Error en el split. cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:" + elementCountAfterSplit);
+			throw new AssertionError("Error en el split. cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:" + elementCountAfterSplit);
 		}
 	}
 

@@ -14,6 +14,9 @@ import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+/**
+ * Nodo índice del árbol B#.
+ */
 @SuppressWarnings("unchecked")
 public class TreeIndexNode extends TreeNode {
 

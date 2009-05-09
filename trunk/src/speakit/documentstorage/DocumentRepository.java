@@ -32,7 +32,7 @@ public class DocumentRepository implements File, RecordFactory {
 		if (record == null) {
 			return null;
 		} else {
-			return new TextDocument(record.getText());
+			return new TextDocument(record.getOffset(),record.getText());
 		}
 	}
 

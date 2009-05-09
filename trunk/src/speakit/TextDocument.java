@@ -18,6 +18,11 @@ public class TextDocument implements Iterable<String> {
 	private long id;
 
 	public TextDocument(String text) {
+		this(0,text);
+	}
+	
+	public TextDocument(long id,String text) {
+		this.id=id;
 		this.text = text;
 		wordReader = new WordReaderImpl(this.text);
 	}
@@ -72,5 +77,18 @@ public class TextDocument implements Iterable<String> {
 
 	public String getText() {
 		return this.text;
+	}
+	
+	/**
+	 * Compara por id y por texto
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		TextDocument other = (TextDocument) obj;
+		if(this.id!=other.id){
+			return false;
+		}else{
+			return this.text.compareTo(other.text)==0;
+		}
 	}
 }

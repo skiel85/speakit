@@ -42,7 +42,7 @@ public class OccurrenceStorageTest {
 
 	@After
 	public void tearDown() throws Exception {
-		deleteTempFiles();
+		//deleteTempFiles();
 	}
 	
 	@Test
@@ -52,11 +52,11 @@ public class OccurrenceStorageTest {
 
 	private void addRandomOccurrence() {
 		//Inserto ocurrencias desordenadas generando un pseudo random, los valors son termino; documento
-			storage.addOccurrence(new Occurrence(Math.round(Math.round(Math.random())), Math.round(Math.round(Math.random()))));
+			storage.addOccurrence(new Occurrence(Math.round(Math.round(Math.random())) + 1, Math.round(Math.round(Math.random())) + 1));
 	}
 	private int addOccurrences() {
 		//Inserto ocurrencias desordenadas, los valors son termino; documento
-		//El resultado deberia ser: (1,1) (1,2) (1,2) (1,3) (1,3) (1,4) (2,1) (2,1) (2,4) (3,1) (3,5) (3,5) (4,20) (4,4 (5,3)
+		//El resultado deberia ser: (1,1) (1,2) (1,2) (1,3) (1,3) (1,4) (2,1) (2,1) (2,4) (3,1) (3,5) (3,5) (4,20) (4,4) (5,3)
 			storage.addOccurrence(new Occurrence(1, 1));
 			storage.addOccurrence(new Occurrence(2, 1));
 			storage.addOccurrence(new Occurrence(3, 1));
@@ -88,7 +88,7 @@ public class OccurrenceStorageTest {
 	
 	@Test
 	public void testGetApearanceListForBiggerSet() {
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < 1387; i++) {
 			addRandomOccurrence();
 		}
 		int termId = 2;
@@ -113,12 +113,24 @@ public class OccurrenceStorageTest {
 		}
 	}
 	
+	
 	@Ignore
 	public void testStress() {
-		for (int i = 0; i < 30000; i++) {
+		//int size = 1;
+		int size = 10000;
+		for (int i = 0; i < size; i++) {
 			addRandomOccurrence();
 		}
-		testOrderedList(30000);
+		testOrderedList(size);
+	}
+	@Test
+	public void testBugMenorCantidadProcesada() {
+		//int size = 1;
+		int size = 151;
+		for (int i = 0; i < size; i++) {
+			addRandomOccurrence();
+		}
+		testOrderedList(size);
 	}
 	
 	@Test

@@ -2,6 +2,7 @@ package speakit.io.bsharptree;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -223,7 +224,7 @@ public class TreeIndexNode extends TreeNode {
 			// el split guarda el nodo en overflow, no hace falta hacerlo de vuelta 
 			split(nodeWhereToInsert);
 		} else {
-			// se guarda acá porque en caso de overflow deberia guardarse dentro
+			// se guarda acá porque en caso de overflow deberia guardarse dentro del metodo que hace split
 			this.getTree().updateNode(nodeWhereToInsert);
 		}
 	}
@@ -348,26 +349,61 @@ public class TreeIndexNode extends TreeNode {
 			throw new RuntimeException("Error en el split. cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:" + elementCountAfterSplit);
 		}
 	}
+	
+	/**
+	 * Obtiene la una lista de los numeros de todos sus nodos hijos
+	 * @return
+	 */
+	public List<Integer> getChildNodeNumbers(){
+		List<Integer> childNodes = new ArrayList<Integer>();
+		childNodes.add(this.leftChildNodeNumber);
+		for (TreeNodeElement element : this.elements) {
+			childNodes.add(((TreeIndexNodeElement) element).getRightChildNodeNumber());
+		}
+		return childNodes;
+	}
+	
+	/**
+	 * Obtiene la una lista de todos sus nodos hijos y elimina todos los elementos
+	 * @return
+	 * @throws IOException 
+	 */
+	public List<TreeNode> getExtractChildNodes() throws IOException{
+		List<TreeNode> childNodes = new ArrayList<TreeNode>();
+		childNodes.add(this.getTree().getNode(this.leftChildNodeNumber,this));
+		for (TreeNodeElement element : this.elements) {
+			childNodes.add(this.getTree().getNode(((TreeIndexNodeElement) element).getRightChildNodeNumber(),this));
+		}
+		this.leftChildNodeNumber=-1;
+		this.elements.clear();
+		return childNodes;
+	}
 
 	@Override
 	public String toString() {
-		String result = this.getNodeNumber() + ": " + this.getLeftChildNodeNumber();
-		ArrayList<Integer> childNodes = new ArrayList<Integer>();
-		childNodes.add(this.leftChildNodeNumber);
+		String result = this.getNodeNumber() + ": " + this.getLeftChildNodeNumber();  
 		for (TreeNodeElement element : this.elements) {
 			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) element;
-			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber();
-			childNodes.add(indexElement.getRightChildNodeNumber());
+			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber(); 
 		}
 
-		for (Integer nodeNumber : childNodes) {
+		for (Integer nodeNumber : getChildNodeNumbers()) {
 			try {
-				result += "\n\t" + this.getTree().getNode(nodeNumber, this).toString();
+				result += "\n" + getCorrectIndent() + this.getTree().getNode(nodeNumber, this).toString();
 			} catch (IOException e) {
 				result += "IOException(nodo:" + nodeNumber + ")";
 			}
 		}
 
 		return result;
+	}
+
+	private String getCorrectIndent() {
+		String res="";
+		int indentationSize = this.getTree().getRoot().getLevel()-this.getLevel(); 
+		for (int i = 0; i <= indentationSize; i++) {
+			res+="\t";
+		}
+		return res;
 	}
 }

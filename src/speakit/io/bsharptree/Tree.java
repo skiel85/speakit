@@ -3,6 +3,7 @@ package speakit.io.bsharptree;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import speakit.io.blockfile.BasicBlockFile;
@@ -137,11 +138,13 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	boolean	found	= false;
 	@Override
 	public long insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
-//		if(record.getKey().compareTo(new StringField("california"))==0){
-//			System.out.println("Insertando california: " + this.toString());
-//		}
+		if(record.getKey().compareTo(new StringField("producida"))==0){
+			System.out.println("Insertando producida: \n" + this.toString());
+		}
 		this.root.insertRecord(record);
-		
+		if(record.getKey().compareTo(new StringField("producida"))==0){
+			System.out.println("Insertando producida: \n" + this.toString());
+		}
 //		if(record.getKey().compareTo(new StringField("california"))==0){
 //			System.out.println("Insertando california: " + this.toString());
 //		}
@@ -184,11 +187,49 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 				this.updateNode(leafs.get(0));
 				this.updateNode(leafs.get(1));
 				this.updateNode(leafs.get(2));
+				this.updateNode(this.root);
 			}else{
-				throw new RuntimeException("Nodo raiz en overflow, no implementado: " + this.root.toString());
+				/**
+				 * Descripción:
+				 * -Extrae todos los hijos de la raiz y los deja en una lista temporal
+				 * -crea 3 nodos nuevos que serán hijos de la raiz
+				 * -para cada nodo{
+				 * --indexa viejos hijos de la raiz en cada nuevo nodo y los va eliminando de la lista temporal
+				 * --indexa el nuevo nodo en la raiz
+				 * -}
+				 * -guarda todos los nodos nuevos
+				 * -guarda la raiz
+				 * 
+				 */
+				
+				ArrayList<TreeIndexNode> newRootChilds = new ArrayList<TreeIndexNode>();
+				newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
+				newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
+				newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
+				
+				List<TreeNode> oldRootChildsTempList = ((TreeIndexNode) this.root).getExtractChildNodes();
+				
+				Iterator<TreeNode> oldRootChildsTempListIterator = oldRootChildsTempList.iterator();
+				//recorro los nuevos nodos que acabo de crear, serán los nuevos hijos de root
+				for (TreeIndexNode newRootChild : newRootChilds) {
+					//mientras el nodos esté en underflow le indexo hijos viejos de root y lo elimino de la lista temporal
+					while(newRootChild.isInUnderflow() && oldRootChildsTempListIterator.hasNext()){
+						newRootChild.indexChild(oldRootChildsTempListIterator.next());
+						oldRootChildsTempListIterator.remove();
+					}
+					//indexo el nuevo hijo de la raiz
+					((TreeIndexNode) this.root).indexChild(newRootChild);
+				}
+				((TreeIndexNode) this.root).setLevel(this.root.getLevel()+1);
+				
+				for (TreeIndexNode newRootChild : newRootChilds) {
+					this.updateNode(newRootChild);
+				}
+				this.updateNode(this.root);
 			}
+		}else{
+			this.updateNode(this.root);
 		}
-		this.updateNode(this.root);
 		return 0;
 	}
 

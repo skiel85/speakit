@@ -452,4 +452,12 @@ public class TreeIndexNode extends TreeNode {
 		}
 		return res;
 	}
+
+	@Override
+	public void updateRecord(Record record) throws IOException {
+		int childNodeNumberWhereToUpdate = this.getChildFor(record.getKey());
+		TreeNode childNodeWhereToUpdate = this.getTree().getNode(childNodeNumberWhereToUpdate, this);
+		childNodeWhereToUpdate.updateRecord(record);
+		this.getTree().updateNode(childNodeWhereToUpdate);
+	}
 }

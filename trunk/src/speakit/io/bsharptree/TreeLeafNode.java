@@ -115,4 +115,10 @@ public class TreeLeafNode extends TreeNode {
 	public List<TreeNode> getChildren() throws IOException {
 		return new ArrayList<TreeNode>();
 	}
+
+	@Override
+	public void updateRecord(Record record) throws IOException {
+		TreeLeafNodeElement element = (TreeLeafNodeElement) this.getElement(record.getKey());
+		element.setRecord(record);
+	}
 }

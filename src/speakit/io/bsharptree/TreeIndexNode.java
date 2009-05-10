@@ -298,7 +298,7 @@ public class TreeIndexNode extends TreeNode {
 				element.setRightChild(newChild.getNodeNumber());
 				this.insertElement(element);
 			}
-		} catch (RuntimeException ex) {
+		} catch (IndexOutOfBoundsException ex) {
 			throw new RuntimeException("No se puede indexar el nodo. " + ex.getMessage(), ex);
 		}
 

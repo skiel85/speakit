@@ -8,13 +8,13 @@ import speakit.io.bsharptree.TreeLeafNode;
 import speakit.io.bsharptree.TreeNode;
 import speakit.io.record.RecordSerializationException;
 
-public class TestBSharpTree extends TreeMock {
+public class TestTree extends TreeMock {
 	private TreeIndexNode root;
 	private TestIndexRecord[] records;
 	private TreeNode[] leafNodes;
 	private TreeIndexNode[] indexNodes;
 
-	public TestBSharpTree(File file) throws IOException {
+	public TestTree(File file) throws IOException {
 		super(file);
 		// 00: ... 02(010)03(100)04
 		// . 02: . 05(004)06(007)07

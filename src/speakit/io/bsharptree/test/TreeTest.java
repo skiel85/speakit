@@ -19,7 +19,7 @@ public class TreeTest {
 	@Before
 	public void setUp() throws Exception {
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		this.sut = new TestBSharpTree(this.file);
+		this.sut = new TestTree(this.file);
 	}
 
 	@After

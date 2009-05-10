@@ -412,85 +412,85 @@ public class TreeIndexNode extends TreeNode {
 	 */
 	private void split(TreeNode[] childsToSplit, int middleKeyIndex) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		// Remuevo la clave del padre.
-		TreeNodeElement removedIndexElement = this.getElement(middleKeyIndex);
 		this.removeElement(middleKeyIndex);
-
-		// Obtengo los dos nodos a unir y creo uno nuevo vacío en el medio.
-		TreeNode leftChild = childsToSplit[0];
-		TreeNode rightChild = childsToSplit[1];
-		TreeNode middleChild = leftChild.createSibling();
 
 		// Verifico si el nodo actual es padre de nodos índice.
 		boolean isParentOfIndexNodes = (this.getLevel() > 1);
 
 		// Si el nodo actual es padre de nodos índice:
 		if (isParentOfIndexNodes) {
-			// agrego al leftChild un nuevo elemento formado por
-			TreeIndexNodeElement downgradedElement = new TreeIndexNodeElement();
-			// la clave removida del padre
-			downgradedElement.setKey(removedIndexElement.getKey());
-			// y el puntero izquierdo de rightChild.
-			downgradedElement.setRightChild(((TreeIndexNode) rightChild).getLeftChildNodeNumber());
-			// Inserto el elemento.
-			leftChild.insertElement(downgradedElement);
-		}
-
-		// Agrego luego todos los elementos de rightChild.
-		leftChild.insertElements(rightChild.extractAllElements());
-
-		// Guardo cantidad de elementos para luego validar consistencia.
-		int elementCountBeforeSplit = leftChild.getElementCount();
-
-		// Paso a la derecha lo que excede a la minima capacidad,
-		leftChild.passMinimumCapacityExcedentToTheRight(middleChild);
-
-		// Agrego al padre la referencia al nuevo hijo.
-		this.indexChild(middleChild);
-
-		// Si el nodo actual es padre de nodos índice:
-		if (isParentOfIndexNodes) {
-			// extraigo el elemento que tiene la clave que subió al padre
-			TreeIndexNodeElement upgradedElement = (TreeIndexNodeElement) middleChild.extractFirstElement();
-			// y pongo su puntero a hijo como puntero a hijo izq del nodo
-			((TreeIndexNode) middleChild).setLeftChildNodeNumber(upgradedElement.getRightChildNodeNumber());
-		}
-
-		// Paso a la derecha lo que excede a la mínima capacidad.
-		middleChild.passMinimumCapacityExcedentToTheRight(rightChild);
-
-		// Vuelvo a agregar al padre la referencia al hijo derecho.
-		this.indexChild(rightChild);
-
-		// Si el nodo actual es padre de nodos índice:
-		if (isParentOfIndexNodes) {
-			// extraigo el elemento que tiene la clave que subió al padre
-			TreeIndexNodeElement upgradedElement = (TreeIndexNodeElement) rightChild.extractFirstElement();
-			// y pongo su puntero a hijo como puntero a hijo izq del nodo
-			((TreeIndexNode) rightChild).setLeftChildNodeNumber(upgradedElement.getRightChildNodeNumber());
-		}
-
-		// Guardo los hijos.
-		this.getTree().updateNode(leftChild);
-		this.getTree().updateNode(middleChild);
-		this.getTree().updateNode(rightChild);
-
-		if (isParentOfIndexNodes) {
+			// Obtengo los dos nodos a unir y creo uno nuevo vacío en el medio.
+			TreeIndexNode leftChild = (TreeIndexNode) childsToSplit[0];
+			TreeIndexNode rightChild = (TreeIndexNode) childsToSplit[1];
+			TreeIndexNode middleChild = (TreeIndexNode) leftChild.createSibling();
+		
+			// Creo una lista de nodos nietos de los nodos a unir.
+			ArrayList<TreeNode> grandchildrenNodes = new ArrayList<TreeNode>();
+			grandchildrenNodes.addAll(leftChild.extractChildNodes());
+			grandchildrenNodes.addAll(rightChild.extractChildNodes());
+			
+			// Inserto en cada nodo hasta que supera el underflow.
+			for (TreeNode grandchildNode : grandchildrenNodes) {
+				if (leftChild.isInUnderflow()) {
+					leftChild.indexChild(grandchildNode);
+				}
+				else if (middleChild.isInUnderflow()) {
+					middleChild.indexChild(grandchildNode);
+				}
+				else {
+					rightChild.indexChild(grandchildNode);
+				}
+			}
+			
+			// Agrego al padre la referencia al nuevo hijo.
+			this.indexChild(middleChild);
+						
+			// Agrego al padre la referencia al hijo derecho.
+			this.indexChild(rightChild);
+			
+			// Guardo los hijos.
+			this.getTree().updateNode(leftChild);
+			this.getTree().updateNode(middleChild);
+			this.getTree().updateNode(rightChild);
+			
 			System.out.println(this.getTree());
 		}
+		// Si el nodo actual es padre de nodos hoja:
+		else {
+			// Obtengo los dos nodos a unir y creo uno nuevo vacío en el medio.
+			TreeNode leftChild = childsToSplit[0];
+			TreeNode rightChild = childsToSplit[1];
+			TreeNode middleChild = leftChild.createSibling();
+			
+			// Agrego luego todos los elementos de rightChild.
+			leftChild.insertElements(rightChild.extractAllElements());
 
-		// Verifico consistencia.
-		int elementCountAfterSplit = leftChild.getElementCount() + middleChild.getElementCount() + rightChild.getElementCount();
-		if (!isParentOfIndexNodes) {
+			// Guardo cantidad de elementos para luego validar consistencia.
+			int elementCountBeforeSplit = leftChild.getElementCount();
+
+			// Paso a la derecha lo que excede a la minima capacidad,
+			leftChild.passMinimumCapacityExcedentToTheRight(middleChild);
+
+			// Agrego al padre la referencia al nuevo hijo.
+			this.indexChild(middleChild);
+
+			// Paso a la derecha lo que excede a la mínima capacidad.
+			middleChild.passMinimumCapacityExcedentToTheRight(rightChild);
+
+			// Vuelvo a agregar al padre la referencia al hijo derecho.
+			this.indexChild(rightChild);
+
+			// Guardo los hijos.
+			this.getTree().updateNode(leftChild);
+			this.getTree().updateNode(middleChild);
+			this.getTree().updateNode(rightChild);
+
+			// Verifico consistencia.
+			int elementCountAfterSplit = leftChild.getElementCount() + middleChild.getElementCount() + rightChild.getElementCount();
 			// Verifico que la cantidad de elementos sea la misma antes y
 			// después de dividir.
 			if (elementCountBeforeSplit != elementCountAfterSplit) {
 				throw new AssertionError("Error en el split. Cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:" + elementCountAfterSplit);
-			}
-		} else {
-			// Verifico que la cantidad de elementos sea la misma antes y
-			// después de dividir, contando los que subieron al padre.
-			if (elementCountBeforeSplit != elementCountAfterSplit + 2) {
-				throw new AssertionError("Error en el split. Cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:" + (elementCountAfterSplit + 2));
 			}
 		}
 	}
@@ -516,7 +516,7 @@ public class TreeIndexNode extends TreeNode {
 	 * @return
 	 * @throws IOException
 	 */
-	public List<TreeNode> getExtractChildNodes() throws IOException {
+	public List<TreeNode> extractChildNodes() throws IOException {
 		List<TreeNode> childNodes = getChildren();
 		clear();
 		return childNodes;

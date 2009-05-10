@@ -14,7 +14,6 @@ import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
-import speakit.io.record.StringField;
 import speakit.io.recordfile.RecordFile;
 
 @SuppressWarnings("unchecked")
@@ -205,7 +204,7 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
 		newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
 
-		List<TreeNode> oldRootChildsTempList = ((TreeIndexNode) this.root).getExtractChildNodes();
+		List<TreeNode> oldRootChildsTempList = ((TreeIndexNode) this.root).extractChildNodes();
 
 		Iterator<TreeNode> oldRootChildsTempListIterator = oldRootChildsTempList.iterator();
 		// recorro los nuevos nodos que acabo de crear, serán los nuevos hijos

@@ -118,7 +118,7 @@ public class TrieTest {
 		testContainsAllWords(loadedTrie, words);
 	}
 	
-	@Ignore
+	
 	@Test
 	public void testAddArticleWords() throws IOException, WordNotFoundException, RecordSerializationException {
 		List<TextDocument> documents=new ArrayList<TextDocument>();

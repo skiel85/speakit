@@ -13,11 +13,11 @@ import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.bsharptree.RamTree;
 import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.bsharptree.Tree;
+import speakit.io.bsharptree.TreeDuplicatedRecordException;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.SpeakitSearchRealDocumentsTest;
 import speakit.test.TestFileManager;
-
 
 public class TreeFullTest2 {
 
@@ -27,7 +27,7 @@ public class TreeFullTest2 {
 
 	private RecordEncoder								encoder;
 
-	private List<String>	words; 
+	private List<String>								words;
 
 	@Before
 	public void setUp() throws Exception {
@@ -48,15 +48,25 @@ public class TreeFullTest2 {
 		
 		words = new ArrayList<String>();
 		for (TextDocument textDocument : documents) {
-			for (String word : textDocument) {
+			for (String word : textDocument) { 
 				if (!words.contains(word)) {
 					words.add(word);
 				}
 			}
 		}
-		TreeFullTest.insertAllWords(this.sut,words);
+		for (String word : words) {
+			try{
+				System.out.println(word);
+				 int simulatedBlockNumber = TreeFullTest.simulateBlockNumber(word);
+				InvertedIndexIndexRecord newRecord = new InvertedIndexIndexRecord(word, simulatedBlockNumber);
+				sut.insertRecord(newRecord);		
+				InvertedIndexIndexRecord retrievedRecord = sut.getRecord(newRecord.getKey());
+				TreeFullTest.verifyCorrectRecord(retrievedRecord,  word, newRecord.getKey());
+			}catch (TreeDuplicatedRecordException e) {
+				//words tiene palabras duplicadas, no interfiere con la prueba
+			}
+		}
 	}
-	 
 
 	/**
 	 * Prueba obtener todos los registros
@@ -67,7 +77,7 @@ public class TreeFullTest2 {
 	@Test
 	public void testRetrieveAllRecords() throws RecordSerializationException, IOException {
 		TreeFullTest.testRetrieveAllRecords(this.sut, words);
-//		System.out.println(this.sut);
-	} 
+		// System.out.println(this.sut);
+	}
 
 }

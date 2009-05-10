@@ -298,4 +298,6 @@ public abstract class TreeNode {
 	public abstract List<TreeNode> getChildren() throws IOException;
 
 	public abstract void updateRecord(Record record) throws IOException;
+
+	public abstract Field getLowestKey() throws IOException;
 }

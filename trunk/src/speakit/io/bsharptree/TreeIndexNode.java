@@ -10,6 +10,7 @@ import speakit.io.blockfile.WrongBlockNumberException;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
+import speakit.io.record.StringField;
 
 /**
  * Nodo índice del árbol B#.
@@ -286,13 +287,14 @@ public class TreeIndexNode extends TreeNode {
 		return nodeWhereToInsert.getRecord(key);
 	}
 
-	public void indexChild(TreeNode newChild) {
+	public void indexChild(TreeNode newChild) throws IOException {
 		try {
 			if (this.getLeftChildNodeNumber() == NULL_NODE_NUMBER) {
 				this.setLeftChildNodeNumber(newChild.getNodeNumber());
 			} else {
 				TreeIndexNodeElement element = new TreeIndexNodeElement();
-				element.setKey(newChild.getNodeKey());
+//				element.setKey(newChild.getNodeKey());
+				element.setKey(newChild.getLowestKey());
 				element.setRightChild(newChild.getNodeNumber());
 				this.insertElement(element);
 			}
@@ -314,15 +316,7 @@ public class TreeIndexNode extends TreeNode {
 			System.out.println(this.getTree().toString());
 			throw new RuntimeException("El nodeNumberWhereToInsert es el mismo nodo.");
 		}
-
-		nodeWhereToInsert.insertRecord(record);
-
-		// // balanceo
-		// if (nodeWhereToInsert.isInOverflow()) {
-		// // throw new
-		// // RecordSerializationException("El nodo debio rebalancearse");
-		// balanceChilds(nodeWhereToInsert);
-		// }
+		nodeWhereToInsert.insertRecord(record); 
 		// split
 		if (nodeWhereToInsert.isInOverflow()) {
 			// el split guarda el nodo en overflow, no hace falta hacerlo de
@@ -429,15 +423,15 @@ public class TreeIndexNode extends TreeNode {
 			ArrayList<TreeNode> grandchildrenNodes = new ArrayList<TreeNode>();
 			grandchildrenNodes.addAll(leftChild.extractChildNodes());
 			grandchildrenNodes.addAll(rightChild.extractChildNodes());
-			
+
 			// Trato de balancear entre hermanos
 			Iterator<TreeNode> grandchildNodeIt = grandchildrenNodes.iterator();
-			while(grandchildNodeIt.hasNext() && !leftChild.isInOverflow()) {
+			while (grandchildNodeIt.hasNext() && !leftChild.isInOverflow()) {
 				leftChild.indexChild(grandchildNodeIt.next());
 			}
 			TreeIndexNodeElement element = (TreeIndexNodeElement) leftChild.extractLastElement();
 			rightChild.setLeftChildNodeNumber(element.getRightChildNodeNumber());
-			while(grandchildNodeIt.hasNext()) {
+			while (grandchildNodeIt.hasNext() && !leftChild.isInOverflow()) {
 				rightChild.indexChild(grandchildNodeIt.next());
 			}
 
@@ -467,6 +461,7 @@ public class TreeIndexNode extends TreeNode {
 						rightChild.indexChild(grandchildNode);
 					}
 				}
+				
 
 				// Agrego al padre la referencia al nuevo hijo.
 				this.indexChild(middleChild);
@@ -507,10 +502,13 @@ public class TreeIndexNode extends TreeNode {
 
 				// Verifico que la cantidad de elementos sea la misma antes y
 				// después de dividir.
-//				if (elementCountBeforeSplit != elementCountAfterSplit) {
-//					throw new AssertionError("Error en el split. Cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:"
-//							+ elementCountAfterSplit);
-//				}
+				// if (elementCountBeforeSplit != elementCountAfterSplit) {
+				// throw new
+				// AssertionError("Error en el split. Cantidad de elementos antes:"
+				// + elementCountBeforeSplit +
+				// ", cantidad de elementos después:"
+				// + elementCountAfterSplit);
+				// }
 			} else {
 				// vuelvo a poner los elementos en el nodo izquierdo
 				leftChild.insertElements(rightChild.extractAllElements());
@@ -540,10 +538,13 @@ public class TreeIndexNode extends TreeNode {
 
 				// Verifico que la cantidad de elementos sea la misma antes y
 				// después de dividir.
-//				if (elementCountBeforeSplit != elementCountAfterSplit) {
-//					throw new AssertionError("Error en el split. Cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:"
-//							+ elementCountAfterSplit);
-//				}
+				// if (elementCountBeforeSplit != elementCountAfterSplit) {
+				// throw new
+				// AssertionError("Error en el split. Cantidad de elementos antes:"
+				// + elementCountBeforeSplit +
+				// ", cantidad de elementos después:"
+				// + elementCountAfterSplit);
+				// }
 			}
 		}
 	}
@@ -555,7 +556,7 @@ public class TreeIndexNode extends TreeNode {
 	 */
 	public List<Integer> getChildNodeNumbers() {
 		List<Integer> childNodes = new ArrayList<Integer>();
-		if (this.getElementCount() > 0) {
+		if (this.getElementCount() > 0 || this.leftChildNodeNumber!=this.NULL_NODE_NUMBER) {
 			childNodes.add(this.leftChildNodeNumber);
 			for (TreeNodeElement element : this.elements) {
 				childNodes.add(((TreeIndexNodeElement) element).getRightChildNodeNumber());
@@ -627,5 +628,13 @@ public class TreeIndexNode extends TreeNode {
 		TreeNode childNodeWhereToUpdate = this.getTree().getNode(childNodeNumberWhereToUpdate, this);
 		childNodeWhereToUpdate.updateRecord(record);
 		this.getTree().updateNode(childNodeWhereToUpdate);
+	}
+
+	@Override
+	public Field getLowestKey() throws IOException {
+		if(this.getLeftChildNodeNumber()!=NULL_NODE_NUMBER){
+			return this.getTree().getNode(leftChildNodeNumber, this).getLowestKey();
+		}
+		return null;
 	}
 }

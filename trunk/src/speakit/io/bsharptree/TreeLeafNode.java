@@ -121,4 +121,12 @@ public class TreeLeafNode extends TreeNode {
 		TreeLeafNodeElement element = (TreeLeafNodeElement) this.getElement(record.getKey());
 		element.setRecord(record);
 	}
+
+	@Override
+	public Field getLowestKey() throws IOException {
+		if(this.elements.size()>0){
+			return this.elements.get(0).getKey();
+		}
+		return null;
+	}
 }

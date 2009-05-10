@@ -388,7 +388,7 @@ public class Trie implements File, RecordFactory {
 		createDataFile(fileManager);
 		this.depth = conf.getTrieDepth();
 		nodeFile.create(conf.getBlockSize());
-		this.nodeBlockIndexFile.getNodeBlockIndexFile().create(conf.getBlockSize());
+		this.nodeBlockIndexFile.getNodeBlockIndexFile().create(20);
 
 		int j = 0;
 		ArrayList<WordOffsetField> wordOffsetList = new ArrayList<WordOffsetField>();

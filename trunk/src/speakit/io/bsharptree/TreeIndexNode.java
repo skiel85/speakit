@@ -1,9 +1,7 @@
 package speakit.io.bsharptree;
 
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,7 +10,6 @@ import speakit.io.blockfile.WrongBlockNumberException;
 import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordSerializationException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Nodo índice del árbol B#.
@@ -423,16 +420,19 @@ public class TreeIndexNode extends TreeNode {
 		TreeNode rightChild = childsToSplit[1];
 		TreeNode middleChild = leftChild.createSibling();
 
+		// Verifico si el nodo actual es padre de nodos índice.
+		boolean isParentOfIndexNodes = (this.getLevel() > 1);
+
 		// Si el nodo actual es padre de nodos índice:
-		if (this.getLevel() > 1) {
+		if (isParentOfIndexNodes) {
 			// agrego al leftChild un nuevo elemento formado por
-			TreeIndexNodeElement indexElementFromParent = new TreeIndexNodeElement();
+			TreeIndexNodeElement downgradedElement = new TreeIndexNodeElement();
 			// la clave removida del padre
-			indexElementFromParent.setKey(removedIndexElement.getKey());
+			downgradedElement.setKey(removedIndexElement.getKey());
 			// y el puntero izquierdo de rightChild.
-			indexElementFromParent.setRightChild(((TreeIndexNode) rightChild).getLeftChildNodeNumber());
+			downgradedElement.setRightChild(((TreeIndexNode) rightChild).getLeftChildNodeNumber());
 			// Inserto el elemento.
-			leftChild.insertElement(indexElementFromParent);
+			leftChild.insertElement(downgradedElement);
 		}
 
 		// Agrego luego todos los elementos de rightChild.
@@ -443,35 +443,55 @@ public class TreeIndexNode extends TreeNode {
 
 		// Paso a la derecha lo que excede a la minima capacidad,
 		leftChild.passMinimumCapacityExcedentToTheRight(middleChild);
-		// y luego el del medio queda con excedente y lo pasa a su vez a la
-		// derecha
+
+		// Agrego al padre la referencia al nuevo hijo.
+		this.indexChild(middleChild);
+
+		// Si el nodo actual es padre de nodos índice:
+		if (isParentOfIndexNodes) {
+			// extraigo el elemento que tiene la clave que subió al padre
+			TreeIndexNodeElement upgradedElement = (TreeIndexNodeElement) middleChild.extractFirstElement();
+			// y pongo su puntero a hijo como puntero a hijo izq del nodo
+			((TreeIndexNode) middleChild).setLeftChildNodeNumber(upgradedElement.getRightChildNodeNumber());
+		}
+
+		// Paso a la derecha lo que excede a la mínima capacidad.
 		middleChild.passMinimumCapacityExcedentToTheRight(rightChild);
 
-		
-		// Agrego la referencia de los hijos.
-		if (middleChild.getElementCount() > 0) {
-			this.indexChild(middleChild);
-		} else {
-			throw new AssertionError("Algún nodo hijo nuevo está vacio.");
+		// Vuelvo a agregar al padre la referencia al hijo derecho.
+		this.indexChild(rightChild);
+
+		// Si el nodo actual es padre de nodos índice:
+		if (isParentOfIndexNodes) {
+			// extraigo el elemento que tiene la clave que subió al padre
+			TreeIndexNodeElement upgradedElement = (TreeIndexNodeElement) rightChild.extractFirstElement();
+			// y pongo su puntero a hijo como puntero a hijo izq del nodo
+			((TreeIndexNode) rightChild).setLeftChildNodeNumber(upgradedElement.getRightChildNodeNumber());
 		}
-		if(rightChild.getElementCount() >0) {
-			this.indexChild(rightChild);
-		} else {
-			throw new AssertionError("Algún nodo hijo nuevo está vacio.");
-		}
-		// }catch(IndexOutOfBoundsException ex){
-		// System.out.println(rightChild);
-		// }
 
 		// Guardo los hijos.
 		this.getTree().updateNode(leftChild);
 		this.getTree().updateNode(middleChild);
 		this.getTree().updateNode(rightChild);
 
+		if (isParentOfIndexNodes) {
+			System.out.println(this.getTree());
+		}
+
 		// Verifico consistencia.
 		int elementCountAfterSplit = leftChild.getElementCount() + middleChild.getElementCount() + rightChild.getElementCount();
-		if (elementCountBeforeSplit != elementCountAfterSplit) {
-			throw new AssertionError("Error en el split. cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:" + elementCountAfterSplit);
+		if (!isParentOfIndexNodes) {
+			// Verifico que la cantidad de elementos sea la misma antes y
+			// después de dividir.
+			if (elementCountBeforeSplit != elementCountAfterSplit) {
+				throw new AssertionError("Error en el split. Cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:" + elementCountAfterSplit);
+			}
+		} else {
+			// Verifico que la cantidad de elementos sea la misma antes y
+			// después de dividir, contando los que subieron al padre.
+			if (elementCountBeforeSplit != elementCountAfterSplit + 2) {
+				throw new AssertionError("Error en el split. Cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:" + (elementCountAfterSplit + 2));
+			}
 		}
 	}
 

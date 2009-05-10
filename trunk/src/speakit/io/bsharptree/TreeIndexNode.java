@@ -431,16 +431,14 @@ public class TreeIndexNode extends TreeNode {
 			grandchildrenNodes.addAll(rightChild.extractChildNodes());
 			
 			// Trato de balancear entre hermanos
-			for (TreeNode grandchildNode : grandchildrenNodes) {
-				if (!leftChild.isInOverflow()) {
-					leftChild.indexChild(grandchildNode);
-					if (leftChild.isInOverflow()) {
-						leftChild.extractLastElement();
-						rightChild.indexChild(grandchildNode);
-					}
-				} else {
-					rightChild.indexChild(grandchildNode);
-				}
+			Iterator<TreeNode> grandchildNodeIt = grandchildrenNodes.iterator();
+			while(grandchildNodeIt.hasNext() && !leftChild.isInOverflow()) {
+				leftChild.indexChild(grandchildNodeIt.next());
+			}
+			TreeIndexNodeElement element = (TreeIndexNodeElement) leftChild.extractLastElement();
+			rightChild.setLeftChildNodeNumber(element.getRightChildNodeNumber());
+			while(grandchildNodeIt.hasNext() && !leftChild.isInOverflow()) {
+				rightChild.indexChild(grandchildNodeIt.next());
 			}
 
 			if (!rightChild.isInOverflow()) {
@@ -453,8 +451,8 @@ public class TreeIndexNode extends TreeNode {
 
 				// limpio los nodos que quedaron sucios por el intento de
 				// balanceo
-				leftChild.extractAllElements();
-				rightChild.extractAllElements();
+				leftChild.extractChildNodes();
+				rightChild.extractChildNodes();
 
 				// creo un nuevo nodo
 				TreeIndexNode middleChild = (TreeIndexNode) leftChild.createSibling();
@@ -492,7 +490,7 @@ public class TreeIndexNode extends TreeNode {
 			// Guardo cantidad de elementos para luego validar consistencia.
 			int elementCountBeforeSplit = leftChild.getElementCount();
 
-			// balanceo
+			// Balanceo:
 			// Agrego luego todos los elementos de rightChild.
 			leftChild.insertElements(rightChild.extractAllElements());
 			// paso los elementos excedentes el nodo derecho

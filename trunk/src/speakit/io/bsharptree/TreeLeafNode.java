@@ -105,7 +105,7 @@ public class TreeLeafNode extends TreeNode {
 
 	@Override
 	public String toString() {
-		String result = formatNodeNumber(this.getNodeNumber()) + " L" +this.getLevel()+" "+ getUnderflowMark() +getItemCountString() + ":";
+		String result = getStringHeader() + ":";
 		for (TreeNodeElement element : this.elements) {
 			result += "(" + element.getKey().toString() + ")";
 		}

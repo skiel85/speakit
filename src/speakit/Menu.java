@@ -129,10 +129,14 @@ public class Menu {
 			}
 		}
 		Iterable <String> faltantes = this.speakit.addDocuments(documents);
-		System.out.println("Los documentos ingresados contienen palabras desconocidas que deberá grabar a continuación");
+		boolean showTitle = true;
 		for(String unknownWord : faltantes){
 			System.out.println();
-	        if(unknownWord != ""){    	
+	        if(unknownWord != ""){
+	        	if (showTitle) {
+	    			System.out.println("Los documentos ingresados contienen palabras desconocidas que deberá grabar a continuación");
+	    			showTitle = false;
+	        	}
 	            WordAudio audio = getAudio(unknownWord);
 	            if (audio != null && audio.getAudio() != null) {
 	            	speakit.addWordAudio(audio);
@@ -352,7 +356,10 @@ public class Menu {
 		System.out.println("Ingrese la consulta");
 		consultation = this.userInput.readLine();
 		TextDocument searchText = new TextDocument(consultation);
-		
+		ArrayList<String> invalidWords = speakit.getInvalidWordsForSearch(searchText);
+		if (!invalidWords.isEmpty()) {
+			showIgnoreTermsForSearch(invalidWords);
+		}
 		documentList = speakit.search(searchText);
 		if (!documentList.isEmpty()) {
 			showResults(documentList);
@@ -364,6 +371,13 @@ public class Menu {
 			System.out.println("Para realizar una nueva consulta presione 1");
 			System.out.println("Para ir al menu principal presione 0");
 			chooseFailConsultationOption();
+		}
+	}
+
+	private void showIgnoreTermsForSearch(ArrayList<String> invalidWords) {
+		System.out.println("Las siguientes palabras no serán tenidas en cuenta para la búsqueda:");
+		for (String word : invalidWords) {
+			System.out.println("\t" + word);
 		}
 	}
 

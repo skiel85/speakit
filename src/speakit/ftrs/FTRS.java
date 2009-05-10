@@ -1,7 +1,10 @@
 package speakit.ftrs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import speakit.Configuration;
+import speakit.FileManager;
 import speakit.TextDocument;
 import speakit.documentstorage.TextDocumentList;
 import speakit.io.File;
@@ -27,5 +30,7 @@ public interface FTRS extends File {
 	public void indexDocument(TextDocument textDocument) throws IOException;
 
 	public String printIndexForDebug();
+
+	public ArrayList<String> getInvalidWordsForSearch(TextDocument consultation, FileManager fileManager, Configuration configuration);
 	
 }

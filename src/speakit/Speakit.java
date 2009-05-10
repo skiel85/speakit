@@ -168,4 +168,9 @@ public class Speakit implements SpeakitInterface {
 		return ftrs.printIndexForDebug();
 	}
 
+
+	public ArrayList<String> getInvalidWordsForSearch(TextDocument consultation) {
+		return ftrs.getInvalidWordsForSearch(consultation, this.fileManager, this.conf);
+	}
+
 }

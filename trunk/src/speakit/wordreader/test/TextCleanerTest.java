@@ -3,6 +3,7 @@ package speakit.wordreader.test;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.TextDocument;
@@ -62,7 +63,8 @@ public class TextCleanerTest {
 		Assert.assertArrayEquals(expecteds, actuals);
 	}
 
-	@Test
+	@Ignore
+	//Esto es ahora responsabilidad del stopWordsFilter
 	public void testGetRelevantWords(){
 		String text = "un camión estaba ante nosotros argüello //,";
 		TextDocument document = new TextDocument(text);
@@ -73,7 +75,7 @@ public class TextCleanerTest {
 	public void testcleanDocument(){
 		String text = "habia un        camión andando por la vereda, argüello// ";
 		TextDocument document = new TextDocument(text);
-		Assert.assertEquals("habia camion andando vereda arguello", this.sut.cleanDocument(document).getText());
+		Assert.assertEquals("habia un camion andando por la vereda arguello", this.sut.cleanDocument(document).getText());
 	}
 	
 	@After

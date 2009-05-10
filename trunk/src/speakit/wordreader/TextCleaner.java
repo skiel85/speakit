@@ -1,12 +1,9 @@
 package speakit.wordreader;
 
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import speakit.TextDocument;
-import speakit.ftrs.StopWords;
 
 /**
  * Realiza una limpieza del texto, eliminando puntuación y espacios, para luego
@@ -82,8 +79,9 @@ public class TextCleaner {
 	 *            Texto original.
 	 * @return TextDocument.
 	 */
+	@Deprecated
 	public TextDocument getRelevantWords (TextDocument textDocument){
-		String filteredWords = "";
+		/*String filteredWords = "";
 		ArrayList<String> wordIterable = new ArrayList<String>();
 		
 		for(String word : textDocument){
@@ -101,8 +99,8 @@ public class TextCleaner {
 				}
 			}
 		}
-		
-		return new TextDocument(textDocument.getId(), filteredWords);
+		*/
+		return new TextDocument(textDocument.getId(), textDocument.getText());
 	}
 	
 	/**
@@ -113,9 +111,8 @@ public class TextCleaner {
 	 * @return TextDocument
 	 */
 	public TextDocument cleanDocument(TextDocument  document){
-		TextDocument relevantDocument = getRelevantWords(document);
-		String cleanWords = cleanText(relevantDocument.getText());
-		
+		//TextDocument relevantDocument = getRelevantWords(document);
+		String cleanWords = cleanText(document.getText());
 		return new TextDocument(document.getId(), cleanWords);
 	}
 	

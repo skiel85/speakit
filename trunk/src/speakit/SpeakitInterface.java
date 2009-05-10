@@ -2,6 +2,7 @@ package speakit;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import speakit.documentstorage.TextDocumentList;
 import speakit.ftrs.Installable;
@@ -47,5 +48,7 @@ public interface SpeakitInterface extends Installable {
 	public abstract TextDocumentList search(TextDocument searchText) throws IOException;
 
 	public abstract String printIndexForDebug();
+	
+	public ArrayList<String> getInvalidWordsForSearch(TextDocument consultation);
 
 }

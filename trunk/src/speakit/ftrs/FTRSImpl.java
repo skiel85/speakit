@@ -18,10 +18,12 @@ public class FTRSImpl implements FTRS {
 
 	protected DocumentRepository repository;
 	protected InvertedIndex index;
+	protected StopWordsFilter stopWordsFilter;
 
 	public FTRSImpl() {
 		index = new InvertedIndex();
 		repository = new DocumentRepository();
+		stopWordsFilter = new StopWordsFilter();
 	}
 
 	@Override
@@ -48,11 +50,12 @@ public class FTRSImpl implements FTRS {
 	 * Devuelve un documento con todas las palabras limpias y con los stop words eliminados
 	 * @param textDocument
 	 * @return
+	 * @throws IOException 
 	 */
-	public TextDocument applyFilters(TextDocument textDocument) {
+	public TextDocument applyFilters(TextDocument textDocument) throws IOException {
 		TextCleaner textCleaner = new TextCleaner();
-		
-		return textCleaner.cleanDocument(textDocument);
+		TextDocument cleanDocument = textCleaner.cleanDocument(textDocument);
+		return stopWordsFilter.getRelevantWords(cleanDocument);
 	}
 
 	private InvertedIndex getIndex() {
@@ -99,16 +102,27 @@ public class FTRSImpl implements FTRS {
 	public void install(FileManager filemanager, Configuration conf) throws IOException {
 		this.repository.install(filemanager, conf);
 		this.index.install(filemanager, conf);
+		this.stopWordsFilter.install(filemanager, conf);
 	}
 
 	@Override
 	public boolean isInstalled(FileManager filemanager) throws IOException {
-		return this.index.isInstalled(filemanager) & this.repository.isInstalled(filemanager);
+		return this.index.isInstalled(filemanager) & this.repository.isInstalled(filemanager) && this.stopWordsFilter.isInstalled(filemanager);
 	}
 
 	@Override
 	public String printIndexForDebug() {
 		return index.toString();
+	}
+
+	@Override
+	public ArrayList<String> getInvalidWordsForSearch(TextDocument consultation, FileManager fileManager, Configuration configuration) {
+		ArrayList<String> ignored = new ArrayList<String>();
+		for (String word : consultation) {
+			if (stopWordsFilter.isStopWord(word))
+				ignored.add(word);
+		}
+		return ignored;
 	}
 
 }

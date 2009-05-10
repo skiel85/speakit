@@ -437,7 +437,7 @@ public class TreeIndexNode extends TreeNode {
 			}
 			TreeIndexNodeElement element = (TreeIndexNodeElement) leftChild.extractLastElement();
 			rightChild.setLeftChildNodeNumber(element.getRightChildNodeNumber());
-			while(grandchildNodeIt.hasNext() && !leftChild.isInOverflow()) {
+			while(grandchildNodeIt.hasNext()) {
 				rightChild.indexChild(grandchildNodeIt.next());
 			}
 

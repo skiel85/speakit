@@ -22,7 +22,7 @@ public class Speakit implements SpeakitInterface {
 
 	private AudioDictionaryImpl dataBase;
 	private FTRS ftrs;
-	
+	private ArrayList<String> unknownWordsFromDocuments = new ArrayList<String>();
 	private FileManager fileManager;
 	private Configuration conf;
 
@@ -87,14 +87,31 @@ public class Speakit implements SpeakitInterface {
 	 */
 	public Iterable<TextDocument> addDocuments(TextDocumentList docs) throws IOException {
 		indexDocuments(docs);
-		ArrayList<TextDocument>	documents = new ArrayList<TextDocument>();
+		ArrayList<TextDocument>	documentsAdded = new ArrayList<TextDocument>();
 		Iterator<TextDocument> iterator = docs.iterator();
 		TextDocument textDocument;
+		ArrayList<String> unknownWordsFromDocument = new ArrayList<String>();
+		String unknownWords = "";
+		
 		while(iterator.hasNext()){
-			textDocument = (TextDocument)iterator.next();
-			documents.add(textDocument);
+			textDocument = iterator.next();
+			for(String word : textDocument){
+				if (!this.dataBase.contains(word) && !unknownWordsFromDocument.contains(word) && !unknownWordsFromDocuments.contains(word)) {
+					unknownWordsFromDocument.add(word);
+					unknownWordsFromDocuments.add(word);
+				}
+			}
+			for(String word : unknownWordsFromDocument){
+				if(unknownWords == ""){
+					unknownWords = word;
+				}else{
+				unknownWords = unknownWords + " " + word;
+				}
+			}
+			unknownWordsFromDocument.clear();
+			documentsAdded.add(new TextDocument(unknownWords));
 		}
-		return documents;
+		return documentsAdded;
 	}
 
 	/**

@@ -20,7 +20,7 @@ public class TreeIndexNodeWithIndexChildrenTest {
 
 	@Before
 	public void setUp() throws Exception {
-		// 00: ... 02(040)03(400)04
+		// 00: ... 02(010)03(100)04
 		// . 02: . 05(004)06(007)07
 		// ... 05: (001)(002)(003)
 		// ... 06: (004)(005)(006)
@@ -47,13 +47,21 @@ public class TreeIndexNodeWithIndexChildrenTest {
 	}
 
 	@Test
+	public void testSearch() throws RecordSerializationException, IOException {
+		TestIndexRecord record = (TestIndexRecord) this.sut.getRecord(new StringField("100"));
+		Assert.assertNotNull(record);
+		Assert.assertEquals("100", ((StringField) record.getKey()).getString());
+		Assert.assertEquals(100, record.getBlockNumber());
+	}
+	
+	@Test
 	public void testIndexChildren() {
 		Assert.assertEquals(2, this.sut.getLeftChildNodeNumber());
 		TreeIndexNodeElement element0 = (TreeIndexNodeElement) this.sut.getElement(0);
-		Assert.assertEquals("040", ((StringField) element0.getKey()).getString());
+		Assert.assertEquals("010", ((StringField) element0.getKey()).getString());
 		Assert.assertEquals(3, element0.getRightChildNodeNumber());
 		TreeIndexNodeElement element1 = (TreeIndexNodeElement) this.sut.getElement(1);
-		Assert.assertEquals("400", ((StringField) element1.getKey()).getString());
+		Assert.assertEquals("100", ((StringField) element1.getKey()).getString());
 		Assert.assertEquals(4, element1.getRightChildNodeNumber());
 	}
 

@@ -105,7 +105,7 @@ public class TreeLeafNode extends TreeNode {
 
 	@Override
 	public String toString() {
-		String result = formatNodeNumber(this.getNodeNumber()) + " L" +this.getLevel()+" "+ getUnderflowMark() +getItemCountString() + ":";
+		String result = getStringHeader() + ":";
 		for (TreeNodeElement element : this.elements) {
 			result += "(" + element.getKey().toString() + ")";
 		}
@@ -120,5 +120,13 @@ public class TreeLeafNode extends TreeNode {
 	public void updateRecord(Record record) throws IOException {
 		TreeLeafNodeElement element = (TreeLeafNodeElement) this.getElement(record.getKey());
 		element.setRecord(record);
+	}
+
+	@Override
+	public Field getLowestKey() throws IOException {
+		if(this.elements.size()>0){
+			return this.elements.get(0).getKey();
+		}
+		return null;
 	}
 }

@@ -14,6 +14,7 @@ import speakit.ftrs.index.InvertedIndexIndexRecord;
 import speakit.ftrs.index.InvertedIndexIndexRecordEncoder;
 import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.bsharptree.Tree;
+import speakit.io.bsharptree.TreeDuplicatedRecordException;
 import speakit.io.record.RecordSerializationException;
 import speakit.io.record.StringField;
 import speakit.test.TestFileManager;
@@ -39,12 +40,12 @@ public class TreeFullTest {
 	public static void testRetrieveAllRecords(Tree<InvertedIndexIndexRecord, StringField> sut, Iterable<String> words) throws RecordSerializationException, IOException {
 		for (String word : words) {
 			StringField key = new StringField(word);
-			InvertedIndexIndexRecord record = sut.getRecord(key);
+			InvertedIndexIndexRecord record = sut.getRecord(key);			
 			verifyCorrectRecord(record, word, key);
 		}
 	}
 
-	private static void verifyCorrectRecord(InvertedIndexIndexRecord record, String word, StringField key) {
+	public static void verifyCorrectRecord(InvertedIndexIndexRecord record, String word, StringField key) {
 		// verifica que el record obtenido sea el correcto
 		Assert.assertNotNull("El arbol no devolvió ningún registro cuando se le pidió uno que había sido insertado. Palabra buscada: " + key.toString(), record);
 		Assert.assertEquals(0, record.getKey().compareTo(key));
@@ -116,7 +117,11 @@ public class TreeFullTest {
 
 	public static void insertAllWords(Tree<InvertedIndexIndexRecord, StringField> tree, Iterable<String> words) throws RecordSerializationException, IOException {
 		for (String word : words) {
-			 tree.insertRecord(new InvertedIndexIndexRecord(word, simulateBlockNumber(word)));
+			try{
+				 tree.insertRecord(new InvertedIndexIndexRecord(word, simulateBlockNumber(word)));				
+			}catch (TreeDuplicatedRecordException e) {
+				//words tiene palabras duplicadas, no interfiere con la prueba
+			}
 		}
 	}
 

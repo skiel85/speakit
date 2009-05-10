@@ -68,7 +68,7 @@ public class TreeIndexNodeWithLeafChildrenTest {
 	}
 
 	@Test
-	public void testIndexChildren() {
+	public void testIndexChildren() throws IOException {
 		{
 			Assert.assertEquals(0, this.sut.getElementCount());
 		}

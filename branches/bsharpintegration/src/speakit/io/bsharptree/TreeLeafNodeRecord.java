@@ -2,6 +2,8 @@ package speakit.io.bsharptree;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collections;
+import java.util.List;
 
 import speakit.io.record.ArrayField;
 import speakit.io.record.Field;
@@ -59,6 +61,7 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 	@Override
 	public void addElement(TreeNodeElement element) {
 		this.elements.addItem((TreeLeafNodeElement) element);
+		sort();
 	}
 
 	@Override
@@ -72,8 +75,13 @@ public class TreeLeafNodeRecord extends TreeNodeRecord {
 			TreeLeafNodeElement decodedElement = new TreeLeafNodeElement(decodedRecord);
 			this.elements.addItem(decodedElement);
 		}
+		sort();
 		// System.out.println("Deserialización: " + this.toString());
 		return deserializationResult;
+	}
+	
+	private void sort() {
+		this.elements.sort(); 
 	}
 
 	public ArrayField<TreeLeafNodeElement> getElements() {

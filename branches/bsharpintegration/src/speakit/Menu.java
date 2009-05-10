@@ -23,7 +23,8 @@ public class Menu {
 	protected AudioManager audioManager;
 	private SpeakitInterface speakit;
 	private boolean DEBUG_MODE = false;
-
+	private ArrayList<String> documentsAdded = new ArrayList<String>(); 
+	
 	public Menu(boolean debug) {
 		this();
 		DEBUG_MODE = debug;
@@ -129,12 +130,15 @@ public class Menu {
 			}else{
 				try{
 					if(position == paths.length())endOfString = true;
-					TextDocument document = this.speakit.getTextDocumentFromFile(path);
-					documents.add(document);
-					showFileFoundMessage(path);
-					pathToShow.add(path);
-					path = "";
-					position++;	
+					if((!pathToShow.contains(path)) &&(!documentsAdded.contains(path)) ){
+						pathToShow.add(path);
+						documentsAdded.add(path);
+						TextDocument document = this.speakit.getTextDocumentFromFile(path);
+						documents.add(document);
+						showFileFoundMessage(path);
+						path = "";
+						position++;	
+					}
 				}catch (FileNotFoundException fnf){
 					showFileNotFoundMessage(path);
 					path = "";
@@ -147,14 +151,18 @@ public class Menu {
 		for(TextDocument document : documentIterable){
 			System.out.println();
 			String showedPath = iterator.next();
-			System.out.println("El documento" + " " + showedPath + " " + "contiene palabras desconocidas, que deberá grabar a continuación.");
-			Iterator<String> wordIterator = document.iterator();
-			while(wordIterator.hasNext()){
-				WordAudio audio = getAudio((String)wordIterator.next());
-				if (audio != null && audio.getAudio() != null) {
-					speakit.addWordAudio(audio);
-				}
-			}
+//			Iterator<String> wordIterator = document.iterator();
+			for(String word : document){
+//			while(wordIterator.hasNext()){
+//	            String word = wordIterator.next();
+	            if(word != ""){
+	            	System.out.println("El documento" + " " + showedPath + " " + "contiene palabras desconocidas que deberá grabar a continuación");
+	            	WordAudio audio = getAudio(word);
+	            	if (audio != null && audio.getAudio() != null) {
+	            		speakit.addWordAudio(audio);
+	            	}
+	            }
+	        }
 			System.out.println("El documento" + " " + showedPath + " " + "fue agregado con éxito.");
 		}
 		System.out.println();

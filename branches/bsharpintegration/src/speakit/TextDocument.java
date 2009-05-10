@@ -22,7 +22,7 @@ public class TextDocument implements Iterable<String> {
 		this.filterRepeated = filterRepeated;
 		this.id = id;
 		this.text = text;
-		wordReader = new WordReaderImpl(this.text);
+//		wordReader = new WordReaderImpl(this.text);
 	}
 
 	public TextDocument(long id, String text) {

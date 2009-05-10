@@ -112,71 +112,59 @@ public class Menu {
 	 */
 	private void addSeveralDocuments()throws IOException, RecordSerializationException {
 		System.out.println("Ingrese cada una de las rutas de los documentos que desea ingresar separadas por coma");
+		TextDocumentList documents = new TextDocumentList();
+		ArrayList<String> pathsNotFounds = new ArrayList<String>();
+		ArrayList<String> addedsDocs = new ArrayList<String>();
 		
 		String paths = this.userInput.readLine().trim();
-		char[] charsOfPaths = new char[paths.length()];
-		charsOfPaths = paths.toCharArray();
-		
-		TextDocumentList documents = new TextDocumentList();
-		int position = 0;
-		String path = "";
-		ArrayList<String> pathToShow = new ArrayList<String>();
-		boolean endOfString = false;
-		
-		while(endOfString == false){
-			if((position != paths.length()) && (charsOfPaths[position] != ',')){ 
-				path = path + charsOfPaths[position];
-				position++;
-			}else{
-				try{
-					if(position == paths.length())endOfString = true;
-					if((!pathToShow.contains(path)) &&(!documentsAdded.contains(path)) ){
-						pathToShow.add(path);
-						documentsAdded.add(path);
-						TextDocument document = this.speakit.getTextDocumentFromFile(path);
-						documents.add(document);
-						showFileFoundMessage(path);
-						path = "";
-						position++;	
-					}
-				}catch (FileNotFoundException fnf){
-					showFileNotFoundMessage(path);
-					path = "";
-					position++;
-				}	
-			}	
+		String[] splitedPaths = paths.split(",");
+		for (int i = 0; i < splitedPaths.length; i++) {
+			String path = splitedPaths[i].trim();
+			try {
+				TextDocument document = this.speakit.getTextDocumentFromFile(path);
+				documents.add(document);
+				addedsDocs.add(path);
+			} catch (FileNotFoundException fnf) {
+				pathsNotFounds.add(path);
+			}
 		}
-		Iterator<String> iterator = pathToShow.iterator();
-		Iterable <TextDocument> documentIterable = this.speakit.addDocuments(documents);
-		for(TextDocument document : documentIterable){
+		Iterable <String> faltantes = this.speakit.addDocuments(documents);
+		System.out.println("Los documentos ingresados contienen palabras desconocidas que deberá grabar a continuación");
+		for(String unknownWord : faltantes){
 			System.out.println();
-			String showedPath = iterator.next();
-//			Iterator<String> wordIterator = document.iterator();
-			for(String word : document){
-//			while(wordIterator.hasNext()){
-//	            String word = wordIterator.next();
-	            if(word != ""){
-	            	System.out.println("El documento" + " " + showedPath + " " + "contiene palabras desconocidas que deberá grabar a continuación");
-	            	WordAudio audio = getAudio(word);
-	            	if (audio != null && audio.getAudio() != null) {
-	            		speakit.addWordAudio(audio);
-	            	}
+	        if(unknownWord != ""){    	
+	            WordAudio audio = getAudio(unknownWord);
+	            if (audio != null && audio.getAudio() != null) {
+	            	speakit.addWordAudio(audio);
 	            }
 	        }
-			System.out.println("El documento" + " " + showedPath + " " + "fue agregado con éxito.");
-		}
+	    }
 		System.out.println();
+		showAddSeveralDocsStatus(addedsDocs, pathsNotFounds);
 	}
 	
 		
 		
 
 	
-	private void showFileFoundMessage(String path) {
-		System.out.println("Pudo encontrarse el archivo '" + path + "'.");
-		
+	private void showAddSeveralDocsStatus(ArrayList<String> addedsDocs,	ArrayList<String> pathsNotFounds) {
+		if (pathsNotFounds.size() == 0)
+			System.out.println("Se han agregado correctamente todos los documentos");
+		else {
+			if (addedsDocs.size() > 0) {
+				System.out.println("Se han agregado correctamente los siguientes documentos: ");
+				for (String string : addedsDocs) {
+					System.out.println(string);
+				}
+				
+			}
+			System.out.println("Los siguientes documentos no han podido encontrarse:");
+			for (String string : pathsNotFounds) {
+				System.out.println(string);
+			}
+		}
 	}
-
+	
 	/**
 	 * Despliega el menu para la reproduccion de los archivos.
 	 * 

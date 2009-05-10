@@ -22,7 +22,6 @@ public class Speakit implements SpeakitInterface {
 
 	private AudioDictionaryImpl dataBase;
 	private FTRS ftrs;
-	private ArrayList<String> unknownWordsFromDocuments = new ArrayList<String>();
 	private FileManager fileManager;
 	private Configuration conf;
 
@@ -78,40 +77,37 @@ public class Speakit implements SpeakitInterface {
 	
 	/**
 	 * A partir de una lista de documentos, indexa esa lista y devuelve un iterable 
-	 * de documentos
+	 * de palabras desconocidas
 	 * 
 	 * @param docs
 	 * @return Iterable<TextDocument>
 	 * 
 	 * @throws IOException
 	 */
-	public Iterable<TextDocument> addDocuments(TextDocumentList docs) throws IOException {
+	public Iterable<String> addDocuments(TextDocumentList docs) throws IOException {
 		indexDocuments(docs);
-		ArrayList<TextDocument>	documentsAdded = new ArrayList<TextDocument>();
+		ArrayList<String> unknownWordsFromDocuments = new ArrayList<String>();
 		Iterator<TextDocument> iterator = docs.iterator();
 		TextDocument textDocument;
-		ArrayList<String> unknownWordsFromDocument = new ArrayList<String>();
 		String unknownWords = "";
 		
 		while(iterator.hasNext()){
 			textDocument = iterator.next();
 			for(String word : textDocument){
-				if (!this.dataBase.contains(word) && !unknownWordsFromDocument.contains(word) && !unknownWordsFromDocuments.contains(word)) {
-					unknownWordsFromDocument.add(word);
+				if (!this.dataBase.contains(word) && !unknownWordsFromDocuments.contains(word)) {
 					unknownWordsFromDocuments.add(word);
 				}
 			}
-			for(String word : unknownWordsFromDocument){
-				if(unknownWords == ""){
-					unknownWords = word;
-				}else{
-				unknownWords = unknownWords + " " + word;
-				}
-			}
-			unknownWordsFromDocument.clear();
-			documentsAdded.add(new TextDocument(unknownWords));
 		}
-		return documentsAdded;
+		
+		for(String word : unknownWordsFromDocuments){
+			if(unknownWords == ""){
+				unknownWords = word;
+			}else{
+				unknownWords = unknownWords + " " + word;
+			}
+		}
+		return new TextDocument(unknownWords);
 	}
 
 	/**

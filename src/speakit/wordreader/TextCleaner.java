@@ -1,5 +1,6 @@
 package speakit.wordreader;
 
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,12 +21,19 @@ public class TextCleaner {
 	 * @return Texto con los caracteres no latinos eliminados.
 	 */
 	public String replaceStrangeCharacters(String text) {
-		text = text.replace('á', 'a');
-		text = text.replace('é', 'e');
-		text = text.replace('í', 'i');	
-		text = text.replace('ó', 'o');
-		text = text.replace('ú', 'u');
-		text = text.replace('ü', 'u');
+		try{
+			text = text.replace('á', 'a');
+			text = text.replace('é', 'e');
+			text = text.replace('í', 'i');	
+			text = text.replace('ó', 'o');
+			text = text.replace('ú', 'u');
+			text = text.replace('ü', 'u');
+		}catch(NullPointerException ioe){
+			/*No hace nada porque lo unico que se intenta
+			 en el try es tratar de reemplazar esos caracteres
+			 si es que los hay, sino, no pasa nada.
+			 */ 
+		}
 		Pattern p = Pattern.compile("[^a-z0-9]");
 		Matcher m = p.matcher(text.toLowerCase());
 		return m.replaceAll(" ");

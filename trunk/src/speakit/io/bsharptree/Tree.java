@@ -14,7 +14,6 @@ import speakit.io.record.Field;
 import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
 import speakit.io.record.RecordSerializationException;
-import speakit.io.record.StringField;
 import speakit.io.recordfile.RecordFile;
 
 @SuppressWarnings("unchecked")

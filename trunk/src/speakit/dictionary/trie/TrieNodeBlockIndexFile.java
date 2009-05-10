@@ -3,11 +3,9 @@ package speakit.dictionary.trie;
 import java.io.File;
 import java.io.IOException;
 
-
 import speakit.io.record.IntegerField;
 import speakit.io.record.Record;
 import speakit.io.record.RecordFactory;
-
 import speakit.io.recordfile.DirectRecordFile;
 
 

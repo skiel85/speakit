@@ -1,8 +1,8 @@
 package speakit.dictionary.trie;
 
 import speakit.io.record.Field;
-import speakit.io.record.Record;
 import speakit.io.record.IntegerField;
+import speakit.io.record.Record;
 
 public class TrieNodeBlockIndex extends Record<IntegerField>{
 	

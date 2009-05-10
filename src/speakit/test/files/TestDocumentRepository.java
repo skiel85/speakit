@@ -13,6 +13,8 @@ public class TestDocumentRepository {
 	public final TextDocument ntfs;
 	public final TextDocument unmundofeliz;
 	public final TextDocument vulcanizacion;
+	public final TextDocument loremipsum;
+	public final TextDocument lemario;
 	public final TextDocument noname1;
 	public final TextDocument noname2;
 	public final TextDocument noname3;
@@ -26,6 +28,8 @@ public class TestDocumentRepository {
 		ntfs = new TextDocument(1, new File("src/speakit/test/files/ntfs.txt"), true);
 		unmundofeliz = new TextDocument(1, new File("src/speakit/test/files/unmundofeliz.txt"), true);
 		vulcanizacion = new TextDocument(1, new File("src/speakit/test/files/vulcanizacion.txt"), true);
+		loremipsum = new TextDocument(1, new File("src/speakit/test/files/loremipsum.txt"), true);
+		lemario = new TextDocument(1, new File("src/speakit/test/files/lemario.txt"), true);
 		noname1 = new TextDocument(1, longText1, true);
 		noname2 = new TextDocument(1, longText2, true);
 		noname3 = new TextDocument(1, longText3, true);
@@ -33,7 +37,8 @@ public class TestDocumentRepository {
 		noname5 = new TextDocument(1, longText5, true);
 		noname6 = new TextDocument(1, longText6, true);
 
-		documents = new TextDocument[] { btree, hamlet, ntfs, unmundofeliz, vulcanizacion, noname1, noname2, noname3, noname4, noname5, noname6 };
+		//documents = new TextDocument[] { btree, hamlet, ntfs, unmundofeliz, vulcanizacion, loremipsum, lemario, noname1, noname2, noname3, noname4, noname5, noname6 };
+		documents = new TextDocument[] { btree, hamlet, ntfs, unmundofeliz, vulcanizacion, loremipsum, noname1, noname2, noname3, noname4, noname5, noname6 };
 	}
 
 	String longText1 = "Libro no, guión cinematográfico no, obra de tratro no, todo no, todo no, todo no. Billones y billones de usuarios me escriben explicándome que han intentado toda la gama de los géneros literarios siguiendo mis consejos y han fracasado miserablemente, exigiéndome por tanto la devolución del importe de los talleres más un “plus” por “lucro cesante”, que es como que te tengo que pagar por ser un inoperante."

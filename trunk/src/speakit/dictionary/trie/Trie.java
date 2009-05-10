@@ -3,6 +3,7 @@ package speakit.dictionary.trie;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import speakit.Configuration;
 import speakit.FileManager;
@@ -68,6 +69,14 @@ public class Trie implements File, RecordFactory {
 			lastPart = word.substring(this.getDepth() - 1);
 
 		this.addWordToNode(this.getNode(0), firstPart, lastPart, 0, offset);
+		
+		/*for (int i=0; i<this.getNextNodeNumber();i++){
+			List<WordOffsetField> lista=this.getNode(i).getWordOffsetList();
+			for (WordOffsetField wordOffsetField : lista) {
+				System.out.println("Nodo "+i+": "+wordOffsetField.getWord()+","+wordOffsetField.getNextRecord()+","+"isLast"+wordOffsetField.isLast());
+			}
+		}
+		System.out.println("***************************");*/
 		//		
 		// TrieNode nodo0=this.getNode(0);
 		// TrieNode nodo1=this.getNode(1);
@@ -136,7 +145,7 @@ public class Trie implements File, RecordFactory {
 		Iterator<WordOffsetField> recordIterator = this.getNode(nodeNumber).getWordOffsetList().iterator();
 		while (recordIterator.hasNext()) {
 			WordOffsetField wordOffset = recordIterator.next();
-			if (wordOffset.isLast() && (wordOffset.getWord().equals(lastPart) || wordOffset.getWord().equals(" "))) {
+			if ((wordOffset.isLast() && wordOffset.getWord().equals(lastPart)) || (lastPart.equals("") && wordOffset.getWord().equals(" "))) {
 				offsetFound = true;
 				offset = wordOffset.getNextRecord();
 

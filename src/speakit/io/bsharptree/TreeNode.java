@@ -264,7 +264,7 @@ public abstract class TreeNode {
 	protected String formatNodeNumber(int number) {
 		NumberFormat numberFormat = NumberFormat.getInstance();
 		numberFormat.setMinimumIntegerDigits(2);		
-		return numberFormat.format(number);
+		return numberFormat.format(number) + "(" + this.hashCode() + ") ";
 	}
 	
 	protected String getUnderflowMark() {

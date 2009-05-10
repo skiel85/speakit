@@ -27,27 +27,29 @@ public class TreeIndexNode extends TreeNode {
 		this.elements = new ArrayList<TreeNodeElement>();
 	}
 
-	/*public boolean balanceChilds(TreeNode nodeWhereToInsert) throws IOException {
-		TreeNode lastNode = this.getTree().getNode(this.getLeftChildNodeNumber(), this);
-		Iterator<TreeNodeElement> elementIt = this.getElements().iterator();
-		while (elementIt.hasNext()) {
-			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) elementIt.next();
-			TreeNode node = this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
-			lastNode.passMaximumCapacityExcedentToTheRight(node);
-			lastNode = node;
-		}
-		return childrenAreInOverflow();
-	}*/
+	/*
+	 * public boolean balanceChilds(TreeNode nodeWhereToInsert) throws
+	 * IOException { TreeNode lastNode =
+	 * this.getTree().getNode(this.getLeftChildNodeNumber(), this);
+	 * Iterator<TreeNodeElement> elementIt = this.getElements().iterator();
+	 * while (elementIt.hasNext()) { TreeIndexNodeElement indexElement =
+	 * (TreeIndexNodeElement) elementIt.next(); TreeNode node =
+	 * this.getTree().getNode(indexElement.getRightChildNodeNumber(), this);
+	 * lastNode.passMaximumCapacityExcedentToTheRight(node); lastNode = node; }
+	 * return childrenAreInOverflow(); }
+	 */
 	public boolean balanceChilds(TreeNode overflowNode) throws IOException {
 		final int elementIndexThatPointsToNode = getElementIndexThatPointsToNode(overflowNode);
 		TreeNode[] childsToSplit = getSibilingToSplit(overflowNode, elementIndexThatPointsToNode);
-		balance(childsToSplit,elementIndexThatPointsToNode);
-		
+		balance(childsToSplit, elementIndexThatPointsToNode);
+
 		return childrenAreInOverflow();
 	}
-	
+
 	/**
-	 * Hace split entre los nodos pasados por parámetro. Se supone que childsToSplit[0] es el izquierdo y childsToSplit[1] el derecho.
+	 * Hace split entre los nodos pasados por parámetro. Se supone que
+	 * childsToSplit[0] es el izquierdo y childsToSplit[1] el derecho.
+	 * 
 	 * @param childsToSplit
 	 * @param middleKeyIndex
 	 * @throws BlockFileOverflowException
@@ -57,7 +59,7 @@ public class TreeIndexNode extends TreeNode {
 	 */
 	private void balance(TreeNode[] childsToSplit, int middleKeyIndex) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 
-		//Tengo q ver si saco las claves mayores o las menores
+		// Tengo q ver si saco las claves mayores o las menores
 		TreeNode giverNode;
 		TreeNode receiverNode;
 		if (childsToSplit[0].isInOverflow()) {
@@ -68,66 +70,65 @@ public class TreeIndexNode extends TreeNode {
 			receiverNode = childsToSplit[0];
 		}
 		int elementCountBeforeOperation = giverNode.getElementCount() + receiverNode.getElementCount();
-		
+
 		List<TreeNodeElement> excedent;
 		boolean lowerExcedent = false;
 		if (giverNode.getNodeKey().compareTo(receiverNode.getNodeKey()) < 0) {
-			//la clave de giver es menor, el excedente lo saco del final
+			// la clave de giver es menor, el excedente lo saco del final
 			excedent = giverNode.extractUpperExcedent();
 		} else {
 			excedent = giverNode.extractLowerExcedent();
 			lowerExcedent = true;
 		}
-		
+
 		receiverNode.insertElements(excedent);
 		int postOperationCount = giverNode.getElementCount() + receiverNode.getElementCount();
-		
+
 		if (receiverNode.isInOverflow()) {
-			//Me esta dando overflow el receptor, significa q no puedo balancear. Deshago los cambios
+			// Me esta dando overflow el receptor, significa q no puedo
+			// balancear. Deshago los cambios
 			giverNode.insertElements(excedent);
 			verifyOperation(elementCountBeforeOperation, "balanceo", postOperationCount);
 			return;
 		}
-		
+
 		// Remuevo la clave del padre.
 		TreeNodeElement removedIndexElement = this.getElement(middleKeyIndex);
 		this.removeElement(middleKeyIndex);
-		
+
 		if (lowerExcedent) {
-			//debo reindexar el nodo q "dono" elementos
+			// debo reindexar el nodo q "dono" elementos
 			this.indexChild(giverNode);
 		} else {
-			//reindexo el nodo q recibio los elementos
+			// reindexo el nodo q recibio los elementos
 			this.indexChild(receiverNode);
 		}
 		// chequear overflow
-		
+
 		this.getTree().updateNode(giverNode);
 		this.getTree().updateNode(receiverNode);
-		
+
 		/*
-		 * // Si el nodo actual es padre de nodos índice:
-		if (this.getLevel() > 1) {
-			// agrego al leftChild un nuevo elemento formado por
-			TreeIndexNodeElement indexElementFromParent = new TreeIndexNodeElement();
-			// la clave removida del padre
-			indexElementFromParent.setKey(removedIndexElement.getKey());
-			// y el puntero izquierdo de rightChild.
-			indexElementFromParent.setRightChild(((TreeIndexNode) rightChild).getLeftChildNodeNumber());
-			// Inserto el elemento.
-			leftChild.insertElement(indexElementFromParent);
-		}
+		 * // Si el nodo actual es padre de nodos índice: if (this.getLevel() >
+		 * 1) { // agrego al leftChild un nuevo elemento formado por
+		 * TreeIndexNodeElement indexElementFromParent = new
+		 * TreeIndexNodeElement(); // la clave removida del padre
+		 * indexElementFromParent.setKey(removedIndexElement.getKey()); // y el
+		 * puntero izquierdo de rightChild.
+		 * indexElementFromParent.setRightChild(((TreeIndexNode)
+		 * rightChild).getLeftChildNodeNumber()); // Inserto el elemento.
+		 * leftChild.insertElement(indexElementFromParent); }
 		 */
-		
+
 		verifyOperation(elementCountBeforeOperation, "balanceo", postOperationCount);
-		
+
 	}
 
-	private void verifyOperation(int elementCountBeforeOperation,
-			String operation, int postOperationCount) {
+	private void verifyOperation(int elementCountBeforeOperation, String operation, int postOperationCount) {
 		// Verifico consistencia
 		if (elementCountBeforeOperation != postOperationCount) {
-			throw new RuntimeException("Error en el " + operation + ". cantidad de elementos antes:" + elementCountBeforeOperation + ", cantidad de elementos después:" + postOperationCount);
+			throw new RuntimeException("Error en el " + operation + ". cantidad de elementos antes:" + elementCountBeforeOperation + ", cantidad de elementos después:"
+					+ postOperationCount);
 		}
 	}
 
@@ -316,11 +317,12 @@ public class TreeIndexNode extends TreeNode {
 
 		nodeWhereToInsert.insertRecord(record);
 
-		// balanceo
-		if (nodeWhereToInsert.isInOverflow()) {
-			//throw new RecordSerializationException("El nodo debio rebalancearse");
-			balanceChilds(nodeWhereToInsert);
-		}
+		// // balanceo
+		// if (nodeWhereToInsert.isInOverflow()) {
+		// // throw new
+		// // RecordSerializationException("El nodo debio rebalancearse");
+		// balanceChilds(nodeWhereToInsert);
+		// }
 		// split
 		if (nodeWhereToInsert.isInOverflow()) {
 			// el split guarda el nodo en overflow, no hace falta hacerlo de
@@ -422,37 +424,64 @@ public class TreeIndexNode extends TreeNode {
 			// Obtengo los dos nodos a unir y creo uno nuevo vacío en el medio.
 			TreeIndexNode leftChild = (TreeIndexNode) childsToSplit[0];
 			TreeIndexNode rightChild = (TreeIndexNode) childsToSplit[1];
-			TreeIndexNode middleChild = (TreeIndexNode) leftChild.createSibling();
-		
+
 			// Creo una lista de nodos nietos de los nodos a unir.
 			ArrayList<TreeNode> grandchildrenNodes = new ArrayList<TreeNode>();
 			grandchildrenNodes.addAll(leftChild.extractChildNodes());
 			grandchildrenNodes.addAll(rightChild.extractChildNodes());
-			
-			// Inserto en cada nodo hasta que supera el underflow.
+
+			// Trato de balancear entre hermanos
 			for (TreeNode grandchildNode : grandchildrenNodes) {
-				if (leftChild.isInUnderflow()) {
+				if (!leftChild.isInOverflow()) {
 					leftChild.indexChild(grandchildNode);
-				}
-				else if (middleChild.isInUnderflow()) {
-					middleChild.indexChild(grandchildNode);
-				}
-				else {
+					if (leftChild.isInOverflow()) {
+						leftChild.extractLastElement();
+						rightChild.indexChild(grandchildNode);
+					}
+				} else {
 					rightChild.indexChild(grandchildNode);
 				}
 			}
-			
-			// Agrego al padre la referencia al nuevo hijo.
-			this.indexChild(middleChild);
-						
-			// Agrego al padre la referencia al hijo derecho.
-			this.indexChild(rightChild);
-			
-			// Guardo los hijos.
-			this.getTree().updateNode(leftChild);
-			this.getTree().updateNode(middleChild);
-			this.getTree().updateNode(rightChild);
-			
+
+			if (!rightChild.isInOverflow()) {
+				// balanceo exitoso
+				this.indexChild(rightChild);
+				this.getTree().updateNode(leftChild);
+				this.getTree().updateNode(rightChild);
+			} else {
+				// el balanceo no fué suficiente, hay que hacer split
+
+				// limpio los nodos que quedaron sucios por el intento de
+				// balanceo
+				leftChild.extractAllElements();
+				rightChild.extractAllElements();
+
+				// creo un nuevo nodo
+				TreeIndexNode middleChild = (TreeIndexNode) leftChild.createSibling();
+
+				// Inserto en cada nodo hasta que supera el underflow.
+				for (TreeNode grandchildNode : grandchildrenNodes) {
+					if (leftChild.isInUnderflow()) {
+						leftChild.indexChild(grandchildNode);
+					} else if (middleChild.isInUnderflow()) {
+						middleChild.indexChild(grandchildNode);
+					} else {
+						rightChild.indexChild(grandchildNode);
+					}
+				}
+
+				// Agrego al padre la referencia al nuevo hijo.
+				this.indexChild(middleChild);
+
+				// Agrego al padre la referencia al hijo derecho.
+				this.indexChild(rightChild);
+
+				// Guardo los hijos.
+				this.getTree().updateNode(leftChild);
+				this.getTree().updateNode(middleChild);
+				this.getTree().updateNode(rightChild);
+			}
+
 			System.out.println(this.getTree());
 		}
 		// Si el nodo actual es padre de nodos hoja:
@@ -460,37 +489,63 @@ public class TreeIndexNode extends TreeNode {
 			// Obtengo los dos nodos a unir y creo uno nuevo vacío en el medio.
 			TreeNode leftChild = childsToSplit[0];
 			TreeNode rightChild = childsToSplit[1];
-			TreeNode middleChild = leftChild.createSibling();
-			
-			// Agrego luego todos los elementos de rightChild.
-			leftChild.insertElements(rightChild.extractAllElements());
-
 			// Guardo cantidad de elementos para luego validar consistencia.
 			int elementCountBeforeSplit = leftChild.getElementCount();
 
-			// Paso a la derecha lo que excede a la minima capacidad,
-			leftChild.passMinimumCapacityExcedentToTheRight(middleChild);
+			// balanceo
+			// Agrego luego todos los elementos de rightChild.
+			leftChild.insertElements(rightChild.extractAllElements());
+			// paso los elementos excedentes el nodo derecho
+			leftChild.passMaximumCapacityExcedentToTheRight(rightChild);
 
-			// Agrego al padre la referencia al nuevo hijo.
-			this.indexChild(middleChild);
+			if (!rightChild.isInOverflow()) {
+				// balanceo exitoso
+				this.indexChild(rightChild);
+				this.getTree().updateNode(leftChild);
+				this.getTree().updateNode(rightChild);
 
-			// Paso a la derecha lo que excede a la mínima capacidad.
-			middleChild.passMinimumCapacityExcedentToTheRight(rightChild);
+				// Verifico consistencia.
+				int elementCountAfterSplit = leftChild.getElementCount() + rightChild.getElementCount();
 
-			// Vuelvo a agregar al padre la referencia al hijo derecho.
-			this.indexChild(rightChild);
+				// Verifico que la cantidad de elementos sea la misma antes y
+				// después de dividir.
+//				if (elementCountBeforeSplit != elementCountAfterSplit) {
+//					throw new AssertionError("Error en el split. Cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:"
+//							+ elementCountAfterSplit);
+//				}
+			} else {
+				// vuelvo a poner los elementos en el nodo izquierdo
+				leftChild.insertElements(rightChild.extractAllElements());
 
-			// Guardo los hijos.
-			this.getTree().updateNode(leftChild);
-			this.getTree().updateNode(middleChild);
-			this.getTree().updateNode(rightChild);
+				// creo un nuevo nodo para splittear
+				TreeNode middleChild = leftChild.createSibling();
 
-			// Verifico consistencia.
-			int elementCountAfterSplit = leftChild.getElementCount() + middleChild.getElementCount() + rightChild.getElementCount();
-			// Verifico que la cantidad de elementos sea la misma antes y
-			// después de dividir.
-			if (elementCountBeforeSplit != elementCountAfterSplit) {
-				throw new AssertionError("Error en el split. Cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:" + elementCountAfterSplit);
+				// Paso a la derecha lo que excede a la minima capacidad,
+				leftChild.passMinimumCapacityExcedentToTheRight(middleChild);
+
+				// Agrego al padre la referencia al nuevo hijo.
+				this.indexChild(middleChild);
+
+				// Paso a la derecha lo que excede a la mínima capacidad.
+				middleChild.passMinimumCapacityExcedentToTheRight(rightChild);
+
+				// Vuelvo a agregar al padre la referencia al hijo derecho.
+				this.indexChild(rightChild);
+
+				// Guardo los hijos.
+				this.getTree().updateNode(leftChild);
+				this.getTree().updateNode(middleChild);
+				this.getTree().updateNode(rightChild);
+
+				// Verifico consistencia.
+				int elementCountAfterSplit = leftChild.getElementCount() + middleChild.getElementCount() + rightChild.getElementCount();
+
+				// Verifico que la cantidad de elementos sea la misma antes y
+				// después de dividir.
+//				if (elementCountBeforeSplit != elementCountAfterSplit) {
+//					throw new AssertionError("Error en el split. Cantidad de elementos antes:" + elementCountBeforeSplit + ", cantidad de elementos después:"
+//							+ elementCountAfterSplit);
+//				}
 			}
 		}
 	}
@@ -502,9 +557,11 @@ public class TreeIndexNode extends TreeNode {
 	 */
 	public List<Integer> getChildNodeNumbers() {
 		List<Integer> childNodes = new ArrayList<Integer>();
-		childNodes.add(this.leftChildNodeNumber);
-		for (TreeNodeElement element : this.elements) {
-			childNodes.add(((TreeIndexNodeElement) element).getRightChildNodeNumber());
+		if (this.getElementCount() > 0) {
+			childNodes.add(this.leftChildNodeNumber);
+			for (TreeNodeElement element : this.elements) {
+				childNodes.add(((TreeIndexNodeElement) element).getRightChildNodeNumber());
+			}
 		}
 		return childNodes;
 	}
@@ -521,7 +578,7 @@ public class TreeIndexNode extends TreeNode {
 		clear();
 		return childNodes;
 	}
-	
+
 	@Override
 	public List<TreeNode> getChildren() throws IOException {
 		ArrayList<TreeNode> result = new ArrayList<TreeNode>();
@@ -540,7 +597,8 @@ public class TreeIndexNode extends TreeNode {
 
 	@Override
 	public String toString() {
-		String result = formatNodeNumber(this.getNodeNumber()) + " L" + this.getLevel() +getUnderflowMark()+ getItemCountString() + ":" + " " + this.getLeftChildNodeNumber();
+		String result = formatNodeNumber(this.getNodeNumber()) + " L" + this.getLevel() + getUnderflowMark() + getItemCountString() + " :" + " "
+				+ this.getLeftChildNodeNumber();
 		for (TreeNodeElement element : this.elements) {
 			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) element;
 			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber();
@@ -555,7 +613,7 @@ public class TreeIndexNode extends TreeNode {
 		}
 
 		return result;
-	} 
+	}
 
 	private String getCorrectIndent() {
 		String res = "";

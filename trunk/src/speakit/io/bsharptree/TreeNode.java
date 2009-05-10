@@ -282,13 +282,13 @@ public abstract class TreeNode {
 	}
 
 	protected String getStringHeader() {
-		return formatNodeNumber(this.getNodeNumber()) + " " + "niv " + this.getLevel()  + getUnderflowMark() + "," + getSizeString();
+		return formatNodeNumber(this.getNodeNumber()) + " " + "nivel" + this.getLevel()  + getUnderflowMark() + " " + getSizeString();
 	}
 
 	protected String getSizeString() {
 		try {
 			int size = this.serialize().length;
-			return size + "bytes(" + format(((double)size / getMaximumCapacity()) * 100) + "%)";
+			return "(" + size + "bytes|" + format(((double)size / getMaximumCapacity()) * 100) + "%)";
 		} catch (IOException e) {
 			return "(error calculando espacio ocupado:" + e.getMessage() + ")";
 		}

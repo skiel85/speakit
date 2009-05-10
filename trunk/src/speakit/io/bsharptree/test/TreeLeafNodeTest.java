@@ -21,7 +21,7 @@ import speakit.test.TestFileManager;
 public class TreeLeafNodeTest {
 
 	private TreeNode sut;
-	private TestBSharpTree tree;
+	private TestTree tree;
 	private RecordEncoder encoder;
 	private TestFileManager testFileManager;
 	private File file;
@@ -31,7 +31,7 @@ public class TreeLeafNodeTest {
 		encoder = new InvertedIndexIndexRecordEncoder();
 		this.testFileManager = new TestFileManager("");
 		this.file = this.testFileManager.openFile("testTree.dat");
-		this.tree = new TestBSharpTree(this.file);
+		this.tree = new TestTree(this.file);
 		this.sut = new TreeLeafNode(this.tree,-1);
 	}
 

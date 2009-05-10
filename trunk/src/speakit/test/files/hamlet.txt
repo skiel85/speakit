@@ -1,0 +1,638 @@
+Hamlet
+Primer Acto
+de William Shakespeare
+
+
+
+Contenido
+[ocultar]
+
+    * 1 PERSONAJES
+    * 2 Acto I
+          o 2.1 Escena I
+          o 2.2 Escena II
+          o 2.3 Escena III
+          o 2.4 Escena IV
+          o 2.5 Escena V
+          o 2.6 Escena VI
+          o 2.7 Escena VII
+          o 2.8 Escena VIII
+          o 2.9 Escena IX
+          o 2.10 Escena X
+          o 2.11 Escena XI
+          o 2.12 Escena XII
+          o 2.13 Escena XIII
+
+[editar] PERSONAJES
+
+    * CLAUDIO, Rey de Dinamarca.
+    * GERTRUDIS, Reina de Dinamarca.
+    * HAMLET, Príncipe de Dinamarca.
+    * FORTIMBRÁS, Príncipe de Noruega.
+    * LA SOMBRA DEL REY HAMLET.
+    * POLONIO, Sumiller de Corps.
+    * OFELIA, hija de Polonio.
+    * LAERTES, hijo.
+    * HORACIO, amigo de Hamlet.
+    * VOLTIMAN, cortesano.
+    * CORNELIO, cortesano.
+    * RICARDO, cortesano.
+    * GUILLERMO, cortesano.
+    * ENRIQUE, cortesano.
+    * MARCELO, soldado.
+    * BERNARDO, soldado.
+    * FRANCISCO, soldado.
+    * REYNALDO, criado de Polonio.
+    * DOS EMBAJADORES de Inglaterra.
+    * UN CURA.
+    * UN CABALLERO.
+    * UN CAPITÁN.
+    * UN GUARDIA.
+    * UN CRIADO.
+    * DOS MARINEROS.
+    * DOS SEPULTUREROS.
+    * CUATRO CÓMICOS.
+    * Acompañamiento de Grandes, Caballeros, Damas, Soldados, Curas, Cómicos, Criados, etc.
+
+
+La escena se representa en el Palacio y Ciudad de Elsingor, en sus cercanías y en las fronteras de Dinamarca.
+
+
+[editar] Acto I
+
+[editar] Escena I
+
+Explanada delante del Palacio Real de Elsingor. Noche oscura. FRANCISCO, BERNARDO
+
+
+BERNARDO.- ¿Quién está ahí?
+
+FRANCISCO.- No, respóndame él a mí. Deténgase y diga quién es.
+
+BERNARDO.- Viva el Rey.
+
+FRANCISCO.- ¿Es Bernardo?
+
+BERNARDO.- El mismo.
+
+FRANCISCO.- Tú eres el más puntual en venir a la hora.
+
+BERNARDO.- Las doce han dado ya; bien puedes ir a recogerte
+
+FRANCISCO.- Te doy mil gracias por la mudanza. Hace un frío que penetra y yo estoy delicado del pecho.
+
+BERNARDO.- ¿Has hecho tu guardia tranquilamente?
+
+FRANCISCO.- Ni un ratón se ha movido.
+
+BERNARDO.- Muy bien. Buenas noches. Si encuentras a Horacio y Marcelo, mis compañeros de guardia, diles que vengan presto.
+
+FRANCISCO.- Me parece que los oigo. Alto ahí. ¡Eh! ¿Quién va?
+
+
+[editar] Escena II
+
+HORACIO, MARCELO y dichos.
+
+HORACIO.- Amigos de este país.
+
+MARCELO.- Y fieles vasallos del Rey de Dinamarca.
+
+FRANCISCO.- Buenas noches.
+
+MARCELO.- ¡Oh! ¡Honrado soldado! Pásalo bien. ¿Quién te relevó de la centinela?
+
+FRANCISCO.- Bernardo, que queda en mi lugar. Buenas noches.
+
+MARCELO.- ¡Hola! ¡Bernardo!
+
+BERNARDO.- ¿Quién está ahí? ¿Es Horacio?
+
+HORACIO.- Un pedazo de él.
+
+BERNARDO.- Bienvenido, Horacio; Marcelo, bienvenido.
+
+MARCELO.- ¿Y qué? ¿Se ha vuelto a aparecer aquella cosa esta noche?
+
+BERNARDO.- Yo nada he visto
+
+MARCELO.- Horacio dice que es aprehensión nuestra, y nada quiere creer de cuanto le he dicho acerca de ese espantoso fantasma que hemos visto ya en dos ocasiones. Por eso le he rogado que se venga a la guardia con nosotros, para que si esta noche vuelve el aparecido, pueda dar crédito a nuestros ojos, y le hable si quiere.
+
+HORACIO.- ¡Qué! No, no vendrá.
+
+BERNARDO.- Sentémonos un rato, y deja que asaltemos de nuevo tus oídos con el suceso que tanto repugnan oír y que en dos noches seguidas hemos ya presenciado nosotros.
+
+HORACIO.- Muy bien, sentémonos y oigamos lo que Bernardo nos cuente.
+
+BERNARDO.- La noche pasada, cuando esa misma estrella que está al occidente del polo había hecho ya su carrera, para iluminar aquel espacio del cielo donde ahora resplandece, Marcelo y yo, a tiempo que el reloj daba la una...
+
+MARCELO.- Chit. Calla, mírale por donde viene otra vez.
+
+BERNARDO.- Con la misma figura que tenía el difunto Rey.
+
+MARCELO.- Horacio, tú que eres hombre de estudios, háblale.
+
+BERNARDO.- ¿No se parece todo al Rey? Mírale, Horacio.
+
+HORACIO.- Muy parecido es... Su vista me conturba con miedo y asombro.
+
+BERNARDO.- Querrá que le hablen.
+
+MARCELO.- Háblale, Horacio.
+
+HORACIO.- ¿Quién eres tú, que así usurpas este tiempo a la noche, y esa presencia noble y guerrera que tuvo un día la majestad del Soberano Danés, que yace en el sepulcro? Habla, por el Cielo te lo pido.
+
+MARCELO.- Parece que está irritado.
+
+BERNARDO.- ¿Ves? Se va, como despreciándonos.
+
+HORACIO.- Detente, habla. Yo te lo mando. Habla.
+
+MARCELO.- Ya se fue. No quiere respondernos.
+
+BERNARDO.- ¿Qué tal, Horacio? Tú tiemblas y has perdido el color. ¿No es esto algo más que aprensión? ¿Qué te parece?
+
+HORACIO.- Por Dios que nunca lo hubiera creído, sin la sensible y cierta demostración de mis propios ojos.
+
+MARCELO.- ¿No es enteramente parecido al Rey?
+
+HORACIO.- Como tú a ti mismo. Y tal era el arnés de que iba ceñido cuando peleó con el ambicioso Rey de Noruega, y así le vi arrugar ceñudo la frente cuando en una altercación colérica hizo caer al de Polonia sobre el hielo, de un solo golpe... ¡Extraña aparición es ésta!
+
+MARCELO.- Pues de esa manera, y a esta misma hora de la noche, se ha paseado dos veces con ademán guerrero delante de nuestra guardia.
+
+HORACIO.- Yo no comprendo el fin particular con que esto sucede; pero en mi ruda manera de pensar, pronostica alguna extraordinaria mudanza a nuestra nación.
+
+MARCELO.- Ahora bien, sentémonos y decidme, cualquiera de vosotros que lo sepa; ¿por qué fatigan todas las noches a los vasallos con estas guardias tan penosas y vigilantes? ¿Para qué es esta fundición de cañones de bronce y este acopio extranjero de máquinas de guerra? ¿A qué fin esa multitud de carpinteros de marina, precisados a un afán molesto, que no distingue el domingo de lo restante de la semana? ¿Qué causas puede haber para que sudando el trabajador apresurado junte las noches a los días? ¿Quién de vosotros podrá decírmelo?
+
+HORACIO.- Yo te lo diré, o a lo menos, los rumores que sobre esto corren. Nuestro último Rey (cuya imagen acaba de aparecérsenos) fue provocado a combate, como ya sabéis, por Fortimbrás de Noruega estimulado éste de la más orgullosa emulación. En aquel desafío, nuestro valeroso Hamlet (que tal renombre alcanzó en la parte del mundo que nos es conocida) mató a Fortimbrás, el cual por un contrato sellado y ratificado según el fuero de las armas, cedía al vencedor (dado caso que muriese en la pelea) todos aquellos países que estaban bajo su dominio. Nuestro Rey se obligó también a cederle una porción equivalente, que hubiera pasado a manos de Fortimbrás, como herencia suya, si hubiese vencido; así como, en virtud de aquel convenio y de los artículos estipulados, recayó todo en Hamlet. Ahora el joven Fortimbrás, de un carácter fogoso, falto de experiencia y lleno de presunción, ha ido recogiendo de aquí y de allí por las fronteras de Noruega, una turba de gente resuelta y perdida, a quien la necesidad de comer determina a intentar empresas que piden valor; y según claramente vemos, su fin no es otro que el de recobrar con violencia y a fuerza de armas los mencionados países que perdió su padre. Este es, en mi dictamen, el motivo principal de nuestras prevenciones, el de esta guardia que hacemos, y la verdadera causa de la agitación y movimiento en que toda la nación está.
+
+BERNARDO.- Si no es esa, yo no alcanzo cuál puede ser..., y en parte lo confirma la visión espantosa que se ha presentado armada en nuestro puesto, con la figura misma del Rey, que fue y es todavía el autor de estas guerras.
+
+HORACIO.- Es por cierto una mota que turba los ojos del entendimiento. En la época más gloriosa y feliz de Roma, poco antes que el poderoso César cayese quedaron vacíos los sepulcros y los amortajados cadáveres vagaron por las calles de la ciudad, gimiendo en voz confusa; las estrellas resplandecieron con encendidas colas, cayó lluvia de sangre, se ocultó el sol entre celajes funestos y el húmedo planeta, cuya influencia gobierna el imperio de Neptuno, padeció eclipse como si el fin del mundo hubiese llegado. Hemos visto ya iguales anuncios de sucesos terribles, precursores que avisan los futuros destinos, el cielo y la tierra juntos los han manifestado a nuestro país y a nuestra gente... Pero. Silencio... ¿Veis?..., allí... Otra vez vuelve... Aunque el terror me hiela, yo le quiero salir al encuentro. Detente, fantasma. Si puedes articular sonidos, si tienes voz háblame. Si allá donde estás puedes recibir algún beneficio para tu descanso y mi perdón, háblame. Si sabes los hados que amenazan a tu país, los cuales felizmente previstos puedan evitarse, ¡ay!, habla... O si acaso, durante tu vida, acumulaste en las entrañas de la tierra mal habidos tesoros, por lo que se dice que vosotros, infelices espíritus, después de la muerte vagáis inquietos; decláralo... Detente y habla... Marcelo, detenle.
+
+MARCELO.- ¿Le daré con mi lanza?
+
+HORACIO.- Sí, hiérele, si no quiere detenerse.
+
+BERNARDO.- Aquí está.
+
+HORACIO.- Aquí.
+
+MARCELO.- Se ha ido. Nosotros le ofendemos, siendo él un Soberano, en hacer demostraciones de violencia. Bien que, según parece, es invulnerable como el aire, y nuestros esfuerzos vanos y cosa de burla.
+
+BERNARDO.- Él iba ya a hablar cuando el gallo cantó.
+
+HORACIO.- Es verdad, y al punto se estremeció como el delincuente apremiado con terrible precepto. Yo he oído decir que el gallo, trompeta de la mañana, hace despertar al Dios del día con la alta y aguda voz de su garganta sonora, y que a este anuncio, todo extraño espíritu errante por la tierra o el mar, el fuego o el aire, huye a su centro; y la fantasma que hemos visto acaba de confirmar la certeza de esta opinión.
+
+MARCELO.- En efecto, desapareció al cantar el gallo. Algunos dicen que cuando se acerca el tiempo en que se celebra el nacimiento de nuestro Redentor, este pájaro matutino canta toda la noche y que entonces ningún espíritu se atreve a salir de su morada, las noches son saludables, ningún planeta influye siniestramente, ningún maleficio produce efecto, ni las hechiceras tienen poder para sus encantos. ¡Tan sagrados son y tan felices aquellos días!
+
+HORACIO.- Yo también lo tengo entendido así y en parte lo creo. Pero ved como ya la mañana, cubierta con la rosada túnica, viene pisando el rocío de aquel alto monte oriental. Demos fin a la guardia, y soy de opinión que digamos al joven Hamlet lo que hemos visto esta noche, porque yo os prometo que este espíritu hablará con él, aunque ha sido para nosotros mudo. ¿No os parece que dé esta noticia, indispensable en nuestro celo y tan propia de nuestra obligación?
+
+MARCELO.- Sí, sí, hagámoslo. Yo sé en donde le hallaremos esta mañana, con más seguridad.
+
+
+[editar] Escena III
+
+CLAUDIO, GERTRUDIS, HAMLET, POLONIO, LAERTES, VOLTIMAN, CORNELIO, Caballeros, Damas y acompañamiento.
+
+Salón de Palacio.
+
+CLAUDIO.- Aunque la muerte de mi querido hermano Hamlet está todavía tan reciente en nuestra memoria, que obliga a mantener en tristeza los corazones y a que en todo el Reino sólo se observe la imagen del dolor; con todo eso, tanto ha combatido en mí la razón a la naturaleza, que he conservado un prudente sentimiento de su pérdida, junto con la memoria de lo que a nosotros nos debemos. A este fin he recibido por esposa, a la que un tiempo fue mi hermana y hoy reina conmigo, compañera en el trono de esta belicosa nación; si bien estas alegrías son imperfectas, pues en ellas se han unido a la felicidad las lágrimas, las fiestas a pompa fúnebre, los cánticos de muerte a los epitalamios de Himeneo, pesados en igual balanza el placer y la aflicción. Ni hemos dejado de seguir los dictámenes de vuestra prudencia, que en esta ocasión ha procedido con absoluta libertad de lo cual os quedo muy agradecido. Ahora falta deciros, que el joven Fortimbrás, estimándome en poco, o presumiendo que la reciente muerte de mi querido hermano habrá producido en el Reino trastorno y desunión; fiado en esta soñada superioridad, no ha cesado de importunarme con mensajes, pidiéndome le restituya aquellas tierras que perdió su padre y adquirió mi valeroso hermano, con todas las formalidades de la ley. Basta ya lo que de él he dicho. Por lo que a mí toca y en cuanto al objeto que hoy nos reúne; veisle aquí. Escribo al Rey de Noruega, tío del joven Fortimbrás, que doliente y postrado en el lecho apenas tiene noticia de los proyectos de su sobrino, a fin de que le impida llevarlos adelante, pues tengo ya exactos informes de la gente que levanta contra mí, su calidad, su número y fuerzas. Prudente Cornelio, y tú Voltiman, vosotros saludareis en mi nombre al anciano Rey; aunque no os doy facultad personal para celebrar con él tratado alguno, que exceda los límites expresados en estos artículos. Id con Dios, y espero que manifestaréis en vuestra diligencia el celo de servirme.
+
+VOLTIMAN.- En esta y cualquiera otra comisión os daremos pruebas de nuestro respeto.
+
+CLAUDIO.- No lo dudaré. El Cielo os guarde.
+
+
+[editar] Escena IV
+
+CLAUDIO, GERTRUDIS, HAMLET, POLONIO, LAERTES, Damas, Caballeros y acompañamiento.
+
+CLAUDIO.- Y tú, Laertes, ¿qué solicitas? Me has hablado de una pretensión, ¿no me dirás cuál sea? En cualquiera cosa justa que pidas al Rey de Dinamarca, no será vano el ruego. ¿Ni qué podrás pedirme que no sea más ofrecimiento mío, que demanda tuya? No es más adicto a la cabeza el corazón ni más pronta la mano en servir a la boca, que lo es el trono de Dinamarca para con tu padre. En fin, ¿qué pretendes?
+
+LAERTES.- Respetable Soberano, solicito la gracia de vuestro permiso para volver a Francia. De allí he venido voluntariamente a Dinamarca a manifestaros mi leal afecto, con motivo de vuestra coronación; pero ya cumplida esta deuda, fuerza es confesaros que mis ideas y mi inclinación me llaman de nuevo a aquel país, y espero de vuestra mucha bondad esta licencia.
+
+CLAUDIO.- ¿Has obtenido ya la de tu padre? ¿Qué dices Polonio?
+
+POLONIO.- A fuerza de importunaciones ha logrado arrancar mi tardío consentimiento. Al verle tan inclinado, firmé últimamente la licencia de que se vaya, aunque a pesar mío; y os ruego, señor, que se la concedáis.
+
+CLAUDIO.- Elige el tiempo que te parezca más oportuno para salir, y haz cuanto gustes y sea más conducente a tu felicidad. Y tú, Hamlet, ¡mi deudo, mi hijo!
+
+HAMLET.- Algo más que deudo, y menos que amigo.
+
+CLAUDIO.- ¿Qué sombras de tristeza te cubren siempre?
+
+HAMLET.- Al contrario, señor, estoy demasiado a la luz.
+
+GERTRUDIS.- Mi buen Hamlet, no así tu semblante manifieste aflicción; véase en él que eres amigo de Dinamarca; ni siempre con abatidos párpados busques entre el polvo a tu generoso padre. Tú lo sabes, común es a todos, el que vive debe morir, pasando de la naturaleza a la eternidad.
+
+HAMLET.- Sí señora, a todos es común.
+
+GERTRUDIS.- Pues si lo es, ¿por qué aparentas tan particular sentimiento?
+
+HAMLET.- ¿Aparentar? No señora, yo no sé aparentar. Ni el color negro de este manto, ni el traje acostumbrado en solemnes lutos, ni los interrumpidos sollozos, ni en los ojos un abundante río, ni la dolorida expresión del semblante, junto con las fórmulas, los ademanes, las exterioridades de sentimiento; bastarán por sí solos, mi querida madre, a manifestar el verdadero afecto que me ocupa el ánimo. Estos signos aparentan, es verdad; pero son acciones que un hombre puede fingir... Aquí, aquí dentro tengo lo que es más que apariencia, lo restante no es otra cosa que atavíos y adornos del dolor.
+
+CLAUDIO.- Bueno y laudable es que tu corazón pague a un padre esa lúgubre deuda, Hamlet; pero, no debes ignorarlo, tu padre perdió un padre también y aquel perdió el suyo. El que sobrevive, limita la filial obligación de su obsequiosa tristeza a un cierto término; pero continuar en interminable desconsuelo, es una conducta de obstinación impía. Ni es natural en el hombre tan permanente afecto; que anuncia una voluntad rebelde a los decretos de la Providencia, un corazón débil, un alma indócil, un talento limitado y falto de luces. ¿Será bien que el corazón padezca, queriendo neciamente resistir a lo que es y debe ser inevitable, a lo que es tan común como cualquiera de las cosas que más a menudo hieren nuestros sentidos? Este es un delito contra el Cielo, contra la muerte, contra la naturaleza misma; es hacer una injuria absurda a la razón, que nos da en la muerte de nuestros padres la más frecuente de sus lecciones, y que nos está diciendo, desde el primero de los hombres hasta el último que hoy expira: Mortales, ved aquí vuestra irrevocable suerte. Modera, pues, yo te lo ruego, esa inútil tristeza, considera que tienes un padre en mi puesto, que debe ser notorio al mundo que tú eres la persona más inmediata a mi trono y que te amo con el afecto más puro que puede tener a su hijo un padre. Tu resolución de volver a los estudios de Witemberga es la más opuesta a nuestro deseo, y antes bien te pedimos que desistas de ella; permaneciendo aquí, estimado y querido a vista nuestra, como el primero de mis Cortesanos, mi pariente y mi hijo.
+
+GERTRUDIS.- Yo te ruego Hamlet, que no vayas a Witemberga; quédate con nosotros. No sean vanas las súplicas de tu madre.
+
+HAMLET.- Obedeceros en todo será siempre mi primer conato.
+
+CLAUDIO.- Por esa afectuosa y plausible respuesta quiero que seas otro yo en el imperio danés. Venid, señora. La sincera y fiel condescendencia de Hamlet ha llenado de alegría mi corazón. En aplauso de este acontecimiento, no celebrará hoy Dinamarca festivos brindis sin que lo anuncie a las nubes el cañón robusto, y el cielo retumbe muchas veces a las aclamaciones del Rey repitiendo el trueno de la tierra. Venid.
+
+
+[editar] Escena V
+
+HAMLET solo
+
+HAMLET.- ¡Oh! ¡Si esta demasiado sólida masa de carne pudiera ablandarse y liquidarse, disuelta en lluvia de lágrimas! ¡O el Todopoderoso no asestara el cañón contra el homicida de sí mismo! ¡Oh! ¡Dios! ¡Oh! ¡Dios mío! ¡Cuán fatigado ya de todo, juzgo molestos, insípidos y vanos los placeres del mundo! Nada, nada quiero de él, es un campo inculto y rudo, que sólo abunda en frutos groseros y amargos. ¡Que esto haya llegado a suceder a los dos meses que él ha muerto! No, ni tanto, aún no ha dos meses. Aquel excelente Rey, que fue comparado con este, como con un Sátiro, Hiperión; tan amante de mi madre, que ni a los aires celestes permitía llegar atrevidos a su rostro. ¡Oh! ¡Cielo y tierra! ¿Para qué conservo la memoria? Ella, que se le mostraba tan amorosa como si en la posesión hubieran crecido sus deseos. Y no obstante, en un mes... ¡Ah! no quisiera pensar en esto. ¡Fragilidad! ¡Tú tienes nombre de mujer! En el corto espacio de un mes y aún antes de romper los zapatos con que, semejante a Niobe, bañada en lágrimas, acompañó el cuerpo de mi triste padre... Sí, ella, ella misma. ¡Cielos! Una fiera, incapaz de razón y discurso, hubiera mostrado aflicción más durable. Se ha casado, en fin, con mi tío, hermano de mi padre; pero no más parecido a él que yo lo soy a Hércules. En un mes... enrojecidos aún los ojos con el pérfido llanto, se casó. ¡Ah! ¡Delincuente precipitación! ¡Ir a ocupar con tal diligencia un lecho incestuoso! Ni esto es bueno, ni puede producir bien. Pero, hazte pedazos corazón mío, que mi lengua debe reprimirse.
+
+
+[editar] Escena VI
+
+HAMLET, HORACIO, BERNARDO y MARCELO
+
+HORACIO.- Buenos días, señor.
+
+HAMLET.- Me alegro de verte bueno... ¿Es Horacio? O me he olvidado de mí propio.
+
+HORACIO.- El mismo soy, y siempre vuestro humilde criado.
+
+HAMLET.- Mi buen amigo, yo quiero trocar contigo ese título que te das. ¿A qué has venido de Witemberga? ¡Ah! ¡Marcelo!
+
+MARCELO.- Señor.
+
+HAMLET.- Mucho me alegro de verte con salud también. Pero, la verdad, ¿a qué has venido de Witemberga?
+
+HORACIO.- Señor..., deseos de holgarme.
+
+HAMLET.- No quisiera oír de boca de tu enemigo otro tanto, ni podrás forzar mis oídos a que admitan una disculpa que te ofende. Yo sé que no eres desaplicado. Pero, dime, ¿qué asuntos tienes en Elsingor? Aquí te enseñaremos a ser gran bebedor antes que te vuelvas.
+
+HORACIO.- He venido a ver los funerales de vuestro padre.
+
+HAMLET.- No se burle de mí, por Dios, señor condiscípulo. Yo creo que habrás venido a las bodas de mi madre.
+
+HORACIO.- Es verdad, como se han celebrado inmediatamente.
+
+HAMLET.- Economía, Horacio, economía. Aún no se habían enfriado los manjares cocidos para el convite del duelo, cuando se sirvieron en las mesas de la boda... ¡Oh! yo quisiera haberme hallado en el cielo con mi mayor enemigo, antes que haber visto aquel día. ¡Mi padre!... Me parece que veo a mi padre.
+
+HORACIO.- ¿En dónde, señor?
+
+HAMLET.- Con los ojos del alma, Horacio.
+
+HORACIO.- Alguna vez le vi. Era un buen Rey.
+
+HAMLET.- Era un hombre tan cabal en todo que no espero hallar otro semejante.
+
+HORACIO.- Señor, yo creo que le vi anoche.
+
+HAMLET.- ¿Le viste? ¿A quién?
+
+HORACIO.- Al Rey vuestro padre.
+
+HAMLET.- ¿Al Rey mi padre?
+
+HORACIO.- Prestadme oído atento, suspendiendo un rato vuestra admiración, mientras os refiero este caso maravilloso apoyado con el testimonio de estos caballeros.
+
+HAMLET.- Sí, por Dios, dímelo.
+
+HORACIO.- Estos dos señores, Marcelo y Bernardo, le habían visto dos veces hallándose de guardia, como a la mitad de la profunda noche. Una figura, semejante a vuestro padre, armada según él solía de pies a cabeza, se les puso delante, caminando grave, tardo y majestuoso por donde ellos estaban. Tres veces pasó de esta manera ante sus ojos, que oprimía el pavor, acercándose hasta donde ellos podían alcanzar con sus lanzas; pero débiles y casi helados con el miedo, permanecieron mudos sin osar hablarle. Diéronme parte de este secreto horrible; voyme a la guardia con ellos la tercera noche, y allí encontré ser cierto cuanto me habían dicho, así en la hora, como en la forma y circunstancias de aquella aparición. La Sombra volvió en efecto. Yo conocí a vuestro padre, y es tan parecido a él, como lo son entre sí estas dos manos mías.
+
+HAMLET.- ¿Y en dónde fue eso?
+
+MARCELO.- En la muralla de palacio, donde estábamos de centinela.
+
+HAMLET.- ¿Y no le hablasteis?
+
+HORACIO.- Sí señor, yo le hablé; pero no me dio respuesta alguna. No obstante, una vez me parece que alzó la cabeza haciendo con ella un movimiento, como si fuese a hablarme; pero al mismo tiempo se oyó la aguda voz del gallo matutino y al sonido huyó con presta fuga, desapareciendo de nuestra vista.
+
+HAMLET.- ¡Es cosa bien admirable!
+
+HORACIO.- Y tan cierta como mi propia existencia. Nosotros hemos creído que era obligación nuestra avisaros de ello, mi venerado Príncipe.
+
+HAMLET.- Sí, amigos, sí... pero esto me llena de turbación. ¿Estáis de centinela esta noche?
+
+TODOS.- Sí, señor.
+
+HAMLET.- ¿Decís que iba armado?
+
+TODOS.- Sí, señor, armado.
+
+HAMLET.- ¿De la frente al pie?
+
+TODOS.- Sí, señor, de pies a cabeza.
+
+HAMLET.- Luego no le visteis el rostro.
+
+HORACIO.- Le vimos, porque traía la visera alzada.
+
+HAMLET.- ¿Y qué? ¿Parecía que estaba irritado?
+
+HORACIO.- Más anunciaba su semblante el dolor que la ira.
+
+HAMLET.- ¿Pálido o encendido?
+
+HORACIO.- No, muy pálido.
+
+HAMLET.- ¿Y fijaba la vista en vosotros?
+
+HORACIO.- Constantemente.
+
+HAMLET.- Yo hubiera querido hallarme allí.
+
+HORACIO.- Mucho pavor os hubiera causado.
+
+HAMLET.- Sí, es verdad, sí... ¿Y permaneció mucho tiempo?
+
+HORACIO.- El que puede emplearse en contar desde uno hasta ciento, con moderada diligencia.
+
+MARCELO.- Más, más estuvo.
+
+HORACIO.- Cuando yo le vi, no.
+
+HAMLET.- La barba blanca, ¿eh?
+
+HORACIO.- Sí, señor, como yo se la había visto cuando vivía; de un color ceniciento.
+
+HAMLET.- Quiero ir esta noche con vosotros al puesto, por si acaso vuelve.
+
+HORACIO.- ¡Oh! Sí volverá, yo os lo aseguro.
+
+HAMLET.- Si él se me presenta en la figura de mi noble padre yo le hablaré aunque el infierno mismo abriendo sus entrañas me impusiera silencio. Yo os pido a todos que así como hasta ahora habéis callado a los demás, lo que visteis, de hoy en adelante lo ocultéis con el mayor sigilo; y sea cual fuere el suceso de esta noche, fiadlo al pensamiento, pero no a la lengua; y yo sabré remunerar vuestro celo. Dios os guarde, amigos. Entre once y doce iré a buscaros a la muralla.
+
+TODOS.- Nuestra obligación es serviros.
+
+HAMLET.- Sí, conservadme vuestro amor y estad seguros del mío. Adiós. El espíritu de mi padre... Con armas... No es esto bueno. Recelo alguna maldad. ¡Oh! ¡Si la noche hubiese ya llegado! Esperémosla tranquilamente, alma mía. Las malas acciones, aunque toda la tierra las oculte, se descubren al fin a la vista humana.
+
+
+[editar] Escena VII
+
+LAERTES, OFELIA
+
+Sala de la casa de Polonio.
+
+LAERTES.- Ya tengo todo mi equipaje a bordo. Adiós hermana, y cuando los vientos sean favorables y seguro el paso del mar, no te descuides en darme nuevas de ti.
+
+OFELIA.- ¿Puedes dudarlo?
+
+LAERTES.- Por lo que hace al frívolo obsequio de Hamlet, debes considerarle como una mera cortesanía, un hervor de la sangre, una violeta que en la primavera juvenil de la naturaleza se adelanta a vivir y no permanece hermosa, no durable: perfume de un momento y nada más.
+
+OFELIA.- Nada más.
+
+LAERTES.- Pienso que no, porque no sólo en nuestra juventud se aumentan las fuerzas y tamaño del cuerpo, sino que las facultades interiores del talento y del alma crecen también con el templo en que ella reside. Puede ser que él te ame ahora con sinceridad, sin que manche borrón alguno la pureza de su intención; pero debes temer, al considerar su grandeza, que no tiene voluntad propia y que vive sujeto a obrar según a su nacimiento corresponde. Él no puede como una persona vulgar, elegir por sí mismo; puesto que de su elección depende la salud y prosperidad de todo un Reino y ve aquí por qué esta elección debe arreglarse a la condescendencia unánime de aquel cuerpo de quien es cabeza. Así, pues, cuando él diga que te ama, será prudencia en ti no darle crédito; reflexionando que en el alto lugar que ocupa nada puede cumplir de lo que promete, sino aquello que obtenga el consentimiento de la parte más principal de Dinamarca. Considera cuál pérdida padecería tu honor, si con demasiada credulidad dieras oídos a su voz lisonjera, perdiendo la libertad del corazón o facilitando a sus instancias impetuosas el tesoro de tu honestidad. Teme, Ofelia, teme querida hermana, no sigas inconsiderada tu inclinación; huye del peligro colocándote fuera del tiro de los amorosos deseos. La doncella más honesta, es libre en exceso, si descubre su belleza al rayo de la luna. La virtud misma no puede librarse de los golpes de la calumnia. Muchas veces el insecto roe las flores hijas del verano, aun antes que su botón se rompa, y al tiempo que la aurora matutina de la juventud esparce su blando rocío, los vientos mortíferos son más frecuentes. Conviene, pues, no omitir precaución alguna, pues la mayor seguridad estriba en el temor prudente. La juventud, aun cuando nadie la combate, halla en sí misma su propio enemigo.
+
+OFELIA.- Yo conservaré para defensa de mi corazón tus saludables máximas. Pero, mi buen hermano, mira no hagas tú lo que algunos rígidos Pastores hacen mostrando áspero y espinoso el camino del Cielo, mientras como impíos y abandonados disolutos pisan ellos la senda florida de los placeres; sin cuidarse de practicar su propia doctrina.
+
+LAERTES.- ¡Oh! No lo receles. Yo me detengo demasiado; pero allí viene mi padre, pues la ocasión es favorable me despediré de él otra vez. Su bendición repetida será un nuevo consuelo para mí.
+
+
+[editar] Escena VIII
+
+POLONIO, LAERTES, OFELIA
+
+POLONIO.- ¿Aún estás aquí? ¡Qué mala vergüenza! A bordo, a bordo, el viento impele ya por la popa tus velas, y a ti sólo aguardan. Recibe mi bendición y procura imprimir en la memoria estos pocos preceptos. No publiques con facilidad lo que pienses, ni ejecutes cosa no bien premeditada primero. Debes ser afable, pero no vulgar en el trato. Une a tu alma con vínculos de acero aquellos amigos que adoptaste después de examinada su conducta; pero no acaricies con mano pródiga a los que acaban de salir del cascarón y aún están sin plumas. Huye siempre de mezclarte en disputas; pero una vez metido en ellas, obra de manera que tu contrario huya de ti. Presta el oído a todos y a pocos la voz. Oye las censuras de los demás; pero reserva tu propia opinión. Sea tu vestido tan costoso cuanto tus facultades lo permitan; pero no afectado en su hechura, rico, no extravagante, porque el traje dice por lo común quién es el sujeto, y los caballeros y principales señores franceses tienen el gusto muy delicado en esta materia. Procura no dar ni pedir prestado a nadie, porque el que presta suele perder a un tiempo el dinero y el amigo, y el que se acostumbra a pedir prestado falta al espíritu de economía y buen orden, que nos es tan útil. Pero, sobre todo, usa de ingenuidad contigo mismo, y no podrás ser falso con los demás, consecuencia tan necesaria como que la noche suceda al día. Adiós y Él permita que mi bendición haga fructificar en ti estos consejos.
+
+LAERTES.- Humildemente os pido vuestra licencia.
+
+POLONIO.- Sí, el tiempo te está convidando y tus criados esperan; vete.
+
+LAERTES.- Adiós, Ofelia, y acuérdate bien de lo que te he dicho.
+
+OFELIA.- En mi memoria queda guardado y tú mismo tendrás la llave.
+
+LAERTES.- Adiós.
+
+
+[editar] Escena IX
+
+POLONIO, OFELIA
+
+POLONIO.- ¿Y qué es lo que te ha dicho, Ofelia?
+
+OFELIA.- Si gustáis de saberlo, cosas eran relativas al Príncipe Hamlet.
+
+POLONIO.- Bien pensado, en verdad. Me han dicho que de poco tiempo a esta parte te ha visitado varias veces privadamente, y que tú le has admitido con mucha complacencia y libertad. Si esto es así (como me lo han asegurado, a fin de que prevenga el riesgo) debo advertirte que no te has portado con aquella delicadeza que corresponde a una hija mía y a tu propio honor. ¿Qué es lo que ha pasado entre los dos? Dime la verdad.
+
+OFELIA.- Últimamente me ha declarado con mucha ternura su amor.
+
+POLONIO.- ¡Amor! ¡Ah! Tú hablas como una muchacha loquilla y sin experiencia, en circunstancias tan peligrosas. ¡Ternura la llamas! ¿Y tú das crédito a esa ternura?
+
+OFELIA.- Yo, señor, ignoro lo que debo creer.
+
+POLONIO.- En efecto es así, y yo quiero enseñártelo. Piensa bien que eres una niña, que has recibido por verdadera paga esas ternuras que no son moneda corriente. Estímate en más a ti propia; pues si te aprecias en menos de lo que vales (por seguir la comenzada alusión) harás que pierda el entendimiento.
+
+OFELIA.- Él me ha requerido de amores, es verdad; pero siempre con una apariencia honesta, que...
+
+POLONIO.- Sí, por cierto, apariencia puedes llamarla. ¿Y bien? Prosigue.
+
+OFELIA.- Y autorizó cuanto me decía con los más sagrados juramentos.
+
+POLONIO.- Sí, esas son redes para coger codornices. Yo sé muy bien, cuando la sangre hierve, con cuanta prodigalidad presta el alma juramentos a la lengua; pero son relámpagos, hija mía, que dan más luz que calor; estos y aquellos se apagan pronto y no debes tomarlos por fuego verdadero, ni aun en el instante mismo en que parece que sus promesas van a efectuarse. De hoy en adelante cuida de ser más avara de tu presencia virginal; pon tu conversación a precio más alto, y no a la primera insinuación admitas coloquios. Por lo que toca al Príncipe, debes creer de él solamente que es un joven, y que si una vez afloja las riendas pasará más allá de lo que tú le puedes permitir. En suma, Ofelia, no creas sus palabras que son fementidas, ni es verdadero el color que aparentan; son intercesoras de profanos deseos, y si parecen sagrados y piadosos votos, es sólo para engañar mejor. Por último, te digo claramente, que desde hoy no quiero que pierdas los momentos ociosos en hablar, ni mantener conversación con el Príncipe. Cuidado con hacerlo así: yo te lo mando. Vete a tu aposento.
+
+OFELIA.- Así lo haré, señor.
+
+
+[editar] Escena X
+
+HAMLET, HORACIO, MARCELO
+
+Explanada delante del Palacio. Noche oscura.
+
+HAMLET.- El aire es frío y sutil en demasía.
+
+HORACIO.- En efecto, es agudo y penetrante.
+
+HAMLET.- ¿Qué hora es ya?
+
+HORACIO.- Me parece que aún no son las doce.
+
+MARCELO.- No, ya han dado.
+
+HORACIO.- No las he oído. Pues en tal caso ya está cerca el tiempo en que el muerto suele pasearse. Pero, ¿qué significa este ruido, señor?
+
+HAMLET.- Esta noche se huelga el Rey, pasándola desvelado en un banquete, con gran vocería y traspieses de embriaguez y a cada copa del Rhin que bebe, los timbales y trompetas anuncian con estrépito sus victoriosos brindis.
+
+HORACIO.- ¿Se acostumbra eso aquí?
+
+HAMLET.- Sí, se acostumbra; pero aunque he nacido en este país y estoy hecho a sus estilos, me parece que sería más decoroso quebrantar esta costumbre que seguirla. Un exceso tal que embrutece el entendimiento nos infama a los ojos de las otras naciones, desde oriente a occidente. Nos llaman ebrios; manchan nuestro nombre con este dictado afrentoso y en verdad que él solo, por más que poseamos en alto grado otras buenas cualidades, basta a empañar el lustre de nuestra reputación. Así acontece frecuentemente a los hombres. Cualquier defecto natural en ellos, sea el de su nacimiento, del cual no son culpables (puesto que nadie puede escoger su origen), sea cualquier desorden ocurrido en su temperamento, que muchas veces rompe los límites y reparos de la razón, o sea cualquier hábito que se aparte demasiado de las costumbres recibidas llevando estos hombres consigo el signo de un solo defecto que imprimió en ellos la naturaleza o el acaso, aunque sus virtudes fuesen tantas cuantas es concedido a un mortal, y tan puras como la bondad celeste; serán no obstante amancilladas en el concepto público, por aquel único vicio que las acompaña. Un solo adarme de mezcla quita el valor al más precioso metal y le envilece.
+
+HORACIO.- ¿Veis? Señor, ya viene.
+
+HAMLET.- ¡Ángeles y ministros de piedad, defendednos! Ya seas alma dichosa o condenada visión, traigas contigo aura celestial o ardores del infierno, sea malvada o benéfica intención la tuya en tal forma te me presentas, que es necesario que yo te hable. Sí, te he de hablar... Hamlet, mi Rey, mi Padre, Soberano de Dinamarca... ¡Oh, respóndeme, no me atormentes con la duda! Dime, ¿por qué tus venerables huesos, ya sepultados, han roto su vestidura fúnebre? ¿Por qué el sepulcro donde te dimos urna pacífica te ha echado de sí, abriendo sus senos que cerraban pesados mármoles? ¿Cuál puede ser la causa de que tu difunto cuerpo, del todo armado, vuelva otra vez a ver los rayos pálidos de la luna, añadiendo a la noche horror? ¿Y que nosotros, ignorantes y débiles por naturaleza, padezcamos agitación espantosa con ideas que exceden a los alcances de nuestra razón? Di, ¿por qué es esto? ¿Por qué?, o ¿qué debemos hacer nosotros?
+
+HORACIO.- Os hace señas de que le sigáis, como si deseara comunicaros algo a solas.
+
+MARCELO.- Ved con qué expresivo ademán os indica que le acompañéis a lugar más remoto; pero no hay que ir con él.
+
+HORACIO.- No, por ningún motivo.
+
+HAMLET.- Si no quiere hablar, habré de seguirle.
+
+HORACIO.- No hagáis tal, señor.
+
+HAMLET.- ¿Y por qué no? ¿Qué temores debo tener? Yo no estimo nada la vida, en nada, y a mi alma, ¿qué puede él hacerle, siendo como él mismo cosa inmortal?... Otra vez me llama... Voyle a seguir.
+
+HORACIO.- Pero, señor, si os arrebata al mar o a la espantosa cima de ese monte, levantado sobre los que baten las ondas, y allí tomase alguna otra forma horrible, capaz de impediros el uso de la razón, y enajenarla con frenesí... ¡Ay! ved lo que hacéis. El lugar sólo inspira ideas melancólicas a cualquiera que mire la enorme distancia desde aquella cumbre al mar, y sienta en la profundidad su bramido ronco.
+
+HAMLET.- Todavía me llama... Camina. Ya te sigo.
+
+MARCELO.- No señor, no iréis.
+
+HAMLET.- Dejadme.
+
+HORACIO.- Creedme, no le sigáis.
+
+HAMLET.- Mis hados me conducen y prestan a la menor fibra de mi cuerpo la nerviosa robustez del león de Nemea. Aún me llama... Señores, apartad esas manos... Por Dios..., o quedará muerto a las mías el que me detenga. Otra vez te digo que andes, que voy a seguirte.
+
+
+[editar] Escena XI
+
+HORACIO, MARCELO
+
+HORACIO.- Su exaltada imaginación le arrebata.
+
+MARCELO.- Sigámosle, que en esto no debemos obedecerle.
+
+HORACIO.- Sí, vamos detrás de él... ¿Cuál será el fin de este suceso?
+
+MARCELO.- Algún grave mal se oculta en Dinamarca.
+
+HORACIO.- Los Cielos dirigirán el éxito.
+
+MARCELO.- Vamos, sigámosle.
+
+
+[editar] Escena XII
+
+HAMLET, LA SOMBRA DEL REY HAMLET
+
+Parte remota cercana al mar. Vista a lo lejos del Palacio de Elsingor.
+
+HAMLET.- ¿Adónde me quieres llevar? Habla, yo no paso de aquí.
+
+LA SOMBRA.- Mírame.
+
+HAMLET.- Ya te miro.
+
+LA SOMBRA.- Casi es ya llegada la hora en que debo restituirme a las sulfúreas y atormentadoras llamas.
+
+HAMLET.- ¡Oh! ¡Alma infeliz!
+
+LA SOMBRA.- No me compadezcas: presta sólo atentos oídos a lo que voy a revelarte.
+
+HAMLET.- Habla, yo te prometo atención.
+
+LA SOMBRA.- Luego que me oigas, prometerás venganza.
+
+HAMLET.- ¿Por qué?
+
+LA SOMBRA.- Yo soy el alma de tu padre: destinada por cierto tiempo a vagar de noche y aprisionada en fuego durante el día; hasta que sus llamas purifiquen las culpas que cometí en el mundo. ¡Oh! Si no me fuera vedado manifestar los secretos de la prisión que habito, pudiera decirte cosas que la menor de ellas bastaría a despedazar tu corazón, helar tu sangre juvenil, tus ojos, inflamados como estrellas, saltar de sus órbitas; tus anudados cabellos, separarse, erizándose como las púas del colérico espín. Pero estos eternos misterios no son para los oídos humanos. Atiende, atiende, ¡ay! Atiende. Si tuviste amor a tu tierno padre...
+
+HAMLET.- ¡Oh, Dios!
+
+LA SOMBRA.- Venga su muerte: venga un homicidio cruel y atroz.
+
+HAMLET.- ¿Homicidio?
+
+LA SOMBRA.- Sí, homicidio cruel, como todos lo son; pero el más cruel y el más injusto y el más aleve.
+
+HAMLET.- Refiéremelo presto, para que con alas veloces, como la fantasía, o con la prontitud de los pensamientos amorosos, me precipite a la venganza.
+
+LA SOMBRA.- Ya veo cuán dispuesto te hallas, y aunque tan insensible fueras como las malezas que se pudren incultas en las orillas del Letheo, no dejaría de conmoverte lo que voy a decir. Escúchame ahora, Hamlet. Esparciose la voz de que estando en mi jardín dormido me mordió una serpiente. Todos los oídos de Dinamarca fueron groseramente engañados con esta fabulosa invención; pero tú debes saber, mancebo generoso, que la serpiente que mordió a tu padre, hoy ciñe su corona.
+
+HAMLET.- ¡Oh! Presago me lo decía el corazón, ¿mi tío?
+
+LA SOMBRA.- Sí, aquel incestuoso, aquel monstruo adúltero, valiéndose de su talento diabólico, valiéndose de traidoras dádivas... ¡Oh! ¡Talento y dádivas malditas que tal poder tenéis para seducir!... Supo inclinar a su deshonesto apetito la voluntad de la Reina mi esposa, que yo creía tan llena de virtud. ¡Oh! ¡Hamlet! ¡Cuán grande fue su caída! Yo, cuyo amor para con ella fue tan puro... Yo, siempre tan fiel a los solemnes juramentos que en nuestro desposorio la hice, yo fui aborrecido y se rindió a aquel miserable, cuyas prendas eran en verdad harto inferiores a las mías. Pero, así como la virtud será incorruptible aunque la disolución procure excitarla bajo divina forma, así la incontinencia aunque viviese unida a un Ángel radiante, profanará con oprobio su tálamo celeste... Pero ya me parece que percibo el ambiente de la mañana. Debo ser breve. Dormía yo una tarde en mi jardín según lo acostumbraba siempre. Tu tío me sorprende en aquella hora de quietud, y trayendo consigo una ampolla de licor venenoso, derrama en mi oído su ponzoñosa destilación, la cual, de tal manera es contraria a la sangre del hombre, que semejante en la sutileza al mercurio, se dilata por todas las entradas y conductos del cuerpo, y con súbita fuerza le ocupa, cuajando la más pura y robusta sangre, como la leche con las gotas ácidas. Este efecto produjo inmediatamente en mí, y el cutis hinchado comenzó a despegarse a trechos con una especie de lepra en áspera y asquerosas costras. Así fue que estando durmiendo, perdí a manos de mi hermano mismo, mi corona, mi esposa y mi vida a un tiempo. Perdí la vida, cuando mi pecado estaba en todo su vigor, sin hallarme dispuesto para aquel trance, sin haber recibido el pan eucarístico, sin haber sonado el clamor de agonía, sin lugar al reconocimiento de tanta culpa: presentado al tribunal eterno con todas mis imperfecciones sobre mi cabeza. ¡Oh! ¡Maldad horrible, horrible!... Si oyes la voz de la naturaleza, no sufras, no, que el tálamo real de Dinamarca sea el lecho de la lujuria y abominable incesto. Pero, de cualquier modo que dirijas la acción, no manches con delito el alma, previniendo ofensas a tu madre. Abandona este cuidado al Cielo: deja que aquellas agudas puntas que tiene fijas en su pecho, la hieran y atormenten. Adiós. Ya la luciérnaga amortiguando su aparente fuego nos anuncia la proximidad del día. Adiós. Adiós. Acuérdate de mí.
+
+
+[editar] Escena XIII
+
+HAMLET, y después HORACIO y MARCELO
+
+HAMLET.- ¡Oh! ¡Vosotros ejércitos celestiales! ¡Oh! ¡Tierra!... ¿Y quién más? ¿Invocaré al infierno también? ¡Eh! No... Detente corazón mío, detente, y vos mis nervios no así os debilitéis en un momento: sostenedme robustos... ¡Acordarme de ti! Sí, alma infeliz, mientras haya memoria en este agitado mundo. ¡Acordarme de ti! Sí, yo me acordaré, y yo borraré de mi fantasía todos los recuerdos frívolos, las sentencias de los libros, las ideas e impresiones de lo pasado que la juventud y la observación estamparon en ella. Tu precepto solo, sin mezcla de otra cosa menos digna, vivirá escrito en el volumen de mi entendimiento. Sí, por los cielos te lo juro... ¡Oh, mujer, la más delincuente! ¡Oh! ¡Malvado! ¡Halagüeño y execrable malvado! Conviene que yo apunte en este libro... Sí... Que un hombre puede halagar y sonreírse y ser un malvado; a lo menos, estoy seguro de que en Dinamarca hay un hombre así, y éste es mi tío... Sí, tú eres... ¡Ah! Pero la expresión que debo conservar, es esta. Adiós, adiós, acuérdate de mí. Yo he jurado acordarme.
+
+HORACIO.- Señor, señor.
+
+MARCELO.- Hamlet.
+
+HORACIO.- Los Cielos le asistan.
+
+HAMLET.- ¡Oh! Háganlo así.
+
+MARCELO.- ¡Hola! ¡Eh, señor!
+
+HAMLET.- ¿Hola? amigos, ¡eh! Venid, venid acá.
+
+MARCELO.- ¿Qué ha sucedido?
+
+HORACIO.- ¿Qué noticias nos dais?
+
+HAMLET.- ¡Oh! Maravillosas.
+
+HORACIO.- Mi amado señor, decidlas.
+
+HAMLET.- No, que lo revelaréis.
+
+HORACIO.- No, yo os prometo que no haré tal.
+
+MARCELO.- Ni yo tampoco.
+
+HAMLET.- Creéis vosotros que pudiese haber cabido en el corazón humano... Pero ¿guardaréis secreto?
+
+LOS DOS.- Sí señor, yo os lo juro.
+
+HAMLET.- No existe en toda Dinamarca un infame..., que no sea un gran malvado.
+
+HORACIO.- Pero, no era necesario, señor, que un muerto saliera del sepulcro a persuadirnos esa verdad.
+
+HAMLET.- Sí, cierto, tenéis razón, y por eso mismo, sin tratar más del asunto, será bien despedirnos y separarnos; vosotros a donde vuestros negocios o vuestra inclinación os lleven..., que todos tienen su inclinaciones, y negocios, sean los que sean; y yo, ya lo sabéis, a mi triste ejercicio. A rezar.
+
+HORACIO.- Todas esas palabras, señor, carecen de sentido y orden.
+
+HAMLET.- Mucho me pesa de haberos ofendido con ellas, sí por cierto, me pesa en el alma.
+
+HORACIO.- ¡Oh! Señor, no hay ofensa ninguna.
+
+HAMLET.- Sí, por San Patricio, que sí la hay y muy grande, Horacio... En cuanto a la aparición... Es un difunto venerable... Sí, yo os lo aseguro... Pero, reprimid cuanto os fuese posible el deseo de saber lo que ha pasado entre él y yo. ¡Ah! ¡Mis buenos amigos! Yo os pido, pues sois mis amigos y mis compañeros en el estudio y en las armas, que me concedáis una corta merced.
+
+HORACIO.- Con mucho gusto, señor, decid cual sea.
+
+HAMLET.- Que nunca revelaréis a nadie lo que habéis visto esta noche.
+
+LOS DOS.- A nadie lo diremos.
+
+HAMLET.- Pero es menester que lo juréis.
+
+HORACIO.- Os doy mi palabra de no decirlo.
+
+MARCELO.- Yo os prometo lo mismo.
+
+HAMLET.- Sobre mi espada.
+
+MARCELO.- Ved que ya lo hemos prometido.
+
+HAMLET.- Sí, sí, sobre mi espada.
+
+LA SOMBRA.- Juradlo.
+
+HAMLET.- ¡Ah! ¿Eso dices?.. ¿Estás ahí hombre de bien?.. Vamos: ya le oís hablar en lo profundo ¿Queréis jurar?
+
+HORACIO.- Proponed la fórmula.
+
+HAMLET.- Que nunca diréis lo que habéis visto. Juradlo por mi espada.
+
+LA SOMBRA.- Juradlo.
+
+HAMLET.- ¿Hic et ubique? Mudaremos de lugar. Señores, acercaos aquí: poned otra vez las manos en mi espada, y jurad por ella, que nunca diréis nada de esto que habéis oído y visto.
+
+LA SOMBRA.- Juradlo por su espada.
+
+HAMLET.- Bien has dicho, topo viejo, bien has dicho... Pero ¿cómo puedes taladrar con tal prontitud los senos de la tierra, diestro minador? Mudemos otra vez de puesto, amigos.
+
+HORACIO.- ¡Oh! Dios de la luz y de las tinieblas, ¡qué extraño prodigio es éste!
+
+HAMLET.- Por eso como a un extraño debéis hospedarle y tenerle oculto. Ello es, Horacio, que en el cielo y en la tierra hay más de lo que puede soñar tu filosofía. Pero venid acá y, como antes dije, prometedme (así el Cielo os haga felices) que por más singular y extraordinaria que sea de hoy más mi conducta (puesto que acaso juzgaré a propósito afectar un proceder del todo extravagante) nunca vosotros al verme así daréis nada a entender, cruzando los brazos de esta manera, o haciendo con la cabeza este movimiento, o con frases equívocas como: sí, sí, nosotros sabemos; nosotros pudiéramos, si quisiéramos... si gustáramos de hablar, hay tanto que decir en eso; pudiera ser que... o en fin, cualquiera otra expresión ambigua, semejante a éstas, por donde se infiera que vosotros sabéis algo de mí. Juradlo; así en vuestras necesidades os asista el favor de Dios. Juradlo.
+
+LA SOMBRA.- Jurad.
+
+HAMLET.- Descansa, descansa agitado espíritu. Señores, yo me recomiendo a vosotros con la mayor instancia, y creed que por más infeliz que Hamlet se halle, Dios querrá que no le falten medios para manifestaros la estimación y amistad que os profesa. Vámonos. Poned el dedo en la boca, yo os lo ruego... La naturaleza está en desorden... ¡Iniquidad execrable! ¡Oh! ¡Nunca yo hubiera nacido para castigarla! Venid, vámonos juntos.

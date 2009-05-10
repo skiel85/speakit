@@ -18,6 +18,11 @@ public class TextDocument implements Iterable<String> {
 	private long id;
 	private boolean filterRepeated;
 
+	public TextDocument(long id, File file, boolean filterRepeated) throws IOException {
+		this(id, "", filterRepeated);
+		loadFromFile(file);
+	}
+	
 	public TextDocument(long id, String text, boolean filterRepeated) {
 		this.filterRepeated = filterRepeated;
 		this.id = id;

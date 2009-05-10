@@ -17,10 +17,10 @@ import speakit.io.record.RecordSerializationException;
 @SuppressWarnings("unchecked")
 public class TreeIndexNode extends TreeNode {
 
-	private static final int	NULL_NODE_NUMBER	= 0;
-	private int					level				= -1;
-	private int					leftChildNodeNumber;
-	List<TreeNodeElement>		elements;
+	private static final int NULL_NODE_NUMBER = 0;
+	private int level = -1;
+	private int leftChildNodeNumber;
+	List<TreeNodeElement> elements;
 
 	public TreeIndexNode(Tree tree, int nodeNumber, int size) {
 		super(tree, nodeNumber, size);
@@ -127,8 +127,7 @@ public class TreeIndexNode extends TreeNode {
 	private void verifyOperation(int elementCountBeforeOperation, String operation, int postOperationCount) {
 		// Verifico consistencia
 		if (elementCountBeforeOperation != postOperationCount) {
-			throw new RuntimeException("Error en el " + operation + ". cantidad de elementos antes:" + elementCountBeforeOperation + ", cantidad de elementos después:"
-					+ postOperationCount);
+			throw new RuntimeException("Error en el " + operation + ". cantidad de elementos antes:" + elementCountBeforeOperation + ", cantidad de elementos después:" + postOperationCount);
 		}
 	}
 
@@ -207,7 +206,7 @@ public class TreeIndexNode extends TreeNode {
 		TreeIndexNodeElement element = (TreeIndexNodeElement) this.getElements().get(elementIndex);
 		rightChild = element.getRightChildNodeNumber();
 
-		return new int[]{leftChild, rightChild};
+		return new int[] { leftChild, rightChild };
 	}
 
 	// /**
@@ -292,7 +291,7 @@ public class TreeIndexNode extends TreeNode {
 				this.setLeftChildNodeNumber(newChild.getNodeNumber());
 			} else {
 				TreeIndexNodeElement element = new TreeIndexNodeElement();
-//				element.setKey(newChild.getNodeKey());
+				// element.setKey(newChild.getNodeKey());
 				element.setKey(newChild.getLowestKey());
 				element.setRightChild(newChild.getNodeNumber());
 				this.insertElement(element);
@@ -312,10 +311,9 @@ public class TreeIndexNode extends TreeNode {
 		int nodeNumberWhereToInsert = this.getChildFor(record.getKey());
 		TreeNode nodeWhereToInsert = this.getTree().getNode(nodeNumberWhereToInsert, this);
 		if (nodeWhereToInsert.getNodeNumber() == this.getNodeNumber()) {
-			System.out.println(this.getTree().toString());
 			throw new RuntimeException("El nodeNumberWhereToInsert es el mismo nodo.");
 		}
-		nodeWhereToInsert.insertRecord(record); 
+		nodeWhereToInsert.insertRecord(record);
 		// split
 		if (nodeWhereToInsert.isInOverflow()) {
 			// el split guarda el nodo en overflow, no hace falta hacerlo de
@@ -460,7 +458,6 @@ public class TreeIndexNode extends TreeNode {
 						rightChild.indexChild(grandchildNode);
 					}
 				}
-				
 
 				// Agrego al padre la referencia al nuevo hijo.
 				this.indexChild(middleChild);
@@ -473,8 +470,6 @@ public class TreeIndexNode extends TreeNode {
 				this.getTree().updateNode(middleChild);
 				this.getTree().updateNode(rightChild);
 			}
-
-			System.out.println(this.getTree());
 		}
 		// Si el nodo actual es padre de nodos hoja:
 		else {
@@ -555,7 +550,7 @@ public class TreeIndexNode extends TreeNode {
 	 */
 	public List<Integer> getChildNodeNumbers() {
 		List<Integer> childNodes = new ArrayList<Integer>();
-		if (this.getElementCount() > 0 || this.leftChildNodeNumber!=this.NULL_NODE_NUMBER) {
+		if (this.getElementCount() > 0 || this.leftChildNodeNumber != this.NULL_NODE_NUMBER) {
 			childNodes.add(this.leftChildNodeNumber);
 			for (TreeNodeElement element : this.elements) {
 				childNodes.add(((TreeIndexNodeElement) element).getRightChildNodeNumber());
@@ -631,7 +626,7 @@ public class TreeIndexNode extends TreeNode {
 
 	@Override
 	public Field getLowestKey() throws IOException {
-		if(this.getLeftChildNodeNumber()!=NULL_NODE_NUMBER){
+		if (this.getLeftChildNodeNumber() != NULL_NODE_NUMBER) {
 			return this.getTree().getNode(leftChildNodeNumber, this).getLowestKey();
 		}
 		return null;

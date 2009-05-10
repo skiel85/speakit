@@ -15,7 +15,7 @@ import speakit.io.record.StringField;
 
 public class TreeIndexNodeWithIndexChildrenTest {
 	private TreeIndexNode sut;
-	private TestBSharpTree tree;
+	private TestTree tree;
 	private File file;
 
 	@Before
@@ -35,7 +35,7 @@ public class TreeIndexNodeWithIndexChildrenTest {
 		// ... 13: (700)(800)(900)
 
 		this.file = File.createTempFile(this.getClass().getName(), ".dat");
-		this.tree = new TestBSharpTree(this.file);
+		this.tree = new TestTree(this.file);
 
 		this.sut = (TreeIndexNode) this.tree.getRoot();
 		this.sut.setNodeNumber(0);

@@ -28,6 +28,7 @@ public class TextCleaner {
 			text = text.replace('ó', 'o');
 			text = text.replace('ú', 'u');
 			text = text.replace('ü', 'u');
+			text = text.replace('ñ', 'n');
 		}catch(NullPointerException ioe){
 			/*No hace nada porque lo unico que se intenta
 			 en el try es tratar de reemplazar esos caracteres

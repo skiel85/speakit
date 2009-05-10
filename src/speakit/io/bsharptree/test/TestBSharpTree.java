@@ -16,7 +16,7 @@ public class TestBSharpTree extends TreeMock {
 
 	public TestBSharpTree(File file) throws IOException {
 		super(file);
-		// 00: ... 02(040)03(400)04
+		// 00: ... 02(010)03(100)04
 		// . 02: . 05(004)06(007)07
 		// ... 05: (001)(002)(003)
 		// ... 06: (004)(005)(006)

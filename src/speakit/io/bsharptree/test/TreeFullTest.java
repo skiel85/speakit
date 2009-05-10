@@ -45,7 +45,7 @@ public class TreeFullTest {
 		}
 	}
 
-	private static void verifyCorrectRecord(InvertedIndexIndexRecord record, String word, StringField key) {
+	public static void verifyCorrectRecord(InvertedIndexIndexRecord record, String word, StringField key) {
 		// verifica que el record obtenido sea el correcto
 		Assert.assertNotNull("El arbol no devolvió ningún registro cuando se le pidió uno que había sido insertado. Palabra buscada: " + key.toString(), record);
 		Assert.assertEquals(0, record.getKey().compareTo(key));

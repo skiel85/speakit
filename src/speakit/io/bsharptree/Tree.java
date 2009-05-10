@@ -134,15 +134,18 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 	public int getRootNoteBlocksQty() {
 		return ROOT_NODE_BLOCKS_QTY;
 	}
- 
+
 	@Override
 	public long insertRecord(RECTYPE record) throws IOException, RecordSerializationException {
+		if (this.getRecord(record.getKey())!=null) {
+			throw new TreeDuplicatedRecordException("Se intentó insertar un reistro duplicado. Registro: " + record);
+		}
 		this.root.insertRecord(record);
 		if (this.root.isInOverflow()) {
 			// TODO implementar balanceo y split para el caso de que quede en
 			// overflow luego de insertar.
 			splitRootNode(record);
-		}else{
+		} else {
 			this.updateNode(this.root);
 		}
 		return 0;
@@ -150,10 +153,10 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 
 	private void splitRootNode(RECTYPE record) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		if (this.root.getLevel() == 0) {
-			//Splitea la raiz cuando es un nodo hoja
+			// Splitea la raiz cuando es un nodo hoja
 			splitRootLeafNode(record);
-		}else{
-			//Splitea la raiz cuando es un nodo indice
+		} else {
+			// Splitea la raiz cuando es un nodo indice
 			splitRootIndexNode(record);
 		}
 	}
@@ -176,7 +179,8 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		((TreeIndexNode) this.root).indexChild(leafs.get(2));
 
 		if (leafs.get(0).isInOverflow() || leafs.get(1).isInOverflow() || leafs.get(2).isInOverflow()) {
-			throw new RuntimeException("ERROR: No se pudo hacer el split al insertar el registro (" + record + "). Un nodo quedó en overflow. Pruebe agrandando el tamaño de bloques.");
+			throw new RuntimeException("ERROR: No se pudo hacer el split al insertar el registro (" + record
+					+ "). Un nodo quedó en overflow. Pruebe agrandando el tamaño de bloques.");
 		}
 
 		this.updateNode(leafs.get(0));
@@ -187,44 +191,43 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 
 	private void splitRootIndexNode(RECTYPE record) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
 		/**
-		 * Descripción:
-		 * -Extrae todos los hijos de la raiz y los deja en una lista temporal
-		 * -crea 3 nodos nuevos que serán hijos de la raiz
-		 * -para cada nodo{
-		 * --indexa viejos hijos de la raiz en cada nuevo nodo y los va eliminando de la lista temporal
-		 * --indexa el nuevo nodo en la raiz
-		 * -}
-		 * -guarda todos los nodos nuevos
-		 * -guarda la raiz
+		 * Descripción: -Extrae todos los hijos de la raiz y los deja en una
+		 * lista temporal -crea 3 nodos nuevos que serán hijos de la raiz -para
+		 * cada nodo{ --indexa viejos hijos de la raiz en cada nuevo nodo y los
+		 * va eliminando de la lista temporal --indexa el nuevo nodo en la raiz
+		 * -} -guarda todos los nodos nuevos -guarda la raiz
 		 * 
 		 */
-//		System.out.println("Before split. Record = ("+record.toString()+"): \n" + this.toString());
-		
+		// System.out.println("Before split. Record = ("+record.toString()+"): \n"
+		// + this.toString());
 		ArrayList<TreeIndexNode> newRootChilds = new ArrayList<TreeIndexNode>();
 		newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
 		newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
 		newRootChilds.add((TreeIndexNode) this.instantiateNewIndexNodeAndSave(this.root.getLevel()));
-		
-		List<TreeNode> oldRootChildsTempList = ((TreeIndexNode) this.root).getExtractChildNodes();
-		
+
+		List<TreeNode> oldRootChildsTempList = ((TreeIndexNode) this.root).extractChildNodes();
+
 		Iterator<TreeNode> oldRootChildsTempListIterator = oldRootChildsTempList.iterator();
-		//recorro los nuevos nodos que acabo de crear, serán los nuevos hijos de root
+		// recorro los nuevos nodos que acabo de crear, serán los nuevos hijos
+		// de root
 		for (TreeIndexNode newRootChild : newRootChilds) {
-			//mientras el nodos esté en underflow le indexo hijos viejos de root y lo elimino de la lista temporal
-			while(newRootChild.isInUnderflow() && oldRootChildsTempListIterator.hasNext()){
+			// mientras el nodos esté en underflow le indexo hijos viejos de
+			// root y lo elimino de la lista temporal
+			while (newRootChild.isInUnderflow() && oldRootChildsTempListIterator.hasNext()) {
 				newRootChild.indexChild(oldRootChildsTempListIterator.next());
 				oldRootChildsTempListIterator.remove();
 			}
-			//indexo el nuevo hijo de la raiz
+			// indexo el nuevo hijo de la raiz
 			((TreeIndexNode) this.root).indexChild(newRootChild);
 		}
-		((TreeIndexNode) this.root).setLevel(this.root.getLevel()+1);
-		
+		((TreeIndexNode) this.root).setLevel(this.root.getLevel() + 1);
+
 		for (TreeIndexNode newRootChild : newRootChilds) {
 			this.updateNode(newRootChild);
 		}
 		this.updateNode(this.root);
-//				System.out.println("After split. Record = ("+record.toString()+"): \n" + this.toString());
+		// System.out.println("After split. Record = ("+record.toString()+"): \n"
+		// + this.toString());
 	}
 
 	public TreeNode instantiateNewIndexNodeAndSave(int level) throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException {
@@ -310,5 +313,5 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		this.root.updateRecord(record);
 		this.updateNode(this.root);
 	}
-	
+
 }

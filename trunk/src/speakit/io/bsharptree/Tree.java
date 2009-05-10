@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.sun.xml.internal.messaging.saaj.soap.impl.TreeException;
-
 import speakit.io.blockfile.BasicBlockFile;
 import speakit.io.blockfile.BasicBlockFileImpl;
 import speakit.io.blockfile.BlockFileOverflowException;

@@ -20,11 +20,11 @@ import speakit.io.record.RecordSerializationException;
 @SuppressWarnings("unchecked")
 public abstract class TreeNode {
 
-	private final Tree tree;
-	private final int size;
-	private int nodeNumber;
+	private final Tree	tree;
+	private final int	size;
+	private int			nodeNumber;
 
-	public TreeNode(Tree tree,int nodeNumber, int size) {
+	public TreeNode(Tree tree, int nodeNumber, int size) {
 		this.nodeNumber = nodeNumber;
 		this.tree = tree;
 		this.size = size;
@@ -43,7 +43,7 @@ public abstract class TreeNode {
 	public abstract TreeNode createSibling() throws BlockFileOverflowException, WrongBlockNumberException, RecordSerializationException, IOException;
 
 	public void deserialize(byte[] data, int nodeNumber) throws RecordSerializationException, IOException {
-		TreeNodeRecord nodeRecord = this.createNodeRecord(nodeNumber);		
+		TreeNodeRecord nodeRecord = this.createNodeRecord(nodeNumber);
 		nodeRecord.deserialize(data);
 		this.load(nodeRecord);
 	}
@@ -57,7 +57,7 @@ public abstract class TreeNode {
 	public final List<TreeNodeElement> extractAllElements() {
 		List<TreeNodeElement> result = new ArrayList<TreeNodeElement>(this.getElements());
 		this.getElements().clear();
-		//this.clearElements();
+		// this.clearElements();
 		return result;
 	}
 
@@ -90,12 +90,12 @@ public abstract class TreeNode {
 	}
 
 	public final TreeNodeElement extractLastElement() {
-		if(this.getElements().size()>0){
+		if (this.getElements().size() > 0) {
 			TreeNodeElement element = this.getElements().get(this.getElements().size() - 1);
 			this.getElements().remove(this.getElements().size() - 1);
-			return element;	
-		}else{
-			throw new RuntimeException("Tree: el nodo "+this.getNodeNumber()+" está vacío y no puede estarlo, no es posible hacer extractLastElement.");
+			return element;
+		} else {
+			throw new RuntimeException("Tree: el nodo " + this.getNodeNumber() + " está vacío y no puede estarlo, no es posible hacer extractLastElement.");
 		}
 	}
 
@@ -112,10 +112,9 @@ public abstract class TreeNode {
 		}
 
 		// Reinserto el último para estar por encima de la capacidad mínima.
-		if(!stack.isEmpty()) {
+		if (!stack.isEmpty()) {
 			this.insertElement(stack.pop());
-		}
-		else {
+		} else {
 			throw new AssertionError("No hay excedente a la mínima capacidad del nodo.");
 		}
 
@@ -130,7 +129,9 @@ public abstract class TreeNode {
 	}
 
 	/**
-	 * Devuelve la minima cantidad de elementos q me dejen el nodo por debajo del valor de underflow
+	 * Devuelve la minima cantidad de elementos q me dejen el nodo por debajo
+	 * del valor de underflow
+	 * 
 	 * @return
 	 * @throws RecordSerializationException
 	 * @throws IOException
@@ -260,23 +261,38 @@ public abstract class TreeNode {
 	public void setNodeNumber(int nodeNumber) {
 		this.nodeNumber = nodeNumber;
 	}
-
-	protected String formatNodeNumber(int number) {
-		NumberFormat numberFormat = NumberFormat.getInstance();
-		numberFormat.setMinimumIntegerDigits(2);		
-		return numberFormat.format(number) + "(" + this.hashCode() + ") ";
-	}
 	
+	protected String format(Object something){
+		NumberFormat numberFormat = NumberFormat.getInstance();
+		numberFormat.setMinimumIntegerDigits(2);
+		numberFormat.setMaximumFractionDigits(1);
+		return numberFormat.format(something);
+	}
+
+	protected String formatNodeNumber(int number) {		
+		return format(number); //+ "(" + this.hashCode() + ") ";
+	}
+
 	protected String getUnderflowMark() {
 		try {
-			return (this.isInUnderflow()?"(underflow)":"");
-		}  catch (IOException e) {
+			return (this.isInUnderflow() ? "(underflow)" : "");
+		} catch (IOException e) {
 			return "(error calculando underflow)";
 		}
 	}
-	
-	protected String getItemCountString() {
-		return "("+this.getElementCount()+")";
+
+	protected String getStringHeader() {
+		return formatNodeNumber(this.getNodeNumber()) + " " + "niv " + this.getLevel()  + getUnderflowMark() + "," + getSizeString();
+	}
+
+	protected String getSizeString() {
+		try {
+			int size = this.serialize().length;
+			return size + "bytes(" + format(((double)size / getMaximumCapacity()) * 100) + "%)";
+		} catch (IOException e) {
+			return "(error calculando espacio ocupado:" + e.getMessage() + ")";
+		}
+
 	}
 
 	public abstract List<TreeNode> getChildren() throws IOException;

@@ -429,7 +429,7 @@ public class TreeIndexNode extends TreeNode {
 			ArrayList<TreeNode> grandchildrenNodes = new ArrayList<TreeNode>();
 			grandchildrenNodes.addAll(leftChild.extractChildNodes());
 			grandchildrenNodes.addAll(rightChild.extractChildNodes());
-
+			
 			// Trato de balancear entre hermanos
 			for (TreeNode grandchildNode : grandchildrenNodes) {
 				if (!leftChild.isInOverflow()) {
@@ -597,8 +597,7 @@ public class TreeIndexNode extends TreeNode {
 
 	@Override
 	public String toString() {
-		String result = formatNodeNumber(this.getNodeNumber()) + " L" + this.getLevel() + getUnderflowMark() + getItemCountString() + " :" + " "
-				+ this.getLeftChildNodeNumber();
+		String result = getStringHeader() + " : " + this.getLeftChildNodeNumber();
 		for (TreeNodeElement element : this.elements) {
 			TreeIndexNodeElement indexElement = (TreeIndexNodeElement) element;
 			result += "(" + element.getKey().toString() + ")" + indexElement.getRightChildNodeNumber();

@@ -7,7 +7,6 @@ import speakit.FileManager;
 import speakit.audio.Audio;
 import speakit.dictionary.audiofile.AudioFile;
 import speakit.dictionary.audiofile.WordNotFoundException;
-import speakit.dictionary.audioindexfile.AudioIndexFile;
 import speakit.dictionary.trie.Trie;
 import speakit.io.record.RecordSerializationException;
 

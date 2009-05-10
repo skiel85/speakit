@@ -140,15 +140,18 @@ public class TrieTest {
 				}
 			}
 		}
-		for (String word : words) {
-			long offset = this.trie.getOffset(word);
-			Assert.assertEquals("No encontró \"" + word + "\"" ,TreeFullTest.simulateBlockNumber(word), offset);
-		}
+		System.out.println("Buscando " + words.size() + " palabras ...");
+		testContainsAllWords(words);
 		this.trie=new Trie( );
 		this.trie.load(fileManager, conf);
+		testContainsAllWords(words);
+	}
+
+	private void testContainsAllWords(ArrayList<String> words) throws WordNotFoundException, RecordSerializationException, IOException {
 		for (String word : words) {
 			long offset = this.trie.getOffset(word);
-			Assert.assertEquals("No encontró \"" + word + "\"" , TreeFullTest.simulateBlockNumber(word), offset);
+			System.out.println("("+word+","+offset+")");
+			Assert.assertEquals("No encontró \"" + word + "\"" ,TreeFullTest.simulateBlockNumber(word), offset);
 		}
 	}
 

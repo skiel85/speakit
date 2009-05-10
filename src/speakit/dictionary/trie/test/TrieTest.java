@@ -1,6 +1,8 @@
 package speakit.dictionary.trie.test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -10,9 +12,12 @@ import org.junit.Test;
 
 import speakit.Configuration;
 import speakit.FileManager;
+import speakit.TextDocument;
 import speakit.dictionary.audiofile.WordNotFoundException;
 import speakit.dictionary.trie.Trie;
+import speakit.io.bsharptree.test.TreeFullTest;
 import speakit.io.record.RecordSerializationException;
+import speakit.test.SpeakitSearchRealDocumentsTest;
 import speakit.test.TestFileManager;
 
 public class TrieTest {
@@ -27,7 +32,7 @@ public class TrieTest {
 		trie = new Trie();
 		conf = new Configuration();
 		conf.setTrieDepth(4);
-		conf.setBlockSize(512);
+		conf.setBlockSize(1512);
 		trie.install(fileManager, conf);
 	}
 
@@ -111,6 +116,40 @@ public class TrieTest {
 		loadedTrie.load(fileManager, conf);
 
 		testContainsAllWords(loadedTrie, words);
+	}
+	
+	@Ignore
+	@Test
+	public void testAddArticleWords() throws IOException, WordNotFoundException, RecordSerializationException {
+		List<TextDocument> documents=new ArrayList<TextDocument>();
+		documents.add(SpeakitSearchRealDocumentsTest.ARTICLE_ABSTRACCION);
+		documents.add(SpeakitSearchRealDocumentsTest.ARTICLE_ADOLESCENCIA);
+		documents.add(SpeakitSearchRealDocumentsTest.ARTICLE_AUTOESTIMA);
+		documents.add(SpeakitSearchRealDocumentsTest.ARTICLE_CONECTIVISMO);
+		documents.add(SpeakitSearchRealDocumentsTest.ARTICLE_EFECTO_TETRIS);
+		documents.add(SpeakitSearchRealDocumentsTest.ARTICLE_EQUIPAMIENTO);
+		documents.add(SpeakitSearchRealDocumentsTest.ARTICLE_INSTINTO);
+		documents.add(SpeakitSearchRealDocumentsTest.ARTICLE_PORTUGA);
+		
+		ArrayList<String> words = new ArrayList<String>();
+		for (TextDocument textDocument : documents) {
+			for (String word : textDocument) {
+				if (!words.contains(word)) {
+					words.add(word);
+					this.trie.addWord(word, TreeFullTest.simulateBlockNumber(word));
+				}
+			}
+		}
+		for (String word : words) {
+			long offset = this.trie.getOffset(word);
+			Assert.assertEquals("No encontró \"" + word + "\"" ,TreeFullTest.simulateBlockNumber(word), offset);
+		}
+		this.trie=new Trie( );
+		this.trie.load(fileManager, conf);
+		for (String word : words) {
+			long offset = this.trie.getOffset(word);
+			Assert.assertEquals("No encontró \"" + word + "\"" , TreeFullTest.simulateBlockNumber(word), offset);
+		}
 	}
 
 	private static void testContainsAllWords(Trie trie, String[] words) throws RecordSerializationException, IOException, WordNotFoundException {

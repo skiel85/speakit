@@ -90,7 +90,7 @@ public class InvertedIndex implements File, RecordFactory {
 
 	private void createDataFile(FileManager fileManager) throws IOException {
 		this.invertedListsFile = new DirectRecordFile<InvertedIndexRecord, StringField>(fileManager.openFile(DATAFILE), this);
-		this.index = new Tree<InvertedIndexIndexRecord, StringField>(fileManager.openFile(INDEXFILENAME), this);
+		this.index = new Tree<InvertedIndexIndexRecord, StringField>(fileManager.openFile(INDEXFILENAME), InvertedIndexIndexRecord.createRecordFactory());
 	}
 
 	public void load(FileManager filemanager, Configuration conf) throws IOException {

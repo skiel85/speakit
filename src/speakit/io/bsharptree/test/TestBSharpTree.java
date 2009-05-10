@@ -31,27 +31,20 @@ public class TestBSharpTree extends TreeMock {
 		// ... 13: (700)(800)(900)
 
 		this.root = new TreeIndexNode(this,0, 2);
-		this.root.setNodeNumber(0);
+		this.registerNodeInMock(this.root);
+		this.setRoot(root);
 
 		this.leafNodes = new TreeNode[9];
 		leafNodes[0] = new TreeLeafNode(this,5);
-//		leafNodes[0].setNodeNumber(5);
 		leafNodes[1] = new TreeLeafNode(this,6);
-//		leafNodes[1].setNodeNumber(6);
 		leafNodes[2] = new TreeLeafNode(this,7);
-//		leafNodes[2].setNodeNumber(7);
 		leafNodes[3] = new TreeLeafNode(this,8);
-//		leafNodes[3].setNodeNumber(8);
 		leafNodes[4] = new TreeLeafNode(this,9);
-//		leafNodes[4].setNodeNumber(9);
 		leafNodes[5] = new TreeLeafNode(this,10);
-//		leafNodes[5].setNodeNumber(10);
 		leafNodes[6] = new TreeLeafNode(this,11);
-//		leafNodes[6].setNodeNumber(11);
 		leafNodes[7] = new TreeLeafNode(this,12);
-//		leafNodes[7].setNodeNumber(12);
 		leafNodes[8] = new TreeLeafNode(this,13);
-//		leafNodes[8].setNodeNumber(13);
+		this.registerNodesInMock(this.leafNodes);
 
 		this.records = new TestIndexRecord[27];
 		records[0] = new TestIndexRecord("001", 1);
@@ -112,11 +105,8 @@ public class TestBSharpTree extends TreeMock {
 
 		this.indexNodes = new TreeIndexNode[3];
 		this.indexNodes[0] = new TreeIndexNode(this,2, 1);
-//		this.indexNodes[0].setNodeNumber(2);
 		this.indexNodes[1] = new TreeIndexNode(this,3, 1);
-//		this.indexNodes[1].setNodeNumber(3);
 		this.indexNodes[2] = new TreeIndexNode(this,4, 1);
-//		this.indexNodes[2].setNodeNumber(4);
 
 		this.indexNodes[0].indexChild(leafNodes[0]);
 		this.indexNodes[0].indexChild(leafNodes[1]);
@@ -127,16 +117,11 @@ public class TestBSharpTree extends TreeMock {
 		this.indexNodes[2].indexChild(leafNodes[6]);
 		this.indexNodes[2].indexChild(leafNodes[7]);
 		this.indexNodes[2].indexChild(leafNodes[8]);
-
+		this.registerNodesInMock(this.indexNodes);
+		
 		this.root.indexChild(this.indexNodes[0]);
 		this.root.indexChild(this.indexNodes[1]);
 		this.root.indexChild(this.indexNodes[2]);
-
-		this.registerNodeInMock(this.root);
-		this.registerNodesInMock(this.indexNodes);
-		this.registerNodesInMock(this.leafNodes);
-
-		this.setRoot(root);
 	}
 
 	public TreeNode[] getIndexNodes() {

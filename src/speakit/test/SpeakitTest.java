@@ -117,7 +117,6 @@ public class SpeakitTest {
 		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioO.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioNo.getAudio().getBytes(), it.next().getAudio().getBytes());
-		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioEsa.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioEs.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioLa.getAudio().getBytes(), it.next().getAudio().getBytes());
@@ -156,7 +155,6 @@ public class SpeakitTest {
 		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioO.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioNo.getAudio().getBytes(), it.next().getAudio().getBytes());
-		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioEsa.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioEs.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioLa.getAudio().getBytes(), it.next().getAudio().getBytes());

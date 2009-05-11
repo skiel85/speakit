@@ -50,6 +50,18 @@ public class TextDocument implements Iterable<String> {
 		this.text = new String(buffer);
 	}
 
+	
+	public Iterator<String> iteratorWithoutCleaning() {
+		String[] string = this.text.split(" ");
+		List<String> words = new ArrayList<String>();
+		for(String word : string){
+			if (!this.filterRepeated || !words.contains(word)) {
+				words.add(word);
+			}
+		}
+		return words.iterator();
+	}
+	
 	@Override
 	public Iterator<String> iterator() {
 		wordReader = new WordReaderImpl(this.text);
@@ -57,14 +69,16 @@ public class TextDocument implements Iterable<String> {
 		if (wordReader.hasNext()) {
 			while (wordReader.hasNext()) {
 				String word = wordReader.next();
-				if (!this.filterRepeated || !words.contains(word)) {
+				if ((!this.filterRepeated) && (!words.contains(word))) {
 					words.add(word);
 				}
 			}
 		}
+		
 		return words.iterator();
 	}
 
+	
 	/*
 	 * Para implementar este método es necesario tener como mínimo la lista de
 	 * stop words. Esto se implementa en FTRS public ArrayList<String>

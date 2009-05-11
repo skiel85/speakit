@@ -1,11 +1,13 @@
 package speakit.wordreader;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import speakit.TextDocument;
 import speakit.ftrs.StopWords;
+import speakit.ftrs.StopWordsFilter;
 
 /**
  * Realiza una limpieza del texto, eliminando puntuación y espacios, para luego
@@ -110,13 +112,15 @@ public class TextCleaner {
 	 * @param document
 	 *            Texto original.
 	 * @return TextDocument
+	 * @throws IOException 
 	 */
-	public TextDocument cleanDocument(TextDocument  document){
+	public TextDocument cleanDocument(TextDocument  document) throws IOException{
 
 		String cleanWords = cleanText(document.getText());
-		String relevantsWords = getRelevantWords(new TextDocument(cleanWords));
+		StopWordsFilter stopWordsFilter = new StopWordsFilter();
+		TextDocument relevantsWords = stopWordsFilter.getRelevantWords(new TextDocument(cleanWords));
 		
-		return new TextDocument(document.getId(), relevantsWords);
+		return relevantsWords;
 	}
 	
 }

@@ -1,5 +1,7 @@
 package speakit.wordreader.test;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -72,10 +74,10 @@ public class TextCleanerTest {
 	}
 	
 	@Test
-	public void testcleanDocument(){
+	public void testcleanDocument() throws IOException{
 		String text = "habia un        camión andando por la vereda, argüello// ";
 		TextDocument document = new TextDocument(text);
-		Assert.assertEquals("habia un camion andando por la vereda arguello", this.sut.cleanDocument(document).getText());
+		Assert.assertEquals("habia camion andando vereda arguello", this.sut.cleanDocument(document).getText());
 	}
 	
 	@After

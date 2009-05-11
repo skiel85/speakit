@@ -1,9 +1,11 @@
 package speakit.wordreader;
 
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import speakit.TextDocument;
+import speakit.ftrs.StopWords;
 
 /**
  * Realiza una limpieza del texto, eliminando puntuación y espacios, para luego
@@ -32,7 +34,7 @@ public class TextCleaner {
 			 si es que los hay, sino, no pasa nada.
 			 */ 
 		}
-		Pattern p = Pattern.compile("[^a-z0-9]");
+		Pattern p = Pattern.compile("[^a-z0-9ñ]");
 		Matcher m = p.matcher(text.toLowerCase());
 		return m.replaceAll(" ");
 	}
@@ -79,14 +81,12 @@ public class TextCleaner {
 	 *            Texto original.
 	 * @return TextDocument.
 	 */
-	@Deprecated
-	public TextDocument getRelevantWords (TextDocument textDocument){
-		/*String filteredWords = "";
-		ArrayList<String> wordIterable = new ArrayList<String>();
-		
-		for(String word : textDocument){
-			wordIterable.add(word.toLowerCase());
-		}
+
+	public String getRelevantWords (TextDocument textDocument){
+
+		String filteredWords = "";
+		String[] wordIterable = textDocument.getText().split(" ");
+
 		StopWords stopWords = new StopWords();
 		ArrayList<String> stopWordIterable = stopWords.getStopWords();
 		
@@ -99,8 +99,9 @@ public class TextCleaner {
 				}
 			}
 		}
-		*/
-		return new TextDocument(textDocument.getId(), textDocument.getText());
+
+		
+		return filteredWords;
 	}
 	
 	/**
@@ -111,9 +112,11 @@ public class TextCleaner {
 	 * @return TextDocument
 	 */
 	public TextDocument cleanDocument(TextDocument  document){
-		//TextDocument relevantDocument = getRelevantWords(document);
+
 		String cleanWords = cleanText(document.getText());
-		return new TextDocument(document.getId(), cleanWords);
+		String relevantsWords = getRelevantWords(new TextDocument(cleanWords));
+		
+		return new TextDocument(document.getId(), relevantsWords);
 	}
 	
 }

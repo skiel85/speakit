@@ -68,7 +68,7 @@ public class TextCleanerTest {
 	public void testGetRelevantWords(){
 		String text = "un camión estaba ante nosotros argüello //,";
 		TextDocument document = new TextDocument(text);
-		Assert.assertEquals("camion arguello", this.sut.getRelevantWords(document).getText());
+		Assert.assertEquals("camión argüello //,", this.sut.getRelevantWords(document));
 	}
 	
 	@Test

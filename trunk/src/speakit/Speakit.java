@@ -84,16 +84,18 @@ public class Speakit implements SpeakitInterface {
 	 * 
 	 * @throws IOException
 	 */
-	public Iterable<String> addDocuments(TextDocumentList docs) throws IOException {
+	public TextDocument addDocuments(TextDocumentList docs) throws IOException {
 		indexDocuments(docs);
 		ArrayList<String> unknownWordsFromDocuments = new ArrayList<String>();
 		Iterator<TextDocument> iterator = docs.iterator();
 		TextDocument textDocument;
-		String unknownWords = "";
+		String unknownWords = null;
 		
 		while(iterator.hasNext()){
 			textDocument = iterator.next();
-			for(String word : textDocument){
+			Iterator<String> it = textDocument.iteratorWithoutCleaning();
+			while(it.hasNext()){
+				String word = it.next();
 				if (!this.dataBase.contains(word) && !unknownWordsFromDocuments.contains(word)) {
 					unknownWordsFromDocuments.add(word);
 				}
@@ -101,7 +103,7 @@ public class Speakit implements SpeakitInterface {
 		}
 		
 		for(String word : unknownWordsFromDocuments){
-			if(unknownWords == ""){
+			if(unknownWords == null){
 				unknownWords = word;
 			}else{
 				unknownWords = unknownWords + " " + word;

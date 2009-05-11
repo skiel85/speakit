@@ -25,7 +25,7 @@ public interface SpeakitInterface extends Installable {
 	 * Agrega los documentos al sistema y devuelve la lista de documentos
 	 * para luego obtener las palabras desconocidas de cada uno
 	 */
-	public abstract Iterable<String> addDocuments(TextDocumentList docs) throws IOException;
+	public abstract TextDocument addDocuments(TextDocumentList docs) throws IOException;
 	
 	/**
 	 * Devuelve una documento de audio

@@ -66,13 +66,16 @@ public class Speakit implements SpeakitInterface {
 	 */
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {
 		indexDocument(doc);
-		ArrayList<String> words = new ArrayList<String>();
-		for (String word : doc) {
-			if (!this.dataBase.contains(word) && !words.contains(word)) {
-				words.add(word);
+		ArrayList<String> unknownWordsFromDocument = new ArrayList<String>();
+		Iterator<String> iterator = doc.iteratorWithoutCleaning();
+		while(iterator.hasNext()){
+			String word = iterator.next();
+			if (!this.dataBase.contains(word) && !unknownWordsFromDocument.contains(word)) {
+				unknownWordsFromDocument.add(word);
 			}
 		}
-		return words;
+		
+		return unknownWordsFromDocument;
 	}
 	
 	/**

@@ -75,6 +75,7 @@ public class SpeakitSearchRealDocumentsTest {
 			resultList.add(textDocument);
 		}
 		//System.out.println(sut.printIndexForDebug());
+		
 		Assert.assertTrue("Deberia contenerlo",resultList.contains(ARTICLE_ABSTRACCION));
 		Assert.assertTrue("Deberia contenerlo",resultList.contains(ARTICLE_INSTINTO));
 	}
@@ -92,7 +93,7 @@ public class SpeakitSearchRealDocumentsTest {
 	}
 	@Test
 	public void testSearchWithTildes() throws IOException{ 
-		TextDocumentList result = this.sut.search(new TextDocument("latin"));
+		TextDocumentList result = this.sut.search(new TextDocument("latín"));
 		
 		List<TextDocument> resultList = new ArrayList<TextDocument>();
 		for (TextDocument textDocument : result) {

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import speakit.wordreader.TextCleaner;
 import speakit.wordreader.WordReader;
 import speakit.wordreader.WordReaderImpl;
 
@@ -27,7 +28,7 @@ public class TextDocument implements Iterable<String> {
 		this.filterRepeated = filterRepeated;
 		this.id = id;
 		this.text = text;
-//		wordReader = new WordReaderImpl(this.text);
+		wordReader = new WordReaderImpl(this.text);
 	}
 
 	public TextDocument(long id, String text) {
@@ -52,10 +53,12 @@ public class TextDocument implements Iterable<String> {
 
 	
 	public Iterator<String> iteratorWithoutCleaning() {
-		String[] string = this.text.split(" ");
+		TextCleaner cleaner = new TextCleaner();
+		String text = cleaner.replaceStrangeCharactersToShow(this.text);
+		String[] string = text.split(" ");
 		List<String> words = new ArrayList<String>();
 		for(String word : string){
-			if (!this.filterRepeated || !words.contains(word)) {
+			if (!this.filterRepeated && !words.contains(word)) {
 				words.add(word);
 			}
 		}

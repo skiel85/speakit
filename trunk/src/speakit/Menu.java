@@ -23,7 +23,7 @@ public class Menu {
 	protected AudioManager audioManager;
 	private SpeakitInterface speakit;
 	private boolean DEBUG_MODE = false;
-	private ArrayList<String> documentsAdded = new ArrayList<String>(); 
+	 
 	
 	public Menu(boolean debug) {
 		this();

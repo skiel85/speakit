@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
+
 import org.junit.Test;
 
 import speakit.TextDocument;
@@ -22,17 +22,17 @@ public class TextCleanerTest {
 
 	@Test
 	public void testReplaceStrangeCharacters() {
-		Assert.assertEquals("hola  mundo", this.sut.replaceStrangeCharacters("hola, mundo"));
+		Assert.assertEquals("hola  mundo", this.sut.replaceStrangeCharactersForIndex("hola, mundo"));
 	}
 
 	@Test
 	public void testNotReplaceAccentedCharacters() {
-		Assert.assertEquals("excepcion", this.sut.replaceStrangeCharacters("excepción"));
+		Assert.assertEquals("excepcion", this.sut.replaceStrangeCharactersForIndex("excepción"));
 	}
 
 	@Test
 	public void testLongTextTakenFromWikipedia() {
-		Assert.assertEquals("Todo ser inteligente  decia el geometra  debe comprender el destino cientifico de esta figura ".toLowerCase(), this.sut.replaceStrangeCharacters("Todo ser inteligente -decía el geómetra- debe comprender el destino científico de esta figura."));
+		Assert.assertEquals("Todo ser inteligente  decia el geometra  debe comprender el destino cientifico de esta figura ".toLowerCase(), this.sut.replaceStrangeCharactersForIndex("Todo ser inteligente -decía el geómetra- debe comprender el destino científico de esta figura."));
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class TextCleanerTest {
 
 	@Test
 	public void testCollapseSpacesFromLongTextTakenFromWikipedia() {
-		Assert.assertEquals("Todo ser inteligente decía el geómetra debe comprender el destino científico de esta figura".toLowerCase(), this.sut.collapseSpaces("Todo ser inteligente  decía el geómetra  debe comprender el destino científico de esta figura "));
+		Assert.assertEquals("Todo ser inteligente decía el geómetra debe comprender el destino científico de esta figura", this.sut.collapseSpaces("Todo ser inteligente  decía el geómetra  debe comprender el destino científico de esta figura "));
 	}
 
 	@Test
@@ -65,13 +65,6 @@ public class TextCleanerTest {
 		Assert.assertArrayEquals(expecteds, actuals);
 	}
 
-	@Ignore
-	//Esto es ahora responsabilidad del stopWordsFilter
-	public void testGetRelevantWords(){
-		String text = "un camión estaba ante nosotros argüello //,";
-		TextDocument document = new TextDocument(text);
-		Assert.assertEquals("camión argüello //,", this.sut.getRelevantWords(document));
-	}
 	
 	@Test
 	public void testcleanDocument() throws IOException{

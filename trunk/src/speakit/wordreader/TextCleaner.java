@@ -1,13 +1,9 @@
 package speakit.wordreader;
 
 
-import java.io.IOException;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import speakit.TextDocument;
-
-import speakit.ftrs.StopWordsFilter;
 
 /**
  * Realiza una limpieza del texto, eliminando puntuación y espacios, para luego
@@ -15,14 +11,13 @@ import speakit.ftrs.StopWordsFilter;
  */
 public class TextCleaner {
 	/**
-	 * Elimina los caracteres no latinos, convierte a minúsculas y reemplaza los 
-	 * caracteres con acento por los respectivos sin acento para la indexación.
+	 * Elimina los caracteres no latinos y convierte a minúsculas.
 	 * 
 	 * @param text
 	 *            Texto original.
 	 * @return Texto con los caracteres no latinos eliminados.
 	 */
-	public String replaceStrangeCharactersForIndex(String text) {
+	public String replaceStrangeCharacters(String text) {
 		try{
 			text = text.replace('á', 'a');
 			text = text.replace('é', 'e');
@@ -30,7 +25,6 @@ public class TextCleaner {
 			text = text.replace('ó', 'o');
 			text = text.replace('ú', 'u');
 			text = text.replace('ü', 'u');
-//			text = text.replace('ñ', 'n');
 		}catch(NullPointerException ioe){
 			/*No hace nada porque lo unico que se intenta
 			 en el try es tratar de reemplazar esos caracteres
@@ -40,19 +34,6 @@ public class TextCleaner {
 		Pattern p = Pattern.compile("[^a-z0-9ñ]");
 		Matcher m = p.matcher(text.toLowerCase());
 		return m.replaceAll(" ");
-	}
-	
-	/**
-	 * Elimina los caracteres no latinos y convierte a minúsculas.
-	 * 
-	 * @param text
-	 *            Texto original.
-	 * @return Texto con los caracteres no latinos eliminados.
-	 */
-	public String replaceStrangeCharactersToShow(String text){
-		Pattern p = Pattern.compile("[^A-Za-z0-9ñÑáéíóúü]");
-		Matcher m = p.matcher(text);
-		return collapseSpaces(m.replaceAll(" "));
 	}
 
 	/**
@@ -64,7 +45,7 @@ public class TextCleaner {
 	 */
 	public String collapseSpaces(String text) {
 		Pattern p = Pattern.compile(" +");
-		Matcher m = p.matcher(text);
+		Matcher m = p.matcher(text.toLowerCase());
 		return m.replaceAll(" ").trim();
 	}
 
@@ -76,7 +57,7 @@ public class TextCleaner {
 	 * @return Texto limpio.
 	 */
 	public String cleanText(String text) {
-		return this.collapseSpaces(this.replaceStrangeCharactersForIndex(text));
+		return this.collapseSpaces(this.replaceStrangeCharacters(text));
 	}
 
 	/**
@@ -90,22 +71,19 @@ public class TextCleaner {
 		return this.cleanText(text).split(" ");
 	}
 
-
+	
+	
 	/**
 	 * Devuelve un documento con todas las palabras limpias y con los stop words eliminados
 	 * 
 	 * @param document
 	 *            Texto original.
 	 * @return TextDocument
-	 * @throws IOException 
 	 */
-	public TextDocument cleanDocument(TextDocument  document) throws IOException{
-
+	public TextDocument cleanDocument(TextDocument  document){
+		//TextDocument relevantDocument = getRelevantWords(document);
 		String cleanWords = cleanText(document.getText());
-		StopWordsFilter stopWordsFilter = new StopWordsFilter();
-		TextDocument relevantsWords = stopWordsFilter.getRelevantWords(new TextDocument(cleanWords));
-		
-		return relevantsWords;
+		return new TextDocument(document.getId(), cleanWords);
 	}
 	
 }

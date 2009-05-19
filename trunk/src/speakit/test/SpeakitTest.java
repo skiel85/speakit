@@ -10,7 +10,6 @@ import java.util.Iterator;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.FileManager;
@@ -71,14 +70,13 @@ public class SpeakitTest {
 	@Test
 	public void testAddDocumentAndGetUnknownWords() throws IOException {
 		Iterator<String> it = this.sut.addDocument(createTextDocument("Ser o no ser, esa es la cuestión.")).iterator();
-		Assert.assertEquals("Ser", it.next());
+		Assert.assertEquals("ser", it.next());
 		Assert.assertEquals("o", it.next());
 		Assert.assertEquals("no", it.next());
-		Assert.assertEquals("ser", it.next());
 		Assert.assertEquals("esa", it.next());
 		Assert.assertEquals("es", it.next());
 		Assert.assertEquals("la", it.next());
-		Assert.assertEquals("cuestión", it.next());
+		Assert.assertEquals("cuestion", it.next());
 		Assert.assertFalse(it.hasNext());
 	}
 	
@@ -89,31 +87,28 @@ public class SpeakitTest {
 		this.sut.addWordAudio(wordAudio);
 		Iterator<String> it = this.sut.addDocument(createTextDocument("Ser o no ser, esa es la cuestión.")).iterator();
 
-		Assert.assertEquals("Ser", it.next());
+		Assert.assertEquals("ser", it.next());
 		Assert.assertEquals("o", it.next());
 		Assert.assertEquals("no", it.next());
-		Assert.assertEquals("ser", it.next());
 		Assert.assertEquals("es", it.next());
 		Assert.assertEquals("la", it.next());
-		Assert.assertEquals("cuestión", it.next());
+		Assert.assertEquals("cuestion", it.next());
 
 		Assert.assertFalse(it.hasNext());
 	}
 	
 	@Test
 	public void testConvertToAudioDocument() throws IOException, RecordSerializationException {
-		WordAudio wordAudioSer = new WordAudio("Ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
+		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
 		WordAudio wordAudioO = new WordAudio("o", new Audio(new byte[] { 3, 8, -65, 54, 82 }));
 		WordAudio wordAudioNo = new WordAudio("no", new Audio(new byte[] { 1, 9, -5, 77, 3 }));
-		WordAudio wordAudioser = new WordAudio("ser", new Audio(new byte[] { 2, 7, -6, 75, 96 }));
 		WordAudio wordAudioEsa = new WordAudio("esa", new Audio(new byte[] { -91, 34, 65, 88, 82 }));
 		WordAudio wordAudioEs = new WordAudio("es", new Audio(new byte[] { 111, 34, -65, 8, 82 }));
 		WordAudio wordAudioLa = new WordAudio("la", new Audio(new byte[] { 112, 0, -65, 65, 82 }));
-		WordAudio wordAudioCuestion = new WordAudio("cuestión", new Audio(new byte[] { 1, -24, -3, 77, 80 }));
+		WordAudio wordAudioCuestion = new WordAudio("cuestion", new Audio(new byte[] { 1, -24, -3, 77, 80 }));
 		this.sut.addWordAudio(wordAudioSer);
 		this.sut.addWordAudio(wordAudioO);
 		this.sut.addWordAudio(wordAudioNo);
-		this.sut.addWordAudio(wordAudioser);
 		this.sut.addWordAudio(wordAudioEsa);
 		this.sut.addWordAudio(wordAudioEs);
 		this.sut.addWordAudio(wordAudioLa);
@@ -122,7 +117,7 @@ public class SpeakitTest {
 		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioO.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioNo.getAudio().getBytes(), it.next().getAudio().getBytes());
-		Assert.assertArrayEquals(wordAudioser.getAudio().getBytes(), it.next().getAudio().getBytes());
+		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioEsa.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioEs.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioLa.getAudio().getBytes(), it.next().getAudio().getBytes());
@@ -137,15 +132,13 @@ public class SpeakitTest {
 		this.sut.setFileManager((TestFileManager) fileManager);
 		this.sut.load();
 
-		WordAudio wordAudioSer = new WordAudio("Ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
+		WordAudio wordAudioSer = new WordAudio("ser", new Audio(new byte[] { 1, 34, -65, 77, 82 }));
 		WordAudio wordAudioO = new WordAudio("o", new Audio(new byte[] { 3, 8, -65, 54, 82 }));
 		WordAudio wordAudioNo = new WordAudio("no", new Audio(new byte[] { 1, 9, -5, 77, 3 }));
-		WordAudio wordAudioser = new WordAudio("ser", new Audio(new byte[] { 2, 8, -4, 67, 8 }));
 		WordAudio wordAudioEsa = new WordAudio("esa", new Audio(new byte[] { -91, 34, 65, 88, 82 }));
 		this.sut.addWordAudio(wordAudioSer);
 		this.sut.addWordAudio(wordAudioO);
 		this.sut.addWordAudio(wordAudioNo);
-		this.sut.addWordAudio(wordAudioser);
 		this.sut.addWordAudio(wordAudioEsa);
 
 		this.sut = new Speakit();
@@ -154,7 +147,7 @@ public class SpeakitTest {
 
 		WordAudio wordAudioEs = new WordAudio("es", new Audio(new byte[] { 111, 34, -65, 8, 82 }));
 		WordAudio wordAudioLa = new WordAudio("la", new Audio(new byte[] { 112, 0, -65, 65, 82 }));
-		WordAudio wordAudioCuestion = new WordAudio("cuestión", new Audio(new byte[] { 1, -24, -3, 77, 80 }));
+		WordAudio wordAudioCuestion = new WordAudio("cuestion", new Audio(new byte[] { 1, -24, -3, 77, 80 }));
 		this.sut.addWordAudio(wordAudioEs);
 		this.sut.addWordAudio(wordAudioLa);
 		this.sut.addWordAudio(wordAudioCuestion);
@@ -163,7 +156,7 @@ public class SpeakitTest {
 		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioO.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioNo.getAudio().getBytes(), it.next().getAudio().getBytes());
-		Assert.assertArrayEquals(wordAudioser.getAudio().getBytes(), it.next().getAudio().getBytes());
+		Assert.assertArrayEquals(wordAudioSer.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioEsa.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioEs.getAudio().getBytes(), it.next().getAudio().getBytes());
 		Assert.assertArrayEquals(wordAudioLa.getAudio().getBytes(), it.next().getAudio().getBytes());

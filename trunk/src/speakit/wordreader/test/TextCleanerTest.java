@@ -1,11 +1,9 @@
 package speakit.wordreader.test;
 
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-
+import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.TextDocument;
@@ -22,17 +20,17 @@ public class TextCleanerTest {
 
 	@Test
 	public void testReplaceStrangeCharacters() {
-		Assert.assertEquals("hola  mundo", this.sut.replaceStrangeCharactersForIndex("hola, mundo"));
+		Assert.assertEquals("hola  mundo", this.sut.replaceStrangeCharacters("hola, mundo"));
 	}
 
 	@Test
 	public void testNotReplaceAccentedCharacters() {
-		Assert.assertEquals("excepcion", this.sut.replaceStrangeCharactersForIndex("excepción"));
+		Assert.assertEquals("excepcion", this.sut.replaceStrangeCharacters("excepción"));
 	}
 
 	@Test
 	public void testLongTextTakenFromWikipedia() {
-		Assert.assertEquals("Todo ser inteligente  decia el geometra  debe comprender el destino cientifico de esta figura ".toLowerCase(), this.sut.replaceStrangeCharactersForIndex("Todo ser inteligente -decía el geómetra- debe comprender el destino científico de esta figura."));
+		Assert.assertEquals("Todo ser inteligente  decia el geometra  debe comprender el destino cientifico de esta figura ".toLowerCase(), this.sut.replaceStrangeCharacters("Todo ser inteligente -decía el geómetra- debe comprender el destino científico de esta figura."));
 	}
 
 	@Test
@@ -42,7 +40,7 @@ public class TextCleanerTest {
 
 	@Test
 	public void testCollapseSpacesFromLongTextTakenFromWikipedia() {
-		Assert.assertEquals("Todo ser inteligente decía el geómetra debe comprender el destino científico de esta figura", this.sut.collapseSpaces("Todo ser inteligente  decía el geómetra  debe comprender el destino científico de esta figura "));
+		Assert.assertEquals("Todo ser inteligente decía el geómetra debe comprender el destino científico de esta figura".toLowerCase(), this.sut.collapseSpaces("Todo ser inteligente  decía el geómetra  debe comprender el destino científico de esta figura "));
 	}
 
 	@Test
@@ -66,11 +64,12 @@ public class TextCleanerTest {
 	}
 
 	
+	
 	@Test
-	public void testcleanDocument() throws IOException{
+	public void testcleanDocument(){
 		String text = "habia un        camión andando por la vereda, argüello// ";
 		TextDocument document = new TextDocument(text);
-		Assert.assertEquals("habia camion andando vereda arguello", this.sut.cleanDocument(document).getText());
+		Assert.assertEquals("habia un camion andando por la vereda arguello", this.sut.cleanDocument(document).getText());
 	}
 	
 	@After

@@ -23,7 +23,7 @@ public class Menu {
 	protected AudioManager audioManager;
 	private SpeakitInterface speakit;
 	private boolean DEBUG_MODE = false;
-	 
+	private ArrayList<String> documentsAdded = new ArrayList<String>(); 
 	
 	public Menu(boolean debug) {
 		this();
@@ -128,14 +128,11 @@ public class Menu {
 				pathsNotFounds.add(path);
 			}
 		}
-		TextDocument faltantes = this.speakit.addDocuments(documents);
+		Iterable <String> faltantes = this.speakit.addDocuments(documents);
 		boolean showTitle = true;
-
-		Iterator<String> it = faltantes.iteratorWithoutCleaning();
-		
-		while(it.hasNext()){
-			String unknownWord = it.next();
-			if(unknownWord != ""){    	
+		for(String unknownWord : faltantes){
+			System.out.println();
+	        if(unknownWord != ""){
 	        	if (showTitle) {
 	    			System.out.println("Los documentos ingresados contienen palabras desconocidas que deberá grabar a continuación");
 	    			showTitle = false;
@@ -145,8 +142,7 @@ public class Menu {
 	            	speakit.addWordAudio(audio);
 	            }
 	        }
-		}
-		
+	    }
 		System.out.println();
 		showAddSeveralDocsStatus(addedsDocs, pathsNotFounds);
 	}
@@ -356,21 +352,9 @@ public class Menu {
 	private void doConsultation() throws IOException {
 		String consultation = "";
 		TextDocumentList documentList;
-		boolean firstTime = true;
-		boolean option = false;
-	
+
 		System.out.println("Ingrese la consulta");
-		
-		while (!option) {
-			try {
-				consultation = userInput.readLine();
-			} catch (IOException e) {
-				System.out.println("Error de E/S al leer la consola.");
-				continue;
-			}
-			option = true;
-		}
-		
+		consultation = this.userInput.readLine();
 		TextDocument searchText = new TextDocument(consultation);
 		ArrayList<String> invalidWords = speakit.getInvalidWordsForSearch(searchText);
 		if (!invalidWords.isEmpty()) {
@@ -379,7 +363,7 @@ public class Menu {
 		documentList = speakit.search(searchText);
 		if (!documentList.isEmpty()) {
 			showResults(documentList);
-			showOptions(documentList,firstTime);
+			showOptions(documentList);
 		}
 		else
 		{
@@ -418,16 +402,11 @@ public class Menu {
 	 * 
 	 * @param documentList
 	 */
-	private void showOptions(TextDocumentList documentList, boolean firstTime) throws IOException {
-		if(firstTime){
-			System.out.println("Si desea reproducir algun documento presione 1");
-			firstTime = false;
-		}else{
-			System.out.println("Si desea reproducir otro documento presione 1");
-		}
+	private void showOptions(TextDocumentList documentList) throws IOException {
+		System.out.println("Si desea reproducir algun documento presione 1");
 		System.out.println("Para realizar una nueva consulta presione 2");
 		System.out.println("Para ir al menu principal presione 0");
-		chooseOption(documentList,firstTime);
+		chooseOption(documentList);
 	}
 
 	
@@ -471,7 +450,7 @@ public class Menu {
 	 * 
 	 * @param documentList
 	 */
-	private void chooseOption(TextDocumentList documentList, boolean firstTime) throws IOException {
+	private void chooseOption(TextDocumentList documentList) throws IOException {
 		int opt = 0;
 		boolean option = false;
 
@@ -490,7 +469,7 @@ public class Menu {
 		switch (opt) {
 
 		case 1:
-			chooseDocumentToPlay(documentList,firstTime);
+			chooseDocumentToPlay(documentList);
 			break;
 		case 2:
 			doConsultation();
@@ -500,7 +479,6 @@ public class Menu {
 			break;
 		default:
 			System.out.println("Opción inválida.\n");
-			showOptions(documentList,firstTime);
 			break;
 		}
 
@@ -512,24 +490,9 @@ public class Menu {
 	 * @param documentList
 	 */
 	
-	private void chooseDocumentToPlay(TextDocumentList documentList, boolean firstTime) throws IOException {
+	private void chooseDocumentToPlay(TextDocumentList documentList) throws IOException {
 		System.out.println("Elija el numero de documento que desea reproducir");
-		int number = 0;
-		boolean option = false;
-
-		while (!option) {
-			try {
-				number = Integer.parseInt(userInput.readLine());
-			} catch (IOException e) {
-				System.out.println("Error de E/S al leer la consola.");
-				continue;
-			} catch (NumberFormatException e) {
-				System.out.println("Opción inválida.");
-				continue;
-			}
-			option = true;
-		}
-		
+		int number = Integer.parseInt(userInput.readLine());
 		TextDocument document;
 		int counter = 1;
 		Iterator<TextDocument> iterator = documentList.iterator();
@@ -548,10 +511,8 @@ public class Menu {
 			}
 		}else{
 			System.out.println("EL número de documento que eligió es incorrecto, elija de nuevo");
-			chooseDocumentToPlay(documentList,firstTime);
+			chooseDocumentToPlay(documentList);
 		}
-		System.out.println();
-		showOptions(documentList,firstTime);
 	}
 
 	private BufferedReader initializeUserInput() {

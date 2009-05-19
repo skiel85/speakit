@@ -66,16 +66,13 @@ public class Speakit implements SpeakitInterface {
 	 */
 	public Iterable<String> addDocument(TextDocument doc) throws IOException {
 		indexDocument(doc);
-		ArrayList<String> unknownWordsFromDocument = new ArrayList<String>();
-		Iterator<String> iterator = doc.iteratorWithoutCleaning();
-		while(iterator.hasNext()){
-			String word = iterator.next();
-			if (!this.dataBase.contains(word) && !unknownWordsFromDocument.contains(word)) {
-				unknownWordsFromDocument.add(word);
+		ArrayList<String> words = new ArrayList<String>();
+		for (String word : doc) {
+			if (!this.dataBase.contains(word) && !words.contains(word)) {
+				words.add(word);
 			}
 		}
-		
-		return unknownWordsFromDocument;
+		return words;
 	}
 	
 	/**
@@ -87,18 +84,16 @@ public class Speakit implements SpeakitInterface {
 	 * 
 	 * @throws IOException
 	 */
-	public TextDocument addDocuments(TextDocumentList docs) throws IOException {
+	public Iterable<String> addDocuments(TextDocumentList docs) throws IOException {
 		indexDocuments(docs);
 		ArrayList<String> unknownWordsFromDocuments = new ArrayList<String>();
 		Iterator<TextDocument> iterator = docs.iterator();
 		TextDocument textDocument;
-		String unknownWords = null;
+		String unknownWords = "";
 		
 		while(iterator.hasNext()){
 			textDocument = iterator.next();
-			Iterator<String> it = textDocument.iteratorWithoutCleaning();
-			while(it.hasNext()){
-				String word = it.next();
+			for(String word : textDocument){
 				if (!this.dataBase.contains(word) && !unknownWordsFromDocuments.contains(word)) {
 					unknownWordsFromDocuments.add(word);
 				}
@@ -106,7 +101,7 @@ public class Speakit implements SpeakitInterface {
 		}
 		
 		for(String word : unknownWordsFromDocuments){
-			if(unknownWords == null){
+			if(unknownWords == ""){
 				unknownWords = word;
 			}else{
 				unknownWords = unknownWords + " " + word;

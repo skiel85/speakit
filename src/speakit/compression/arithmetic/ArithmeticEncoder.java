@@ -1,4 +1,4 @@
-package speakit.compression.ppmc;
+package speakit.compression.arithmetic;
 
 
 

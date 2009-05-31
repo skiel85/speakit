@@ -1,4 +1,4 @@
-package speakit.compression;
+package speakit.compression.frontcoding;
 /**
  * Clase para decodificar una palabra
  * 

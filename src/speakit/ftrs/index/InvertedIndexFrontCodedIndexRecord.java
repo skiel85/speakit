@@ -1,6 +1,6 @@
 package speakit.ftrs.index;
 
-import speakit.compression.FrontCodedWord;
+import speakit.compression.frontcoding.FrontCodedWord;
 import speakit.io.record.Field;
 import speakit.io.record.FrontCodedStringField;
 import speakit.io.record.IntegerField;

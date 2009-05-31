@@ -1,5 +1,8 @@
 package speakit.compression.ppmc;
 
+import speakit.compression.arithmetic.ProbabilityTable;
+import speakit.compression.arithmetic.Symbol;
+
 
 
 

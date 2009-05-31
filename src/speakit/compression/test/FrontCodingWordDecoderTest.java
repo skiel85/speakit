@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.compression.FrontCodedWord;
-import speakit.compression.FrontCodingWordDecoder;
+import speakit.compression.frontcoding.FrontCodedWord;
+import speakit.compression.frontcoding.FrontCodingWordDecoder;
 
 
 public class FrontCodingWordDecoderTest {

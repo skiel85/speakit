@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import speakit.TextDocument;
-import speakit.compression.FrontCodedWord;
-import speakit.compression.FrontCodingCompressor;
+import speakit.compression.frontcoding.FrontCodedWord;
+import speakit.compression.frontcoding.FrontCodingCompressor;
 
 
 public class FrontCodingCompressorTest {

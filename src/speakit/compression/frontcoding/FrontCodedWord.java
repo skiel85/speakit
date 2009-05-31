@@ -1,4 +1,4 @@
-package speakit.compression;
+package speakit.compression.frontcoding;
 
 public class FrontCodedWord {
 

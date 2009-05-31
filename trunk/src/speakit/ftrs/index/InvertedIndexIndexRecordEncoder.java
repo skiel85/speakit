@@ -1,7 +1,7 @@
 package speakit.ftrs.index;
 
-import speakit.compression.FrontCodingWordDecoder;
-import speakit.compression.FrontCodingWordEncoder;
+import speakit.compression.frontcoding.FrontCodingWordDecoder;
+import speakit.compression.frontcoding.FrontCodingWordEncoder;
 import speakit.io.bsharptree.RecordEncoder;
 import speakit.io.record.Record;
 

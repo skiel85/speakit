@@ -1,6 +1,6 @@
 package speakit.io.record;
 
-import speakit.compression.FrontCodedWord;
+import speakit.compression.frontcoding.FrontCodedWord;
 
 public class FrontCodedStringField extends CompositeField {
 

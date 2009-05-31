@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.compression.FrontCodedWord;
+import speakit.compression.frontcoding.FrontCodedWord;
 import speakit.io.record.FrontCodedStringField;
 import speakit.io.record.RecordSerializationException;
 

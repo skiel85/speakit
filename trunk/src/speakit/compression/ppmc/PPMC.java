@@ -1,7 +1,10 @@
 package speakit.compression.ppmc;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileOutputStream; 
+
+import speakit.compression.arithmetic.Context;
+import speakit.compression.arithmetic.ProbabilityTable;
 
 
 public class PPMC {

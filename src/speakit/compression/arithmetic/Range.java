@@ -1,5 +1,7 @@
 package speakit.compression.arithmetic;
 
+import java.awt.datatransfer.StringSelection;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
@@ -48,6 +50,7 @@ public class Range {
 	 * @uml.property  name="roof"
 	 */
 	private String roof="";
+	private byte	underflowCount=0;
 
 	/**
 	 * Getter of the property <tt>roof</tt>
@@ -63,6 +66,27 @@ public class Range {
 	 */
 	public void simplify(){
 		this.emissionBuffer+=solveOverflow();
+		this.underflowCount+=solveUnderflow();
+	}
+
+	private byte solveUnderflow() {
+		byte underflow = 0;
+		boolean exit=false;
+		if(floor.charAt(0)!=roof.charAt(0)){
+			//puede haber underflow
+		}else{
+			return 0;
+		}
+		for (int i = 1; i < this.floor.length() && !exit; i++) {
+			if(floor.charAt(i)!=floor.charAt(0) && floor.charAt(i)!=roof.charAt(i)){
+				underflow++;
+			}else{
+				exit=true;
+			}
+		}
+		roof=shiftLeft(roof,underflow,1,"1");
+		floor=shiftLeft(floor,underflow,1,"0");
+		return underflow;
 	}
 
 	/**
@@ -79,8 +103,8 @@ public class Range {
 				exit=true;
 			}
 		}
-		roof=shiftLeft(roof,overflow.length(),"1");
-		floor=shiftLeft(floor,overflow.length(),"0");
+		roof=shiftLeft(roof,overflow.length(),0,"1");
+		floor=shiftLeft(floor,overflow.length(),0,"0");
 		return overflow;
 	}
 
@@ -91,14 +115,19 @@ public class Range {
 	 * @param completionBit
 	 * @return
 	 */
-	private String shiftLeft(String array, int shiftSize,String completionBit) {
+	private String shiftLeft(String array, int shiftSize,int startPos,String completionBit) {
 		String shifted="";
 		for (int i = 0; i < array.length(); i++) {
-			if(i+shiftSize<array.length()){
-				shifted+=array.charAt(i+shiftSize);
+			if(i>=startPos){
+				if(i+shiftSize<array.length()){
+					shifted+=array.charAt(i+shiftSize);
+				}else{
+					shifted+=completionBit;
+				}	
 			}else{
-				shifted+=completionBit;
+				shifted+=array.charAt(i);
 			}
+			
 		}
 		return shifted;
 	}
@@ -127,9 +156,28 @@ public class Range {
 	 * @return
 	 */
 	public String flush(){
-		String result=emissionBuffer;
+		StringBuffer buffer=new StringBuffer();
+		for (int i = 0; i < emissionBuffer.length(); i++) {
+			buffer.append(emissionBuffer.charAt(i));				
+			if(underflowCount>0 && i==0){
+				buffer.append(repeat(not(emissionBuffer.charAt(0)),underflowCount));	
+			}
+		}
+		underflowCount=0;
 		emissionBuffer="";
-		return result;
+		return buffer.toString();
+	}
+
+	private String repeat(char charToRepeat,int count) {
+		StringBuffer buffer=new StringBuffer();
+		for(int j=0;j<count;j++){
+			buffer.append(charToRepeat);						
+		}
+		return buffer.toString();
+	}
+
+	private char not(char bit) {
+		return (bit=='1')?'0':'1';
 	}
 	
 	/**

@@ -1,77 +1,89 @@
 package speakit.compression.arithmetic;
 
+import java.security.InvalidParameterException;
+import java.util.HashMap;
 import java.util.Map;
-
 
 public class ProbabilityTable {
 
 	/**
-	 * @uml.property  name="symbolOccurrence"
+	 * @uml.property name="symbolOccurrence"
 	 */
-	private Map<Symbol, Integer> symbolOccurrence;
+	private Map<Symbol, Integer> symbolFrequences;
 
 	/**
-	 * Getter of the property <tt>symbolOccurrence</tt>
-	 * @return  Returns the symbolOccurrence.
-	 * @uml.property  name="symbolOccurrence"
-	 */
-	public Map<Symbol, Integer> getSymbolOccurrence() {
-		return symbolOccurrence;
+		 */
+	protected int getFrequence(Symbol symbol) {
+		return this.symbolFrequences.get(symbol);
 	}
 
 	/**
-	 * Setter of the property <tt>symbolOccurrence</tt>
-	 * @param symbolOccurrence  The symbolOccurrence to set.
-	 * @uml.property  name="symbolOccurrence"
-	 */
-	public void setSymbolOccurrence(Map<Symbol, Integer> symbolOccurrence) {
-		this.symbolOccurrence = symbolOccurrence;
-	}
-
+		 */
+	public ProbabilityTable exclude(ProbabilityTable table) {
+		Map<Symbol, Integer> newFreqs = new HashMap<Symbol, Integer>();
 		
-		/**
-		 */
-		public void getProbability(Symbol symbol){
+		for (Symbol sym : this.symbolFrequences.keySet()) {
+			if(!table.contains(sym)) {
+				newFreqs.put(sym, this.symbolFrequences.get(sym));
+			}
 		}
+		
+		ProbabilityTable res = new ProbabilityTable();
+		res.symbolFrequences = newFreqs;
+		return res;
+	}
 
-			
-		/**
+	/**
 		 */
-		public ProbabilityTable exclude(ProbabilityTable table){
-			return null;
-		}
+	public void add(Symbol symbol, int frequence) {
+		this.symbolFrequences.put(symbol, new Integer(frequence));
+	}
 
-				
-		/**
-		 */
-		public void add(Symbol symbol){
+	protected int getTotalFrecuence() {
+		int accum = 0;
+		for (Symbol sym : this.symbolFrequences.keySet()) {
+			accum += this.symbolFrequences.get(sym);
 		}
+		return accum;
+	}
 
-					
-		/**
+	/**
 		 */
-		public Float getProbabilityOf(Symbol symbol){
-			return null;
-		}
+	public double getProbability(Symbol symbol) {
+		return (double) this.symbolFrequences.get(symbol) / (double) this.getTotalFrecuence();
+	}
 
-		/**
+	/**
 		 */
-		public Float getProbabilityUntil(Symbol symbol){
-			return null;
+	public double getProbabilityUntil(Symbol symbol) {
+		int accum = 0;
+		for (Symbol sym : this.symbolFrequences.keySet()) {
+			accum += this.symbolFrequences.get(sym);
+			if (symbol.equals(sym)) {
+				return accum;
+			}
 		}
-						
-		/**
-		 */
-		public Symbol getSymbolFor(Float probabity){
-			return null;
-		}
+		throw new InvalidParameterException("El símbolo no existe en la tabla de probabilidades.");
+	}
 
-							
-		/**
+	/**
 		 */
-		public boolean has(Symbol symbol){
-			return false;	
+	public Symbol getSymbolFor(double probabity) {
+		int equivFreq = (int) (probabity * this.getTotalFrecuence());
+		int accum = 0;
+		for (Symbol sym : this.symbolFrequences.keySet()) {
+			accum += this.symbolFrequences.get(sym);
+			if (accum >= equivFreq) {
+				return sym;
+			}
 		}
+		throw new InvalidParameterException("La probabilidad es mayor a 1.");
+	}
 
-	
+	/**
+		 */
+	public boolean contains(Symbol symbol) {
+		return this.symbolFrequences.containsKey(symbol);
+	}
+
 }

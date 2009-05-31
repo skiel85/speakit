@@ -1,7 +1,7 @@
 package speakit.compression.arithmetic;
 
 
-public class Symbol {
+public class Symbol implements Comparable<Symbol> {
 
 	/**
 	 * @uml.property  name="number"
@@ -30,7 +30,7 @@ public class Symbol {
 	/**
 	 */
 	public String toString(){
-	return ""; 
+		return ""; 
 	}
 
 			
@@ -51,6 +51,11 @@ public class Symbol {
 	/**
 	 */
 	public Symbol(char character){
+	}
+
+	@Override
+	public int compareTo(Symbol o) {
+		return new Integer(this.number).compareTo(new Integer(o.number));
 	}
 
 }

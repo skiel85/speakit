@@ -4,6 +4,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class ProbabilityTable {
 	protected int getFrequence(Symbol symbol) {
 		return this.symbolFrequences.get(symbol);
 	}
-	
+
 	protected List<Symbol> getSymbols() {
 		List<Symbol> result = new ArrayList<Symbol>(this.symbolFrequences.keySet());
 		Collections.sort(result);
@@ -59,24 +60,31 @@ public class ProbabilityTable {
 	/**
 		 */
 	public double getProbability(Symbol symbol) {
-		return this.symbolFrequences.get(symbol) / (double) this.getTotalFrecuence();
+		if (this.symbolFrequences.containsKey(symbol)) {
+			return this.symbolFrequences.get(symbol) / (double) this.getTotalFrecuence();
+		} else {
+			return 0.0;
+		}
 	}
 
 	public double getProbabilityUntil(Symbol symbol) {
 		return this.getDistribution(symbol) - this.getProbability(symbol);
 	}
-	
+
 	/**
 		 */
 	public double getDistribution(Symbol symbol) {
+		Iterator<Symbol> it = this.getSymbols().iterator();
 		int accum = 0;
-		for (Symbol sym : this.getSymbols()) {
+
+		while (it.hasNext()) {
+			Symbol sym = it.next();
 			accum += this.symbolFrequences.get(sym);
-			if (symbol.equals(sym)) {
+			if (symbol.compareTo(sym) <= 0) {
 				return accum / (double) this.getTotalFrecuence();
 			}
 		}
-		throw new InvalidParameterException("El símbolo no existe en la tabla de probabilidades.");
+		return 1.0;
 	}
 
 	/**

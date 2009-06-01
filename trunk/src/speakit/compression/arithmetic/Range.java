@@ -1,18 +1,17 @@
 package speakit.compression.arithmetic;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Range {
 
-	private final byte	precision;
+	private final int	precision;
 	private String		floor			= "";
 	private String		roof			= "";
-	private byte		underflowCount	= 0;
+	private int		underflowCount	= 0;
 	private int			numericFloor	= 0;
 	private int			numericRoof		= 0;
 	private int			rangeSize		= 0;
 
-	public Range(byte precision) {
+	public Range(int precision) {
 		this.precision = precision;
 		this.setBounds(createRangeBound(true), createRangeBound(false));
 	}
@@ -119,7 +118,7 @@ public class Range {
 
 	/**
 	 */
-	public void zoomIn(Float accumulatedProbability, Float probability) {
+	public void zoomIn(Double accumulatedProbability, Double probability) {
 		int floor = (int) Math.round(this.numericFloor + this.rangeSize * accumulatedProbability);
 		int roof = (int) Math.round(floor - 1 + this.rangeSize * probability);
 		this.setBounds(alignRight(Binary.integerToBinary(floor)), alignRight(Binary.integerToBinary(roof)));
@@ -130,7 +129,7 @@ public class Range {
 			return this.repeat('0', precision - num.length()) + num;
 		} else {
 			if (num.length() > this.precision) {
-				throw new IllegalArgumentException("El " + num + " es mas grande que lo soportado por la precicion que es de " + this.precision + " bytes");
+				throw new IllegalArgumentException("El " + num + " es mas grande que lo soportado por la precicion que es de " + this.precision + " ints");
 			} else {
 				return num;
 			}
@@ -215,7 +214,7 @@ public class Range {
 		rangeSize = numericRoof - numericFloor + 1;
 	}
 
-	public byte getUnderflowCount() {
+	public int getUnderflowCount() {
 		return underflowCount;
 	}
 

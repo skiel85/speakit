@@ -110,13 +110,35 @@ public class RangeTest {
 		Assert.assertEquals("00", sut.flush());
 	}
 	
-	@Ignore
+	@Test
+	public void testFlushOnlyClearUnderflowCountWhenFlushesAtLeastOneBit() { 
+		sut.setBounds( "0101","1010");//esto provoca un underflow de 1
+		Assert.assertEquals(1, sut.getUnderflowCount());
+		Assert.assertEquals("", sut.flush());//emite el overflow y el underflow
+		Assert.assertEquals(1, sut.getUnderflowCount());
+		sut.setBounds("0000","0011");//esto provoca un overflow de 00
+		sut.flush();//deberia limpiar el contador de underflow
+		Assert.assertEquals(0, sut.getUnderflowCount());//deberia estar limpio
+	}
+	 
 	@Test
 	public void testCloseWithRemainingUnderflow() { 
-		
-	} 
+		sut.setBounds( "0101","1010");//esto provoca un underflow de 1
+		Assert.assertEquals(1, sut.getUnderflowCount());
+		Assert.assertEquals("", sut.flush());//emite el overflow y el underflow
+		Assert.assertEquals("0010", sut.getFloor());//emite el overflow y el underflow
+		sut.emitEnding();
+		Assert.assertEquals("01010", sut.flush());
+	}
 	
-	//simplifyTwice
-	//varios overflows
-	//mezclar overflow y underflow
+	
+	@Test
+	public void testVariousOverflowsAndUnderflows() { 
+		sut.setBounds("0000","0011");//esto provoca un overflow de 00
+		sut.setBounds("0101","1010");//esto provoca un underflow de 1
+		sut.setBounds("0101","1010");//esto provoca un underflow de 1
+		sut.setBounds("1000","1011");//esto provoca un overflow de 10, aca el contador de underflow queda en 0
+		sut.setBounds("1000","1011");//esto provoca un overflow de 10
+		Assert.assertEquals("00100010", sut.flush());//la emision deberia ser 00-1(00)0-10. El (00) es del underflow
+	}
 }

@@ -5,11 +5,16 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class Range {
 
 	private final byte	precision;
+	private String		floor			= "";
+	private String		roof			= "";
+	private byte		underflowCount	= 0;
+	private int			numericFloor	= 0;
+	private int			numericRoof		= 0;
+	private int			rangeSize		= 0;
 
 	public Range(byte precision) {
 		this.precision = precision;
-		roof = createRangeBound(false);
-		floor = createRangeBound(true);
+		this.setBounds(createRangeBound(true), createRangeBound(false));
 	}
 
 	private String createRangeBound(boolean isFloor) {
@@ -21,11 +26,6 @@ public class Range {
 	}
 
 	/**
-	 * @uml.property name="floor"
-	 */
-	private String	floor	= "";
-
-	/**
 	 * Getter of the property <tt>floor</tt>
 	 * 
 	 * @return Returns the floor.
@@ -34,12 +34,6 @@ public class Range {
 	public String getFloor() {
 		return floor;
 	}
-
-	/**
-	 * @uml.property name="roof"
-	 */
-	private String	roof			= "";
-	private byte	underflowCount	= 0;
 
 	/**
 	 * Getter of the property <tt>roof</tt>
@@ -60,9 +54,11 @@ public class Range {
 	}
 
 	/**
-	 * Elimina los bits en underflow, rearma el rango shifteando a izquierda para ocupar el lugar de los bits de underflow. Incrementa el contador de underflow si hiciera falta.
+	 * Elimina los bits en underflow, rearma el rango shifteando a izquierda
+	 * para ocupar el lugar de los bits de underflow. Incrementa el contador de
+	 * underflow si hiciera falta.
 	 */
-	private void solveUnderflow() { 
+	private void solveUnderflow() {
 		boolean exit = false;
 		if (floor.charAt(0) != roof.charAt(0)) {
 			// puede haber underflow
@@ -73,13 +69,14 @@ public class Range {
 					exit = true;
 				}
 			}
-			roof = shiftLeft(roof, this.underflowCount, 1, "1");
-			floor = shiftLeft(floor, this.underflowCount, 1, "0"); 
+			this.setBounds(shiftLeft(floor, this.underflowCount, 1, "0"), shiftLeft(roof, this.underflowCount, 1, "1"),false);
 		}
 	}
 
 	/**
-	 * resuelve el overflow, modifica el rango, emite los bits de overflow y underflow en el emissionBuffer, reinicia el contador de underflow si hiciera falta.
+	 * resuelve el overflow, modifica el rango, emite los bits de overflow y
+	 * underflow en el emissionBuffer, reinicia el contador de underflow si
+	 * hiciera falta.
 	 */
 	private void solveOverflow() {
 		String overflow = "";
@@ -91,8 +88,7 @@ public class Range {
 				exit = true;
 			}
 		}
-		roof = shiftLeft(roof, overflow.length(), 0, "1");
-		floor = shiftLeft(floor, overflow.length(), 0, "0");
+		this.setBounds(shiftLeft(floor, overflow.length(), 0, "0"), shiftLeft(roof, overflow.length(), 0, "1"),false);
 		emitOverflow(overflow);
 	}
 
@@ -123,12 +119,26 @@ public class Range {
 
 	/**
 	 */
-	public Range zoomIn(Float accumulatedProbability, Float probability) {
-		throw new NotImplementedException();
-		// Ajustar piso y techo
-		// return this;
+	public void zoomIn(Float accumulatedProbability, Float probability) {
+		int floor = (int) Math.round(this.numericFloor + this.rangeSize * accumulatedProbability);
+		int roof = (int) Math.round(floor - 1 + this.rangeSize * probability);
+		this.setBounds(alignRight(Binary.integerToBinary(floor)), alignRight(Binary.integerToBinary(roof)));
 	}
 
+	private String alignRight(String num) {
+		if (num.length() < this.precision) {
+			return this.repeat('0', precision - num.length()) + num;
+		} else {
+			if (num.length() > this.precision) {
+				throw new IllegalArgumentException("El " + num + " es mas grande que lo soportado por la precicion que es de " + this.precision + " bytes");
+			} else {
+				return num;
+			}
+		}
+
+	}
+
+	
 	StringBuffer	emissionBuffer	= new StringBuffer();
 	/**
 	 * Devuelve el buffer de emision actual y lo limpia
@@ -137,12 +147,14 @@ public class Range {
 	 */
 	public String flush() {
 		String flow = emissionBuffer.toString();
-		emissionBuffer=new StringBuffer();
+		emissionBuffer = new StringBuffer();
 		return flow;
 	}
 
 	/**
-	 * Emite los bits enviados, emite el underflow si hiciera falta reiniciando el contador.
+	 * Emite los bits enviados, emite el underflow si hiciera falta reiniciando
+	 * el contador.
+	 * 
 	 * @param overflow
 	 */
 	private void emitOverflow(String overflow) {
@@ -153,9 +165,9 @@ public class Range {
 				overflowBuffer.append(repeat(not(overflow.charAt(0)), this.underflowCount));
 			}
 		}
-		if(overflowBuffer.length()>0){
+		if (overflowBuffer.length() > 0) {
 			this.emissionBuffer.append(overflowBuffer);
-			this.underflowCount=0;
+			this.underflowCount = 0;
 		}
 	}
 
@@ -178,14 +190,41 @@ public class Range {
 		emitOverflow(this.floor);
 	}
 
+	/**
+	 * Setea los limites del rago (piso y techo), resuelve underflows/overflows si corresponde
+	 * @param floor
+	 * @param roof
+	 */
 	public void setBounds(String floor, String roof) {
+		setBounds(this.alignRight(floor),  this.alignRight(roof), true);
+	}
+	
+	/**
+	 * Setea los limites del rago (piso y techo), resuelve underflows/overflows si simplify == true y corresponde
+	 * @param floor
+	 * @param roof
+	 */
+	private void setBounds(String floor, String roof,boolean simplify) {
 		this.floor = floor;
 		this.roof = roof;
-		this.simplify();
+		if(simplify){
+			this.simplify();	
+		}
+		numericFloor = Binary.bitStringToInt(this.floor);
+		numericRoof = Binary.bitStringToInt(this.roof);
+		rangeSize = numericRoof - numericFloor + 1;
 	}
 
 	public byte getUnderflowCount() {
 		return underflowCount;
+	}
+
+	public int getNumericFloor() {
+		return this.numericFloor;
+	}
+
+	public int getNumericRoof() {
+		return this.numericRoof;
 	}
 
 }

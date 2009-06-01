@@ -40,7 +40,6 @@ public class ProbabilityTableTest {
 		Assert.assertEquals(0.0625, sut.getProbability(new Symbol('J')), 0);
 		Assert.assertEquals(0.1875, sut.getProbability(new Symbol('R')), 0);
 		Assert.assertEquals(0.0625, sut.getProbability(new Symbol('Y')), 0);
-
 	}
 
 	@Test
@@ -52,5 +51,31 @@ public class ProbabilityTableTest {
 		Assert.assertEquals(0.7500, sut.getDistribution(new Symbol('J')), 0);
 		Assert.assertEquals(0.9375, sut.getDistribution(new Symbol('R')), 0);
 		Assert.assertEquals(1.0000, sut.getDistribution(new Symbol('Y')), 0);
+	}
+	
+	@Test
+	public void testExclusion() {
+		ProbabilityTable tableWithSymbolsToExclude = new ProbabilityTable();
+		tableWithSymbolsToExclude.add(Symbol.getEscape(), 4);
+		tableWithSymbolsToExclude.add(new Symbol('I'), 2);
+		tableWithSymbolsToExclude.add(new Symbol('J'), 1);
+		
+		ProbabilityTable excludedTable = this.sut.exclude(tableWithSymbolsToExclude);
+		
+		//Assert.assertEquals(0.0000, excludedTable.getProbability(Symbol.getEscape()), 0);
+		Assert.assertEquals(0.1429, excludedTable.getProbability(new Symbol('C')), 0.00005);
+		Assert.assertEquals(0.2857, excludedTable.getProbability(new Symbol('E')), 0.00005);
+		//Assert.assertEquals(0.0000, excludedTable.getProbability(new Symbol('I')), 0.00005);
+		//Assert.assertEquals(0.0000, excludedTable.getProbability(new Symbol('J')), 0.00005);
+		Assert.assertEquals(0.4286, excludedTable.getProbability(new Symbol('R')), 0.00005);
+		Assert.assertEquals(0.1429, excludedTable.getProbability(new Symbol('Y')), 0.00005);
+		
+		//Assert.assertEquals(0.0000, excludedTable.getDistribution(Symbol.getEscape()), 0.00005);
+		Assert.assertEquals(0.1429, excludedTable.getDistribution(new Symbol('C')), 0.00005);
+		Assert.assertEquals(0.4286, excludedTable.getDistribution(new Symbol('E')), 0.00005);
+		//Assert.assertEquals(0.4286, excludedTable.getDistribution(new Symbol('I')), 0.00005);
+		//Assert.assertEquals(0.4286, excludedTable.getDistribution(new Symbol('J')), 0.00005);
+		Assert.assertEquals(0.8571, excludedTable.getDistribution(new Symbol('R')), 0.00005);
+		Assert.assertEquals(1.0000, excludedTable.getDistribution(new Symbol('Y')), 0.00005);
 	}
 }

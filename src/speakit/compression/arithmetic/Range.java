@@ -1,7 +1,5 @@
 package speakit.compression.arithmetic;
 
-import java.awt.datatransfer.StringSelection;
-
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
@@ -36,16 +34,7 @@ public class Range {
 	public String getFloor() {
 		return floor;
 	}
-
-	/**
-	 * Setter of the property <tt>floor</tt>
-	 * @param floor  The floor to set.
-	 * @uml.property  name="floor"
-	 */
-	public void setFloor(String floor) {
-		this.floor = floor;
-	}  
-
+ 
 	/**
 	 * @uml.property  name="roof"
 	 */
@@ -64,7 +53,7 @@ public class Range {
 	/**
 	 * Simplifica el rango resolviendo underflow y overflow
 	 */
-	public void simplify(){
+	private void simplify(){
 		this.emissionBuffer+=solveOverflow();
 		this.underflowCount+=solveUnderflow();
 	}
@@ -130,17 +119,7 @@ public class Range {
 			
 		}
 		return shifted;
-	}
-
-	/**
-	 * Setter of the property <tt>roof</tt>
-	 * @param roof  The roof to set.
-	 * @uml.property  name="roof"
-	 */
-	public void setRoof(String roof) {
-		this.roof = roof;
-	}
-
+	} 
 		
 	/**
 	 */
@@ -185,6 +164,12 @@ public class Range {
 	 */
 	public void emitEnding(){
 		emissionBuffer+=this.floor;
+	}
+
+	public void setBounds(String floor, String roof) {
+		this.floor = floor;
+		this.roof = roof;
+		this.simplify();
 	}
 
 }

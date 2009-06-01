@@ -91,14 +91,18 @@ public class ProbabilityTable {
 		 */
 	public Symbol getSymbolFor(double probabity) {
 		int equivFreq = (int) (probabity * this.getTotalFrecuence());
+		Iterator<Symbol> it = this.getSymbols().iterator();
 		int accum = 0;
-		for (Symbol sym : this.getSymbols()) {
+		Symbol sym=null;
+		
+		while (it.hasNext()) {
+			sym = it.next();
 			accum += this.symbolFrequences.get(sym);
-			if (accum >= equivFreq) {
+			if (accum > equivFreq) {
 				return sym;
 			}
 		}
-		throw new InvalidParameterException("La probabilidad es mayor a 1.");
+		return sym;
 	}
 
 	/**

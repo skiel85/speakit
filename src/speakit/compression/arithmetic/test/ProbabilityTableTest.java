@@ -75,4 +75,24 @@ public class ProbabilityTableTest {
 		Assert.assertEquals(0.8571, excludedTable.getDistribution(new Symbol('R')), 0.00005);
 		Assert.assertEquals(1.0000, excludedTable.getDistribution(new Symbol('Y')), 0.00005);
 	}
+	
+	@Test
+	public void getSymbolFor() {
+		// ESC: 0.0000 - 0.4375
+		// C:   0.4375 - 0.5000
+		// E:   0.5000 - 0.6250 
+		// I:   0.6250 - 0.6875
+		// J:   0.6875 - 0.7500
+		// R:   0.7500 - 0.9375
+		// Y:   0.9375 - 1.0000
+		
+		Assert.assertEquals(Symbol.getEscape().toString(), sut.getSymbolFor(0.4000).toString());
+		Assert.assertEquals(new Symbol('C').toString(), sut.getSymbolFor(0.4990).toString());
+		Assert.assertEquals(new Symbol('E').toString(), sut.getSymbolFor(0.6000).toString());
+		Assert.assertEquals(new Symbol('I').toString(), sut.getSymbolFor(0.6255).toString());
+		Assert.assertEquals(new Symbol('J').toString(), sut.getSymbolFor(0.7000).toString());
+		Assert.assertEquals(new Symbol('R').toString(), sut.getSymbolFor(0.9000).toString());
+		Assert.assertEquals(new Symbol('Y').toString(), sut.getSymbolFor(0.9900).toString());
+		
+	}
 }

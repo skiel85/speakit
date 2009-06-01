@@ -129,8 +129,7 @@ public class RangeTest {
 		Assert.assertEquals("0010", sut.getFloor());//emite el overflow y el underflow
 		sut.emitEnding();
 		Assert.assertEquals("01010", sut.flush());
-	}
-	
+	}	
 	
 	@Test
 	public void testVariousOverflowsAndUnderflows() { 
@@ -141,4 +140,26 @@ public class RangeTest {
 		sut.setBounds("1000","1011");//esto provoca un overflow de 10
 		Assert.assertEquals("00100010", sut.flush());//la emision deberia ser 00-1(00)0-10. El (00) es del underflow
 	}
+	
+	@Test
+	public void testZoomIn(){
+		sut.setBounds("0000","1111");
+		sut.zoomIn(4/17.0F, 2/17.0F);
+		//nuevo piso = 0+4/17 * 16=4
+		//nuevo techo= 4 - 1 + 16*2/17=5
+		Assert.assertEquals("010", sut.flush());
+		Assert.assertEquals("0000", sut.getFloor());
+		Assert.assertEquals("1111", sut.getRoof());
+	}
+	
+	@Test
+	public void testSetBoundsShorterThanPrecicion() {
+		sut.setBounds("00", "11");
+		Assert.assertEquals("0000", sut.getFloor());
+		Assert.assertEquals("1111", sut.getRoof());
+		Assert.assertEquals("00", sut.flush());
+	}
+
+	
+	
 }

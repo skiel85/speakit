@@ -144,7 +144,7 @@ public class RangeTest {
 	@Test
 	public void testZoomIn(){
 		sut.setBounds("0000","1111");
-		sut.zoomIn(4/17.0F, 2/17.0F);
+		sut.zoomIn(4/17.0, 2/17.0);
 		//nuevo piso = 0+4/17 * 16=4
 		//nuevo techo= 4 - 1 + 16*2/17=5
 		Assert.assertEquals("010", sut.flush());

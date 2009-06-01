@@ -1,7 +1,10 @@
 package speakit.compression.arithmetic;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProbabilityTable {
@@ -16,18 +19,24 @@ public class ProbabilityTable {
 	protected int getFrequence(Symbol symbol) {
 		return this.symbolFrequences.get(symbol);
 	}
+	
+	protected List<Symbol> getSymbols() {
+		List<Symbol> result = new ArrayList<Symbol>(this.symbolFrequences.keySet());
+		Collections.sort(result);
+		return result;
+	}
 
 	/**
 		 */
 	public ProbabilityTable exclude(ProbabilityTable table) {
 		Map<Symbol, Integer> newFreqs = new HashMap<Symbol, Integer>();
-		
-		for (Symbol sym : this.symbolFrequences.keySet()) {
-			if(!table.contains(sym)) {
+
+		for (Symbol sym : this.getSymbols()) {
+			if (!table.contains(sym)) {
 				newFreqs.put(sym, this.symbolFrequences.get(sym));
 			}
 		}
-		
+
 		ProbabilityTable res = new ProbabilityTable();
 		res.symbolFrequences = newFreqs;
 		return res;
@@ -41,7 +50,7 @@ public class ProbabilityTable {
 
 	protected int getTotalFrecuence() {
 		int accum = 0;
-		for (Symbol sym : this.symbolFrequences.keySet()) {
+		for (Symbol sym : this.getSymbols()) {
 			accum += this.symbolFrequences.get(sym);
 		}
 		return accum;
@@ -50,17 +59,21 @@ public class ProbabilityTable {
 	/**
 		 */
 	public double getProbability(Symbol symbol) {
-		return (double) this.symbolFrequences.get(symbol) / (double) this.getTotalFrecuence();
+		return this.symbolFrequences.get(symbol) / (double) this.getTotalFrecuence();
 	}
 
+	public double getProbabilityUntil(Symbol symbol) {
+		return this.getDistribution(symbol) - this.getProbability(symbol);
+	}
+	
 	/**
 		 */
-	public double getProbabilityUntil(Symbol symbol) {
+	public double getDistribution(Symbol symbol) {
 		int accum = 0;
-		for (Symbol sym : this.symbolFrequences.keySet()) {
+		for (Symbol sym : this.getSymbols()) {
 			accum += this.symbolFrequences.get(sym);
 			if (symbol.equals(sym)) {
-				return accum;
+				return accum / (double) this.getTotalFrecuence();
 			}
 		}
 		throw new InvalidParameterException("El símbolo no existe en la tabla de probabilidades.");
@@ -71,7 +84,7 @@ public class ProbabilityTable {
 	public Symbol getSymbolFor(double probabity) {
 		int equivFreq = (int) (probabity * this.getTotalFrecuence());
 		int accum = 0;
-		for (Symbol sym : this.symbolFrequences.keySet()) {
+		for (Symbol sym : this.getSymbols()) {
 			accum += this.symbolFrequences.get(sym);
 			if (accum >= equivFreq) {
 				return sym;

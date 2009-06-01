@@ -27,8 +27,15 @@ public class ProbabilityTableTest {
 
 	@Test
 	public void testGetProbability() {
-		Assert.assertEquals(0.5, sut.getProbability(Symbol.getEscape()), 0);
+		Assert.assertEquals(0.5000, sut.getProbability(Symbol.getEscape()), 0);
 		Assert.assertEquals(0.1875, sut.getProbability(new Symbol('a')), 0);
 		Assert.assertEquals(0.3125, sut.getProbability(new Symbol('b')), 0);
+	}
+
+	@Test
+	public void testGetProbabilityUntil() {
+		Assert.assertEquals(0.5000, sut.getDistribution(Symbol.getEscape()), 0);
+		Assert.assertEquals(0.6875, sut.getDistribution(new Symbol('a')), 0);
+		Assert.assertEquals(1.0000, sut.getDistribution(new Symbol('b')), 0);
 	}
 }

@@ -9,7 +9,7 @@ public class ProbabilityTable {
 	/**
 	 * @uml.property name="symbolOccurrence"
 	 */
-	private Map<Symbol, Integer> symbolFrequences;
+	private Map<Symbol, Integer> symbolFrequences = new HashMap<Symbol, Integer>();
 
 	/**
 		 */

@@ -72,7 +72,14 @@ public class Symbol implements Comparable<Symbol> {
 
 	@Override
 	public boolean equals(Object o) {
-		return (this.compareTo((Symbol) o) == 0);
+		return (this.number == ((Symbol)o).number);
 	}
+	
+	
+	@Override
+	public int hashCode() {
+		return this.number;
+	}
+	
 
 }

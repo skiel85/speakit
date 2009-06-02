@@ -121,22 +121,8 @@ public class Range {
 	public void zoomIn(Double accumulatedProbability, Double probability) {
 		int floor = (int) Math.round(this.numericFloor + this.rangeSize * accumulatedProbability);
 		int roof = (int) Math.round(floor - 1 + this.rangeSize * probability);
-		this.setBounds(alignRight(Binary.integerToBinary(floor)), alignRight(Binary.integerToBinary(roof)));
+		this.setBounds(Binary.alignRight(Binary.integerToBinary(floor),this.precision), Binary.alignRight(Binary.integerToBinary(roof),this.precision));
 	}
-
-	private String alignRight(String num) {
-		if (num.length() < this.precision) {
-			return this.repeat('0', precision - num.length()) + num;
-		} else {
-			if (num.length() > this.precision) {
-				throw new IllegalArgumentException("El " + num + " es mas grande que lo soportado por la precicion que es de " + this.precision + " ints");
-			} else {
-				return num;
-			}
-		}
-
-	}
-
 	
 	StringBuffer	emissionBuffer	= new StringBuffer();
 	/**
@@ -161,7 +147,7 @@ public class Range {
 		for (int i = 0; i < overflow.length(); i++) {
 			overflowBuffer.append(overflow.charAt(i));
 			if (this.underflowCount > 0 && i == 0) {
-				overflowBuffer.append(repeat(not(overflow.charAt(0)), this.underflowCount));
+				overflowBuffer.append(Binary.repeat(not(overflow.charAt(0)), this.underflowCount));
 			}
 		}
 		if (overflowBuffer.length() > 0) {
@@ -170,14 +156,7 @@ public class Range {
 		}
 	}
 
-	private String repeat(char charToRepeat, int count) {
-		StringBuffer buffer = new StringBuffer();
-		for (int j = 0; j < count; j++) {
-			buffer.append(charToRepeat);
-		}
-		return buffer.toString();
-	}
-
+	
 	private char not(char bit) {
 		return (bit == '1') ? '0' : '1';
 	}
@@ -195,7 +174,7 @@ public class Range {
 	 * @param roof
 	 */
 	public void setBounds(String floor, String roof) {
-		setBounds(this.alignRight(floor),  this.alignRight(roof), true);
+		setBounds(Binary.alignRight(floor,this.precision),  Binary.alignRight(roof,this.precision), true);
 	}
 	
 	/**
@@ -224,6 +203,10 @@ public class Range {
 
 	public int getNumericRoof() {
 		return this.numericRoof;
+	}
+
+	public double getProbabilityFor(int number) {
+		return (number - this.numericFloor) / (double)this.rangeSize;
 	}
 
 }

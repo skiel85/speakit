@@ -61,7 +61,7 @@ public class ArithmeticDecoderTest {
 		table.add(new Symbol('E'), 2);
 		table.add(new Symbol('Q'), 1);
 		table.add(new Symbol('U'), 2);
-		table.add(new Symbol('F'), 1);
+		table.add(ArithmeticEncoder.CreateEof(), 1);
 
 		MockBitWriter bitWriter = new MockBitWriter();
 		ArithmeticEncoder encoder = new ArithmeticEncoder(bitWriter,8);
@@ -72,7 +72,7 @@ public class ArithmeticDecoderTest {
 		encoder.encode(new Symbol('U'), table);
 		encoder.encode(new Symbol('E'), table);
 		encoder.encode(new Symbol('N'), table);
-		encoder.encode(new Symbol('F'), table);
+		encoder.encode(ArithmeticEncoder.CreateEof(), table);
 
 		String input = bitWriter.getWritten();
 
@@ -84,7 +84,7 @@ public class ArithmeticDecoderTest {
 		Assert.assertEquals(new Symbol('U'), decoder.decode(table));
 		Assert.assertEquals(new Symbol('E'), decoder.decode(table));
 		Assert.assertEquals(new Symbol('N'), decoder.decode(table));
-		Assert.assertEquals(new Symbol('F'), decoder.decode(table));
+		Assert.assertEquals(ArithmeticEncoder.CreateEof(), decoder.decode(table));
 	}
 
 }

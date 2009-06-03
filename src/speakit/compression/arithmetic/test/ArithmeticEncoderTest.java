@@ -25,6 +25,7 @@ public class ArithmeticEncoderTest {
 
 	}
 	
+
 	@Test
 	public void testEncode() throws IOException {
 		ProbabilityTable table=new ProbabilityTable();
@@ -42,7 +43,10 @@ public class ArithmeticEncoderTest {
 		sut.encode(new Symbol('D'), table);
 		sut.encode(new Symbol('C'), table);
 		sut.encode(getEof(), table);
-		Assert.assertEquals("10110011101011000000000000",bitWriter.getWritten());
+		
+		//Esto puede fallar si la tabla de probabilidades se ordena distinto,
+		//por ejemplo si en lugar de usar el simbolo EOF usamos \0 o algo así
+		Assert.assertEquals("10001001000110001100000000",bitWriter.getWritten());
 	}
 
 	private Symbol getEof() {
@@ -66,6 +70,9 @@ public class ArithmeticEncoderTest {
 		sut.encode(new Symbol('E'), table);
 		sut.encode(new Symbol('N'), table);
 		sut.encode(getEof(), table);
-		Assert.assertEquals("01110110111001110000000000",bitWriter.getWritten());
+		
+		//Esto puede fallar si la tabla de probabilidades se ordena distinto,
+		//por ejemplo si en lugar de usar el simbolo EOF usamos \0 o algo así
+		Assert.assertEquals("01101110111000111000000000",bitWriter.getWritten());
 	}
 }

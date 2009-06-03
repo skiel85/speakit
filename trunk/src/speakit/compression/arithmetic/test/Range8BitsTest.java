@@ -1,16 +1,13 @@
 package speakit.compression.arithmetic.test;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import speakit.compression.arithmetic.Range;
+import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import speakit.compression.arithmetic.Range;
 
 public class Range8BitsTest {
 
@@ -32,7 +29,7 @@ public class Range8BitsTest {
 	}
 
 	@Test
-	public void testSetBoundsShorterThanPrecicion() {
+	public void testSetBoundsShorterThanPrecicion() throws IOException {
 		sut.setBounds("0000", "1111");
 		Assert.assertEquals("00000000", sut.getFloor());
 		Assert.assertEquals("11111111", sut.getRoof());
@@ -40,7 +37,7 @@ public class Range8BitsTest {
 	}
 
 	@Test
-	public void testCompressFirstTwoCharsOfNEUQUENBySkiel() {
+	public void testCompressFirstTwoCharsOfNEUQUENBySkiel() throws IOException {
 		// E=2
 		// N=2
 		// Q=1
@@ -65,7 +62,7 @@ public class Range8BitsTest {
 	}
 
 	@Test
-	public void testCompressNEUQUENByNahuel() {
+	public void testCompressNEUQUENByNahuel() throws IOException {
 		// E=2
 		// N=2
 		// Q=1

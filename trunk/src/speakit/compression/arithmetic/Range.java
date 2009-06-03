@@ -1,17 +1,16 @@
 package speakit.compression.arithmetic;
 
+import java.io.IOException;
 
 public class Range {
-
+	
 	private final int	precision;
-	private String		floor			= "";
-	private String		roof			= "";
-	private int		underflowCount	= 0;
-	private int			numericFloor	= 0;
-	private int			numericRoof		= 0;
+	private Binary		floor			= null;
+	private Binary		roof			= null;
+	private int			underflowCount	= 0;
 	private int			rangeSize		= 0;
 
-	public Range(int precision) {
+	public Range(int precision) throws IOException { 
 		this.precision = precision;
 		this.setBounds(createRangeBound(true), createRangeBound(false));
 	}
@@ -28,10 +27,9 @@ public class Range {
 	 * Getter of the property <tt>floor</tt>
 	 * 
 	 * @return Returns the floor.
-	 * @uml.property name="floor"
 	 */
 	public String getFloor() {
-		return floor;
+		return floor.getBits();
 	}
 
 	/**
@@ -41,13 +39,14 @@ public class Range {
 	 * @uml.property name="roof"
 	 */
 	public String getRoof() {
-		return roof;
+		return roof.getBits();
 	}
 
 	/**
 	 * Simplifica el rango resolviendo underflow y overflow
+	 * @throws IOException 
 	 */
-	private void simplify() {
+	private void simplify() throws IOException {
 		solveOverflow();
 		solveUnderflow();
 	}
@@ -56,74 +55,56 @@ public class Range {
 	 * Elimina los bits en underflow, rearma el rango shifteando a izquierda
 	 * para ocupar el lugar de los bits de underflow. Incrementa el contador de
 	 * underflow si hiciera falta.
+	 * @throws IOException 
 	 */
-	private void solveUnderflow() {
+	private void solveUnderflow() throws IOException {
 		boolean exit = false;
-		if (floor.charAt(0) != roof.charAt(0)) {
+		String floorbits=floor.getBits();
+		String roofbits=roof.getBits();
+		if (floorbits.charAt(0) != roofbits.charAt(0)) {
 			// puede haber underflow
-			for (int i = 1; i < this.floor.length() && !exit; i++) {
-				if (floor.charAt(i) != floor.charAt(0) && floor.charAt(i) != roof.charAt(i)) {
+			for (int i = 1; i < floorbits.length() && !exit; i++) {
+				if (floorbits.charAt(i) != floorbits.charAt(0) && floorbits.charAt(i) != roofbits.charAt(i)) {
 					this.underflowCount++;
 				} else {
 					exit = true;
 				}
-			}
-			this.setBounds(shiftLeft(floor, this.underflowCount, 1, "0"), shiftLeft(roof, this.underflowCount, 1, "1"),false);
+			}			
+			this.setBounds(floor.shiftLeft(this.underflowCount, 1,new ConstantBitReader(true)).getBits(), roof.shiftLeft(this.underflowCount, 1,new ConstantBitReader(false)).getBits(),false);
 		}
 	}
-
+	
 	/**
 	 * resuelve el overflow, modifica el rango, emite los bits de overflow y
 	 * underflow en el emissionBuffer, reinicia el contador de underflow si
 	 * hiciera falta.
+	 * @throws IOException 
 	 */
-	private void solveOverflow() {
+	private void solveOverflow() throws IOException {
 		String overflow = "";
 		boolean exit = false;
-		for (int i = 0; i < this.floor.length() && !exit; i++) {
-			if (floor.charAt(i) == roof.charAt(i)) {
-				overflow += floor.charAt(i);
+		String floorbits=floor.getBits();
+		String roofbits=roof.getBits();
+		for (int i = 0; i < floorbits.length() && !exit; i++) {
+			if (floorbits.charAt(i) == roofbits.charAt(i)) {
+				overflow += floorbits.charAt(i);
 			} else {
 				exit = true;
 			}
 		}
-		this.setBounds(shiftLeft(floor, overflow.length(), 0, "0"), shiftLeft(roof, overflow.length(), 0, "1"),false);
+		this.setBounds(floor.shiftLeft(overflow.length(), 0, new ConstantBitReader(true)).getBits(), roof.shiftLeft(overflow.length(), 0, new ConstantBitReader(false)).getBits(), false);
 		emitOverflow(overflow);
 	}
-
-	/**
-	 * mueve todos los bits a la izquierda y agrega al final los bits deseados
-	 * 
-	 * @param array
-	 * @param shiftSize
-	 * @param completionBit
-	 * @return
-	 */
-	private String shiftLeft(String array, int shiftSize, int startPos, String completionBit) {
-		String shifted = "";
-		for (int i = 0; i < array.length(); i++) {
-			if (i >= startPos) {
-				if (i + shiftSize < array.length()) {
-					shifted += array.charAt(i + shiftSize);
-				} else {
-					shifted += completionBit;
-				}
-			} else {
-				shifted += array.charAt(i);
-			}
-
-		}
-		return shifted;
-	}
-
-	/**
-	 */
-	public void zoomIn(Double accumulatedProbability, Double probability) {
-		int floor = (int) Math.round(this.numericFloor + this.rangeSize * accumulatedProbability);
-		int roof = (int) Math.round(floor - 1 + this.rangeSize * probability);
-		this.setBounds(Binary.alignRight(Binary.integerToBinary(floor),this.precision), Binary.alignRight(Binary.integerToBinary(roof),this.precision));
-	}
 	
+	/**
+	 * @throws IOException 
+	 */
+	public void zoomIn(Double accumulatedProbability, Double probability) throws IOException {
+		int floor = (int) Math.round(this.floor.getNumber() + this.rangeSize * accumulatedProbability);
+		int roof = (int) Math.round(floor - 1 + this.rangeSize * probability);
+		this.setBounds(Binary.integerToBinary(floor),  Binary.integerToBinary(roof));
+	}
+
 	StringBuffer	emissionBuffer	= new StringBuffer();
 	/**
 	 * Devuelve el buffer de emision actual y lo limpia
@@ -156,7 +137,6 @@ public class Range {
 		}
 	}
 
-	
 	private char not(char bit) {
 		return (bit == '1') ? '0' : '1';
 	}
@@ -165,32 +145,36 @@ public class Range {
 	 * Emite el piso del rango
 	 */
 	public void emitEnding() {
-		emitOverflow(this.floor);
+		emitOverflow(this.floor.getBits());
 	}
 
 	/**
-	 * Setea los limites del rago (piso y techo), resuelve underflows/overflows si corresponde
+	 * Setea los limites del rago (piso y techo), resuelve underflows/overflows
+	 * si corresponde
+	 * 
 	 * @param floor
 	 * @param roof
+	 * @throws IOException 
 	 */
-	public void setBounds(String floor, String roof) {
-		setBounds(Binary.alignRight(floor,this.precision),  Binary.alignRight(roof,this.precision), true);
+	public void setBounds(String floor, String roof) throws IOException {
+		setBounds(floor, roof, true);
 	}
-	
+
 	/**
-	 * Setea los limites del rago (piso y techo), resuelve underflows/overflows si simplify == true y corresponde
+	 * Setea los limites del rago (piso y techo), resuelve underflows/overflows
+	 * si simplify == true y corresponde
+	 * 
 	 * @param floor
 	 * @param roof
+	 * @throws IOException 
 	 */
-	private void setBounds(String floor, String roof,boolean simplify) {
-		this.floor = floor;
-		this.roof = roof;
-		if(simplify){
-			this.simplify();	
+	private void setBounds(String floor, String roof, boolean simplify) throws IOException {
+		this.floor = new Binary(floor,this.precision);
+		this.roof = new Binary(roof,this.precision);
+		if (simplify) {
+			this.simplify();
 		}
-		numericFloor = Binary.bitStringToInt(this.floor);
-		numericRoof = Binary.bitStringToInt(this.roof);
-		rangeSize = numericRoof - numericFloor + 1;
+		rangeSize = this.roof.getNumber() - this.floor.getNumber() + 1;
 	}
 
 	public int getUnderflowCount() {
@@ -198,15 +182,15 @@ public class Range {
 	}
 
 	public int getNumericFloor() {
-		return this.numericFloor;
+		return this.floor.getNumber();
 	}
 
 	public int getNumericRoof() {
-		return this.numericRoof;
+		return this.roof.getNumber();
 	}
 
 	public double getProbabilityFor(int number) {
-		return (number - this.numericFloor) / (double)this.rangeSize;
+		return (number - this.getNumericFloor()) / (double) this.rangeSize;
 	}
 
 }

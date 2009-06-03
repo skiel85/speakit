@@ -1,6 +1,7 @@
 package speakit.compression.arithmetic;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 
 /**
@@ -15,22 +16,23 @@ public class Binary {
 	private final int		precision;
 	private int				number;
 
-	public Binary(String bits) {
-		this.precision = bits.length();
-		this.bits = bits;
+	public Binary(String bits, int precision) {
+
+		this.bits = Binary.alignRight(bits, precision);
+		this.precision = this.bits.length();
 		this.number = Binary.bitStringToInt(bits);
 	}
 
 	public Binary(int number, int precision) {
 		this.precision = precision;
 		this.number = number;
-		this.bits = Binary.integerToBinary(number);
+		this.bits = Binary.alignRight(Binary.integerToBinary(number), precision);
 	}
-	
-	public static Binary createFromReader(StringReader reader ,int size) throws IOException{		
- 		char[] buffer=new char[size];
-		reader.read(buffer,0,size);
- 		return new Binary(new String(buffer));
+
+	public static Binary createFromReader(StringReader reader, int precision) throws IOException {
+		char[] buffer = new char[precision];
+		reader.read(buffer, 0, precision);
+		return new Binary(new String(buffer), precision);
 	}
 
 	public static String repeat(char charToRepeat, int count) {
@@ -41,7 +43,7 @@ public class Binary {
 		return buffer.toString();
 	}
 
-	public static String alignRight(String num, int precision) {
+	private static String alignRight(String num, int precision) {
 		if (num.length() < precision) {
 			return repeat('0', precision - num.length()) + num;
 		} else {
@@ -86,32 +88,33 @@ public class Binary {
 		return number;
 	}
 
-//	/**
-//	 * mueve todos los bits a la izquierda y agrega al final los bits deseados
-//	 * 
-//	 * @param array
-//	 * @param shiftSize
-//	 * @param completionBit
-//	 * @return
-//	 */
-//	private String shiftLeft(String array, int shiftSize, int startPos, String completionBit) {
-//		String shifted = "";
-//		for (int i = 0; i < array.length(); i++) {
-//			if (i >= startPos) {
-//				if (i + shiftSize < array.length()) {
-//					shifted += array.charAt(i + shiftSize);
-//				} else {
-//					shifted += completionBit;
-//				}
-//			} else {
-//				shifted += array.charAt(i);
-//			}
-//
-//		}
-//		return shifted;
-//	}
+	// /**
+	// * mueve todos los bits a la izquierda y agrega al final los bits deseados
+	// *
+	// * @param array
+	// * @param shiftSize
+	// * @param completionBit
+	// * @return
+	// */
+	// private String shiftLeft(String array, int shiftSize, int startPos,
+	// String completionBit) {
+	// String shifted = "";
+	// for (int i = 0; i < array.length(); i++) {
+	// if (i >= startPos) {
+	// if (i + shiftSize < array.length()) {
+	// shifted += array.charAt(i + shiftSize);
+	// } else {
+	// shifted += completionBit;
+	// }
+	// } else {
+	// shifted += array.charAt(i);
+	// }
+	//
+	// }
+	// return shifted;
+	// }
 
-	public Binary shiftLeft(int shiftSize, int startPos, StringReader reader) throws IOException {
+	public Binary shiftLeft(int shiftSize, int startPos, Reader reader) throws IOException {
 		String shifted = "";
 		for (int i = 0; i < this.bits.length(); i++) {
 			if (i >= startPos) {
@@ -125,7 +128,7 @@ public class Binary {
 			}
 
 		}
-		return new Binary(shifted);
+		return new Binary(shifted, this.precision);
 	}
 
 	public String getBits() {

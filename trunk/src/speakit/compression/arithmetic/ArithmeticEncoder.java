@@ -9,10 +9,12 @@ public class ArithmeticEncoder {
 	public ArithmeticEncoder(BitWriter bitWriter, int precicion) {
 		this.bitWriter = bitWriter;
 		this.precicion = precicion;
-		range = new Range((byte) precicion);
 	}
 
 	public void encode(Symbol symbol, ProbabilityTable table) throws IOException {
+		if(range ==null){
+			range = new Range((byte) precicion);
+		}
 		range.zoomIn(table.getProbabilityUntil(symbol), table.getProbability(symbol));
 		if (symbol.equals(CreateEof())) {//TODO: corregir \n por EOF
 			range.emitEnding();// emito el piso del rango

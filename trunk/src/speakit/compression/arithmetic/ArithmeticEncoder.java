@@ -23,8 +23,8 @@ public class ArithmeticEncoder {
 	}
 
 	public static Symbol CreateEof() {
-//		return new Symbol(ArithmeticEncoder.EOF);
-		return Symbol.getEof();
+		return new Symbol('F');
+//		return Symbol.getEof();
 	}
 
 }

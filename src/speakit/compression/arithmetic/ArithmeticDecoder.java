@@ -11,7 +11,6 @@ public class ArithmeticDecoder {
 
 	public ArithmeticDecoder(StringReader input, int precision) {
 		this.precision = precision;
-		this.range = new Range(precision);
 		this.input = input;
 	}
 
@@ -25,6 +24,9 @@ public class ArithmeticDecoder {
 	 * @throws IOException
 	 */
 	public Symbol decode(ProbabilityTable table) throws IOException {
+		if(this.range==null){
+			this.range = new Range(precision);
+		}
 		if (this.currentWindow == null) {
 			currentWindow = Binary.createFromReader(this.input, precision);
 		}

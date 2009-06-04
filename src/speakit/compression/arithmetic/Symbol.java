@@ -57,7 +57,7 @@ public class Symbol implements Comparable<Symbol> {
 		return new Symbol(Symbol.EOF_CODE);
 	}
 
-	private Symbol(int number) {
+	public Symbol(int number) {
 		this.number = number;
 	}
 
@@ -79,6 +79,13 @@ public class Symbol implements Comparable<Symbol> {
 	@Override
 	public int hashCode() {
 		return this.number;
+	}
+	
+	public char getChar(){
+		if(this.number<0){
+			throw new RuntimeException("No es posible devolver un char porque el symbolo no es unicode es un ESC o un EOF");
+		}
+		return (char)this.number;
 	}
 	
 

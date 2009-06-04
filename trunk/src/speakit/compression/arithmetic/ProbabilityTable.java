@@ -41,11 +41,19 @@ public class ProbabilityTable {
 		res.symbolFrequences = newFreqs;
 		return res;
 	}
-
-	/**
-		 */
+ 
 	public void add(Symbol symbol, int frequence) {
 		this.symbolFrequences.put(symbol, new Integer(frequence));
+	}
+	
+	public void increment(Symbol symbol) {
+		Integer frequency = this.symbolFrequences.get(symbol);
+		if (frequency!=null){
+			frequency++;
+		}else{
+			frequency=1;
+		}
+		this.symbolFrequences.put(symbol, frequency);
 	}
 
 	protected int getTotalFrecuence() {

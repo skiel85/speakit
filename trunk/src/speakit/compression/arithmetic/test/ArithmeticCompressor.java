@@ -49,7 +49,7 @@ public class ArithmeticCompressor implements BitWriter {
         while ((ch = in.read()) > -1) {
         	Symbol symbol = new Symbol(ch);
         	encoder.encode(symbol, table);
-        	table.add(symbol, 1);
+        	table.increment(symbol);
         }
         encoder.encode(Symbol.getEof(), table);
         in.close();
@@ -57,13 +57,14 @@ public class ArithmeticCompressor implements BitWriter {
 
 	private BitPacker	packer	= new BitPacker();
 	private int	charSize;
+	
 	@Override
 	public void write(String bits) throws IOException {
 		packer.pack(bits);
 		for (Byte eachByte : packer.flush()) {
-			System.out.println((char)eachByte.byteValue());
 			out.write(eachByte);
 		}
+//		System.out.println(bits);
 	}
 
 }

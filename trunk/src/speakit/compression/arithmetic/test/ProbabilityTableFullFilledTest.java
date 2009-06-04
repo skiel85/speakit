@@ -10,16 +10,16 @@ import speakit.compression.arithmetic.Symbol;
 
 public class ProbabilityTableFullFilledTest {
 
-	private ProbabilityTable sut;
+	private ProbabilityTable	sut;
 
 	@Before
 	public void setUp() throws Exception {
 		// JERRYRICE
 		sut = new ProbabilityTable();
-		
+
 		sut.add(Symbol.getEof(), 1);
 		for (int i = 0; i < Math.pow(2, 16); i++) {
-			sut.add(new Symbol((char)i), 1);
+			sut.add(new Symbol((char) i), 1);
 		}
 	}
 
@@ -27,24 +27,33 @@ public class ProbabilityTableFullFilledTest {
 	public void tearDown() throws Exception {
 
 	}
-	
+
 	@Test
-	public void testDistributionLowerThan1() {
-		
-//		Assert.assertEquals(Math.pow(2, 16), (2^16));
-		for (int i = 0; i < (Math.pow(2, 16)-1); i++) {
-//			System.out.println(i);
-//			if(i==17){
-//				Assert.assertTrue("El caracter ("+i+")=" + (char)i +" no deberia tener probabilidad 1 ",  sut.getDistribution(new Symbol(i))<1);	
-//			}
-			
-		}
-//		for (int i = 0; i < (2^16)-1; i++) {
-//			Assert.assertTrue("El caracter ("+i+")=" + (char)i +" no deberia tener probabilidad 1 ",  sut.getDistribution(new Symbol(i))<1);
-//		}		
+	public void testAddIncrmentsFrecuency() {
+		Symbol symbol = new Symbol('a');
+		double firstProbability = sut.getProbability(symbol);
+		sut.increment(symbol);
+		double newProbability = sut.getProbability(symbol);
+		Assert.assertTrue("Deberia ser menor: expectedLower: " + firstProbability + ", expectedHigher: " + newProbability, firstProbability < newProbability);
 	}
-	
-//	Assert.assertEquals( 1.0,sut.getDistribution(new Symbol(2^16-1)),1.0);
-	
-	
+
+	// @Test
+	// public void testDistributionLowerThan1() {
+	//		 
+	// for (int i = 0; i < (Math.pow(2, 16)-1); i++) {
+	// System.out.println(i);
+	// // if(i==17){
+	// Assert.assertTrue("El caracter ("+i+")=" + (char)i
+	// +" no deberia tener probabilidad 1 ", sut.getDistribution(new
+	// Symbol(i))<1);
+	// // }
+	//			
+	// }
+	// for (int i = 0; i < (Math.pow(2,16))-1; i++) {
+	// Assert.assertTrue("El caracter ("+i+")=" + (char)i
+	// +" no deberia tener probabilidad 1 ", sut.getDistribution(new
+	// Symbol(i))<1);
+	// }
+	// }
+
 }

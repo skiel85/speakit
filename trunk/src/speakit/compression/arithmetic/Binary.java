@@ -48,7 +48,7 @@ public class Binary {
 			return repeat('0', precision - num.length()) + num;
 		} else {
 			if (num.length() > precision) {
-				throw new IllegalArgumentException("El " + num + " es mas grande que lo soportado por la precicion que es de " + precision + " bits");
+				throw new IllegalArgumentException("El " + num + " tiene " + num.length() + " bits, es mas grande que lo soportado por la precisión que es de " + precision + " bits");
 			} else {
 				return num;
 			}

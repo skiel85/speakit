@@ -100,6 +100,9 @@ public class Range {
 	 * @throws IOException 
 	 */
 	public void zoomIn(Double accumulatedProbability, Double probability) throws IOException {
+		if(probability==0){
+			throw new RuntimeException("La probabilidad del símbolo no puede ser cero");
+		}
 		int floor = (int) Math.round(this.floor.getNumber() + this.rangeSize * accumulatedProbability);
 		int roof = (int) Math.round(floor - 1 + this.rangeSize * probability);
 		this.setBounds(Binary.integerToBinary(floor),  Binary.integerToBinary(roof));

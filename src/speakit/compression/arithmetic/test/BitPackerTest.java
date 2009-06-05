@@ -54,7 +54,7 @@ public class BitPackerTest {
 		Assert.assertEquals(1, bytes.size());
 		Assert.assertEquals("01010101", byteToBinaryString(bytes.get(0)));
 	}
-	
+
 	@Test
 	public void testPackThreeBytes() {
 		boolean bit = false;
@@ -76,7 +76,7 @@ public class BitPackerTest {
 		Assert.assertEquals("11111111", byteToBinaryString(bytes.get(1)));
 		Assert.assertEquals("01010101", byteToBinaryString(bytes.get(2)));
 	}
-	
+
 	@Test
 	public void testPadding() {
 		sut.pack(true);
@@ -90,13 +90,13 @@ public class BitPackerTest {
 		sut.pack(true);
 		sut.pack(false);
 		sut.end();
-		
+
 		List<Byte> bytes = sut.flush();
 		Assert.assertEquals(2, bytes.size());
 		Assert.assertEquals("10011010", byteToBinaryString(bytes.get(0)));
 		Assert.assertEquals("10100000", byteToBinaryString(bytes.get(1)));
 	}
-	
+
 	@Test
 	public void testPaddingExtremeCase() {
 		sut.pack(true);
@@ -108,13 +108,12 @@ public class BitPackerTest {
 		sut.pack(true);
 		sut.pack(false);
 		sut.end();
-		
+
 		List<Byte> bytes = sut.flush();
 		Assert.assertEquals(2, bytes.size());
 		Assert.assertEquals("10011010", byteToBinaryString(bytes.get(0)));
 		Assert.assertEquals("10000000", byteToBinaryString(bytes.get(1)));
 	}
-	
 
 	private String byteToBinaryString(Byte b) {
 		String result = Integer.toBinaryString(b);
@@ -126,5 +125,60 @@ public class BitPackerTest {
 			}
 		}
 		return result;
+	}
+
+	@Test
+	public void testUnpackTheOnlyOneByte() throws IOException {
+		for (int i = 0; i < 7; i++) {
+			sut.pack(false);
+		}
+		for (int i = 0; i < 7; i++) {
+			Assert.assertEquals(false, sut.unpack());
+		}
+	}
+
+	@Test
+	public void testUnpackTheOnlyOneCompleteByte() throws IOException {
+		for (int i = 0; i < 8; i++) {
+			sut.pack(false);
+		}
+		for (int i = 0; i < 8; i++) {
+			Assert.assertEquals(false, sut.unpack());
+		}
+	}
+	
+	@Test
+	public void testUnpackEightOnes() throws IOException {
+		for (int i = 0; i < 8; i++) {
+			sut.pack(true);
+		}
+		for (int i = 0; i < 8; i++) {
+			Assert.assertEquals(true, sut.unpack());
+		}
+	}
+
+	@Test
+	public void testUnpackVariousBytes() throws IOException {
+		sut.pack(true);
+		sut.pack(false);
+		sut.pack(false);
+		sut.pack(true);
+		sut.pack(true);
+		sut.pack(false);
+		sut.pack(true);
+		sut.pack(false);
+		sut.pack(true);
+		sut.pack(false);
+
+		Assert.assertEquals(true, sut.unpack());
+		Assert.assertEquals(false, sut.unpack());
+		Assert.assertEquals(false, sut.unpack());
+		Assert.assertEquals(true, sut.unpack());
+		Assert.assertEquals(true, sut.unpack());
+		Assert.assertEquals(false, sut.unpack());
+		Assert.assertEquals(true, sut.unpack());
+		Assert.assertEquals(false, sut.unpack());
+		Assert.assertEquals(true, sut.unpack());
+		Assert.assertEquals(false, sut.unpack());
 	}
 }

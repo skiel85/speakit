@@ -1,4 +1,4 @@
-package speakit.compression.arithmetic.test;
+package speakit.compression.arithmetic;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -65,6 +65,5 @@ public class ArithmeticCompressor implements BitWriter {
 			out.write(eachByte);
 		}
 //		System.out.println(bits);
-	}
-
+	} 
 }

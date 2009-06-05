@@ -8,7 +8,7 @@ public class Range {
 	private Binary		floor			= null;
 	private Binary		roof			= null;
 	private int			underflowCount	= 0;
-	private int			rangeSize		= 0;
+	private long			rangeSize		= 0;
 
 	public Range(int precision) throws IOException { 
 		this.precision = precision;
@@ -174,10 +174,14 @@ public class Range {
 	private void setBounds(String floor, String roof, boolean simplify) throws IOException {
 		this.floor = new Binary(floor,this.precision);
 		this.roof = new Binary(roof,this.precision);
+		rangeSize = calculateRangeSize();
 		if (simplify) {
 			this.simplify();
 		}
-		rangeSize = this.roof.getNumber() - this.floor.getNumber() + 1;
+	}
+
+	private long calculateRangeSize() {
+		return (long)this.roof.getNumber() - (long)this.floor.getNumber() + 1L;
 	}
 
 	public int getUnderflowCount() {

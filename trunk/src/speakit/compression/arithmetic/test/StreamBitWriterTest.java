@@ -8,16 +8,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.compression.arithmetic.BitWriterImpl;
+import speakit.compression.arithmetic.StreamBitWriter;
 
-public class BitWriterImplTest {
+public class StreamBitWriterTest {
 	private ByteArrayOutputStream os;
-	private BitWriterImpl sut;
+	private StreamBitWriter sut;
 
 	@Before
 	public void setUp() throws Exception {
 		os = new ByteArrayOutputStream();
-		sut = new BitWriterImpl(os);
+		sut = new StreamBitWriter(os);
 	}
 
 	@After

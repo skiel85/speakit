@@ -31,11 +31,11 @@ public class ArithmeticEncoderTest {
 	@Test
 	public void testEncode() throws IOException {
 		ProbabilityTable table=new ProbabilityTable();
-		table.add(new Symbol('C'), 2);
-		table.add(new Symbol('D'), 2);
-		table.add(new Symbol('B'), 1);
-		table.add(new Symbol('A'), 2);
-		table.add(Symbol.getEof(), 1);
+		table.increment(new Symbol('C'), 2);
+		table.increment(new Symbol('D'), 2);
+		table.increment(new Symbol('B'), 1);
+		table.increment(new Symbol('A'), 2);
+		table.increment(Symbol.getEof(), 1);
 		
 		sut.encode(new Symbol('C'), table);
 		sut.encode(new Symbol('D'), table);
@@ -55,11 +55,11 @@ public class ArithmeticEncoderTest {
 	@Test
 	public void testEncodeWithEof() throws IOException {
 		ProbabilityTable table = new ProbabilityTable();
-		table.add(new Symbol('N'), 2);
-		table.add(new Symbol('E'), 2);
-		table.add(new Symbol('Q'), 1);
-		table.add(new Symbol('U'), 2);
-		table.add(Symbol.getEof(), 1);
+		table.increment(new Symbol('N'), 2);
+		table.increment(new Symbol('E'), 2);
+		table.increment(new Symbol('Q'), 1);
+		table.increment(new Symbol('U'), 2);
+		table.increment(Symbol.getEof(), 1);
 		
 		sut.encode(new Symbol('N'), table);
 		sut.encode(new Symbol('E'), table);

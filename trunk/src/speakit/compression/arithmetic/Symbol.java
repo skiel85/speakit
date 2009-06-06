@@ -72,21 +72,39 @@ public class Symbol implements Comparable<Symbol> {
 
 	@Override
 	public boolean equals(Object o) {
-		return (this.number == ((Symbol)o).number);
+		return (this.number == ((Symbol) o).number);
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		return this.number;
 	}
-	
-	public char getChar(){
-		if(this.number<0){
+
+	public char getChar() {
+		if (this.number < 0) {
 			throw new RuntimeException("No es posible devolver un char porque el symbolo no es unicode es un ESC o un EOF");
 		}
-		return (char)this.number;
+		return (char) this.number;
+	}
+
+	public Symbol next() {
+		return new Symbol(this.number++);
+	}
+
+	public Symbol previous() {
+		return new Symbol(this.number--);
 	}
 	
+	public static Symbol first() {
+		return Symbol.getEof();
+	}
+	
+	public static Symbol last() {
+		return new Symbol(65535);
+	}
+
+	public int distance(Symbol other) {
+		return Math.abs(other.number - this.number);
+	}
 
 }

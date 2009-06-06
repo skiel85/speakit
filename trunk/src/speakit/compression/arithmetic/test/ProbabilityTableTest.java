@@ -16,13 +16,13 @@ public class ProbabilityTableTest {
 	public void setUp() throws Exception {
 		// JERRYRICE
 		sut = new ProbabilityTable();
-		sut.add(Symbol.getEscape(), 7);
-		sut.add(new Symbol('C'), 1);
-		sut.add(new Symbol('E'), 2);
-		sut.add(new Symbol('I'), 1);
-		sut.add(new Symbol('J'), 1);
-		sut.add(new Symbol('R'), 3);
-		sut.add(new Symbol('Y'), 1);
+		sut.increment(Symbol.getEscape(), 7);
+		sut.increment(new Symbol('C'), 1);
+		sut.increment(new Symbol('E'), 2);
+		sut.increment(new Symbol('I'), 1);
+		sut.increment(new Symbol('J'), 1);
+		sut.increment(new Symbol('R'), 3);
+		sut.increment(new Symbol('Y'), 1);
 
 	}
 
@@ -56,9 +56,9 @@ public class ProbabilityTableTest {
 	@Test
 	public void testExclusion() {
 		ProbabilityTable tableWithSymbolsToExclude = new ProbabilityTable();
-		tableWithSymbolsToExclude.add(Symbol.getEscape(), 4);
-		tableWithSymbolsToExclude.add(new Symbol('I'), 2);
-		tableWithSymbolsToExclude.add(new Symbol('J'), 1);
+		tableWithSymbolsToExclude.increment(Symbol.getEscape(), 4);
+		tableWithSymbolsToExclude.increment(new Symbol('I'), 2);
+		tableWithSymbolsToExclude.increment(new Symbol('J'), 1);
 		
 		ProbabilityTable excludedTable = this.sut.exclude(tableWithSymbolsToExclude);
 		

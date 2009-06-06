@@ -113,5 +113,10 @@ public class Binary {
 	public String getBits() {
 		return this.bits;
 	}
+	
+	@Override
+	public String toString() {
+		return getBits() + "(" + this.number +")";
+	}
 
 }

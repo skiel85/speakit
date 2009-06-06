@@ -2,12 +2,12 @@ package speakit.compression.arithmetic.test;
 
 
 import java.io.IOException;
-import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import speakit.compression.arithmetic.Binary;
+import speakit.compression.arithmetic.StringBitReader;
 
 
 public class BinaryTest { 
@@ -19,8 +19,8 @@ public class BinaryTest {
  	
  	@Test
 	public void testShift() throws IOException {
- 		StringReader reader = new StringReader("101000111110110000000");
- 		Binary sut = Binary.createFromReader(reader, 8) ;
+ 		StringBitReader reader = new StringBitReader("101000111110110000000");
+		Binary sut = Binary.createFromReader(reader, 8) ;
 		Assert.assertEquals("00011111", sut.shiftLeft(3, 0, reader).getBits());
 	} 
 }

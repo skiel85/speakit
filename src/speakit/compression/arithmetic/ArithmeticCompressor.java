@@ -1,50 +1,52 @@
 package speakit.compression.arithmetic;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.StringReader;
 
-import speakit.compression.arithmetic.ArithmeticEncoder;
-import speakit.compression.arithmetic.BitPacker;
-import speakit.compression.arithmetic.BitWriter;
-import speakit.compression.arithmetic.ProbabilityTable;
-import speakit.compression.arithmetic.Symbol;
+import speakit.TextDocument;
 
 public class ArithmeticCompressor implements BitWriter {
 
 	private int					precision;
-	private final OutputStream	out;
-	private final InputStream	in;
-
-	public ArithmeticCompressor(OutputStream out, InputStream in) {
-		this.out = out;
-		this.in = in;
+	private OutputStream outStream;
+	
+	public ArithmeticCompressor(OutputStream outputFile) {
+		this.outStream = outputFile;
 
 		precision = 32;
 		charSize = 16;
+	}
+	
+	public void decompress(Reader compressedFileReader) throws IOException {
+		OutputStreamWriter writer= new OutputStreamWriter(outStream, "UTF-8");
+		
+		ArithmeticDecoder decoder = new ArithmeticDecoder(new BinaryBitReader(compressedFileReader), precision);
+		ProbabilityTable table = createInitialTable();
+		
+		Symbol decodedSymbol=null; 
+		do{
+			System.out.println("Decode");
+			decodedSymbol=decoder.decode(table);
+			table.increment(decodedSymbol);
+			if(!decodedSymbol.equals(Symbol.getEof())){
+				writer.write( decodedSymbol.getChar());	
+			}
+        }while(!decodedSymbol.equals(Symbol.getEof()));
+		writer.flush();
 	}
 
 	/**
 	 * Lee los datos de in y lo escribe comprimido en out 
 	 * @throws IOException
 	 */
-	public void compress() throws IOException {
-		
-		
+	public void compress(TextDocument document) throws IOException {
 		ArithmeticEncoder encoder = new ArithmeticEncoder(this, precision);
-		ProbabilityTable table = new ProbabilityTable();
-		table.add(Symbol.getEof(), 1);
-		for (int i = 0; i < (Math.pow(2,charSize)); i++) {
-			table.add(new Symbol(i), 1);
-		}
-		
-		InputStreamReader isr = new InputStreamReader(in, "UTF8");
-        Reader in = new BufferedReader(isr);
+		ProbabilityTable table = createInitialTable();		
+        Reader in = new BufferedReader( new StringReader(document.getText()));
         int ch;
         while ((ch = in.read()) > -1) {
         	Symbol symbol = new Symbol(ch);
@@ -55,6 +57,16 @@ public class ArithmeticCompressor implements BitWriter {
         in.close();
 	}
 
+	private ProbabilityTable createInitialTable() {
+		ProbabilityTable table;
+		table = new ProbabilityTable();
+		table.add(Symbol.getEof(), 1);
+		for (int i = 0; i < (Math.pow(2,charSize)); i++) {
+			table.add(new Symbol(i), 1);
+		}
+		return table;
+	}
+
 	private BitPacker	packer	= new BitPacker();
 	private int	charSize;
 	
@@ -62,7 +74,7 @@ public class ArithmeticCompressor implements BitWriter {
 	public void write(String bits) throws IOException {
 		packer.pack(bits);
 		for (Byte eachByte : packer.flush()) {
-			out.write(eachByte);
+			outStream.write(eachByte);
 		}
 //		System.out.println(bits);
 	} 

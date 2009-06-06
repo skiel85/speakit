@@ -54,7 +54,7 @@ public class Symbol implements Comparable<Symbol> {
 	/**
 	 */
 	public static Symbol getEof() {
-		return new Symbol(Symbol.EOF_CODE);
+		return new Symbol(EOF_CODE);
 	}
 
 	public Symbol(int number) {

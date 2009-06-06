@@ -6,10 +6,10 @@ import java.util.HashMap;
 
 import speakit.TextDocument;
 import speakit.compression.arithmetic.ArithmeticEncoder;
-import speakit.compression.arithmetic.BitPacker;
 import speakit.compression.arithmetic.BitWriter;
 import speakit.compression.arithmetic.Context;
 import speakit.compression.arithmetic.ProbabilityTable;
+import speakit.compression.arithmetic.StreamBitWriter;
 import speakit.compression.arithmetic.Symbol;
 
 
@@ -17,11 +17,13 @@ public class LZP implements BitWriter {
 	private static final int ENCODER_PRECISION = 32;
 	private Integer MATCH_CONTEXT_SIZE = 2;
 	private HashMap<Context, ProbabilityTable> tables;
+	private BitWriter	writer	;
 	private final OutputStream	out;
 	
 	public LZP() {
 		tables = new HashMap<Context, ProbabilityTable>();
 		this.out = System.out;
+		this.writer = new StreamBitWriter(this.out);
 	}
 	
 	/**
@@ -55,14 +57,11 @@ public class LZP implements BitWriter {
 		}	
 	}
 	
-	private BitPacker	packer	= new BitPacker();
+	
 	@Override
 	public void write(String bits) throws IOException {
-		packer.pack(bits);
-		for (Byte eachByte : packer.flush()) {
-			System.out.println((char)eachByte.byteValue());
-			out.write(eachByte);
-		}
+		writer.write(bits);
+		//System.out.println(bits);
 	}
 
 }

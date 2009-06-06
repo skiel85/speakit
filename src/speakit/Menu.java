@@ -1,15 +1,20 @@
 package speakit;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import speakit.audio.Audio;
 import speakit.audio.AudioManager;
 import speakit.audio.AudioManagerException;
+import speakit.compression.arithmetic.ArithmeticCompressor;
+import speakit.compression.arithmetic.StreamBitReader;
 import speakit.dictionary.audiofile.WordNotFoundException;
 import speakit.documentstorage.TextDocumentList;
 import speakit.io.record.RecordSerializationException;
@@ -20,16 +25,16 @@ import datos.capturaaudio.exception.SimpleAudioRecorderException;
  * clase Speakit Conoce las librerias de audio
  */
 public class Menu {
-	protected AudioManager audioManager;
-	private SpeakitInterface speakit;
-	private boolean DEBUG_MODE = false;
-	private ArrayList<String> documentsAdded = new ArrayList<String>(); 
-	
+	protected AudioManager		audioManager;
+	private SpeakitInterface	speakit;
+	private boolean				DEBUG_MODE		= false;
+	private ArrayList<String>	documentsAdded	= new ArrayList<String>();
+
 	public Menu(boolean debug) {
 		this();
 		DEBUG_MODE = debug;
 	}
-	
+
 	public Menu() {
 		audioManager = new AudioManager();
 		speakit = new Speakit();
@@ -48,9 +53,9 @@ public class Menu {
 		String path;
 		path = displayReadFilePath();
 		Iterable<String> wordIterable;
-		
+
 		try {
-			 wordIterable = this.speakit.addDocument(speakit.getTextDocumentFromFile(path));
+			wordIterable = this.speakit.addDocument(speakit.getTextDocumentFromFile(path));
 		} catch (FileNotFoundException fnf) {
 			showFileNotFoundMessage(path);
 			return;
@@ -72,8 +77,8 @@ public class Menu {
 		System.out.println("No pudo encontrarse el archivo '" + path + "'.");
 	}
 
-	String pathCache = "1.txt";
-	private BufferedReader userInput;
+	String					pathCache	= "1.txt";
+	private BufferedReader	userInput;
 
 	/**
 	 * Pide una ruta de archivo al usuario.
@@ -110,12 +115,12 @@ public class Menu {
 	 * 
 	 * @throws WordNotFoundException
 	 */
-	private void addSeveralDocuments()throws IOException, RecordSerializationException {
+	private void addSeveralDocuments() throws IOException, RecordSerializationException {
 		System.out.println("Ingrese cada una de las rutas de los documentos que desea ingresar separadas por coma");
 		TextDocumentList documents = new TextDocumentList();
 		ArrayList<String> pathsNotFounds = new ArrayList<String>();
 		ArrayList<String> addedsDocs = new ArrayList<String>();
-		
+
 		String paths = this.userInput.readLine().trim();
 		String[] splitedPaths = paths.split(",");
 		for (int i = 0; i < splitedPaths.length; i++) {
@@ -128,30 +133,26 @@ public class Menu {
 				pathsNotFounds.add(path);
 			}
 		}
-		Iterable <String> faltantes = this.speakit.addDocuments(documents);
+		Iterable<String> faltantes = this.speakit.addDocuments(documents);
 		boolean showTitle = true;
-		for(String unknownWord : faltantes){
+		for (String unknownWord : faltantes) {
 			System.out.println();
-	        if(unknownWord != ""){
-	        	if (showTitle) {
-	    			System.out.println("Los documentos ingresados contienen palabras desconocidas que deberá grabar a continuación");
-	    			showTitle = false;
-	        	}
-	            WordAudio audio = getAudio(unknownWord);
-	            if (audio != null && audio.getAudio() != null) {
-	            	speakit.addWordAudio(audio);
-	            }
-	        }
-	    }
+			if (unknownWord != "") {
+				if (showTitle) {
+					System.out.println("Los documentos ingresados contienen palabras desconocidas que deberá grabar a continuación");
+					showTitle = false;
+				}
+				WordAudio audio = getAudio(unknownWord);
+				if (audio != null && audio.getAudio() != null) {
+					speakit.addWordAudio(audio);
+				}
+			}
+		}
 		System.out.println();
 		showAddSeveralDocsStatus(addedsDocs, pathsNotFounds);
 	}
-	
-		
-		
 
-	
-	private void showAddSeveralDocsStatus(ArrayList<String> addedsDocs,	ArrayList<String> pathsNotFounds) {
+	private void showAddSeveralDocsStatus(ArrayList<String> addedsDocs, ArrayList<String> pathsNotFounds) {
 		if (pathsNotFounds.size() == 0)
 			System.out.println("Se han agregado correctamente todos los documentos");
 		else {
@@ -160,7 +161,7 @@ public class Menu {
 				for (String string : addedsDocs) {
 					System.out.println(string);
 				}
-				
+
 			}
 			System.out.println("Los siguientes documentos no han podido encontrarse:");
 			for (String string : pathsNotFounds) {
@@ -168,7 +169,7 @@ public class Menu {
 			}
 		}
 	}
-	
+
 	/**
 	 * Despliega el menu para la reproduccion de los archivos.
 	 * 
@@ -190,6 +191,26 @@ public class Menu {
 		System.out.println(textDocumentFromFile.getText());
 		while (audioDocument.hasNext()) {
 			this.playSound(audioDocument.next());
+		}
+	}
+
+	private void printCompressFile() throws IOException {
+		String path = displayReadFilePath();
+		TextDocument textDocumentFromFile;
+		try {
+			textDocumentFromFile = speakit.getTextDocumentFromFile(path);
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			ArithmeticCompressor comp = new ArithmeticCompressor(out);
+			comp.compress(textDocumentFromFile);
+			out.flush();
+
+			byte[] byteArray = out.toByteArray();
+			StreamBitReader reader = new StreamBitReader(new ByteArrayInputStream(byteArray));
+			System.out.println("Arhivo comprimido: " + reader.readToEnd());
+
+		} catch (FileNotFoundException fnf) {
+			showFileNotFoundMessage(path);
+			return;
 		}
 	}
 
@@ -312,30 +333,33 @@ public class Menu {
 			}
 
 			switch (opt) {
-			case 1:
-				addDocument();
-				break;
-			case 2:
-				addSeveralDocuments();
-				break;
-			case 3:
-				playTextDocument();
-				break;
-			case 4:
-				doConsultation();
-				break;
-			case 0:
-				System.out.println("Terminado.");
-				finished = true;
-				break;
-			case 5:
-				if (DEBUG_MODE) {
-					printIndexFile();
+				case 1 :
+					addDocument();
 					break;
-				}
-			default:
-				System.out.println("Opción inválida.\n");
-				break;
+				case 2 :
+					addSeveralDocuments();
+					break;
+				case 3 :
+					playTextDocument();
+					break;
+				case 4 :
+					doConsultation();
+					break;
+				case 0 :
+					System.out.println("Terminado.");
+					finished = true;
+					break;
+				case 5 :
+					printCompressFile();
+					break;
+				case 666 :
+					if (DEBUG_MODE) {
+						printIndexFile();
+						break;
+					}
+				default :
+					System.out.println("Opción inválida.\n");
+					break;
 			}
 		}
 	}
@@ -364,9 +388,7 @@ public class Menu {
 		if (!documentList.isEmpty()) {
 			showResults(documentList);
 			showOptions(documentList);
-		}
-		else
-		{
+		} else {
 			System.out.println("La consulta no arrojó ningun resultado.\n");
 			System.out.println("Para realizar una nueva consulta presione 1");
 			System.out.println("Para ir al menu principal presione 0");
@@ -409,7 +431,6 @@ public class Menu {
 		chooseOption(documentList);
 	}
 
-	
 	/**
 	 * Permite elegir una opcion
 	 * 
@@ -432,19 +453,19 @@ public class Menu {
 			option = true;
 		}
 		switch (opt) {
-		case 1:
-			doConsultation();
-			break;
-		case 0:
-			displayMainMenu();
-			break;
-		default:
-			System.out.println("Opción inválida.\n");
-			break;
+			case 1 :
+				doConsultation();
+				break;
+			case 0 :
+				displayMainMenu();
+				break;
+			default :
+				System.out.println("Opción inválida.\n");
+				break;
 		}
 
 	}
-	
+
 	/**
 	 * Permite elegir una opcion
 	 * 
@@ -468,18 +489,18 @@ public class Menu {
 		}
 		switch (opt) {
 
-		case 1:
-			chooseDocumentToPlay(documentList);
-			break;
-		case 2:
-			doConsultation();
-			break;
-		case 0:
-			displayMainMenu();
-			break;
-		default:
-			System.out.println("Opción inválida.\n");
-			break;
+			case 1 :
+				chooseDocumentToPlay(documentList);
+				break;
+			case 2 :
+				doConsultation();
+				break;
+			case 0 :
+				displayMainMenu();
+				break;
+			default :
+				System.out.println("Opción inválida.\n");
+				break;
 		}
 
 	}
@@ -489,27 +510,27 @@ public class Menu {
 	 * 
 	 * @param documentList
 	 */
-	
+
 	private void chooseDocumentToPlay(TextDocumentList documentList) throws IOException {
 		System.out.println("Elija el numero de documento que desea reproducir");
 		int number = Integer.parseInt(userInput.readLine());
 		TextDocument document;
 		int counter = 1;
 		Iterator<TextDocument> iterator = documentList.iterator();
-		
-		while ((iterator.hasNext()) && (counter != number)){
+
+		while ((iterator.hasNext()) && (counter != number)) {
 			iterator.next();
 			counter++;
 		}
 		document = iterator.next();
-		if(document != null){
+		if (document != null) {
 			WordAudioDocument audioDocument = this.speakit.convertToAudioDocument(document);
 			System.out.println("Se va a reproducir el siguiente documento");
 			System.out.println(document.getText());
 			while (audioDocument.hasNext()) {
 				this.playSound(audioDocument.next());
 			}
-		}else{
+		} else {
 			System.out.println("EL número de documento que eligió es incorrecto, elija de nuevo");
 			chooseDocumentToPlay(documentList);
 		}
@@ -523,13 +544,14 @@ public class Menu {
 
 	private void displayMainMenu() {
 		System.out.println("Speak It!");
-		System.out.println("Menu Principal\n" + "		1.- Procesar un archivo de Texto\n" + "		2.- Procesar varios archivos de Texto\n" + "		3.- Reproducir Archivo\n" + "		4.- Realizar una consulta\n");
+		System.out.println("Menu Principal\n" + "		1.- Procesar un archivo de Texto\n" + "		2.- Procesar varios archivos de Texto\n" + "		3.- Reproducir Archivo\n"
+				+ "		4.- Realizar una consulta\n" + "		5.- Comprimir un archivo con Aritmético dinámico\n");
 		if (DEBUG_MODE) {
 			System.out.println("Bienvenido al lado oscuro\n");
-			System.out.println("\t\t5 - Imprimir archivo indice\n");
+			System.out.println("\t\t666 - Imprimir archivo indice\n");
 		}
 		System.out.println("\n" + "	0.- Salir");
-		
+
 	}
 
 }

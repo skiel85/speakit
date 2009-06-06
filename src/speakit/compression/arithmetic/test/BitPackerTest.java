@@ -181,4 +181,11 @@ public class BitPackerTest {
 		Assert.assertEquals(true, sut.unpack());
 		Assert.assertEquals(false, sut.unpack());
 	}
+	
+	@Test
+	public void testError(){
+		sut.pack("000000000010001");
+		sut.flush();
+		sut.pack("011111111110111010000111100");
+	}
 }

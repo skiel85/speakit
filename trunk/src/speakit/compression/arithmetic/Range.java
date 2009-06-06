@@ -108,15 +108,15 @@ public class Range {
 		this.setBounds(Binary.integerToBinary(floor),  Binary.integerToBinary(roof));
 	}
 
-	StringBuffer	emissionBuffer	= new StringBuffer();
+	String	emissionBuffer	= "";
 	/**
 	 * Devuelve el buffer de emision actual y lo limpia
 	 * 
 	 * @return
 	 */
 	public String flush() {
-		String flow = emissionBuffer.toString();
-		emissionBuffer = new StringBuffer();
+		String flow = emissionBuffer;
+		emissionBuffer = "";
 		return flow;
 	}
 
@@ -135,7 +135,7 @@ public class Range {
 			}
 		}
 		if (overflowBuffer.length() > 0) {
-			this.emissionBuffer.append(overflowBuffer);
+			this.emissionBuffer+= overflowBuffer;
 			this.underflowCount = 0;
 		}
 	}
@@ -200,4 +200,8 @@ public class Range {
 		return (number - this.getNumericFloor()) / (double) this.rangeSize;
 	}
 
+	@Override
+	public String toString() {
+		return "Floor: " + this.floor.toString() + "\nRoof: " + this.roof.toString();
+	}
 }

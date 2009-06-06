@@ -34,27 +34,28 @@ public class ArithmeticDecoder {
 		double probability = range.getProbabilityFor(currentWindow.getNumber());
 		Symbol decodedSymbol = table.getSymbolFor(probability);
 		range.zoomIn(table.getProbabilityUntil(decodedSymbol), table.getProbability(decodedSymbol));
-
+		currentBuffer = range.emissionBuffer;
 		//esto mueve la ventana que inspecciona el archivo comprimido
 		slideWindow();
 		return decodedSymbol;
 	}
+	
+	public String currentBuffer ="";
 
 	private void slideWindow() throws IOException {
+		String flush = range.flush();
+		if (flush.length() > 0) {
+			// muevo la ventana para quitar los bits de overflow
+			// como la ventana ya se movió cuando hubo underflow, debo
+			// desplazarme un poco menos
+			int shiftSize = flush.length() - this.previousUnderflow;
+			currentWindow = currentWindow.shiftLeft(shiftSize, 0, this.input);
+			previousUnderflow = 0;
+		}
 		if (range.getUnderflowCount() > 0) {
 			// elimino de la ventana los bits de underflow
 			previousUnderflow = range.getUnderflowCount();
 			currentWindow = currentWindow.shiftLeft(previousUnderflow, 1, this.input);
-		} else {
-			String flush = range.flush();
-			if (flush.length() > 0) {
-				// muevo la ventana para quitar los bits de overflow
-				// como la ventana ya se movió cuando hubo underflow, debo
-				// desplazarme un poco menos
-				int shiftSize = flush.length() - this.previousUnderflow;
-				currentWindow = currentWindow.shiftLeft(shiftSize, 0, this.input);
-				previousUnderflow = 0;
-			}
 		}
 	}
 

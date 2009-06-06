@@ -2,6 +2,7 @@ package speakit.compression.arithmetic;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
@@ -22,10 +23,10 @@ public class ArithmeticCompressor implements BitWriter {
 		charSize = 16;
 	}
 	
-	public void decompress(Reader compressedFileReader) throws IOException {
+	public void decompress(InputStream compressedFile) throws IOException {
 		OutputStreamWriter writer= new OutputStreamWriter(outStream, "UTF-8");
 		
-		ArithmeticDecoder decoder = new ArithmeticDecoder(new BinaryBitReader(compressedFileReader), precision);
+		ArithmeticDecoder decoder = new ArithmeticDecoder(new StreamBitReader(compressedFile), precision);
 		ProbabilityTable table = createInitialTable();
 		
 		Symbol decodedSymbol=null; 

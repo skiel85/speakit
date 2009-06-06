@@ -3,16 +3,15 @@ package speakit.compression.arithmetic.test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.TextDocument;
 import speakit.compression.arithmetic.ArithmeticCompressor;
+import speakit.io.ByteArrayConverter;
 
 public class ArithmeticCompressorTest {
 
@@ -53,18 +52,30 @@ public class ArithmeticCompressorTest {
 		return out.toByteArray();
 	}
 	
-	@Ignore
 	@Test
 	public void testCompleteCompression() throws IOException {
 		// testea que el compresor genere un archivo que sea menos pesado que el
 		// original
-		byte[] compressedbytes = compress("h");
-		byte[] sourcebytes = "h".getBytes();
+		byte[] compressedbytes = compress(VUELO_447_DE_AIR_FRANCE_CORTO);
+		byte[] sourcebytes = VUELO_447_DE_AIR_FRANCE_CORTO.getBytes();
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ArithmeticCompressor compressor = new ArithmeticCompressor(out);
-		compressor.decompress(new InputStreamReader(new ByteArrayInputStream(compressedbytes)));
-		Assert.assertArrayEquals(sourcebytes, out.toByteArray());
+		compressor.decompress(new ByteArrayInputStream(compressedbytes));
+		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
+	}
+	
+	@Test
+	public void testCompleteCompressionNEUQUEN() throws IOException {
+		// testea que el compresor genere un archivo que sea menos pesado que el
+		// original
+		byte[] compressedbytes = compress("NEUQUEN");
+		byte[] sourcebytes = "NEUQUEN".getBytes();
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ArithmeticCompressor compressor = new ArithmeticCompressor(out);
+		compressor.decompress(new ByteArrayInputStream(compressedbytes));
+		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
 	}
 
 }

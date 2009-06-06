@@ -15,9 +15,9 @@ public class ProbabilityTableBasicTest {
 	@Before
 	public void setUp() throws Exception {
 		sut = new ProbabilityTable();
-		sut.add(Symbol.getEscape(), 8);
-		sut.add(new Symbol('a'), 3);
-		sut.add(new Symbol('b'), 5);
+		sut.increment(Symbol.getEscape(), 8);
+		sut.increment(new Symbol('a'), 3);
+		sut.increment(new Symbol('b'), 5);
 	}
 
 	@After

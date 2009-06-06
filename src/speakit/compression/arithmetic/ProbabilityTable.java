@@ -41,17 +41,19 @@ public class ProbabilityTable {
 		res.symbolFrequences = newFreqs;
 		return res;
 	}
- 
-	public void add(Symbol symbol, int frequence) {
-		this.symbolFrequences.put(symbol, new Integer(frequence));
+
+	public void increment(Symbol symbol, int times) {
+		for (int i = 0; i < times; i++) {
+			increment(symbol);
+		}
 	}
-	
+
 	public void increment(Symbol symbol) {
 		Integer frequency = this.symbolFrequences.get(symbol);
-		if (frequency!=null){
+		if (frequency != null) {
 			frequency++;
-		}else{
-			frequency=1;
+		} else {
+			frequency = 1;
 		}
 		this.symbolFrequences.put(symbol, frequency);
 	}
@@ -100,8 +102,8 @@ public class ProbabilityTable {
 		int equivFreq = (int) (probabity * this.getTotalFrecuence());
 		Iterator<Symbol> it = this.getSymbols().iterator();
 		int accum = 0;
-		Symbol sym=null;
-		
+		Symbol sym = null;
+
 		while (it.hasNext()) {
 			sym = it.next();
 			accum += this.symbolFrequences.get(sym);

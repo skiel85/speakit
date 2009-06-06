@@ -17,9 +17,9 @@ public class ProbabilityTableFullFilledTest {
 		// JERRYRICE
 		sut = new ProbabilityTable();
 
-		sut.add(Symbol.getEof(), 1);
+		sut.increment(Symbol.getEof(), 1);
 		for (int i = 0; i < Math.pow(2, 16); i++) {
-			sut.add(new Symbol((char) i), 1);
+			sut.increment(new Symbol((char) i), 1);
 		}
 	}
 

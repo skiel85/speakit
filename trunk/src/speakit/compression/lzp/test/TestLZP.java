@@ -17,7 +17,7 @@ public class TestLZP {
 	}
 	@Test
 	public void testCompress() throws IOException {
-		lzp.compress(new TextDocument("hola loco"));
+		lzp.compress(new TextDocument("HÓla ´Loco"));
 	}
 
 

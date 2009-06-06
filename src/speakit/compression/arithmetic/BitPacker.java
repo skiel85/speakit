@@ -3,6 +3,7 @@ package speakit.compression.arithmetic;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class BitPacker {
 	private List<Byte> packedBytes = new ArrayList<Byte>();
 	private byte lastByteBitCount = 0;

@@ -10,6 +10,7 @@ public class TextDocumentInterpreter {
 		private TextDocument document;
 		private char[] charData;
 		private Integer pointer;
+		private Integer matchPointer;
 		/**
 		 */
 		public TextDocumentInterpreter(TextDocument textDocument){
@@ -23,30 +24,54 @@ public class TextDocumentInterpreter {
 		/**
 		 */
 		public Symbol getActualSymbol(){
-			return null;
+			return new Symbol(charData[pointer]);
 		}
 	
 		/**
 		 */
 		public Context getContext(Integer length){
+			Context context = new Context(length);
 			if (this.pointer >= length) {
-				Context context = new Context(length);
 				for (int i = pointer - length; i < pointer; i++) {
 					char ch = charData[i];
 					context.add(new Symbol(ch));
 				}
-				return context;
 			}
-			return null;
+			return context;
 		}
 			
 		/**
 		 */
 		public void advance(Integer pos){
+			pointer += pos;
 		}
 
 		public boolean hasData() {
-			return pointer == charData.length;
+			return pointer < charData.length;
+		}
+
+
+		public Integer getMatchLength(Integer matchPos) {
+			if (matchPos == -1)
+				return 0;
+			matchPointer = matchPos;
+			Integer match = 0;
+			while (pointer < charData.length && charData[matchPointer] == charData[pointer]) {
+				match++;
+				pointer++;
+				matchPointer++;
+			}
+			return match;
+		}
+
+
+		public Integer getCurrentPosition() {
+			return pointer;
+		}
+
+
+		public void setPosition(int i) {
+			pointer = i;
 		}
 
 }

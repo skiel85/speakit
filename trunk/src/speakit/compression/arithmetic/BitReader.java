@@ -5,14 +5,14 @@ import java.io.Reader;
 
 public abstract class BitReader {
 
-	private boolean	isEof=false;
+	private boolean	isEof	= false;
 
 	public boolean isEOF() {
 		return isEof;
 	}
 
 	public Bit[] readBits(int length) throws IOException {
-		if(this.isEof){
+		if (this.isEof) {
 			throw new IOException("Eof reached");
 		}
 		Bit[] result = new Bit[length];
@@ -21,11 +21,19 @@ public abstract class BitReader {
 			if (readBit != null) {
 				result[i] = readBit;
 			} else {
-				isEof=true;
+				isEof = true;
 				return result;
 			}
 		}
 		return result;
+	}
+
+	public String readToEnd() throws IOException {
+		StringBuffer buffer = new StringBuffer();
+		while (this.hashNext()) {
+			buffer.append(this.readBit());
+		}
+		return buffer.toString();
 	}
 
 	public abstract Bit readBit() throws IOException;

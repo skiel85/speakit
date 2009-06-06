@@ -14,8 +14,9 @@ public class ArithmeticCompressor implements BitWriter {
 	private int					precision;
 	private OutputStream outStream;
 	
-	public ArithmeticCompressor(OutputStream outputFile) {
-		this.outStream = outputFile;
+	public ArithmeticCompressor(OutputStream outputStream) {
+		this.outStream = outputStream;
+		this.writer = new StreamBitWriter(outputStream);
 
 		precision = 32;
 		charSize = 16;
@@ -67,15 +68,12 @@ public class ArithmeticCompressor implements BitWriter {
 		return table;
 	}
 
-	private BitPacker	packer	= new BitPacker();
+	private BitWriter writer; 
 	private int	charSize;
 	
 	@Override
 	public void write(String bits) throws IOException {
-		packer.pack(bits);
-		for (Byte eachByte : packer.flush()) {
-			outStream.write(eachByte);
-		}
+		writer.write(bits);
 //		System.out.println(bits);
 	} 
 }

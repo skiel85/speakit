@@ -6,6 +6,7 @@ public class ArithmeticEncoder {
 	private final BitWriter	output;
 	private Range			range;
 	private final int		precision;
+	
 	public ArithmeticEncoder(BitWriter output, int precision) {
 		this.output = output;
 		this.precision = precision;
@@ -22,15 +23,15 @@ public class ArithmeticEncoder {
 			range = new Range((byte) precision);
 		}
 		range.zoomIn(table.getProbabilityUntil(symbol), table.getProbability(symbol));
-		if (symbol.equals(CreateEof())) {//TODO: corregir \n por EOF
+		if (symbol.equals(Symbol.getEof())) {//TODO: corregir \n por EOF
 			range.emitEnding();// emito el piso del rango
 		}
 		output.write(range.flush());
 	}
 
-	public static Symbol CreateEof() {
-		return new Symbol('F');
+//	public static Symbol CreateEof() {
+////		return new Symbol('F');
 //		return Symbol.getEof();
-	}
+//	}
 
 }

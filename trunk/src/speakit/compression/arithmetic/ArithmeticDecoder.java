@@ -1,7 +1,7 @@
 package speakit.compression.arithmetic;
 
 import java.io.IOException;
-import java.io.StringReader;
+import java.io.Reader;
 
 public class ArithmeticDecoder {
 
@@ -9,12 +9,12 @@ public class ArithmeticDecoder {
 	private Binary		currentWindow;
 	private final int	precision;
 
-	public ArithmeticDecoder(StringReader input, int precision) {
+	public ArithmeticDecoder(BitReader input, int precision) {
 		this.precision = precision;
 		this.input = input;
 	}
 
-	private StringReader	input;
+	private BitReader	input;
 	int						previousUnderflow	= 0;
 
 	/**

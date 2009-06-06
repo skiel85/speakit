@@ -1,8 +1,6 @@
 package speakit.compression.arithmetic;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 
 /**
  * Provee funciones para trabajar convertir ints a binarios y viceversa
@@ -17,7 +15,11 @@ public class Binary {
 	private int				number;
 
 	public Binary(String bits, int precision) {
-
+		for (int i = 0; i < bits.length(); i++) {
+			if (bits.charAt(i) != '0' && bits.charAt(i) != '1') {
+				throw new RuntimeException("Se esperaba un string con muchos 1 o 0, pero vino un:  " + bits.charAt(i));
+			}
+		}
 		this.bits = Binary.alignRight(bits, precision);
 		this.precision = this.bits.length();
 		this.number = Binary.bitStringToInt(bits);
@@ -29,10 +31,8 @@ public class Binary {
 		this.bits = Binary.alignRight(Binary.integerToBinary(number), precision);
 	}
 
-	public static Binary createFromReader(StringReader reader, int precision) throws IOException {
-		char[] buffer = new char[precision];
-		reader.read(buffer, 0, precision);
-		return new Binary(new String(buffer), precision);
+	public static Binary createFromReader(BitReader reader, int precision) throws IOException {
+		return new Binary(new String(Bit.toCharArray(reader.readBits(precision))), precision);
 	}
 
 	public static String repeat(char charToRepeat, int count) {
@@ -48,7 +48,8 @@ public class Binary {
 			return repeat('0', precision - num.length()) + num;
 		} else {
 			if (num.length() > precision) {
-				throw new IllegalArgumentException("El " + num + " tiene " + num.length() + " bits, es mas grande que lo soportado por la precisión que es de " + precision + " bits");
+				throw new IllegalArgumentException("El " + num + " tiene " + num.length() + " bits, es mas grande que lo soportado por la precisión que es de " + precision
+						+ " bits");
 			} else {
 				return num;
 			}
@@ -88,40 +89,18 @@ public class Binary {
 		return number;
 	}
 
-	// /**
-	// * mueve todos los bits a la izquierda y agrega al final los bits deseados
-	// *
-	// * @param array
-	// * @param shiftSize
-	// * @param completionBit
-	// * @return
-	// */
-	// private String shiftLeft(String array, int shiftSize, int startPos,
-	// String completionBit) {
-	// String shifted = "";
-	// for (int i = 0; i < array.length(); i++) {
-	// if (i >= startPos) {
-	// if (i + shiftSize < array.length()) {
-	// shifted += array.charAt(i + shiftSize);
-	// } else {
-	// shifted += completionBit;
-	// }
-	// } else {
-	// shifted += array.charAt(i);
-	// }
-	//
-	// }
-	// return shifted;
-	// }
-
-	public Binary shiftLeft(int shiftSize, int startPos, Reader reader) throws IOException {
+	public Binary shiftLeft(int shiftSize, int startPos, BitReader reader) throws IOException {
 		String shifted = "";
 		for (int i = 0; i < this.bits.length(); i++) {
 			if (i >= startPos) {
 				if (i + shiftSize < bits.length()) {
 					shifted += bits.charAt(i + shiftSize);
 				} else {
-					shifted += (char) reader.read();
+					if (reader.hashNext()) {
+						shifted += reader.readBit();
+					} else {
+						shifted += '0';
+					}
 				}
 			} else {
 				shifted += bits.charAt(i);

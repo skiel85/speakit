@@ -56,7 +56,7 @@ public class BitPacker {
 	}
 
 	private void addByteIfLastIsFull() {
-		if (lastByteBitCount == 8) {
+		if (lastByteBitCount == 8 || packedBytes.size()==0) {
 			packedBytes.add(new Byte((byte) 0x00));
 			lastByteBitCount = 0;
 		}

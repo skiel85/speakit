@@ -3,12 +3,12 @@ package speakit.compression.arithmetic;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class BitWriterImpl {
+public class StreamBitWriter implements BitWriter {
 	private final OutputStream os;
 	private byte currentByte;
 	private byte currentByteBitCount;
 
-	public BitWriterImpl(OutputStream os) {
+	public StreamBitWriter(OutputStream os) {
 		this.os = os;
 		this.currentByte = 0x00;
 		this.currentByteBitCount = 0;
@@ -28,6 +28,7 @@ public class BitWriterImpl {
 		}
 	}
 
+	@Override
 	public void write(String bits) throws IOException {
 		for (int i = 0; i < bits.length(); i++) {
 			if (bits.charAt(i) == '0') {

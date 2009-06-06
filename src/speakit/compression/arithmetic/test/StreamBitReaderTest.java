@@ -10,10 +10,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import speakit.compression.arithmetic.BitReaderImpl;
-import speakit.compression.arithmetic.BitWriterImpl;
+import speakit.compression.arithmetic.StreamBitReader;
+import speakit.compression.arithmetic.StreamBitWriter;
 
-public class BitReaderImplTest {
+public class StreamBitReaderTest {
 	private ByteArrayOutputStream os;
 
 	@Before
@@ -27,7 +27,7 @@ public class BitReaderImplTest {
 	@Test
 	public void testUnpackTheOnlyOneByte() throws IOException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		BitWriterImpl writer = new BitWriterImpl(os);
+		StreamBitWriter writer = new StreamBitWriter(os);
 
 		for (int i = 0; i < 8; i++) {
 			writer.write(false);
@@ -35,17 +35,17 @@ public class BitReaderImplTest {
 		writer.close();
 
 		ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
-		BitReaderImpl reader = new BitReaderImpl(is);
+		StreamBitReader reader = new StreamBitReader(is);
 
 		for (int i = 0; i < 8; i++) {
-			Assert.assertEquals(false, reader.readBit());
+			Assert.assertEquals(false, reader.readBit().getBit());
 		}
 	}
 
 	@Test
 	public void testUnpackTheOnlyOneCompleteByte() throws IOException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		BitWriterImpl writer = new BitWriterImpl(os);
+		StreamBitWriter writer = new StreamBitWriter(os);
 
 		for (int i = 0; i < 8; i++) {
 			writer.write(false);
@@ -53,17 +53,17 @@ public class BitReaderImplTest {
 		writer.close();
 
 		ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
-		BitReaderImpl reader = new BitReaderImpl(is);
+		StreamBitReader reader = new StreamBitReader(is);
 
 		for (int i = 0; i < 8; i++) {
-			Assert.assertEquals(false, reader.readBit());
+			Assert.assertEquals(false, reader.readBit().getBit());
 		}
 	}
 
 	@Test
 	public void testUnpackEightOnes() throws IOException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		BitWriterImpl writer = new BitWriterImpl(os);
+		StreamBitWriter writer = new StreamBitWriter(os);
 
 		for (int i = 0; i < 8; i++) {
 			writer.write(true);
@@ -71,17 +71,17 @@ public class BitReaderImplTest {
 		writer.close();
 
 		ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
-		BitReaderImpl reader = new BitReaderImpl(is);
+		StreamBitReader reader = new StreamBitReader(is);
 
 		for (int i = 0; i < 8; i++) {
-			Assert.assertEquals(true, reader.readBit());
+			Assert.assertEquals(true, reader.readBit().getBit());
 		}
 	}
 
 	@Test
 	public void testUnpackVariousBytes() throws IOException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		BitWriterImpl writer = new BitWriterImpl(os);
+		StreamBitWriter writer = new StreamBitWriter(os);
 
 		writer.write(true);
 		writer.write(false);
@@ -96,17 +96,17 @@ public class BitReaderImplTest {
 		writer.close();
 
 		ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
-		BitReaderImpl reader = new BitReaderImpl(is);
+		StreamBitReader reader = new StreamBitReader(is);
 
-		Assert.assertEquals(true, reader.readBit());
-		Assert.assertEquals(false, reader.readBit());
-		Assert.assertEquals(false, reader.readBit());
-		Assert.assertEquals(true, reader.readBit());
-		Assert.assertEquals(true, reader.readBit());
-		Assert.assertEquals(false, reader.readBit());
-		Assert.assertEquals(true, reader.readBit());
-		Assert.assertEquals(false, reader.readBit());
-		Assert.assertEquals(true, reader.readBit());
-		Assert.assertEquals(false, reader.readBit());
+		Assert.assertEquals(true, reader.readBit().getBit());
+		Assert.assertEquals(false, reader.readBit().getBit());
+		Assert.assertEquals(false, reader.readBit().getBit());
+		Assert.assertEquals(true, reader.readBit().getBit());
+		Assert.assertEquals(true, reader.readBit().getBit());
+		Assert.assertEquals(false, reader.readBit().getBit());
+		Assert.assertEquals(true, reader.readBit().getBit());
+		Assert.assertEquals(false, reader.readBit().getBit());
+		Assert.assertEquals(true, reader.readBit().getBit());
+		Assert.assertEquals(false, reader.readBit().getBit());
 	}
 }

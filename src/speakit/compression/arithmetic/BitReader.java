@@ -28,7 +28,7 @@ public abstract class BitReader {
 		return result;
 	}
 
-	public abstract Bit readBit();
+	public abstract Bit readBit() throws IOException;
 
 	public abstract void reset() throws IOException;
 

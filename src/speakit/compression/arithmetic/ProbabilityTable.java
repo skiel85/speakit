@@ -119,5 +119,9 @@ public class ProbabilityTable {
 	public boolean contains(Symbol symbol) {
 		return this.symbolFrequences.containsKey(symbol);
 	}
+	
+	public int getSymbolsQuantity(){
+		return this.symbolFrequences.size();
+	}
 
 }

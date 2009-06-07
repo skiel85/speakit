@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Test;
 
+import speakit.SpeakitLogger;
 import speakit.TextDocument;
 import speakit.compression.lzp.LZP;
 
@@ -18,7 +18,8 @@ public class TestLZP {
 	}
 	@Ignore
 	public void testCompress() throws IOException {
-		lzp.compress(new TextDocument("HÓla ´Loco"));
+		SpeakitLogger.activate();
+		lzp.compress(new TextDocument("AOIAOIOAOIAOIO"));
 	}
 
 

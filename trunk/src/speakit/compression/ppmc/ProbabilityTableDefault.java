@@ -8,25 +8,27 @@ import speakit.compression.arithmetic.Symbol;
 
 public class ProbabilityTableDefault extends ProbabilityTable {
 
+	int maxCharNumber;
+	/**
+	 */
+	public ProbabilityTable exclude(ProbabilityTable table){
 		
-		/**
-		 */
-		public ProbabilityTable exclude(ProbabilityTable table){
-			return null;
-		}
-
-			
-			/**
-			 */
-			public ProbabilityTableDefault(int maxCharNumber){
-			}
+		return new ProbabilityTableDefault(maxCharNumber-table.getSymbolsQuantity());
+	}
 
 
-				
-				/**
-				 */
-				public Float getProbabilityOf(Symbol symbol){
-					return null;
-				}
+	/**
+	 */
+	public ProbabilityTableDefault(int maxCharNumber){
+		this.maxCharNumber=maxCharNumber;
+	}
+
+
+
+	/**
+	 */
+	public Float getProbabilityOf(Symbol symbol){
+		return new Float(1/maxCharNumber);
+	}
 
 }

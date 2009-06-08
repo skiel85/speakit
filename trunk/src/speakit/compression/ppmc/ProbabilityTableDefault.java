@@ -13,7 +13,7 @@ public class ProbabilityTableDefault extends ProbabilityTable {
 	 */
 	public ProbabilityTable exclude(ProbabilityTable table){
 		
-		return new ProbabilityTableDefault(maxCharNumber-table.getSymbolsQuantity());
+		return new ProbabilityTableDefault(maxCharNumber-table.getSymbolsQuantity()+1);
 	}
 
 
@@ -28,7 +28,8 @@ public class ProbabilityTableDefault extends ProbabilityTable {
 	/**
 	 */
 	public Float getProbabilityOf(Symbol symbol){
-		return new Float(1/maxCharNumber);
+		Float probability=(float)1/maxCharNumber;
+		return probability;
 	}
 
 }

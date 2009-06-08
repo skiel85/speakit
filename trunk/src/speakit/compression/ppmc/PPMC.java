@@ -75,14 +75,19 @@ public class PPMC {
 
 		public void compress(TextDocument document) throws IOException{
 			ProbabilityTable table = null;
+			ProbabilityTable table2 = null;
 			
 			TextDocumentInterpreter interpreter = new TextDocumentInterpreter(document);
 			try {
+				Context contextModel0=null;
 				while (interpreter.hasData()) {
 					Context context;
+					
 					// Contexto para el modelo 0
 					if (interpreter.getCurrentPosition()==0) {
-						context = interpreter.getContext(0);
+						//context = interpreter.getContext(0);
+						context=interpreter.getContext(0);
+						contextModel0=context;
 					} else {
 						//Contexto para el modelo 1
 						if (interpreter.getCurrentPosition()==1){
@@ -100,7 +105,7 @@ public class PPMC {
 					
 					while (!foundInModels && context.size()>0){
 						if (table.contains(interpreter.getActualSymbol())){
-							//Emito el caracter y actualizó la probabilidad del caracter en este contexto
+							//Emito el caracter y actualizo la probabilidad del caracter en este contexto
 							table.getProbability(interpreter.getActualSymbol());
 							table.increment(interpreter.getActualSymbol());
 							foundInModels=true;
@@ -108,17 +113,26 @@ public class PPMC {
 							//Emito un escape
 							if (table.getSymbolsQuantity()==0) table.increment(Symbol.getEscape());
 							table.getProbability(Symbol.getEscape());
-							//table.increment(Symbol.getEscape());
+							
 							table.increment(interpreter.getActualSymbol());
 						}
 						//Obtengo el subcontexto para chequear en el modelo anterior
 						context=context.subContext(context.size()-1);
-						table=this.getTable(context);
+						
+						if (context.size()!=0){
+							table2=this.getTable(context);
+							
+							//Utilizo el mecanismo de exclusión sobre la tabla del contexto anterior
+							//table2.exclude(table);
+							table=table2;
+						}
+						
 					}
 					
 					if (!foundInModels){
+						table=this.getTable(contextModel0);
 						if (table.contains(interpreter.getActualSymbol())){
-							//Emito el caracter en el modelo 0 y actualizó su probabilidad
+							//Emito el caracter en el modelo 0 y actualizo su probabilidad
 							table.getProbability(interpreter.getActualSymbol());
 							table.increment(interpreter.getActualSymbol());
 							
@@ -127,16 +141,15 @@ public class PPMC {
 							if (table.getSymbolsQuantity()==0) table.increment(Symbol.getEscape());
 							table.getProbability(Symbol.getEscape());
 							
-							//table.increment(Symbol.getEscape());
 							table.increment(interpreter.getActualSymbol());
 							
-							this.ModelMinusOne.getProbabilityOf(interpreter.getActualSymbol());
+							//Emito el caracter en el modelo -1, excluyendo los del modelo 0
+							((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)).getProbabilityOf(interpreter.getActualSymbol());
+							//this.ModelMinusOne.getProbabilityOf(interpreter.getActualSymbol());
 						}
 					}
 					
-					String lalala = context.toString();
-					//this.getTables().put(context, table);
-					interpreter.advance(1);
+					interpreter.advance();
 				}
 			} catch (Exception e){
 				e.printStackTrace();

@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.SpeakitLogger;
 import speakit.TextDocument;
 import speakit.compression.ppmc.PPMC;
 
@@ -26,6 +27,7 @@ public class PPMCCompressorTest {
 
 	@Test
 	public void testCompress() throws IOException {
+		SpeakitLogger.activate();
 		this.ppmc.compress(new TextDocument("ABAC"));
 	}
 

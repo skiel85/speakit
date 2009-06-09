@@ -123,5 +123,18 @@ public class ProbabilityTable {
 	public int getSymbolsQuantity(){
 		return this.symbolFrequences.size();
 	}
+	
+	@Override
+	public String toString() {
+		String result="";
+		
+		List<Symbol> symbols = this.getSymbols();
+		for (Symbol symbol : symbols) {
+			result+=symbol.toString()+":";
+			result+=this.getProbability(symbol)+"\n";
+		}
+		
+		return result;
+	}
 
 }

@@ -76,7 +76,7 @@ public class SpeakitTest {
 		Assert.assertEquals("esa", it.next());
 		Assert.assertEquals("es", it.next());
 		Assert.assertEquals("la", it.next());
-		Assert.assertEquals("cuestión", it.next());
+		Assert.assertEquals("cuestion", it.next());
 		Assert.assertFalse(it.hasNext());
 	}
 	
@@ -92,7 +92,7 @@ public class SpeakitTest {
 		Assert.assertEquals("no", it.next());
 		Assert.assertEquals("es", it.next());
 		Assert.assertEquals("la", it.next());
-		Assert.assertEquals("cuestión", it.next());
+		Assert.assertEquals("cuestion", it.next());
 
 		Assert.assertFalse(it.hasNext());
 	}
@@ -105,7 +105,7 @@ public class SpeakitTest {
 		WordAudio wordAudioEsa = new WordAudio("esa", new Audio(new byte[] { -91, 34, 65, 88, 82 }));
 		WordAudio wordAudioEs = new WordAudio("es", new Audio(new byte[] { 111, 34, -65, 8, 82 }));
 		WordAudio wordAudioLa = new WordAudio("la", new Audio(new byte[] { 112, 0, -65, 65, 82 }));
-		WordAudio wordAudioCuestion = new WordAudio("cuestión", new Audio(new byte[] { 1, -24, -3, 77, 80 }));
+		WordAudio wordAudioCuestion = new WordAudio("cuestion", new Audio(new byte[] { 1, -24, -3, 77, 80 }));
 		this.sut.addWordAudio(wordAudioSer);
 		this.sut.addWordAudio(wordAudioO);
 		this.sut.addWordAudio(wordAudioNo);
@@ -147,7 +147,7 @@ public class SpeakitTest {
 
 		WordAudio wordAudioEs = new WordAudio("es", new Audio(new byte[] { 111, 34, -65, 8, 82 }));
 		WordAudio wordAudioLa = new WordAudio("la", new Audio(new byte[] { 112, 0, -65, 65, 82 }));
-		WordAudio wordAudioCuestion = new WordAudio("cuestión", new Audio(new byte[] { 1, -24, -3, 77, 80 }));
+		WordAudio wordAudioCuestion = new WordAudio("cuestion", new Audio(new byte[] { 1, -24, -3, 77, 80 }));
 		this.sut.addWordAudio(wordAudioEs);
 		this.sut.addWordAudio(wordAudioLa);
 		this.sut.addWordAudio(wordAudioCuestion);

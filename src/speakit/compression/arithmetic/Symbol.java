@@ -88,23 +88,41 @@ public class Symbol implements Comparable<Symbol> {
 	}
 
 	public Symbol next() {
-		return new Symbol(this.number++);
+		return new Symbol(this.number + 1);
 	}
 
 	public Symbol previous() {
-		return new Symbol(this.number--);
+		return new Symbol(this.number - 1);
 	}
-	
+
 	public static Symbol first() {
 		return Symbol.getEof();
 	}
-	
+
 	public static Symbol last() {
 		return new Symbol(65535);
 	}
 
 	public int distance(Symbol other) {
 		return Math.abs(other.number - this.number);
+	}
+
+	public boolean isInteresting() {
+		if (this.number < 0) {
+			// caracteres de control.
+			return true;
+		} else if (this.number >= 0x0030 && this.number <= 0x0039) {
+			// caracteres numéricos.
+			return true;
+		} else if (this.number >= 0x0041 && this.number <= 0x005A) {
+			// caracteres en mayúsculas.
+			return true;
+		} else if (this.number >= 0x0061 && this.number <= 0x007A) {
+			// caracteres en munúsculas.
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

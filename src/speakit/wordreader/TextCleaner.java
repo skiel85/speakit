@@ -18,8 +18,20 @@ public class TextCleaner {
 	 * @return Texto con los caracteres no latinos eliminados.
 	 */
 	public String replaceStrangeCharacters(String text) {
-		
-		Pattern p = Pattern.compile("[^a-z0-9ραινϊόσ]");
+		try{
+			text = text.replace('α', 'a');
+			text = text.replace('ι', 'e');
+			text = text.replace('ν', 'i');	
+			text = text.replace('σ', 'o');
+			text = text.replace('ϊ', 'u');
+			text = text.replace('ό', 'u');
+		}catch(NullPointerException ioe){
+			/*No hace nada porque lo unico que se intenta
+			 en el try es tratar de reemplazar esos caracteres
+			 si es que los hay, sino, no pasa nada.
+			 */ 
+		}
+		Pattern p = Pattern.compile("[^a-z0-9ρ]");
 		Matcher m = p.matcher(text.toLowerCase());
 		return m.replaceAll(" ");
 	}
@@ -59,32 +71,7 @@ public class TextCleaner {
 		return this.cleanText(text).split(" ");
 	}
 
-	/**
-	 * Realiza todas las operaciones de limpieza, ademαs quita los acentos,
-	 * la dieresis y la ρ
-	 * 
-	 * @param text
-	 *            Texto original.
-	 * @return Texto limpio.
-	 */
 	
-	public String normalizeText(String text){
-		try{
-			text = text.replace('α', 'a');
-			text = text.replace('ι', 'e');
-			text = text.replace('ν', 'i');	
-			text = text.replace('σ', 'o');
-			text = text.replace('ϊ', 'u');
-			text = text.replace('ό', 'u');
-			text = text.replace('ρ', 'n');
-		}catch(NullPointerException ioe){
-			/*No hace nada porque lo unico que se intenta
-			 en el try es tratar de reemplazar esos caracteres
-			 si es que los hay, sino, no pasa nada.
-			 */ 
-		}
-		return cleanText(text);
-	}
 	
 	/**
 	 * Devuelve un documento con todas las palabras limpias y con los stop words eliminados
@@ -95,7 +82,7 @@ public class TextCleaner {
 	 */
 	public TextDocument cleanDocument(TextDocument  document){
 		//TextDocument relevantDocument = getRelevantWords(document);
-		String cleanWords = normalizeText(document.getText());
+		String cleanWords = cleanText(document.getText());
 		return new TextDocument(document.getId(), cleanWords);
 	}
 	

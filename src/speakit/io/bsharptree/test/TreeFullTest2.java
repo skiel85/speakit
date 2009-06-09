@@ -33,7 +33,7 @@ public class TreeFullTest2 {
 		this.filemanager = new TestFileManager("");
 		encoder = new InvertedIndexIndexRecordEncoder();
 		this.sut = new Tree<InvertedIndexIndexRecord, StringField>(filemanager.openFile("FullBSTree.dat"), InvertedIndexIndexRecord.createRecordFactory());
-		this.sut.create(200);
+		this.sut.create(100);
 		 
 		List<TextDocument> documents=new ArrayList<TextDocument>();
 		documents.add(SpeakitSearchRealDocumentsTest.ARTICLE_ABSTRACCION);

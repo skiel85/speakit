@@ -40,9 +40,6 @@ public class TextDocumentInterpreter {
 			return context;
 		}
 			
-		public void advance() {
-			this.advance(1);
-		}
 		/**
 		 */
 		public void advance(Integer pos){

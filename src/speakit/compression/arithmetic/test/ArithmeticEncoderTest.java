@@ -36,6 +36,7 @@ public class ArithmeticEncoderTest {
 		table.increment(new Symbol('B'), 1);
 		table.increment(new Symbol('A'), 2);
 		table.increment(Symbol.getEof(), 1);
+		table.sort();
 		
 		sut.encode(new Symbol('C'), table);
 		sut.encode(new Symbol('D'), table);

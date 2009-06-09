@@ -59,12 +59,14 @@ public class ArithmeticCompressor implements BitWriter {
 	}
 
 	private ProbabilityTable createInitialTable() {
-		ProbabilityTable table;
-		table = new ProbabilityTable();
-		table.increment(Symbol.getEof(), 1);
-		for (int i = 0; i < (Math.pow(2,charSize)); i++) {
-			table.increment(new Symbol(i), 1);
-		}
+		ProbabilityTable table = new ProbabilityTable();
+		table.initAllSymbols();
+		/*table.increment(Symbol.getEof());
+		table.increment(new Symbol('N'));
+		table.increment(new Symbol('E'));
+		table.increment(new Symbol('U'));
+		table.increment(new Symbol('Q'));
+		table.sort();*/
 		return table;
 	}
 

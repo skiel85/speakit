@@ -62,11 +62,8 @@ public class ProbabilityTableTest {
 		
 		ProbabilityTable excludedTable = this.sut.exclude(tableWithSymbolsToExclude);
 		
-		Assert.assertEquals(0.0000, excludedTable.getProbability(Symbol.getEscape()), 0);
 		Assert.assertEquals(0.1429, excludedTable.getProbability(new Symbol('C')), 0.00005);
 		Assert.assertEquals(0.2857, excludedTable.getProbability(new Symbol('E')), 0.00005);
-		Assert.assertEquals(0.0000, excludedTable.getProbability(new Symbol('I')), 0.00005);
-		Assert.assertEquals(0.0000, excludedTable.getProbability(new Symbol('J')), 0.00005);
 		Assert.assertEquals(0.4286, excludedTable.getProbability(new Symbol('R')), 0.00005);
 		Assert.assertEquals(0.1429, excludedTable.getProbability(new Symbol('Y')), 0.00005);
 		

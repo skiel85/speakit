@@ -33,6 +33,7 @@ public class ArithmeticDecoderTest {
 		table.increment(new Symbol('D'), 2);
 		table.increment(new Symbol('B'), 1);
 		table.increment(new Symbol('A'), 2);
+		table.sort();
  
 		Assert.assertEquals(new Symbol('C'), sut.decode(table));
 		Assert.assertEquals(new Symbol('D'), sut.decode(table));
@@ -51,7 +52,8 @@ public class ArithmeticDecoderTest {
 		table.increment(new Symbol('Q'), 1);
 		table.increment(new Symbol('U'), 2);
 		table.increment(Symbol.getEof(), 1);
- 
+		table.sort();
+		
 		String input = "01110110100000000000";
 		//está probado a mano que input es la compresion de NENUQ(EOF)
 		Assert.assertEquals("01110110100000000000",input);

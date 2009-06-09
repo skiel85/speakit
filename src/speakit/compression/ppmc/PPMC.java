@@ -4,7 +4,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream; 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Set;
 
+import speakit.SpeakitLogger;
 import speakit.TextDocument;
 import speakit.compression.arithmetic.ArithmeticEncoder;
 import speakit.compression.arithmetic.Context;
@@ -19,6 +21,7 @@ public class PPMC {
 	private ProbabilityTableDefault ModelMinusOne;
 	private HashMap<Context, ProbabilityTable> tables;
 	private Integer contextSize = 2;
+	private String infoEntry;
 
 		
 	public ProbabilityTableDefault getModelMinusOne() {
@@ -79,8 +82,10 @@ public class PPMC {
 			
 			TextDocumentInterpreter interpreter = new TextDocumentInterpreter(document);
 			try {
+				String emision="";
 				Context contextModel0=null;
 				while (interpreter.hasData()) {
+					
 					Context context;
 					
 					// Contexto para el modelo 0
@@ -99,6 +104,9 @@ public class PPMC {
 						}
 					}
 					
+					prepareInfoEntry("Caracter Actual: '" + interpreter.getActualSymbol().toString() + "'");
+					prepareInfoEntry("Contexto Actual: '" + context.toString() + "'");
+					
 					table=this.getTable(context);
 					
 					boolean foundInModels=false;
@@ -106,12 +114,14 @@ public class PPMC {
 					while (!foundInModels && context.size()>0){
 						if (table.contains(interpreter.getActualSymbol())){
 							//Emito el caracter y actualizo la probabilidad del caracter en este contexto
+							emision+=interpreter.getActualSymbol().toString()+"("+table.getProbability(interpreter.getActualSymbol())+")";
 							table.getProbability(interpreter.getActualSymbol());
 							table.increment(interpreter.getActualSymbol());
 							foundInModels=true;
 						}else{
 							//Emito un escape
 							if (table.getSymbolsQuantity()==0) table.increment(Symbol.getEscape());
+							emision+=Symbol.getEscape().toString()+"("+table.getProbability(Symbol.getEscape())+")";
 							table.getProbability(Symbol.getEscape());
 							
 							table.increment(interpreter.getActualSymbol());
@@ -133,6 +143,7 @@ public class PPMC {
 						table=this.getTable(contextModel0);
 						if (table.contains(interpreter.getActualSymbol())){
 							//Emito el caracter en el modelo 0 y actualizo su probabilidad
+							emision+=interpreter.getActualSymbol().toString()+"("+table.getProbability(interpreter.getActualSymbol())+")";
 							table.getProbability(interpreter.getActualSymbol());
 							table.increment(interpreter.getActualSymbol());
 							
@@ -140,15 +151,25 @@ public class PPMC {
 							//Emito un escape en el modelo 0 y emito el caracter en el modelo -1 
 							if (table.getSymbolsQuantity()==0) table.increment(Symbol.getEscape());
 							table.getProbability(Symbol.getEscape());
-							
+							emision+=Symbol.getEscape().toString()+"("+table.getProbability(Symbol.getEscape())+")";
 							table.increment(interpreter.getActualSymbol());
 							
 							//Emito el caracter en el modelo -1, excluyendo los del modelo 0
+							emision+=interpreter.getActualSymbol().toString()+"("+((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)).getProbabilityOf(interpreter.getActualSymbol())+")";
 							((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)).getProbabilityOf(interpreter.getActualSymbol());
 							//this.ModelMinusOne.getProbabilityOf(interpreter.getActualSymbol());
 						}
 					}
 					
+					prepareInfoEntry("Emito: '"+emision+"' \n");
+					
+					Set<Context> lalala = this.tables.keySet();
+					
+					for (Context context2 : lalala) {
+						prepareInfoEntry("La tabla de probabilidades del contexto '"+context2.toString()+"' quedó: \n" + this.getTable(context2).toString());
+					}
+					emision="";
+					logInfoEntry();
 					interpreter.advance();
 				}
 			} catch (Exception e){
@@ -165,6 +186,14 @@ public class PPMC {
 
 		public Integer getContextSize() {
 			return contextSize;
+		}
+		
+		private void prepareInfoEntry(String info) {
+			infoEntry += "\t" + info;
+		}
+		private void logInfoEntry() {
+			SpeakitLogger.Log(infoEntry);
+			infoEntry = "";
 		}
 
 }

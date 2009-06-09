@@ -83,7 +83,7 @@ public class PPMC {
 			TextDocumentInterpreter interpreter = new TextDocumentInterpreter(document);
 			try {
 				String emision="";
-				Context contextModel0=null;
+				
 				while (interpreter.hasData()) {
 					
 					Context context;
@@ -92,7 +92,7 @@ public class PPMC {
 					if (interpreter.getCurrentPosition()==0) {
 						//context = interpreter.getContext(0);
 						context=interpreter.getContext(0);
-						contextModel0=context;
+						
 					} else {
 						//Contexto para el modelo 1
 						if (interpreter.getCurrentPosition()==1){
@@ -128,19 +128,17 @@ public class PPMC {
 						}
 						//Obtengo el subcontexto para chequear en el modelo anterior
 						context=context.subContext(context.size()-1);
-						
-						if (context.size()!=0){
-							table2=this.getTable(context);
+						table2=this.getTable(context);
 							
-							//Utilizo el mecanismo de exclusión sobre la tabla del contexto anterior
-							//table2.exclude(table);
-							table=table2;
-						}
+						//Utilizo el mecanismo de exclusión sobre la tabla del contexto anterior
+						//table2.exclude(table);
+						table=table2;
+						
 						
 					}
 					
 					if (!foundInModels){
-						table=this.getTable(contextModel0);
+						
 						if (table.contains(interpreter.getActualSymbol())){
 							//Emito el caracter en el modelo 0 y actualizo su probabilidad
 							emision+=interpreter.getActualSymbol().toString()+"("+table.getProbability(interpreter.getActualSymbol())+")";
@@ -157,7 +155,7 @@ public class PPMC {
 							//Emito el caracter en el modelo -1, excluyendo los del modelo 0
 							emision+=interpreter.getActualSymbol().toString()+"("+((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)).getProbabilityOf(interpreter.getActualSymbol())+")";
 							((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)).getProbabilityOf(interpreter.getActualSymbol());
-							//this.ModelMinusOne.getProbabilityOf(interpreter.getActualSymbol());
+							
 						}
 					}
 					

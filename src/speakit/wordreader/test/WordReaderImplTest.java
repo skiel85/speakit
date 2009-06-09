@@ -3,6 +3,7 @@ package speakit.wordreader.test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -64,7 +65,11 @@ public class WordReaderImplTest {
 		while (sut.hasNext()) {
 			list.add(sut.next());
 		}
-		Assert.assertArrayEquals(new String[] { "todo", "ser", "inteligente", "decia", "el", "geometra", "debe", "comprender", "el", "destino", "cientifico", "de", "esta", "figura", "los", "selenitas", "si", "existen", "responderan", "con", "una", "figura", "semejante", "y", "una", "vez", "establecida", "la", "comunicacion", "facil", "sera", "crear", "un", "alfabeto", "que", "permita", "conversar", "con", "los", "habitantes", "de", "la", "luna" }, list.toArray());
+		Iterator it = list.iterator();
+		while(it.hasNext()){
+			System.out.println(it.next());
+		}
+		Assert.assertArrayEquals(new String[] { "todo", "ser", "inteligente", "decía", "el", "geómetra", "debe", "comprender", "el", "destino", "científico", "de", "esta", "figura", "los", "selenitas", "si", "existen", "responderán", "con", "una", "figura", "semejante", "y", "una", "vez", "establecida", "la", "comunicación", "fácil", "será", "crear", "un", "alfabeto", "que", "permita", "conversar", "con", "los", "habitantes", "de", "la", "luna" }, list.toArray());
 	}
 
 	@Test

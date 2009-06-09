@@ -48,7 +48,7 @@ public class StopWordsFilterTest {
 			filter.install(new FileManager(), new Configuration());
 		String text = "un camión estaba ante nosotros argüello //,";
 		TextDocument document = new TextDocument(text);
-		Assert.assertEquals("camion arguello", this.filter.getRelevantWords(document).getText()); 
+		Assert.assertEquals("camión argüello", this.filter.getRelevantWords(document).getText()); 
 	}
 	@Ignore
 	//Posible mejora

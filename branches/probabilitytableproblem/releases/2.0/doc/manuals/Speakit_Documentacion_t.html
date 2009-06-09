@@ -1,0 +1,1478 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<base target="_top">
+<style type="text/css">
+  
+
+/* default css */
+
+table {
+  font-size: 1em;
+  line-height: inherit;
+  border-collapse: collapse;
+}
+
+
+tr {
+  
+  text-align: left;
+  
+}
+
+
+div, address, ol, ul, li, option, select {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+p {
+  margin: 0px;
+}
+
+
+pre {
+  font-family: Courier New;
+  white-space: pre-wrap;
+  margin:0;
+}
+
+body {
+  margin: 6px;
+  padding: 0px;
+  font-family: Verdana, sans-serif;
+  font-size: 10pt;
+  background-color: #ffffff;
+}
+
+
+img {
+  -moz-force-broken-image-icon: 1;
+}
+
+@media screen {
+  html.pageview {
+    background-color: #f3f3f3 !important;
+  }
+
+  
+
+  body {
+    min-height: 1100px;
+    
+    counter-reset: __goog_page__;
+  }
+  * html body {
+    height: 1100px;
+  }
+  .pageview body {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 2px solid #bbb;
+    border-bottom: 2px solid #bbb;
+    width: 648px !important;
+    margin: 15px auto 25px;
+    padding: 40px 50px;
+  }
+  /* IE6 */
+  * html {
+    overflow-y: scroll;
+  }
+  * html.pageview body {
+    overflow-x: auto;
+  }
+  /* Prevent repaint errors when scrolling in Safari. This "Star-7" css hack
+     targets Safari 3.1, but not WebKit nightlies and presumably Safari 4.
+     That's OK because this bug is fixed in WebKit nightlies/Safari 4 :-). */
+  html*#wys_frame::before {
+    content: '\A0';
+    position: fixed;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    top: 0;
+    left: 0;
+  }
+  
+  
+
+  
+    .writely-callout-data {
+      display: none;
+      *display: inline-block;
+      *width: 0;
+      *height: 0;
+      *overflow: hidden;
+    }
+    .writely-footnote-marker {
+      background-image: url('MISSING');
+      background-color: transparent;
+      background-repeat: no-repeat;
+      width: 7px;
+      overflow: hidden;
+      height: 16px;
+      vertical-align: top;
+
+      
+      -moz-user-select: none;
+    }
+    .editor .writely-footnote-marker {
+      cursor: move;
+    }
+    .writely-footnote-marker-highlight {
+      background-position: -15px 0;
+      -moz-user-select: text;
+    }
+    .writely-footnote-hide-selection ::-moz-selection, .writely-footnote-hide-selection::-moz-selection {
+      background: transparent;
+    }
+    .writely-footnote-hide-selection ::selection, .writely-footnote-hide-selection::selection {
+      background: transparent;
+    }
+    .writely-footnote-hide-selection {
+      cursor: move;
+    }
+
+    
+    .editor .writely-comment-yellow {
+      background-color: #FF9;
+      background-position: -240px 0;
+    }
+    .editor .writely-comment-yellow-hover {
+      background-color: #FF0;
+      background-position: -224px 0;
+    }
+    .editor .writely-comment-blue {
+      background-color: #C0D3FF;
+      background-position: -16px 0;
+    }
+    .editor .writely-comment-blue-hover {
+      background-color: #6292FE;
+      background-position: 0 0;
+    }
+    .editor .writely-comment-orange {
+      background-color: #FFDEAD;
+      background-position: -80px 0;
+    }
+    .editor .writely-comment-orange-hover {
+      background-color: #F90;
+      background-position: -64px 0;
+    }
+    .editor .writely-comment-green {
+      background-color: #99FBB3;
+      background-position: -48px 0;
+    }
+    .editor .writely-comment-green-hover {
+      background-color: #00F442;
+      background-position: -32px 0;
+    }
+    .editor .writely-comment-cyan {
+      background-color: #CFF;
+      background-position: -208px 0;
+    }
+    .editor .writely-comment-cyan-hover {
+      background-color: #0FF;
+      background-position: -192px 0;
+    }
+    .editor .writely-comment-purple {
+      background-color: #EBCCFF;
+      background-position: -144px 0;
+    }
+    .editor .writely-comment-purple-hover {
+      background-color: #90F;
+      background-position: -128px 0;
+    }
+    .editor .writely-comment-magenta {
+      background-color: #FCF;
+      background-position: -112px 0;
+    }
+    .editor .writely-comment-magenta-hover {
+      background-color: #F0F;
+      background-position: -96px 0;
+    }
+    .editor .writely-comment-red {
+      background-color: #FFCACA;
+      background-position: -176px 0;
+    }
+    .editor .writely-comment-red-hover {
+      background-color: #FF7A7A;
+      background-position: -160px 0;
+    }
+
+    .editor .writely-comment-marker {
+      background-image: url('MISSING');
+      background-color: transparent;
+      padding-right: 11px;
+      background-repeat: no-repeat;
+      width: 16px;
+      height: 16px;
+      -moz-user-select: none;
+    }
+
+    .editor .writely-comment-hidden {
+      padding: 0;
+      background: none;
+    }
+    .editor .writely-comment-marker-hidden {
+      background: none;
+      padding: 0;
+      width: 0;
+    }
+    .editor .writely-comment-none {
+      opacity: .2;
+      filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+      -moz-opacity: .2;
+    }
+    .editor .writely-comment-none-hover {
+      opacity: .2;
+      filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+      -moz-opacity: .2;
+    }
+  
+
+
+  
+  .br_fix br:not(:-moz-last-node):not(:-moz-first-node) {
+    
+    position:relative;
+    
+    left: -1ex
+    
+  }
+  
+  .br_fix br+br {
+    position: static !important
+  }
+}
+
+h6 { font-size: 8pt }
+h5 { font-size: 8pt }
+h4 { font-size: 10pt }
+h3 { font-size: 12pt }
+h2 { font-size: 14pt }
+h1 { font-size: 18pt }
+
+blockquote {padding: 10px; border: 1px #DDD dashed }
+
+a img {border: 0}
+
+.pb {
+  border-width: 0;
+  page-break-after: always;
+  /* We don't want this to be resizeable, so enforce a width and height
+     using !important */
+  height: 1px !important;
+  width: 100% !important;
+}
+
+.editor .pb {
+  border-top: 1px dashed #C0C0C0;
+  border-bottom: 1px dashed #C0C0C0;
+}
+
+div.google_header, div.google_footer {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+
+/* Table of contents */
+.editor div.writely-toc {
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+}
+.writely-toc > ol {
+  padding-left: 3em;
+  font-weight: bold;
+}
+ol.writely-toc-subheading {
+  padding-left: 1em;
+  font-weight: normal;
+}
+/* IE6 only */
+* html writely-toc ol {
+  list-style-position: inside;
+}
+.writely-toc-none {
+  list-style-type: none;
+}
+.writely-toc-decimal {
+  list-style-type: decimal;
+}
+.writely-toc-upper-alpha {
+  list-style-type: upper-alpha;
+}
+.writely-toc-lower-alpha {
+  list-style-type: lower-alpha;
+}
+.writely-toc-upper-roman {
+  list-style-type: upper-roman;
+}
+.writely-toc-lower-roman {
+  list-style-type: lower-roman;
+}
+.writely-toc-disc {
+  list-style-type: disc;
+}
+
+/* Ordered lists converted to numbered lists can preserve ordered types, and
+   vice versa. This is confusing, so disallow it */
+ul[type="i"], ul[type="I"], ul[type="1"], ul[type="a"], ul[type="A"] {
+  list-style-type: disc;
+}
+
+ol[type="disc"], ol[type="circle"], ol[type="square"] {
+  list-style-type: decimal;
+}
+
+/* end default css */
+
+
+  /* default print css */
+  
+  @media print {
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    div.google_header, div.google_footer {
+      display: block;
+      min-height: 0;
+      border: none;
+    }
+
+    div.google_header {
+      flow: static(header);
+    }
+
+    /* used to insert page numbers */
+    div.google_header::before, div.google_footer::before {
+      position: absolute;
+      top: 0;
+    }
+
+    div.google_footer {
+      flow: static(footer);
+    }
+
+    /* always consider this element at the start of the doc */
+    div#google_footer {
+      flow: static(footer, start);
+    }
+
+    span.google_pagenumber {
+      content: counter(page);
+    }
+
+    span.google_pagecount {
+      content: counter(pages);
+    }
+
+
+    callout.google_footnote {
+      
+      display: prince-footnote;
+      footnote-style-position: inside;
+      /* These styles keep the footnote from taking on the style of the text
+         surrounding the footnote marker. They can be overridden in the
+         document CSS. */
+      color: #000;
+      font-family: Verdana;
+      font-size: 10.0pt;
+      font-weight: normal;
+    }
+
+    /* Table of contents */
+    #WritelyTableOfContents a::after {
+      content: leader('.') target-counter(attr(href), page);
+    }
+
+    #WritelyTableOfContents a {
+      text-decoration: none;
+      color: black;
+    }
+  }
+
+  @page {
+    @top {
+      content: flow(header);
+    }
+    @bottom {
+      content: flow(footer);
+    }
+    @footnotes {
+      border-top: solid black thin;
+      padding-top: 8pt;
+    }
+  }
+  /* end default print css */
+
+
+/* custom css */
+
+
+/* end custom css */
+
+/* ui edited css */
+
+body {
+  font-family: Verdana;
+  
+  font-size: 10.0pt;
+  line-height: normal;
+  background-color: #ffffff;
+}
+/* end ui edited css */
+
+
+/* editor CSS */
+.editor a:visited {color: #551A8B}
+.editor table.zeroBorder {border: 1px dotted gray}
+.editor table.zeroBorder td {border: 1px dotted gray}
+.editor table.zeroBorder th {border: 1px dotted gray}
+
+
+.editor div.google_header, .editor div.google_footer {
+  border: 2px #DDDDDD dashed;
+  position: static;
+  width: 100%;
+  min-height: 2em;
+}
+
+.editor .misspell {background-color: yellow}
+
+.editor .writely-comment {
+  font-size: 9pt;
+  line-height: 1.4;
+  padding: 1px;
+  border: 1px dashed #C0C0C0
+}
+
+
+/* end editor CSS */
+
+</style>
+
+  
+  <title>Speakit - Documentación técnica - Fase 2</title>
+
+</head>
+
+<body 
+    
+    >
+    
+    
+    
+<div>
+</div>
+<p style=TEXT-ALIGN:center>
+  &nbsp;<font size=6>SPEAKIT!&nbsp;<font size=5>V2.0</font></font>
+</p>
+<div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <div class=writely-toc id=WritelyTableOfContents toctype=decimal+decimal>
+      <ol class=writely-toc-decimal>
+        <li>
+          <a href=#Estructura_general_del_sistema target=_self>Estructura general del sistema</a>
+        </li>
+        <li>
+          <a href=#Abreviaturas_utilizadas_en_la_ target=_self>Abreviaturas utilizadas en la presente obra:</a>
+          <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+            <li>
+              <a href=#Tipos_de_datos_941131083294749 target=_self>Tipos de datos:</a>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href=#Estructuras_gen_ricas_de_archi target=_self>Estructuras genéricas de archivos de registros y de bloque</a>
+          <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+            <li>
+              <a href=#Archivo_secuencial_de_registro target=_self>Archivo secuencial de registros (SecuentialRecordFile)</a>
+            </li>
+            <li>
+              <a href=#Trie_1050202501937747_01802067 target=_self>Trie</a>
+            </li>
+            <li>
+              <a href=#Archivo_en_bloques_BasicBlockF target=_self>Archivo en bloques (BasicBlockFileImpl)</a>
+            </li>
+            <li>
+              <a href=#Archivo_Directo_de_registros_D target=_self>Archivo Directo de registros (DirectRecordFile)</a>
+            </li>
+            <li>
+              <a href=#Arbol_B_7266181726008654_59511 target=_self>Arbol B#</a>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href=#Estructuras_gen_ricas_de_campo_6998818591237068 target=_self>Estructuras genéricas de campos utilizadas en esta versión</a>
+          <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+            <li>
+              <a href=#CompositeField_179283957928419 target=_self>CompositeField</a>
+            </li>
+            <li>
+              <a href=#ArrayField_7704674927517772_28 target=_self>ArrayField</a>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href=#Algunos_archivos_espec_ficos_d_1431412035599351 target=_self>Algunos archivos específicos de este sistema</a>
+          <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+            <li>
+              <a href=#_ndice_de_palabras_del_diccion target=_self>Índice de palabras del diccionario de audio</a>
+            </li>
+            <li>
+              <a href=#_ndice_de_nodos_del_trie_del_d target=_self>Índice de nodos del trie del diccionario de audio</a>
+            </li>
+            <li>
+              <a href=#Archivo_de_audios_de_palabras_ target=_self>Archivo de audios de palabras</a>
+            </li>
+            <li>
+              <a href=#_ndice_de_listas_invertidas_15 target=_self>Índice de listas invertidas</a>
+            </li>
+            <li>
+              <a href=#Archivo_de_listas_invertidas_9 target=_self>Archivo de listas invertidas</a>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href=#Estructuras_que_relacionan_los target=_self>Estructuras que relacionan los índices con los archivos directos/secuenciales</a>
+          <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+            <li>
+              <a href=#Diccionario_de_audio_824301609 target=_self>Diccionario de audio</a>
+            </li>
+            <li>
+              <a href=#Indice_invertido_9542442876845 target=_self>Indice invertido</a>
+            </li>
+            <li>
+              <a href=#Resoluci_n_de_consultas_750563 target=_self>Resolución de consultas:</a>
+            </li>
+            <li>
+              <a href=#Diagrama_de_clases_del_indice_ target=_self>Diagrama de clases del indice invertido</a>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href=#Indexaci_n_de_multiples_docume_022479576990008354 target=_self>Indexación de multiples documentos:</a>
+          <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+            <li>
+              <a href=#Obtencion_de_las_listas_invert target=_self>Obtencion de las listas invertidas de cada termino</a>
+            </li>
+            <li>
+              <a href=#Stop_Words_60118268430233_4334 target=_self>Stop Words:</a>
+            </li>
+            <li>
+              <a href=#_Diagrama_de_clases_del_paquet_24650870356708765 target=_self>Diagrama de clases del paquete indexador</a>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href=#Problemas_encontrados_y_soluci target=_self>Problemas encontrados y soluciones propuestas</a>
+          <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+            <li>
+              <a href=#Integridad_de_datos_3440409582 target=_self>Integridad de datos:</a>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href=#Instrucciones_de_uso_128221964 target=_self>Instrucciones de uso</a>
+          <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+            <li>
+              <a href=#Instalaci_n_del_sistema_958589 target=_self>Instalación del sistema</a>
+            </li>
+            <li>
+              <a href=#Utilizaci_n_del_sistema_212234 target=_self>Utilización del sistema</a>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <a href=#Ejemplos target=_self>Ejemplos</a>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div>
+    <br>
+  </div>
+  <p style=TEXT-ALIGN:center>
+    MANUAL DE USUARIO<br>
+  </p>
+  <h1>
+    <a id=Estructura_general_del_sistema name=Estructura_general_del_sistema></a> Estructura general del sistema<br>
+  </h1>
+  <p>
+    Speakit es un sistema que lee documentos por salida de audio y los guarda indexados.
+  </p>
+  <p>
+    <br>
+  </p>
+  <p>
+  </p>
+  <div>
+    El sistema Speakit, permite ingresar un documento de texto, grabar todas las palabras que no estén registradas, y agregarlas a un diccionario que asocia palabras con su audio, y también permite reproducir las palabras contenidas en un documento.
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    En esta versión se agregó el módulo de indexación y almacenamiento de documentos, mientras que el módulo de audio se conservó y se mejoró. En una etapa posterior estos documentos se guardarán en forma comprimida.&nbsp;
+    <p style="TEXT-ALIGN:left; MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+      <br>
+      El módulo Speakit, tiene la función de agregar el audio de una palabra. Además tiene la función de agregar un documento a la colección de documentos almacenados. Esta función realiza su tarea valiéndose del módulo documents. Puede almacenar documentos a pesar de que el módulo dictionary no contenga todas sus palabras. También tiene la función de obtener todas las palabras desconocidas de los documentos almacenados, lo cual sirve para grabar nuevas palabras.<br>
+    </p>
+    <p style="TEXT-ALIGN:left; MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+      <br>
+    </p>
+    <p style="TEXT-ALIGN:left; MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+      En esta versión del sistema, audiofile sigue siendo de implementación secuencial pero el archivo que lo indexaba pasó a ser un Trie. El trie fue implementado sobre un archivo directo de registros por bloque que almacena los nodos del árbol y un archivo secuencial que se utiliza como índice para saber en que bloque buscar un nodo sabiendo su número. El archivo directo está implementado independientemente en la clase DirectRecordFile para poder ser reutilizado por otras estructuras que requieran el uso de un archivo directo.
+    </p>
+    <p style="TEXT-ALIGN:left; MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+      <br>
+      El módulo&nbsp;<i>documentsstorage&nbsp;</i>tiene la funcionalidad de guardar, y buscar los documentos de texto guardados conociendo el offset dentro del archivo. Cuando se agrega un nuevo documento el módulo ftrs extrae los terminos relevantes, dejando de lado los q se repiten comunmente, tales como artículos, proposiciones, etc. Si se agregan al sistema un conjunto de documentos estos se indexan de una manera más óptima que ingresándolos de a uno, creando las listas invertidas sincronizadamente y utilizando un algoritmo de sort externo. Los documentos agregados, serán comprimidos en la próxima etapa con el módulo compression.
+    </p>
+    <p style="TEXT-ALIGN:left; MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+      <br>
+    </p>
+    <p style="TEXT-ALIGN:left; MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+      La búsqueda de documentos se realiza a través del módulo&nbsp;<i>ftrs </i>y se recuperan a través del módulo<i> documentsstorage</i>. Las listas invertidas del ftrs se almacenan en un archivo directo de registros por bloque que está indexado por un árbol B# para agilizar las búsquedas. El árbol B# está implementado en un módulo independiente y en el módulo ftrs se lo utiliza junto con un encoder que permite comprimir los términos en las hojas mediante front coding.
+    </p>
+    <p style="TEXT-ALIGN:left; MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+      <br>
+    </p>
+    <p style="TEXT-ALIGN:left; MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+      La garantía de funcionalidad y estabilidad del sistema está soportada por unas 200 pruebas automáticas, las cuales incluyen pruebas simples y pruebas de stress. Las pruebas de stress utilizadas garantizan por ejemplo que el árbol B# pueda indexar todas las palabras del idioma castellano (véase StressTreeTest con speakit/test/files/lemario.txt), u otras por ejemplo garantizan la robustez del sistema ftrs. Estas pruebas se pueden utilizar a modo de documentación técnica adicional para aprender sobre el funcionamiento y la utilización del sistema, por lo cual recomendamos su lectura y ejecución.
+    </p>
+  </div>
+  <p>
+  </p>
+  <p>
+    <br>
+  </p>
+</div>
+<span style=COLOR:#ff0000>
+<div>
+  <h1>
+    <a id=Abreviaturas_utilizadas_en_la_ name=Abreviaturas_utilizadas_en_la_></a> <span style=COLOR:#000000>Abreviaturas utilizadas en la presente obra:</span><br>
+  </h1>
+  <h2>
+    <a id=Tipos_de_datos_941131083294749 name=Tipos_de_datos_941131083294749></a> <span style=COLOR:#000000>Tipos de datos:</span>
+  </h2>
+  <div>
+    <span style="COLOR:#000000; FONT-FAMILY:Arial"><span style=COLOR:#000000><span style=FONT-WEIGHT:normal><font size=2>B: Byte (complemento a dos en dos byte)<br>
+    </font></span></span><span style=COLOR:#000000><span style=FONT-WEIGHT:normal><font size=2>EC: Enteros Cortos (complemento a dos en dos byte)<br>
+    </font></span></span><span style=COLOR:#000000><span style=FONT-WEIGHT:normal><font size=2>E: Enteros (complemento a dos en cuatro bytes)</font></span></span></span>
+  </div>
+  <div>
+    <span style="COLOR:#000000; FONT-FAMILY:Arial"><span style=COLOR:#000000><span style=FONT-WEIGHT:normal><font size=2>EL: Enteros Largos (complemento a dos en ocho bytes)<br>
+    </font></span></span><span style=COLOR:#000000><span style=FONT-WEIGHT:normal><font size=2>F: Fraccionarios (punto flotante)<br>
+    </font></span></span><span style=COLOR:#000000><span style=FONT-WEIGHT:normal><font size=2>C: Caracteres (con longitud exacta entre paréntesis)<br>
+    V: Caracteres Variables (hasta 255) con prefijo de longitud<br>
+    T: Texto (cantidad ilimitada de caracteres, incluyendo caracteres de control como salto de línea, retorno de carro, tabulación, fin de texto)<br>
+    L: Lógicos (0: Falso o No, 1: Verdadero o Sí)‏</font></span></span></span>
+  </div>
+</div>
+</span>
+<h1>
+  <a id=Estructuras_gen_ricas_de_archi name=Estructuras_gen_ricas_de_archi></a> Estructuras genéricas de archivos de registros y de bloque
+</h1>
+<h2>
+  <a id=Archivo_secuencial_de_registro name=Archivo_secuencial_de_registro></a> Archivo secuencial de registros (<i>SecuentialRecordFile</i>)<br>
+</h2>
+<p>
+  Representa a un archivo de registros de acceso secuencial. Permite insertar o buscar un registro. Las búsquedas se hacen en forma secuencial.
+</p>
+<h2>
+  <a id=Trie_1050202501937747_01802067 name=Trie_1050202501937747_01802067></a> Trie<br>
+</h2>
+<p>
+  (Utilizado para el diccionario de audio)<br>
+</p>
+<p>
+  <br>
+</p>
+<div id=qiur style=TEXT-ALIGN:left>
+  <img src=Speakit_Documentacion_t_images/dgsb86tc_7dqwr3hck_b.jpg style="WIDTH:648px; HEIGHT:331.654px">
+</div>
+<br>
+Este modulo implementa un trie para el indice de "palabra-offset en el archivo de audio". Su profundidad es parametrizable y utiliza un archivo directo con registros variables por bloques (<b>DirectRecordFile</b>) para guardar los nodos del trie y, para acelerar la busqueda, otro archivo que contiene el numero de nodo y el bloque del archivo anterior donde se encuentra cada nodo. Asi, al buscar un nodo, se lo busca en el bloque adecuado y se evita recorrer secuencialmente el archivo de nodos del trie.<br>
+<br>
+Definicion de los registros de los archivos:<br>
+<br>
+<u>Trie:</u><br>
+Conceptual: TrieNode<b>{(</b>numero_nodo<b>)i</b>,wordOffsetList<b>[(</b>palabra, proximo_nodo, es_ultimo<b>)+]}</b><br>
+Logica: TrieNode<b>{</b>numero_nodo: EL, wordOffsetList<b>[</b>palabra: V, proximo_nodo:EL, es_ultimo:L<b>]}<br>
+<br>
+</b><u>Indice de nodos por bloque<br>
+</u>Conceptual: TrieNodeBlockIndex<b>{(</b>numero_nodo<b>)ie</b>, <b>(</b>numero_bloque<b>)i</b><b>}<br>
+</b>Logica: TrieNodeBlockIndex<b>{</b>numero_nodo<b>:</b>EL, numero_bloque:E<b>}</b>
+<div>
+  <br>
+</div>
+<div>
+  <h2>
+    <a id=Archivo_en_bloques_BasicBlockF name=Archivo_en_bloques_BasicBlockF></a> Archivo en bloques (<i>BasicBlockFileImpl</i>)<br>
+  </h2>
+  <p>
+    Esta clase permite el manejo de archivos por bloques de una forma básica. Tiene primitivas para crear un nuevo archivo de bloques, cargar uno previamente creado, agregar un bloque de bytes, obtener un bloque de bytes y guardar un bloque de bytes.
+  </p>
+  <h2>
+    <a id=Archivo_Directo_de_registros_D name=Archivo_Directo_de_registros_D></a> Archivo Directo de registros (<i>DirectRecordFile</i>)
+  </h2>
+  <p>
+    Representa un archivo de registros de acceso directo. Tiene primitivas para crear un nuevo archivo de registros, cargar uno creado previamente, insertar un registro en un bloque, obtener un registro de un bloque, actualizar un registro, verificar si un registro existe y agregar un nuevo bloque.
+  </p>
+  <h2>
+    <a id=Arbol_B_7266181726008654_59511 name=Arbol_B_7266181726008654_59511></a> Arbol B#<br>
+  </h2>
+  Representa un archivo de registros organizado en forma de árbol B#. Utilizado normalmente como índice de un archivo directo. Tiene las mismas primitivas que un archivo de registro, como por ejemplo insertar registro y obtener registro a partir de una clave. Si se utiliza el árbol como un índice, los registros que contiene son registros de índice, es decir, un registro consistente en una clave y el número de bloque del archivo directo.
+  <div>
+    <br>
+  </div>
+  <div>
+    Este árbol B# puede utilizar un encoder para guardar los datos en las hojas. El encoder puede utilizarse para comprimir, para encriptar o para hacer cualquier transformación de datos. En este proyecto se utiliza para hacer front coding de las palabras guardadas en el índice del ftrs.
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <div>
+      Definición de nodos del arbol:
+    </div>
+    <div>
+      <u>Nodo Indice:&nbsp;</u>
+    </div>
+    <div>
+      Definicion conceptual: NodoIndice<b>{</b><b>(</b>nro_nodo<b>)i</b>,nivel,<b>(</b><b>hijo_izquierd)ie</b>,elemento_indice<b>[</b>termino,<b>(</b>hijo_derecho)ie<b>]</b><b>+</b><b>}</b>
+    </div>
+    <div>
+      Definicion logica: NodoIndice<b>{<span style=FONT-WEIGHT:normal>nivel:E, hijo_izquierdo:E, Array<b>[</b>cantidad_elementos:E, hash_cantidad_elementos:B, elemento_indice<b>(</b>termino:V,nro_nodo:E<b>)+]}</b></span></b>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      <u>Nodo Hoja:&nbsp;</u>
+    </div>
+    <div>
+      Definicion conceptual: NodoHoja<b>{</b><b>(</b>nro_nodo<b>)i</b>,nivel<b>=0</b>,elemento_hoja<b>[</b>InvertedIndex_IndexRecord<b>]</b><b>+</b>,<b>(</b>siguiente_nodo<b>)ie</b><b>}</b>
+    </div>
+    <div>
+      Definicion conceptual: NodoHoja<b>{<span style=FONT-WEIGHT:normal>Array<b>[<span style=FONT-WEIGHT:normal>cantidad_elementos:E, hash_cantidad_elementos:B, <b>(</b><b><span style=FONT-WEIGHT:normal>InvertedIndex_IndexRecord</span>)+]</b>, siguiente_nodo:E<b>}</b></span></b></span></b>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      (nota: la definición de InvertedIndex_IndexRecord está en la sección de Indice Invertido)
+    </div>
+    <div>
+      <br>
+    </div>
+    <h1>
+      <a id=Estructuras_gen_ricas_de_campo_6998818591237068 name=Estructuras_gen_ricas_de_campo_6998818591237068></a> Estructuras genéricas de campos utilizadas en esta versión<br>
+    </h1>
+    <a id=Estructuras_gen_ricas_de_campo name=Estructuras_gen_ricas_de_campo></a>
+    <h2>
+      <a id=CompositeField_179283957928419 name=CompositeField_179283957928419></a> CompositeField<br>
+    </h2>
+    <p>
+      Campo abstracto que representa un campo compuesto por otros campos.<br>
+    </p>
+    <p>
+      <br>
+    </p>
+    <h2>
+      <a id=ArrayField_7704674927517772_28 name=ArrayField_7704674927517772_28></a> ArrayField<br>
+    </h2>
+    <p>
+      Campo compuesto por un arreglo de valores del mismo tipo y el campo de control que indica la cantidad de valores almacenados.<br>
+    </p>
+    <p>
+      <br>
+    </p>
+    <h1>
+      <a id=Algunos_archivos_espec_ficos_d_1431412035599351 name=Algunos_archivos_espec_ficos_d_1431412035599351></a> Algunos archivos específicos de este sistema<br>
+    </h1>
+    <a id=Algunos_archivos_espec_ficos_d name=Algunos_archivos_espec_ficos_d></a>
+    <h2>
+      <a id=_ndice_de_palabras_del_diccion name=_ndice_de_palabras_del_diccion></a> Índice de palabras del diccionario de audio
+    </h2>
+    <p>
+      Implementado con un trie, cuyos nodos se almacenan en un archivo de registros directo.<br>
+    </p>
+    <h2>
+      <a id=_ndice_de_nodos_del_trie_del_d name=_ndice_de_nodos_del_trie_del_d></a> Índice de nodos del trie del diccionario de audio
+    </h2>
+    <p>
+      Implementado con un archivo secuencial. Utilizado para encontrar los nodos del trie de forma más eficaz.
+    </p>
+    <h2>
+      <a id=Archivo_de_audios_de_palabras_ name=Archivo_de_audios_de_palabras_></a> Archivo de audios de palabras
+    </h2>
+    <p>
+      Implementado con un archivo de registros secuencial. Almacena los audios de las palabras.
+    </p>
+    <h2>
+      <a id=_ndice_de_listas_invertidas_15 name=_ndice_de_listas_invertidas_15></a> Índice de listas invertidas<br>
+    </h2>
+  </div>
+  <div>
+    Implementado con un árbol B#. Contiene registros de índice con clave y número de bloque. En este caso la clave es el término, y el número de bloque apunta a un bloque del archivo de listas invertidas.
+  </div>
+  <h2>
+    <a id=Archivo_de_listas_invertidas_9 name=Archivo_de_listas_invertidas_9></a> Archivo de listas invertidas<br>
+  </h2>
+  <div>
+    Implementado con un archivo de registros directo por bloques. Almacena las listas invertidas. Las listas invertidas son un registro compuesto por un término y un arreglo de números de documentos y frecuencia. Los números de documentos coinciden con el offset donde se encuentra el documento en el archivo de documentos.
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <b><font size=4>Archivo de documentos</font></b><br>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    Implementado con un archivo de registros secuencial. Almacena los documentos ingresados por el usuario.
+  </div>
+  <div>
+    <br>
+    <h1>
+      <a id=Estructuras_que_relacionan_los name=Estructuras_que_relacionan_los></a> Estructuras que relacionan los índices con los archivos directos/secuenciales<br>
+    </h1>
+    <h2>
+      <a id=Diccionario_de_audio_824301609 name=Diccionario_de_audio_824301609></a> Diccionario de audio<br>
+    </h2>
+    <p>
+      Implementado con un trie. Cuando el audio de una palabra se busca en el diccionario primero se busca el número de offset del audio en el trie que indiza al archivo de audio. Una vez encontrado el offset con el trie, el diccionario de audio devuelve el audio de la palabra buscada.
+    </p>
+    <p>
+      <br>
+    </p>
+    <p>
+      Los nodos del trie están guardados en un archivo de registros en bloques, y además hay un índice de estos nodos, de manera que cuando se busca cada nodo primero se consulta al índice para saber en que bloque está y luego se busca el nodo en el bloque.
+    </p>
+    <h2>
+      <a id=Indice_invertido_9542442876845 name=Indice_invertido_9542442876845></a> Indice invertido
+    </h2>
+    <div>
+      Este módulo tiene una clase llamada InvertedIndex implementa el índice invertido que sirve para la recuperación de textos. En él se guardan los términos con sus respectivas listas invertidas.
+    </div>
+    <div>
+      Está compuesto por un archivo de datos y por un índice primario, exahustivo y selectivo.
+    </div>
+    <div>
+      El de datos está implementado con un archivo directo de registros variables.
+    </div>
+    <div>
+      El archivo indice es un bsharp del paquete&nbsp;<b>speakit.io.bsharptree</b><span style=FONT-WEIGHT:normal>.</span>
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      Definición de los registros:
+    </div>
+    <u> Indice Invertido:</u><br>
+    Conceptual: InvertedIndexRecord<b>{</b> <b>(</b>termino<b>)i</b>, cantidad_documentos, maxima_frecuencia_local, InvertedList<b>[</b> Ocurrence<b>(</b> <b>(</b>documento<b>)ie</b>, frecuencia_local<b>)</b><b>+</b><b>]}</b><br>
+    Logica: &nbsp; &nbsp; &nbsp; InvertedIndexRecord<b>{</b>termino: V, maxima_frecuencia_local: E, InvertedList<b>[</b> cantidad_ocurrencias:E,hash_cantidad_ocurrencias:B,Ocurrence<b>(</b>&nbsp;offset_documento:EL, frecuencia_local:E<b>)], </b>hash_registro:B<b>} </b>
+    <div>
+      <br>
+      <u>Indice del Indice Invertido:</u><br>
+      Conceptual: InvertedIndex_IndexRecord<b>{(</b>termino<b>)i</b>,<b>(</b>bloque_datos<b>)ie</b><b>}</b><br>
+      Logica: &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;InvertedIndex_IndexRecord<b>{</b> FrontCodedStringField<b>[</b>cant_caracterers_coincidentes: EC,caracteres_finales: V<b>]</b>: V, numero_bloque: EL<b><span style=FONT-WEIGHT:normal><b>,&nbsp;</b>hash_registro:B</span>}</b>
+    </div>
+    <div>
+      <div>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <br>
+      </div>
+      <h2>
+        <a id=Resoluci_n_de_consultas_750563 name=Resoluci_n_de_consultas_750563></a> <font size=4>Resolución de consultas:</font><br>
+      </h2>
+      <div>
+        El sistema resuelve consultas utilizando el método vectorial, para lograrlo procede de la siguiente forma:
+      </div>
+      <div>
+        El módulo de FTRS recibe un documento de texto como consulta, lo hace pasar por unos filtros de palabras dejando al documento sólo con los términos relevantes. Estos filtros son los mismos que se usan para una indexación de documentos.
+      </div>
+      <div>
+        Luego para cada termino del documento se consulta al indice invertido y se obtiene un registro con lista de apariciones de ese en los documentos del sistema, ordenadas por frecuencia local.
+      </div>
+      <div>
+        Se ordena la lista de registros por relevancia del término. Un término es mas importante que otro si aparece en menos documentos.&nbsp;
+      </div>
+      <div>
+        Por cada registro se recorre la lista de apariciones, se obtiene el identificador de cada documento y se lo agerga a la lista de resultados. Estos documentos se agregan hasta que la lista de resultados llegue al limite de 10 documentos.<br>
+      </div>
+    </div>
+    <div>
+      Luego por cada id de documento se consulta al modulo DocumentStorage para obtener el texto completo.<br>
+      <br>
+      <h2>
+        <a id=Diagrama_de_clases_del_indice_ name=Diagrama_de_clases_del_indice_></a> Diagrama de clases del indice invertido
+      </h2>
+      <br>
+      <div id=b8bp style=TEXT-ALIGN:left>
+        <img height=566 src=Speakit_Documentacion_t_images/ddbqgjs4_10d7zf5bfp_b.jpg width=696>
+      </div>
+      <br>
+      <br>
+    </div>
+    <div>
+      <h1>
+        <a id=Indexaci_n_de_multiples_docume_022479576990008354 name=Indexaci_n_de_multiples_docume_022479576990008354></a> Indexación de multiples documentos:<br>
+      </h1>
+      <a id=Indexaci_n_de_multiples_docume name=Indexaci_n_de_multiples_docume></a>
+      <h2>
+        <a id=Obtencion_de_las_listas_invert name=Obtencion_de_las_listas_invert></a> <span style=FONT-WEIGHT:normal><font size=2>Obtencion de las listas invertidas de cada termino</font></span>
+      </h2>
+      <div>
+        Para la indexación de documentos se opto por el mecanismo de ordenamiento denominado sort Interno, que va cargando en memoria una porción del archivo desordenado y genera n -1 particiones ordenadas de igual tamaño y una que puede ser menor. El mecanismo escribe las particiones en un archivo secuencial, usando registros de longitud fija donde se almacena &nbsp;[(nro_de_termino) (nro_de_documento)] . Soportando repetidos para poder procesar la frecuencia de cada termino dentro de los documentos.
+      </div>
+      <div>
+        Estas particiones se unen mediante un mecanismo de merge que consulta las particiones ordenadas previamente generadas y devuelve un único archivo ordenado, del mismo tipo que el generado por el algoritmo de ordenamiento.
+      </div>
+      <h2>
+        <a id=Stop_Words_60118268430233_4334 name=Stop_Words_60118268430233_4334></a> Stop Words:
+      </h2>
+      <div>
+        Se conoce como stop words a las palabras que pueden encontrarse comunmente en casi cualquier documento de texto, tales como artículos, preposiciones, conectores, etc.<br>
+        A la hora de realizar una busqueda, si se incluyen las stop words, estas palabras estarian presentes en multiples documentos, ensuciando asi los resultados. Para evitar esto, no se tienen en cuenta a la hora de indexar documentos como asi tampoco a la hora de realizar busquedas.<br>
+      </div>
+      <div>
+        <br>
+        <h2>
+          <a id=_Diagrama_de_clases_del_paquet_24650870356708765 name=_Diagrama_de_clases_del_paquet_24650870356708765></a> Diagrama de clases del paquete indexador
+        </h2>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+      </div>
+      <div id=qz03 style=TEXT-ALIGN:left>
+        <img src=Speakit_Documentacion_t_images/ddbqgjs4_933sk2zdb_b.jpg style="WIDTH:648px; HEIGHT:309.533px">
+      </div>
+    </div>
+    <h1>
+      <a id=Problemas_encontrados_y_soluci name=Problemas_encontrados_y_soluci></a> Problemas encontrados y soluciones propuestas<br>
+    </h1>
+    <div>
+      <h2>
+        <a id=Integridad_de_datos_3440409582 name=Integridad_de_datos_3440409582></a> <font size=4>Integridad de datos:</font>
+      </h2>
+      Trabajando con archivos muchas veces sucedía que por un mal funcionamiento en los algoritmos de persistencia se graben y carguen datos en disco de forma erronea o incompleta, provocando fallas en los lugares donde se procesaban. Era muy dificil detectar si el problema provenía de datos o de la logica de procesamiento. Para facilitar la localización de la fuente del problema se implementó un método que permitía detectar datos corruptos al momento de leerlos de disco, así por lo menos sabemos si el origen es o no de datos.
+    </div>
+    <div>
+      El método consiste en guardar al final de cada registro un campo byte con un hash de todos sus datos. Luego al cargar un registro de disco se verifica si el campo hash coincide con el calculado sobre todos los datos del registro. Si no coincide el dato es inválido, de lo contrario es altamente probable de que sea válido.
+    </div>
+    <div>
+      <br>
+    </div>
+    <div>
+      A veces los datos corruptos hacían imposible cargar todo el registro y calcular el hash. Por ejemplo cuando el registro tenia campos de tipo array y se corrompía el campo de control que indicaba la cantidad de elementos, a veces era tan elevado que el sistema se quedaba sin memoria. Par solucionarlo aplicamos el mismo método de hash usado en registros para cada campo de control de ese tipo.
+    </div>
+    <div>
+      <br>
+    </div>
+    <br>
+  </div>
+  <hr>
+  <div style=TEXT-ALIGN:center>
+    MANUAL DE USUARIO<br>
+  </div>
+  <div style=TEXT-ALIGN:left>
+    <br>
+  </div>
+</div>
+<h1>
+  <a id=Instrucciones_de_uso_128221964 name=Instrucciones_de_uso_128221964></a> <font size=5> Instrucciones de uso<br>
+  </font>
+</h1>
+<h2>
+  <a id=Instalaci_n_del_sistema_958589 name=Instalaci_n_del_sistema_958589></a> <u>Instalación del sistema</u>
+</h2>
+Para instalar y correr el sistema se requiere de la herramienta&nbsp;<b>Apache Ant</b>. Esta herramienta puede conseguirse mediante el gestor de paquetes de su distribución de Linux o descargandolo de la página&nbsp;<b>http://ant.apache.org</b>&nbsp;. Si se elige esta última opción se deben seguir las instrucciones de instalación de la herramienta proporcionadas en la página.<br>
+<br>
+Para compilar o correr la aplicación, utilizando la consola del sistema operativo, ingresar al directorio&nbsp;<b>speakit</b>&nbsp;y ejecutar alguno de los siguientes comandos:<br>
+<br>
+<b>ant clean -&nbsp;</b>Usando este comando se borran las carpetas utilizadas para compilar y distribuir la aplicación.<br>
+<br>
+<b>ant compile -</b>&nbsp;Con este comando se compila la aplicación, generando los archivos .class dentro de la carpeta&nbsp;<b>build&nbsp;</b>del proyecto.<br>
+<br>
+<b>ant run</b>&nbsp;- Al ejecutar este comando se compila y se ejecuta la aplicación.<br>
+<br>
+<b>ant -&nbsp;</b>Si se ejecuta el comando ant, sin utilizar ningún parametro, por default se ejecuta el comando&nbsp;<b>ant run</b>.<br>
+<br>
+<br>
+<h2>
+  <a id=Utilizaci_n_del_sistema_212234 name=Utilizaci_n_del_sistema_212234></a> <u>Utilización del sistema</u>
+</h2>
+Al iniciar la aplicación podemos ver la siguiente pantalla:
+<div>
+  <br>
+</div>
+<blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+  <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+  <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+  <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+  <br>
+  <br>
+  <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+</blockquote>
+<div>
+  <br>
+  <div id=pw2o style=TEXT-ALIGN:left>
+    Aqui tenemos 5 opciones:<br>
+  </div>
+  <br>
+  -&nbsp;<b>Procesar archivo de Texto</b>: En este módulo el sistema pregunta por un archivo de texto para ser leido. Si el archivo está dentro de la carpeta de la aplicación no es necesario ingresar la ruta al mismo, solo se debe ingresar el nombre. Una vez ingresado el nombre del archivo, el sistema reconoce las palabras que ya están agregadas al diccionario y las que no se encuentren en este, se requerirá que sean grabadas por el usuario. Luego de grabar cada palabra el sistema reproducirá la palabra, preguntará al usuario si la palabra se grabó correctamente y dará la posibilidad de regrabarla si asi lo desea el usuario.<br>
+  <br>
+  <div id=hs:v style=TEXT-ALIGN:left>
+  </div>
+</div>
+<blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+  <span style="FONT-FAMILY:'Courier New'">Speak It!</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+  <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+  <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+  <br>
+  <br>
+  <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+  <span style="FONT-FAMILY:'Courier New'">1</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Leer archivo de Texto</span><br>
+  <br>
+  <span style="FONT-FAMILY:'Courier New'">Ingrese la ruta a continuación:</span><br>
+  <span style="FONT-FAMILY:'Courier New'">(Si su archivo es '1.txt' sólo presione ENTER)</span><br>
+  <span style="FONT-FAMILY:'Courier New'">hamlet.txt</span><br>
+  <span style="FONT-FAMILY:'Courier New'">El documento contiene palabras desconocidas, que deberá grabar a continuación.</span><br>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Palabra 'ser'. (ENTER para grabar).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Palabra 'o'. (ENTER para grabar).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Palabra 'no'. (ENTER para grabar).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Palabra 'esta'. (ENTER para grabar).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">n</span>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Palabra 'esta'. (ENTER para grabar).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Palabra 'es'. (ENTER para grabar).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Palabra 'la'. (ENTER para grabar).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Palabra 'cuestion'. (ENTER para grabar).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <span style="FONT-FAMILY:'Courier New'">El documento fué agregado con éxito.</span>
+  </div>
+</blockquote>
+<div>
+  <br>
+  Si se ingresa un nombre de archivo que el sistema no puede encontrar, se emitirá un mensaje de error y la aplicación volvera al menu inicial.<br>
+  <div id=d3vo style=TEXT-ALIGN:left>
+    <br>
+  </div>
+</div>
+<blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+  <span style="FONT-FAMILY:'Courier New'">Speak It!</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+  <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+  <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+  <br>
+  <br>
+  <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+  <span style="FONT-FAMILY:'Courier New'">1</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Leer archivo de Texto</span><br>
+  <br>
+  <span style="FONT-FAMILY:'Courier New'">Ingrese la ruta a continuación:</span><br>
+  <span style="FONT-FAMILY:'Courier New'">(Si su archivo es '1.txt' sólo presione ENTER)</span><br>
+  <span style="FONT-FAMILY:'Courier New'">lalala.txt</span><br>
+  <span style="FONT-FAMILY:'Courier New'">No pudo encontrarse el archivo 'lalala.txt'.</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Speak It!</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+  <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+  <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+  <br>
+  <br>
+  <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+</blockquote>
+<div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <b> - Procesar varios archivos de Texto:</b> Funciona igual a la opción anterior, sólo que permite ingresar mas de un documento a la vez. Los nombres de archivo se deben escribir uno a continuación del otro separándolos por una coma.
+  </div>
+  <div>
+    <br>
+  </div>
+</div>
+<blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+  <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+  <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+  <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+  <br>
+  <br>
+  <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+  <span style="FONT-FAMILY:'Courier New'">2</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Ingrese cada una de las rutas de los documentos que desea ingresar separadas por coma</span><br>
+  <span style="FONT-FAMILY:'Courier New'">hamlet.txt,speakit.txt</span><br>
+  <br>
+  <span style="FONT-FAMILY:'Courier New'">Los documentos ingresados contienen palabras desconocidas que deberá grabar a continuación</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Palabra 'una'. (ENTER para grabar).</span><br>
+</blockquote>
+<div>
+  <div>
+    <br>
+  </div>
+  <br>
+  -&nbsp;<b>Reproducir Archivo</b>: Con esta opción podemos reproducir las palabras grabadas con anterioridad en la aplicación. Se solicitará nuevamente el nombre del archivo ingresado y el sistema indicará por pantalla las palabras a reproducir consecutivamente y se escuchará su audio a continuación.<br>
+  <br>
+</div>
+<blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+  <span style="FONT-FAMILY:'Courier New'">Speak It!</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+  <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+  <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+  <br>
+  <br>
+  <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+  <span style="FONT-FAMILY:'Courier New'">3</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Ingrese la ruta a continuación:</span><br>
+  <span style="FONT-FAMILY:'Courier New'">(Si su archivo es '1.txt' sólo presione ENTER)</span><br>
+  <span style="FONT-FAMILY:'Courier New'">hamlet.txt</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Se va a reproducir el siguiente documento</span><br>
+  <span style="FONT-FAMILY:'Courier New'">¡Ser o no ser: ésta es la cuestión!</span><br>
+</blockquote>
+<div>
+  <div id=pwp2 style=TEXT-ALIGN:left>
+  </div>
+  <br>
+  <div>
+    <br>
+  </div>
+  <div>
+    <b> - Realizar una consulta</b>: Escriba los términos por los que quiere buscar y el sistema desplegará un listado de los documentos más relevantes.
+  </div>
+  <div>
+    <br>
+  </div>
+</div>
+<blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+  <span style="FONT-FAMILY:'Courier New'">Speak It!</span><br>
+</blockquote>
+<blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+  <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+  <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+  <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+  <br>
+  <br>
+  <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+  <span style="FONT-FAMILY:'Courier New'">4</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Ingrese la consulta</span><br>
+  <span style="FONT-FAMILY:'Courier New'">cuestion</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Los documentos encontrados para la consulta realizada se muestran a continuacion:</span><br>
+  <span style="FONT-FAMILY:'Courier New'">1 : ¡Ser o no ser: ésta es la cuestión!....</span><br>
+</blockquote>
+<br>
+Si quiere reproducir uno de los documentos listados, presione 1 y a continuación escriba el número de documento que quiere escuchar y el sistema se lo leerá.
+<div>
+  <br>
+  <div>
+    <blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+      <span style="FONT-FAMILY:'Courier New'">Si desea reproducir algun documento presione 1</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Para realizar una nueva consulta presione 2</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Para ir al menu principal presione 0</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Elija el numero de documento que desea reproducir</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Se va a reproducir el siguiente documento</span><br>
+      <span style="FONT-FAMILY:'Courier New'">¡Ser o no ser: ésta es la cuestión!</span><br>
+    </blockquote>
+    <div>
+      <br>
+      -&nbsp;<b>Salir</b>: Esta opción permite salir de&nbsp;<b>SpeakIt</b>.<br>
+      <br>
+    </div>
+  </div>
+</div>
+<blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+  <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+  <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+  <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+  <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+  <br>
+  <br>
+  <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+  <span style="FONT-FAMILY:'Courier New'">0</span><br>
+  <span style="FONT-FAMILY:'Courier New'">Terminado.</span><br>
+</blockquote>
+<div>
+  <div>
+    <div>
+      <br>
+      <h1>
+        <a id=Ejemplos name=Ejemplos></a> <u>Ejemplos</u>
+      </h1>
+      Junto a la distribución del sistema se incluyen 2 test cases con documentos de ejemplos y los archivos binarios correspondientes. Para poder usar efectivamente estos ejemplos se deben colocar (junto a los binarios) dentro de la carpeta raiz del proyecto.<br>
+      <br>
+      <font size=4><u><b>Test Case 1</b></u></font><br>
+      <br>
+      De estos test cases, todos los archivos del primero han sido grabados por nosotros (archivos de ejemplo desde el 1 al 10).<br>
+      Para probar, hemos realizado las siguientes busquedas con su resultado:<br>
+      <br>
+      <br>
+      <div>
+        <div style=TEXT-ALIGN:center>
+        </div>
+        <table border=1 bordercolor=#000000 cellpadding=3 cellspacing=0 class="" height=187 id=mwci width=700>
+          <tbody>
+          <tr>
+            <td style=TEXT-ALIGN:center width=50%>
+              <b>Búsqueda</b><br>
+            </td>
+            <td style=TEXT-ALIGN:center width=50%>
+              <b>Resultado<br>
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td style=TEXT-ALIGN:center width=50%>
+              ser<br>
+            </td>
+            <td style=TEXT-ALIGN:center width=50%>
+              0 resultados. Es una <i><b>stop word</b></i><br>
+            </td>
+          </tr>
+          <tr>
+            <td style=TEXT-ALIGN:center width=50%>
+              la cuestion
+            </td>
+            <td style=TEXT-ALIGN:center width=50%>
+              texto de ejemplo1.txt<br>
+            </td>
+          </tr>
+          <tr>
+            <td style=TEXT-ALIGN:center width=50%>
+              ausente<br>
+            </td>
+            <td style=TEXT-ALIGN:center width=50%>
+              texto de ejemplo5.txt<br>
+            </td>
+          </tr>
+          <tr>
+            <td style=TEXT-ALIGN:center width=50%>
+              presente en la república<br>
+            </td>
+            <td style=TEXT-ALIGN:center width=50%>
+              texto de los archivos ejemplo5.txt, ejemplo7.txt, ejemplo8.txt, ejemplo9.txt
+            </td>
+          </tr>
+          <tr>
+            <td style=TEXT-ALIGN:center width=50%>
+              jefe de la república
+            </td>
+            <td style=TEXT-ALIGN:center width=50%>
+              texto de los archivos ejemplo7.txt,ejemplo8.txt,ejemplo9.txt
+            </td>
+          </tr>
+          <tr>
+            <td style=TEXT-ALIGN:center width=50%>
+              no sabía lo que hacia<br>
+            </td>
+            <td style=TEXT-ALIGN:center width=50%>
+              0 resultados. Las palabras no estan indexadas<br>
+            </td>
+          </tr>
+          <tr>
+            <td style=TEXT-ALIGN:center width=50%>
+              corona de espinas
+            </td>
+            <td style=TEXT-ALIGN:center width=50%>
+              texto de los archivos ejemplo3.txt,ejemplo10.txt
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <br>
+      <font size=4><u><b>Test Case 2<br>
+      <br>
+      </b></u><font size=2>Hemos incluido tambien 3 archivos más de ejemplo, para probar el ingreso de los archivos y su grabación en el sistema. Al intentar ingresar estos 3 archivos, el sistema pedira que ingresemos los siguientes terminos (los otros no son pedidos porque ya estan ingresados)<br>
+      <br>
+      </font></font>
+      <div style=TEXT-ALIGN:center>
+        <b>evitar, robo, por, sus, politicos, los, discipulos, pudieron, vez, atrapado, soldados, romanos, su, calaban, fondo, cada, persona, lugar<br>
+        </b>
+      </div>
+    </div>
+    <br>
+  </div>
+</div>
+<br></body>
+</html>

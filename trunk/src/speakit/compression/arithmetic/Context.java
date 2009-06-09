@@ -65,4 +65,9 @@ public class Context {
 			return false;
 		}
 		
+		@Override
+		public int hashCode() {
+			return this.toString().hashCode();
+		}
+		
 }

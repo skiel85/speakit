@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.SpeakitLogger;
 import speakit.compression.arithmetic.ArithmeticDecoder;
 import speakit.compression.arithmetic.ProbabilityTable;
 import speakit.compression.arithmetic.StringBitReader;
@@ -16,11 +17,13 @@ public class ArithmeticDecoderTest {
 
 	@Before
 	public void setUp() throws Exception {
+//		SpeakitLogger.activate();
+//		SpeakitLogger.deactivate();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-
+		
 	}
 
 	@Test
@@ -53,7 +56,7 @@ public class ArithmeticDecoderTest {
 		table.increment(new Symbol('U'), 2);
 		table.increment(Symbol.getEof(), 1);
 		table.sort();
-		System.out.println(table.toString());
+		SpeakitLogger.Log(table.toString());
 		String input = "011001110000000";
 		//está probado a mano que input es la compresion de NENUQ(EOF)
 		Assert.assertEquals("011001110000000",input);
@@ -61,11 +64,11 @@ public class ArithmeticDecoderTest {
 		ArithmeticDecoder decoder = new ArithmeticDecoder(new StringBitReader(input), 8);
 		Assert.assertEquals(new Symbol('N'), decoder.decode(table));
 		table.increment(new Symbol('N'));
-		System.out.println(table.toString());
+		SpeakitLogger.Log(table.toString());
 //		Assert.assertEquals("",decoder.currentBuffer);
 		Assert.assertEquals(new Symbol('E'), decoder.decode(table));
 		table.increment(new Symbol('E'));
-		System.out.println(table.toString());
+		SpeakitLogger.Log(table.toString());
 ////		Assert.assertEquals("011",decoder.currentBuffer); 
 //		Assert.assertEquals(new Symbol('U'), decoder.decode(table));
 //		table.increment(new Symbol('U'));

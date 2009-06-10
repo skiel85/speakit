@@ -1,7 +1,6 @@
 package speakit.compression.arithmetic;
 
 import java.io.IOException;
-import java.io.Reader;
 
 public abstract class BitReader {
 

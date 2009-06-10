@@ -3,7 +3,6 @@ package speakit.compression.lzp;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 import speakit.SpeakitLogger;
 import speakit.TextDocument;

@@ -72,6 +72,11 @@ public class PPMC implements BitWriter{
 				return tables.get(context);
 			} else {
 				ProbabilityTable table = new ProbabilityTable();
+				
+				//Agrego el ESC con probabilidad 1 a la tabla
+				table.increment(Symbol.getEscape());
+				
+				
 				tables.put(context, table);
 				return table;
 			}	
@@ -127,7 +132,7 @@ public class PPMC implements BitWriter{
 							foundInModels=true;
 						}else{
 							//Emito un escape
-							if (table.getSymbolsQuantity()==0) table.increment(Symbol.getEscape());
+							//if (table.getSymbolsQuantity()==0) table.increment(Symbol.getEscape());
 							emision+=Symbol.getEscape().toString()+"("+table.getProbability(Symbol.getEscape())+")";
 							
 							encoder.encode(Symbol.getEscape(), table);
@@ -135,6 +140,7 @@ public class PPMC implements BitWriter{
 							table.getProbability(Symbol.getEscape());
 							
 							table.increment(interpreter.getActualSymbol());
+							if (table.getSymbolsQuantity()!=2) table.increment(Symbol.getEscape());
 						}
 						//Obtengo el subcontexto para chequear en el modelo anterior
 						context=context.subContext(context.size()-1);
@@ -160,20 +166,23 @@ public class PPMC implements BitWriter{
 							
 						}else{
 							//Emito un escape en el modelo 0 y emito el caracter en el modelo -1 
-							if (table.getSymbolsQuantity()==0) table.increment(Symbol.getEscape());
+							//if (table.getSymbolsQuantity()==0) table.increment(Symbol.getEscape());
 							table.getProbability(Symbol.getEscape());
 							emision+=Symbol.getEscape().toString()+"("+table.getProbability(Symbol.getEscape())+")";
 							
 							encoder.encode(Symbol.getEscape(), table);
 							
+							
 							table.increment(interpreter.getActualSymbol());
+
+							if (table.getSymbolsQuantity()!=2)table.increment(Symbol.getEscape());
 							
 							//Emito el caracter en el modelo -1, excluyendo los del modelo 0
-							emision+=interpreter.getActualSymbol().toString()+"("+((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)).getProbabilityOf(interpreter.getActualSymbol())+")";
+							emision+=interpreter.getActualSymbol().toString()+"("+((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)).getProbability(interpreter.getActualSymbol())+")";
 							
 							
 							
-							((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)).getProbabilityOf(interpreter.getActualSymbol());
+							((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)).getProbability(interpreter.getActualSymbol());
 							
 							//encoder.encode(interpreter.getActualSymbol(), ((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)));
 							

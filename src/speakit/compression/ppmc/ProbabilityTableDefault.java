@@ -27,9 +27,15 @@ public class ProbabilityTableDefault extends ProbabilityTable {
 
 	/**
 	 */
-	public Float getProbabilityOf(Symbol symbol){
+	/*public Float getProbabilityOf(Symbol symbol){
+		Float probability=(float)1/maxCharNumber;
+		return probability;
+	}*/
+	
+	public double getProbability(Symbol symbol){
 		Float probability=(float)1/maxCharNumber;
 		return probability;
 	}
+	
 
 }

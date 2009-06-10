@@ -20,19 +20,18 @@ public class ArithmeticCompressor implements BitWriter {
 		this.writer = new StreamBitWriter(outputStream);
 
 		precision = 32;
-		charSize = 16;
 	}
 	
 	public void decompress(InputStream compressedFile) throws IOException {
-		OutputStreamWriter writer= new OutputStreamWriter(outStream, "UTF-8");
+		OutputStreamWriter writer= new OutputStreamWriter(outStream);
 		
 		ArithmeticDecoder decoder = new ArithmeticDecoder(new StreamBitReader(compressedFile), precision);
 		ProbabilityTable table = createInitialTable();
 		
 		Symbol decodedSymbol=null; 
-		do{ 
-			decodedSymbol=decoder.decode(table);
-			table.increment(decodedSymbol);
+		do{  
+			decodedSymbol=decoder.decode(table); 
+			table.increment(decodedSymbol); 
 			if(!decodedSymbol.equals(Symbol.getEof())){
 				writer.write( decodedSymbol.getChar());	
 			}
@@ -55,25 +54,21 @@ public class ArithmeticCompressor implements BitWriter {
         	table.increment(symbol);
         }
         encoder.encode(Symbol.getEof(), table);
+        table.increment(Symbol.getEof());
         in.close();
 	}
 
 	private ProbabilityTable createInitialTable() {
 		ProbabilityTable table;
-		table = new ProbabilityTable();
-		table.increment(Symbol.getEof(), 1);
-		for (int i = 0; i < (Math.pow(2,charSize)); i++) {
-			table.increment(new Symbol(i), 1);
-		}
+		table = new ProbabilityTable(); 
+		table.initAllSymbols(); 
 		return table;
 	}
 
-	private BitWriter writer; 
-	private int	charSize;
+	private BitWriter writer;  
 	
 	@Override
 	public void write(String bits) throws IOException {
-		writer.write(bits);
-//		System.out.println(bits);
+		writer.write(bits); 
 	} 
 }

@@ -49,7 +49,7 @@ public class Context {
 		public String toString() {
 			String out = "";
 			for (Symbol symbol : chars) {
-				out = out.concat(symbol.toString());
+				out = out.concat(new Character(symbol.getChar()).toString());
 			}
 			return out;
 		}

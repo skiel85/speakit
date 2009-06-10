@@ -14,7 +14,7 @@ public class BinaryTest {
 
  	@Test
 	public void testConvertToInt() {
-		Assert.assertEquals(163, Binary.bitStringToInt("10100011"));
+		Assert.assertEquals(163, Binary.bitStringToNumber("10100011"));
 	}
  	
  	@Test

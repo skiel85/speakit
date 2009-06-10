@@ -3,7 +3,7 @@ package speakit.compression.arithmetic;
 import java.io.IOException;
 
 /**
- * Provee funciones para trabajar convertir ints a binarios y viceversa
+ * Provee funciones para trabajar convertir long a binarios y viceversa
  * 
  * @author Nahuel
  * 
@@ -12,7 +12,7 @@ public class Binary {
 
 	private final String	bits;
 	private final int		precision;
-	private int				number;
+	private long				number;
 
 	public Binary(String bits, int precision) {
 		for (int i = 0; i < bits.length(); i++) {
@@ -22,13 +22,13 @@ public class Binary {
 		}
 		this.bits = Binary.alignRight(bits, precision);
 		this.precision = this.bits.length();
-		this.number = Binary.bitStringToInt(bits);
+		this.number = Binary.bitStringToNumber(bits);
 	}
 
-	public Binary(int number, int precision) {
+	public Binary(long number, int precision) {
 		this.precision = precision;
 		this.number = number;
-		this.bits = Binary.alignRight(Binary.integerToBinary(number), precision);
+		this.bits = Binary.alignRight(Binary.numberToBinary(number), precision);
 	}
 
 	public static Binary createFromReader(BitReader reader, int precision) throws IOException {
@@ -57,23 +57,21 @@ public class Binary {
 
 	}
 
-	public static String integerToBinary(int num) {
+	public static String numberToBinary(long num) {
 		StringBuffer buffer = new StringBuffer();
-		integerToBinary(buffer, num, 2);
+		numberToBinary(buffer, num, 2);
 		return buffer.toString();
 	}
 
-	private static void integerToBinary(StringBuffer output, int num, int base) {
-		if (num > 0) { // Check to make sure integer is positive.
-			integerToBinary(output, num / base, base); // These two lines do all
-			// the work - the actual
-			// recursion
+	private static void numberToBinary(StringBuffer output, long num, int base) {
+		if (num > 0) {
+			numberToBinary(output, num / base, base);
 			output.append(num % base);
 		}
 	}
 
-	public static int bitStringToInt(String bits) {
-		int result = 0;
+	public static long bitStringToNumber(String bits) {
+		long result = 0;
 		int pow = 0;
 		for (int i = bits.length() - 1; i >= 0; i--) {
 			char bit = bits.charAt(i);
@@ -85,7 +83,7 @@ public class Binary {
 		return result;
 	}
 
-	public int getNumber() {
+	public long getNumber() {
 		return number;
 	}
 
@@ -98,8 +96,9 @@ public class Binary {
 				} else {
 					if (reader.hashNext()) {
 						shifted += reader.readBit();
-					} else {
-						shifted += '0';
+					}
+					else {
+						throw new RuntimeException("Fin de archivo: No deberian seguirse pidiendo bits.");
 					}
 				}
 			} else {

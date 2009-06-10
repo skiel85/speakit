@@ -9,6 +9,7 @@ import java.util.Set;
 import speakit.SpeakitLogger;
 import speakit.TextDocument;
 import speakit.compression.arithmetic.ArithmeticEncoder;
+import speakit.compression.arithmetic.BitWriter;
 import speakit.compression.arithmetic.Context;
 import speakit.compression.arithmetic.ProbabilityTable;
 import speakit.compression.arithmetic.Symbol;
@@ -16,12 +17,13 @@ import speakit.compression.lzp.LZPTable;
 import speakit.compression.lzp.TextDocumentInterpreter;
 
 
-public class PPMC {
+public class PPMC implements BitWriter{
 	
 	private ProbabilityTableDefault ModelMinusOne;
 	private HashMap<Context, ProbabilityTable> tables;
 	private Integer contextSize = 2;
 	private String infoEntry;
+	private int ENCODER_PRECISION = 32;
 
 		
 	public ProbabilityTableDefault getModelMinusOne() {
@@ -79,18 +81,20 @@ public class PPMC {
 		public void compress(TextDocument document) throws IOException{
 			ProbabilityTable table = null;
 			ProbabilityTable table2 = null;
+			ArithmeticEncoder encoder = new ArithmeticEncoder(this, ENCODER_PRECISION);
 			
 			TextDocumentInterpreter interpreter = new TextDocumentInterpreter(document);
 			try {
 				String emision="";
 				
+				Context context = null;
+				
 				while (interpreter.hasData()) {
 					
-					Context context;
+					
 					
 					// Contexto para el modelo 0
 					if (interpreter.getCurrentPosition()==0) {
-						//context = interpreter.getContext(0);
 						context=interpreter.getContext(0);
 						
 					} else {
@@ -116,12 +120,18 @@ public class PPMC {
 							//Emito el caracter y actualizo la probabilidad del caracter en este contexto
 							emision+=interpreter.getActualSymbol().toString()+"("+table.getProbability(interpreter.getActualSymbol())+")";
 							table.getProbability(interpreter.getActualSymbol());
+							
+							encoder.encode(interpreter.getActualSymbol(), table);
+							
 							table.increment(interpreter.getActualSymbol());
 							foundInModels=true;
 						}else{
 							//Emito un escape
 							if (table.getSymbolsQuantity()==0) table.increment(Symbol.getEscape());
 							emision+=Symbol.getEscape().toString()+"("+table.getProbability(Symbol.getEscape())+")";
+							
+							encoder.encode(Symbol.getEscape(), table);
+							
 							table.getProbability(Symbol.getEscape());
 							
 							table.increment(interpreter.getActualSymbol());
@@ -143,6 +153,9 @@ public class PPMC {
 							//Emito el caracter en el modelo 0 y actualizo su probabilidad
 							emision+=interpreter.getActualSymbol().toString()+"("+table.getProbability(interpreter.getActualSymbol())+")";
 							table.getProbability(interpreter.getActualSymbol());
+							
+							encoder.encode(interpreter.getActualSymbol(), table);
+							
 							table.increment(interpreter.getActualSymbol());
 							
 						}else{
@@ -150,11 +163,19 @@ public class PPMC {
 							if (table.getSymbolsQuantity()==0) table.increment(Symbol.getEscape());
 							table.getProbability(Symbol.getEscape());
 							emision+=Symbol.getEscape().toString()+"("+table.getProbability(Symbol.getEscape())+")";
+							
+							encoder.encode(Symbol.getEscape(), table);
+							
 							table.increment(interpreter.getActualSymbol());
 							
 							//Emito el caracter en el modelo -1, excluyendo los del modelo 0
 							emision+=interpreter.getActualSymbol().toString()+"("+((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)).getProbabilityOf(interpreter.getActualSymbol())+")";
+							
+							
+							
 							((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)).getProbabilityOf(interpreter.getActualSymbol());
+							
+							//encoder.encode(interpreter.getActualSymbol(), ((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)));
 							
 						}
 					}
@@ -170,13 +191,17 @@ public class PPMC {
 					logInfoEntry();
 					interpreter.advance();
 				}
+				
+				//Emito el EOF
+				//encoder.encode(Symbol.getEof(), this.getTable(context));
+				
 			} catch (Exception e){
 				e.printStackTrace();
 			}
 			
 		}
-
-
+		
+		
 		public void setContextSize(Integer contextSize) {
 			this.contextSize = contextSize;
 		}
@@ -192,6 +217,13 @@ public class PPMC {
 		private void logInfoEntry() {
 			SpeakitLogger.Log(infoEntry);
 			infoEntry = "";
+		}
+
+
+		@Override
+		public void write(String bits) throws IOException {
+			// TODO Auto-generated method stub
+			
 		}
 
 }

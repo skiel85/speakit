@@ -29,6 +29,7 @@ public class PPMCCompressorTest {
 	public void testCompress() throws IOException {
 		SpeakitLogger.activate();
 		this.ppmc.compress(new TextDocument("TATATAAAAALO"));
+		//this.ppmc.compress(new TextDocument("ABAC"));
 	}
 
 }

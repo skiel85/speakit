@@ -104,6 +104,9 @@ public class ProbabilityTable {
 		int symbolIndex = getSymbolIndex(symbol);
 		if (symbolIndex >= 0) {
 			SymbolFrequency symbolFrequency = this.symbolFrequencies.get(symbolIndex);
+			if(symbolFrequency.symbol.compareTo(symbol)!=0){
+				throw new RuntimeException("No se pudo incrementar la frecuencia al simbolo " + symbol);
+			}
 			symbolFrequency.setFrequency(symbolFrequency.getFrequency() + 1);
 		} else {
 			this.symbolFrequencies.add(new SymbolFrequency(symbol, 1));

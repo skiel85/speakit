@@ -16,7 +16,9 @@ import speakit.io.ByteArrayConverter;
 public class ArithmeticCompressorTest {
 
 	private static final String	VUELO_447_DE_AIR_FRANCE			= ".E.l. vuelo 447 de Air France fue un vuelo internacional entre el Aeropuerto Internacional de Galeão y el Aeropuerto Internacional Charles de Gaulle de París. El 1 de junio de 2009, el avión, un Airbus A330-200, registrado F-GZCP (primer vuelo el 25 de febrero de 2005),1 desapareció sobre el Océano Atlántico con 216 pasajeros, entre ellos 61 franceses, 58 brasileños, 26 alemanes, 71 de otras 29 nacionalidades2 y 11 tripulantes a bordo, incluyendo tres pilotos.3 4 Las autoridades de Brasil confirmaron que la Fuerza Aérea Brasileña se encuentra realizando una búsqueda con el avión militar C-130 Hercules en la zona del archipiélago de Fernando de Noronha, donde se cree que pudo haber caído la aeronave.5 El estado del avión y sus pasajeros es actualmente desconocido, pero tanto las declaraciones oficiales de Air France como del Gobierno de Francia presumen que la aeronave ha sufrido un accidente y que todas las personas que iban a bordo han fallecido.6 Se han localizado los restos de un avión cerca de las costas de Senegal; se cree que pueda ser el vuelo 447. Un testigo afirma que vio restos en llamas caer al mar. Otro piloto de la Fuerza Aérea Brasileña informó haber visto luces naranjas en el mar cerca al archipielago de Fernando de Noronha.7";
-	private static final String	VUELO_447_DE_AIR_FRANCE_CORTO	= ".E.l. vuelo 447 de Air France France.";
+	private static final String	VUELO_447_DE_AIR_FRANCE_CORTO	= ".E.l. vuélo 447 de Air France France.";
+	private static final String	VUELO_447_DE_AIR_FRANCE_CORTO_SIN_PUNTO	= ".E.l. vuélo 447 de Air France France";
+	
 
 	@Before
 	public void setUp() throws Exception {
@@ -28,20 +30,8 @@ public class ArithmeticCompressorTest {
 	}
 
 	@Test
-	public void testCompress() throws IOException {
-		// testea que el compresor genere un archivo que sea menos pesado que el
-		// original
-		byte[] compressedbytes = compress(this.VUELO_447_DE_AIR_FRANCE_CORTO);
-		byte[] sourcebytes = VUELO_447_DE_AIR_FRANCE.getBytes();
-		Assert.assertTrue("El archivo comprimido debe ser mas chico que el sin comprimir, fuente: " + sourcebytes.length + ",comprimido:" + compressedbytes.length,
-				sourcebytes.length > compressedbytes.length);
-
-		// System.out.println("Tamaño original: " + sourcebytes.length);
-		// System.out.println("Tamaño comprimido: " + compressedbytes.length);
-		// System.out.println("Tasa de compresión: " +
-		// 100.0*(double)compressedbytes.length/(double)sourcebytes.length + "%"
-		// );
-
+	public void testCompleteCompressionCorto() throws IOException {
+		testCompressString(VUELO_447_DE_AIR_FRANCE_CORTO);
 	}
 
 	private byte[] compress(String document) throws IOException {
@@ -52,30 +42,44 @@ public class ArithmeticCompressorTest {
 		return out.toByteArray();
 	}
 	
+	private static final String	VUELO_447_DE_AIR_FRANCE_MICRO	= "gg";
+	
 	@Test
-	public void testCompleteCompression() throws IOException {
-		// testea que el compresor genere un archivo que sea menos pesado que el
-		// original
-		byte[] compressedbytes = compress(VUELO_447_DE_AIR_FRANCE_CORTO);
-		byte[] sourcebytes = VUELO_447_DE_AIR_FRANCE_CORTO.getBytes();
-
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		ArithmeticCompressor compressor = new ArithmeticCompressor(out);
-		compressor.decompress(new ByteArrayInputStream(compressedbytes));
-		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
+	public void testCompleteCompressionMicro() throws IOException {
+		testCompressString(VUELO_447_DE_AIR_FRANCE_MICRO);
 	}
 	
 	@Test
-	public void testCompleteCompressionNEUQUEN() throws IOException {
+	public void testCompleteCompressionArticle() throws IOException {
+		testCompressString(VUELO_447_DE_AIR_FRANCE);
+	}
+	
+	@Test
+	public void testCompleteCompressionCortoSinPunto() throws IOException {
+		testCompressString(VUELO_447_DE_AIR_FRANCE_CORTO_SIN_PUNTO);
+	}
+	
+	
+
+	private void testCompressString(String article) throws IOException {
 		// testea que el compresor genere un archivo que sea menos pesado que el
 		// original
-		byte[] compressedbytes = compress("NEUQUEN");
-		byte[] sourcebytes = "NEUQUEN".getBytes();
+		
+		System.out.println("***Comprimiendo: " + article);
+		byte[] compressedbytes = compress(article);
+		byte[] sourcebytes = article.getBytes();
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		System.out.println("***Descomprimiendo: " + article);
 		ArithmeticCompressor compressor = new ArithmeticCompressor(out);
 		compressor.decompress(new ByteArrayInputStream(compressedbytes));
 		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
+	} 
+	
+	@Test
+	public void testCompleteCompressionNeuquen() throws IOException {
+//		testCompressString("xxxxxxxxxxxxxxxxxxxaxaxaxxxxxxxxxxxxxxxxxxxxxsxssxxxxxxxx");
+		testCompressString("NEUQUEN");
 	}
 
 }

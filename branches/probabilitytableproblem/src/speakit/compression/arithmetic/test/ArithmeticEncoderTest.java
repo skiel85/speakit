@@ -37,7 +37,6 @@ public class ArithmeticEncoderTest {
 		table.increment(new Symbol('A'), 2);
 		table.increment(Symbol.getEof(), 1);
 		table.sort();
-		
 		sut.encode(new Symbol('C'), table);
 		sut.encode(new Symbol('D'), table);
 		sut.encode(new Symbol('A'), table);
@@ -51,6 +50,14 @@ public class ArithmeticEncoderTest {
 		//por ejemplo si en lugar de usar el simbolo EOF usamos \0 o algo así
 		Assert.assertEquals("10110011101011000000000000",bitWriter.getWritten());
 	}
+	
+//	@Test
+//	public void testEncode32Bits() throws IOException {
+//
+//		bitWriter = new MockBitWriter();
+//		sut = new ArithmeticEncoder(bitWriter,32);
+//		testEncode();
+//	}
 	
 	
 	@Test
@@ -75,5 +82,6 @@ public class ArithmeticEncoderTest {
 		//Esto puede fallar si la tabla de probabilidades se ordena distinto,
 		//por ejemplo si en lugar de usar el simbolo EOF usamos \0 o algo así
 		Assert.assertEquals("01110110100000000000",bitWriter.getWritten()); 
-	}
+	} 
+	
 }

@@ -2,13 +2,13 @@ package speakit.compression.arithmetic;
 
 public class Symbol implements Comparable<Symbol> {
 
-	private static final int ESC_CODE = -1;
-	private static final int EOF_CODE = -2;
+	private static final int	ESC_CODE	= -1;
+	private static final int	EOF_CODE	= -2;
 
 	/**
 	 * @uml.property name="number"
 	 */
-	private int number;
+	private int					number;
 
 	/**
 	 * Getter of the property <tt>number</tt>
@@ -35,7 +35,7 @@ public class Symbol implements Comparable<Symbol> {
 	 */
 	public String toString() {
 		if (this.number >= 0) {
-			return Character.toString((char) this.number);
+			return Character.toString((char) this.number) + "(" + this.number + ")";
 		} else if (this.number == Symbol.ESC_CODE) {
 			return "ESC";
 		} else if (this.number == Symbol.EOF_CODE) {

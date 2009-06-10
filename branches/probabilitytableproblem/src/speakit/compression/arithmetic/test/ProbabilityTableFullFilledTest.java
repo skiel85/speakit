@@ -25,6 +25,7 @@ public class ProbabilityTableFullFilledTest {
 
 	}
 
+	
 	@Test
 	public void testAddIncrmentsFrecuency() {
 		Symbol symbol = new Symbol('a');
@@ -77,7 +78,6 @@ public class ProbabilityTableFullFilledTest {
 	}
 
 	@Test
-	@Ignore
 	public void testAddGetIncrementIterativelyForEverySymbol() {
 		for (int i = 0; i < Math.pow(2, 8); i++) {
 			// System.out.println(i);

@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import speakit.SpeakitLogger;
+
 public class ProbabilityTable {
 
 	private class SymbolFrequency implements Comparable<SymbolFrequency> {
@@ -68,7 +70,7 @@ public class ProbabilityTable {
 	}
 
 	public ProbabilityTable exclude(ProbabilityTable table) {
-		System.out.println("ProbabilityTable->exclude");
+		SpeakitLogger.Log("ProbabilityTable->exclude");
 		List<SymbolFrequency> newFreqs = new ArrayList<SymbolFrequency>(this.symbolFrequencies);
 		Iterator<SymbolFrequency> iterator = newFreqs.iterator();
 
@@ -87,7 +89,7 @@ public class ProbabilityTable {
 	}
 
 	public void increment(Symbol symbol, int times) {
-		System.out.println("ProbabilityTable->increment symbol:" + symbol + ", times:" + times);
+		SpeakitLogger.Log("ProbabilityTable->increment symbol:" + symbol + ", times:" + times);
 		for (int i = 0; i < times; i++) {
 			increment(symbol);
 		}
@@ -103,7 +105,7 @@ public class ProbabilityTable {
 	}
 
 	public void increment(Symbol symbol) {
-		System.out.println("ProbabilityTable->Incrementando: " + symbol);
+		SpeakitLogger.Log("ProbabilityTable->Incrementando: " + symbol);
 		int symbolIndex = getSymbolIndex(symbol);
 		if (symbolIndex >= 0) {
 			SymbolFrequency symbolFrequency = this.symbolFrequencies.get(symbolIndex);
@@ -125,7 +127,7 @@ public class ProbabilityTable {
 	}
 
 	public double getProbability(Symbol symbol) {
-		System.out.println("ProbabilityTable->getProbability symbol:" + symbol);
+		SpeakitLogger.Log("ProbabilityTable->getProbability symbol:" + symbol);
 		return this.getFrequency(symbol) / (double) this.getTotalFrecuency();
 	}
 
@@ -143,19 +145,19 @@ public class ProbabilityTable {
 	}
 
 	public double getProbabilityUntil(Symbol symbol) {
-		System.out.println("ProbabilityTable->getProbabilityUntil: " + symbol);
+		SpeakitLogger.Log("ProbabilityTable->getProbabilityUntil: " + symbol);
 		return this.getFrequenceUntil(symbol, false) / (double) this.getTotalFrecuency();
 	}
 
 	public double getDistribution(Symbol symbol) {
-		System.out.println("ProbabilityTable->getDistribution: " + symbol);
+		SpeakitLogger.Log("ProbabilityTable->getDistribution: " + symbol);
 		return this.getFrequenceUntil(symbol, true) / (double) this.getTotalFrecuency();
 	}
 
 	@Deprecated
 	public Symbol getSymbolFor(double probability) {
 		// int equivFreq = (int) (probability * this.getTotalFrecuency());
-		System.out.println("ProbabilityTable->getSymbolFor: " + probability);
+		SpeakitLogger.Log("ProbabilityTable->getSymbolFor: " + probability);
 		int totalFreq = this.getTotalFrecuency();
 		int accum = 0;
 
@@ -169,7 +171,7 @@ public class ProbabilityTable {
 	}
 
 	public Symbol getSymbolFor(long number, long initialFloor, long rangeSize) {
-		System.out.println("ProbabilityTable->getSymbolFor long: " + number + " ,initialFloor: " + initialFloor + " ,rangeSize: " + rangeSize);
+		SpeakitLogger.Log("ProbabilityTable->getSymbolFor long: " + number + " ,initialFloor: " + initialFloor + " ,rangeSize: " + rangeSize);
 		int totalFreq = this.getTotalFrecuency();
 		long floor = 0;
 		long roof = initialFloor - 1;
@@ -177,17 +179,17 @@ public class ProbabilityTable {
 			floor = roof + 1;
 			roof = floor + Math.round((rangeSize * symbolFrequency.getFrequency() / totalFreq) - 1);
 			if (symbolFrequency.getSymbol().getNumber() < 255) {
-				System.out.println("Simbolo: " + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
+				SpeakitLogger.Log("Simbolo: " + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
 			}
 			if (number >= floor && number <= roof) {
-				System.out.println("Simbolo: " + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
+				SpeakitLogger.Log("Simbolo: " + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
 				return symbolFrequency.getSymbol();
 			}
 		}
 		throw new RuntimeException("Symbol not found");
 	}
 	public boolean contains(Symbol symbol) {
-		System.out.println("ProbabilityTable->contains" + symbol);
+		SpeakitLogger.Log("ProbabilityTable->contains" + symbol);
 		return (this.getSymbolIndex(symbol) >= 0);
 	}
 	
@@ -209,7 +211,7 @@ public class ProbabilityTable {
 //	}
 
 	public void initAllSymbols() {
-		System.out.println("ProbabilityTable->initAllSymbols");
+		SpeakitLogger.Log("ProbabilityTable->initAllSymbols");
 		this.symbolFrequencies.clear();
 		Symbol currentSymbol = Symbol.first();
 		this.symbolFrequencies.add(new SymbolFrequency(currentSymbol, 1));
@@ -221,7 +223,7 @@ public class ProbabilityTable {
 	}
 
 	public void sort() {
-		System.out.println("sort");
+		SpeakitLogger.Log("sort");
 		Collections.sort(this.symbolFrequencies);
 	}
 

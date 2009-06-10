@@ -5,25 +5,28 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import speakit.SpeakitLogger;
 import speakit.compression.arithmetic.ArithmeticEncoder;
 import speakit.compression.arithmetic.ProbabilityTable;
 import speakit.compression.arithmetic.Symbol;
 
 public class ArithmeticEncoderTest {
 	private ArithmeticEncoder	sut;
-	private MockBitWriter	bitWriter;
+	private MockBitWriter	bitWriter; 
+
 	@Before
 	public void setUp() throws Exception {
 		bitWriter = new MockBitWriter();
 		sut = new ArithmeticEncoder(bitWriter,8);
+//		SpeakitLogger.activate();
+//		SpeakitLogger.deactivate();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-
+		
 	}
 	
 
@@ -69,14 +72,14 @@ public class ArithmeticEncoderTest {
 		table.increment(new Symbol('U'), 2);
 		table.increment(Symbol.getEof(), 1);
 		table.sort();
-		System.out.println(table);
+		SpeakitLogger.Log(table);
 		sut.encode(new Symbol('N'), table);
 		table.increment(new Symbol('N'));
-		System.out.println(table.toString());
+		SpeakitLogger.Log(table.toString());
 //		Assert.assertEquals("",bitWriter.getWritten());
 		sut.encode(new Symbol('E'), table);
 		table.increment(new Symbol('E'));
-		System.out.println(table.toString());
+		SpeakitLogger.Log(table.toString());
 ////		Assert.assertEquals("011",bitWriter.getWritten());
 //		sut.encode(new Symbol('U'), table);
 //		table.increment(new Symbol('U'));
@@ -85,7 +88,7 @@ public class ArithmeticEncoderTest {
 //		table.increment(new Symbol('Q'));
 ////		Assert.assertEquals("011101101",bitWriter.getWritten());
 		sut.encode(Symbol.getEof(), table); 
-		System.out.println(table.toString());
+		SpeakitLogger.Log(table.toString());
 		//Esto puede fallar si la tabla de probabilidades se ordena distinto,
 		//por ejemplo si en lugar de usar el simbolo EOF usamos \0 o algo así
 		Assert.assertEquals("011001110000000",bitWriter.getWritten()); 

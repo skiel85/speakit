@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import speakit.SpeakitLogger;
 import speakit.TextDocument;
 import speakit.compression.arithmetic.ArithmeticCompressor;
 import speakit.io.ByteArrayConverter;
@@ -22,11 +23,13 @@ public class ArithmeticCompressorTest {
 
 	@Before
 	public void setUp() throws Exception {
+//		SpeakitLogger.deactivate();
+//		SpeakitLogger.activate();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-
+		
 	}
 
 	@Test
@@ -38,7 +41,7 @@ public class ArithmeticCompressorTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ArithmeticCompressor compressor = new ArithmeticCompressor(out);
 		compressor.compress(new TextDocument(document));
-		// System.out.println(out.toString());
+		// SpeakitLogger.Log(out.toString());
 		return out.toByteArray();
 	}
 	
@@ -65,12 +68,12 @@ public class ArithmeticCompressorTest {
 		// testea que el compresor genere un archivo que sea menos pesado que el
 		// original
 		
-		System.out.println("***Comprimiendo: " + article);
+		SpeakitLogger.Log("***Comprimiendo: " + article);
 		byte[] compressedbytes = compress(article);
 		byte[] sourcebytes = article.getBytes();
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		System.out.println("***Descomprimiendo: " + article);
+		SpeakitLogger.Log("***Descomprimiendo: " + article);
 		ArithmeticCompressor compressor = new ArithmeticCompressor(out);
 		compressor.decompress(new ByteArrayInputStream(compressedbytes));
 		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));

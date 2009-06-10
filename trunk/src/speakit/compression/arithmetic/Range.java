@@ -2,6 +2,8 @@ package speakit.compression.arithmetic;
 
 import java.io.IOException;
 
+import speakit.SpeakitLogger;
+
 public class Range {
 
 	private final int	precision;
@@ -75,7 +77,7 @@ public class Range {
 			this.setBounds(floor.shiftLeft(this.underflowCount, 1, new ConstantBitReader(true)).getBits(), roof.shiftLeft(this.underflowCount, 1, new ConstantBitReader(false))
 					.getBits(), false);
 		}
-		System.out.println("UF= " + this.underflowCount);
+		SpeakitLogger.Log("UF= " + this.underflowCount);
 	}
 
 	/**
@@ -106,7 +108,7 @@ public class Range {
 	 * @throws IOException
 	 */
 	public void zoomIn(Double accumulatedProbability, Double probability) throws IOException {
-		System.out.println("ZoomIn: acumProba:" + accumulatedProbability + ",probability" + probability);
+		SpeakitLogger.Log("ZoomIn: acumProba:" + accumulatedProbability + ",probability" + probability);
 		if (probability == 0) {
 			throw new RuntimeException("La probabilidad del símbolo no puede ser cero");
 		}
@@ -134,18 +136,18 @@ public class Range {
 	 * @param overflow
 	 */
 	private void emitOverflow(String overflow) {
-		System.out.print("Emitiendo overflow: ");
+		SpeakitLogger.Log("Emitiendo overflow: ");
 		StringBuffer overflowBuffer = new StringBuffer();
 		for (int i = 0; i < overflow.length(); i++) {
 			overflowBuffer.append(overflow.charAt(i));
-			System.out.print(overflow.charAt(i));
+			SpeakitLogger.Log(overflow.charAt(i));
 			if (this.underflowCount > 0 && i == 0) {
 				String underflowBits = Binary.repeat(not(overflow.charAt(0)), this.underflowCount);
 				overflowBuffer.append(underflowBits);
-				System.out.print("(" + underflowBits + ")");
+				SpeakitLogger.Log("(" + underflowBits + ")");
 			}
 		}
-		System.out.print("\n");
+		SpeakitLogger.Log("\n");
 		if (overflowBuffer.length() > 0) {
 			this.emissionBuffer += overflowBuffer;
 			this.underflowCount = 0;
@@ -194,7 +196,7 @@ public class Range {
 		if (simplify) {
 			this.simplify();
 		}
-		System.out.println("*Pos Rango:\n" + this.toString());
+		SpeakitLogger.Log("*Pos Rango:\n" + this.toString());
 	}
 
 	private long calculateRangeSize() {

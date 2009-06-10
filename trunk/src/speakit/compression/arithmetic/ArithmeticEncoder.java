@@ -2,6 +2,8 @@ package speakit.compression.arithmetic;
 
 import java.io.IOException;
 
+import speakit.SpeakitLogger;
+
 public class ArithmeticEncoder {
 	private final BitWriter	output;
 	private Range			range;
@@ -19,7 +21,7 @@ public class ArithmeticEncoder {
 	 * @throws IOException
 	 */
 	public void encode(Symbol symbol, ProbabilityTable table) throws IOException {
-		System.out.println("Codif: " + symbol);
+		SpeakitLogger.Log("Codif: " + symbol);
 		if(range ==null){
 			range = new Range((byte) precision);
 		}

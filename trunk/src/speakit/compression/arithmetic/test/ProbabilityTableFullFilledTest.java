@@ -3,7 +3,6 @@ package speakit.compression.arithmetic.test;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.compression.arithmetic.ProbabilityTable;
@@ -80,14 +79,14 @@ public class ProbabilityTableFullFilledTest {
 	@Test
 	public void testAddGetIncrementIterativelyForEverySymbol() {
 		for (int i = 0; i < Math.pow(2, 8); i++) {
-			// System.out.println(i);
+			// SpeakitLogger.Log(i);
 			sut = new ProbabilityTable();
 			sut.initAllSymbols();
 			Symbol symbol = new Symbol(i);
 
 			double probability = 0;
 			for (int p = 0; p < 2; p++) {
-				// System.out.println(i + ", p = " + p);
+				// SpeakitLogger.Log(i + ", p = " + p);
 				probability = sut.getProbabilityUntil(symbol);
 				Symbol symbolFor = sut.getSymbolFor(probability);
 				Assert.assertEquals("Se esperaba simbolo numero " + i + " pero vino simbolo numero " + symbolFor.getNumber() + ", frecuencia: " + p + ". Expected: " + symbol + ", but was:" + symbolFor, symbol, symbolFor);
@@ -100,7 +99,7 @@ public class ProbabilityTableFullFilledTest {
 	// public void testDistributionLowerThan1() {
 	//		 
 	// for (int i = 0; i < (Math.pow(2, 16)-1); i++) {
-	// System.out.println(i);
+	// SpeakitLogger.Log(i);
 	// // if(i==17){
 	// Assert.assertTrue("El caracter ("+i+")=" + (char)i
 	// +" no deberia tener probabilidad 1 ", sut.getDistribution(new

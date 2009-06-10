@@ -1,6 +1,5 @@
 package speakit.compression.ppmc.test;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.junit.After;

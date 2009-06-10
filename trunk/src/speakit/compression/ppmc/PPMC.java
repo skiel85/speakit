@@ -1,7 +1,7 @@
 package speakit.compression.ppmc;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream; 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
@@ -13,7 +13,6 @@ import speakit.compression.arithmetic.BitWriter;
 import speakit.compression.arithmetic.Context;
 import speakit.compression.arithmetic.ProbabilityTable;
 import speakit.compression.arithmetic.Symbol;
-import speakit.compression.lzp.LZPTable;
 import speakit.compression.lzp.TextDocumentInterpreter;
 
 

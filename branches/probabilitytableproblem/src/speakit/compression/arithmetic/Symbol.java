@@ -35,7 +35,7 @@ public class Symbol implements Comparable<Symbol> {
 	 */
 	public String toString() {
 		if (this.number >= 0) {
-			return Character.toString((char) this.number) + "(" + this.number + ")";
+			return ((isInteresting())?Character.toString((char) this.number):"")+ "(" + this.number + ")";
 		} else if (this.number == Symbol.ESC_CODE) {
 			return "ESC";
 		} else if (this.number == Symbol.EOF_CODE) {

@@ -29,11 +29,9 @@ public class ArithmeticCompressor implements BitWriter {
 		ProbabilityTable table = createInitialTable();
 		
 		Symbol decodedSymbol=null; 
-		do{ 
-			System.out.println("Decoding...  ");
-			decodedSymbol=decoder.decode(table);
-			table.increment(decodedSymbol);
-			System.out.println("decoded: " + decodedSymbol + "\n");
+		do{  
+			decodedSymbol=decoder.decode(table); 
+			table.increment(decodedSymbol); 
 			if(!decodedSymbol.equals(Symbol.getEof())){
 				writer.write( decodedSymbol.getChar());	
 			}

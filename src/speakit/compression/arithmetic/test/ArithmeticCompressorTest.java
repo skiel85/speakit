@@ -79,7 +79,7 @@ public class ArithmeticCompressorTest {
 	@Test
 	public void testCompleteCompressionNeuquen() throws IOException {
 //		testCompressString("xxxxxxxxxxxxxxxxxxxaxaxaxxxxxxxxxxxxxxxxxxxxxsxssxxxxxxxx");
-		testCompressString("NE");
+		testCompressString("NEUQUEN");
 	}
 
 }

@@ -212,7 +212,12 @@ public class Range {
 	public long getNumericRoof() {
 		return this.roof.getNumber();
 	}
+	
+	public long getRangeSize() {
+		return this.rangeSize;
+	}
 
+	@Deprecated
 	public double getProbabilityFor(long number) {
 		return (long) (number - this.getNumericFloor()) / (double) this.rangeSize;
 	}

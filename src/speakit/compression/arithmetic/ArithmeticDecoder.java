@@ -31,17 +31,22 @@ public class ArithmeticDecoder {
 		if (this.currentWindow == null) {
 			currentWindow = Binary.createFromReader(this.input, precision);
 		}
+		System.out.println("Decoding...  ");		
 		// esto mueve la ventana que inspecciona el archivo comprimido
 		slideWindow();
 		System.out.println("*Prev window: " + this.currentWindow.getBits() + "(" + this.currentWindow.getNumber() + ")");
 
-		double probability = range.getProbabilityFor(currentWindow.getNumber());
-		Symbol decodedSymbol = table.getSymbolFor(probability);
+//		double probability = range.getProbabilityFor(currentWindow.getNumber());
+//		Symbol decodedSymbol = table.getSymbolFor(probability);
+		Symbol decodedSymbol=table.getSymbolFor(currentWindow.getNumber(),range.getNumericFloor(),range.getRangeSize());
+		System.out.println("--gotcha: " + decodedSymbol + "\n");
+		
 		range.zoomIn(table.getProbabilityUntil(decodedSymbol), table.getProbability(decodedSymbol));
 		currentBuffer = range.emissionBuffer;
 		previousFlush = range.flush();
 
 		System.out.println("*Pos window:  " + this.currentWindow.getBits() + "(" + this.currentWindow.getNumber() + ")");
+		System.out.println("decoded: " + decodedSymbol + "\n");
 		return decodedSymbol;
 	}
 

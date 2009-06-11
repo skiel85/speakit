@@ -7,6 +7,7 @@ import speakit.compression.arithmetic.Symbol;
 
 public class TextDocumentInterpreter {
 
+		private static final int MAX_MATCH_LENGTH = 65536;
 		private TextDocument document;
 		private char[] charData;
 		private Integer pointer;
@@ -24,6 +25,8 @@ public class TextDocumentInterpreter {
 		/**
 		 */
 		public Symbol getActualSymbol(){
+			if (pointer >= charData.length)
+				return Symbol.getEof();
 			return new Symbol(charData[pointer]);
 		}
 	
@@ -50,7 +53,7 @@ public class TextDocumentInterpreter {
 		}
 
 		public boolean hasData() {
-			return pointer < charData.length;
+			return pointer <= charData.length;
 		}
 
 
@@ -59,7 +62,8 @@ public class TextDocumentInterpreter {
 				return 0;
 			matchPointer = matchPos;
 			Integer match = 0;
-			while (pointer < charData.length && charData[matchPointer] == charData[pointer]) {
+			while (pointer < charData.length && match <= MAX_MATCH_LENGTH 
+					&& charData[matchPointer] == charData[pointer]) {
 				match++;
 				pointer++;
 				matchPointer++;

@@ -35,7 +35,6 @@ public class LZP implements BitWriter {
 	 * @throws IOException 
 	 */
 	public void compress(TextDocument document) throws IOException{
-		
 		Integer matchPos = null;
 		Integer matchLength = null;
 		ProbabilityTable table = null;
@@ -43,7 +42,8 @@ public class LZP implements BitWriter {
 		LZPTable lzpTable = new LZPTable();
 		TextDocumentInterpreter interpreter = new TextDocumentInterpreter(document);
 		while (interpreter.hasData()) {
-			prepareInfoEntry("Pos: '" + interpreter.getCurrentPosition().toString() + "'");
+			Integer currPosition = interpreter.getCurrentPosition();
+			prepareInfoEntry("Pos: '" + currPosition.toString() + "'");
 			Context matchContext = interpreter.getContext(MATCH_CONTEXT_SIZE);
 			prepareInfoEntry("Ctxt Busqueda = '" + matchContext.toString() + "'");
 			matchPos = lzpTable.getLastMatchPosition(matchContext);
@@ -59,7 +59,8 @@ public class LZP implements BitWriter {
 			prepareInfoEntry("Char = '" + actualSymbol.toString() + "'");
 			//encoder.encode(actualSymbol, table);
 		//actualizo las tablas q use en esta iteracion
-			lzpTable.update(matchContext, interpreter.getCurrentPosition());
+			lzpTable.update(matchContext, currPosition);
+			prepareInfoEntry("Actualizo = '" + matchContext.toString() + " pos: " + currPosition + "'");
 			//getMatchsTable().increment(lengthSymbol);
 			table.increment(actualSymbol);
 			updateTable(releasedContext, table);

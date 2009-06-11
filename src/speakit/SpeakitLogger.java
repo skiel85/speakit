@@ -24,7 +24,7 @@ public class SpeakitLogger {
 	}
 	
 	public static void deactivate() {
-		active = true;
+		active = false;
 	}
 	
 	private static boolean isActive() {

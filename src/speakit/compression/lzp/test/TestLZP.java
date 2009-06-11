@@ -3,7 +3,7 @@ package speakit.compression.lzp.test;
 import java.io.IOException;
 
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Test;
 
 import speakit.SpeakitLogger;
 import speakit.TextDocument;
@@ -16,11 +16,11 @@ public class TestLZP {
 	public void setUp() throws Exception {
 		lzp = new LZP();
 	}
-	@Ignore
+	@Test
 	public void testCompress() throws IOException {
 		SpeakitLogger.activate();
 		lzp.compress(new TextDocument("AOIAOIOAOIAOIO"));
+		
+		lzp.compress(new TextDocument("HÒlA ñòñó"));
 	}
-
-
 }

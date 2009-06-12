@@ -1,19 +1,25 @@
 package speakit.compression.ppmc;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Set;
 
 import speakit.SpeakitLogger;
 import speakit.TextDocument;
+import speakit.compression.arithmetic.ArithmeticDecoder;
 import speakit.compression.arithmetic.ArithmeticEncoder;
 import speakit.compression.arithmetic.BitWriter;
 import speakit.compression.arithmetic.Context;
 import speakit.compression.arithmetic.ProbabilityTable;
+import speakit.compression.arithmetic.StreamBitReader;
+import speakit.compression.arithmetic.StreamBitWriter;
 import speakit.compression.arithmetic.Symbol;
 import speakit.compression.lzp.TextDocumentInterpreter;
 
@@ -23,18 +29,20 @@ public class PPMC implements BitWriter{
 	//private ProbabilityTableDefault ModelMinusOne;
 	private ProbabilityTable ModelMinusOne;
 	private HashMap<Context, ProbabilityTable> tables;
-	private Integer contextSize = 2;
+	private Integer contextSize;
 	private String infoEntry;
 	private int ENCODER_PRECISION = 32;
 	private OutputStream outStream;
 	private BitWriter writer;
 
 	
-	public PPMC(ByteArrayOutputStream out) {
-		this.outStream=out;
+	public PPMC(OutputStream outputStream, Integer contextSize) {
+		this.outStream=outputStream;
+		this.contextSize=contextSize;
 		this.ModelMinusOne=new ProbabilityTable(); 
 		this.ModelMinusOne.initAllSymbols();
 		this.tables=new HashMap<Context, ProbabilityTable>();
+		this.writer = new StreamBitWriter(outStream);
 	}
 	
 	protected ProbabilityTable getTable(Context context){
@@ -73,6 +81,7 @@ public class PPMC implements BitWriter{
 				if (interpreter.getCurrentPosition()==0) {
 					context=interpreter.getContext(0);
 
+				/** TODO Chequear el tema de los contextos en contextos mayores a 2, sirve diferenciar el 1???**/
 				} else {
 					//Contexto para el modelo 1
 					if (interpreter.getCurrentPosition()==1){
@@ -99,41 +108,36 @@ public class PPMC implements BitWriter{
 						emision+=interpreter.getActualSymbol().toString()+"["+table.getProbability(interpreter.getActualSymbol())+"]";
 						encoder.encode(interpreter.getActualSymbol(), table);
 
-						//table.increment(interpreter.getActualSymbol());
 						foundInModels=true;
 					}else{
 						//Emito un escape
-						
 						emision+=Symbol.getEscape().toString()+"["+table.getProbability(Symbol.getEscape())+"]";
 						encoder.encode(Symbol.getEscape(), table);
 						
+						//Recupero la tabla original, por si hubo una exclusion en el modelo anterior
 						table=getTable(context);
 
-						
 					}
 					
 					//Obtengo el subcontexto para chequear en el modelo anterior
 					context=context.subContext(context.size()-1);
 					table2=this.getTable(context);
 					
-					if(!foundInModels){
-						//Utilizo el mecanismo de exclusión sobre la tabla del contexto anterior
-						ProbabilityTable tableWithEscape = new ProbabilityTable();
-						ProbabilityTable tableToExclude = new ProbabilityTable();
-						tableWithEscape.increment(Symbol.getEscape());
-						
-						tableToExclude=table.exclude(tableWithEscape);
-						
-						// Incremento la probabilidad de los caracteres en el contexto actual
-						if(!tableToExclude.contains(interpreter.getActualSymbol())) table.increment(interpreter.getActualSymbol());
-						if (table.getSymbolsQuantity()!=2) table.increment(Symbol.getEscape());
-						
-						table=table2.exclude(tableToExclude);	
+					//Exclusion!
+					/*if(!foundInModels){
+						table = getTableWithExclusion(table, table2, interpreter.getActualSymbol());
 						
 					} else {
 						table.increment(interpreter.getActualSymbol());
-						table=table2;
-					}
+						table=table2; - Volver a poner para usar Exclusion
+					}*/
+					
+					table.increment(interpreter.getActualSymbol());
+					if (table.getSymbolsQuantity()!=2)table.increment(Symbol.getEscape());
+					
+					table=table2;
+					
+					
 
 				}
 
@@ -142,7 +146,6 @@ public class PPMC implements BitWriter{
 					if (table.contains(interpreter.getActualSymbol())){
 						//Emito el caracter en el modelo 0 y actualizo su probabilidad
 						emision+=interpreter.getActualSymbol().toString()+"["+table.getProbability(interpreter.getActualSymbol())+"]";
-						
 						encoder.encode(interpreter.getActualSymbol(), table);
 
 						table.increment(interpreter.getActualSymbol());
@@ -158,7 +161,7 @@ public class PPMC implements BitWriter{
 						//Excluyo el Modelo 0 del modelo -1, antes de emitir
 						table=getTable(context);
 						
-						this.ModelMinusOne=this.ModelMinusOne.exclude(table);
+						//this.ModelMinusOne=this.ModelMinusOne.exclude(table);
 						
 						//Incremento las probabilidades del caracter en el modelo 0
 						
@@ -171,8 +174,6 @@ public class PPMC implements BitWriter{
 						emision+=interpreter.getActualSymbol().toString()+"["+this.ModelMinusOne.getProbability(interpreter.getActualSymbol())+"]";
 
 						encoder.encode(interpreter.getActualSymbol(), this.ModelMinusOne);
-
-						//encoder.encode(interpreter.getActualSymbol(), ((ProbabilityTableDefault)this.ModelMinusOne.exclude(table)));
 
 					}
 				}
@@ -191,15 +192,29 @@ public class PPMC implements BitWriter{
 				SpeakitLogger.deactivate();
 			}
 
-			//Emito el EOF
-			//encoder.encode(Symbol.getEof(), this.getTable(context));
-
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 
 	}
-	
+
+	private ProbabilityTable getTableWithExclusion(ProbabilityTable table,
+			ProbabilityTable table2, Symbol actualSymbol) {
+		//Utilizo el mecanismo de exclusión sobre la tabla del contexto anterior
+		ProbabilityTable tableWithEscape = new ProbabilityTable();
+		ProbabilityTable tableToExclude = new ProbabilityTable();
+		tableWithEscape.increment(Symbol.getEscape());
+		
+		tableToExclude=table.exclude(tableWithEscape);
+		
+		// Incremento la probabilidad de los caracteres en el contexto actual
+		if(!tableToExclude.contains(actualSymbol)) table.increment(actualSymbol);
+		if (table.getSymbolsQuantity()!=2) table.increment(Symbol.getEscape());
+		
+		table=table2.exclude(tableToExclude);
+		return table;
+	}
+
 	public ProbabilityTable getModelMinusOne() {
 		return ModelMinusOne;
 	}
@@ -240,7 +255,85 @@ public class PPMC implements BitWriter{
 
 	@Override
 	public void write(String bits) throws IOException {
-		//writer.write(bits); 
+		writer.write(bits); 
+	}
+
+	public void decompress(InputStream compressedFile) throws IOException {
+		OutputStreamWriter writer= new OutputStreamWriter(outStream);
+
+		ArithmeticDecoder decoder = new ArithmeticDecoder(new StreamBitReader(compressedFile), ENCODER_PRECISION);
+		StringBuilder originalDocument=new StringBuilder("");
+		int positionOnDocument=0;
+
+		Context context=new Context(this.contextSize);
+
+		boolean foundInModels=false;
+
+		Symbol decodedSymbol=null; 
+
+		do{ 
+			ProbabilityTable table=null;
+			
+			table=this.getTable(context);
+
+			while (!foundInModels && context.size()>0){
+				
+				decodedSymbol=decoder.decode(table);
+				if (!decodedSymbol.equals(Symbol.getEscape())){
+					// Si el caracter no es un ESC, escribo el caracter, actualizo la tabla de probabilidades y rearmo el contexto 
+					writer.write(decodedSymbol.getChar());
+					originalDocument.append(decodedSymbol.getChar());
+
+					table.increment(decodedSymbol);
+					foundInModels=true;
+				} else {
+					//Si el caracter es un ESC, acorto el contexto y actualizo la probabilidad del escape, si corresponde
+					context=context.subContext(context.size()-1);
+
+				}
+				
+				table=this.getTable(context);
+				
+			}
+			
+			/* COMIENZO Manejo de modelo 0 y modelo -1 */
+			if (!foundInModels) {
+
+				//Decodifico el caracter en el modelo 0
+				decodedSymbol=decoder.decode(table);
+
+
+				if(!table.contains(decodedSymbol)) {
+					table.increment(Symbol.getEscape());
+
+				}
+				//Si es un escape, paso al modelo -1 y emito el caracter
+				if (decodedSymbol.equals(Symbol.getEscape()))
+				{
+					decodedSymbol=decoder.decode(this.ModelMinusOne);
+					if(!decodedSymbol.equals(Symbol.getEof())){
+						writer.write( decodedSymbol.getChar());
+						originalDocument.append(decodedSymbol.getChar());
+					}
+				}
+				else{
+					if(!decodedSymbol.equals(Symbol.getEof())){
+						writer.write( decodedSymbol.getChar());
+						originalDocument.append(decodedSymbol.getChar());
+					}
+					table.increment(decodedSymbol);
+				}
+			}
+			
+			/* FIN Manejo de modelo 0 y modelo -1 */
+			context=new Context(this.contextSize);
+			
+			for (int i = 0; i < originalDocument.length(); i++) {
+				context.add(new Symbol(originalDocument.charAt(i)));
+			} 
+
+		}while(!decodedSymbol.equals(Symbol.getEof()));
+		writer.flush();
 	}
 
 }

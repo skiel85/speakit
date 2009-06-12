@@ -2,7 +2,10 @@ package speakit.compression.arithmetic;
 
 import java.io.IOException;
 
+import org.junit.Assert;
+
 import speakit.SpeakitLogger;
+import speakit.compression.arithmetic.test.Emitter;
 
 public class ArithmeticDecoder {
 
@@ -34,25 +37,27 @@ public class ArithmeticDecoder {
 		}
 		SpeakitLogger.Log("Decoding...  ");		
 		// esto mueve la ventana que inspecciona el archivo comprimido
-		slideWindow();
+		
 		SpeakitLogger.Log("*Prev window: " + this.currentWindow.getBits() + "(" + this.currentWindow.getNumber() + ")");
-
-//		double probability = range.getProbabilityFor(currentWindow.getNumber());
-//		Symbol decodedSymbol = table.getSymbolFor(probability);
+		SpeakitLogger.Log("previousFlush: " + this.previousFlush);
+		SpeakitLogger.Log("previousUnderflow: " + this.previousUnderflow);
+		slideWindow();
+		SpeakitLogger.Log("*Pos window:  " + this.currentWindow.getBits() + "(" + this.currentWindow.getNumber() + ")");
+//		
+		
 		Symbol decodedSymbol=table.getSymbolFor(currentWindow.getNumber(),range.getNumericFloor(),range.getRangeSize());
 		SpeakitLogger.Log("--gotcha: " + decodedSymbol + "\n");
 		
 		range.zoomIn(table.getProbabilityUntil(decodedSymbol), table.getProbability(decodedSymbol));
-		currentBuffer = range.emissionBuffer;
 		previousFlush = range.flush();
 
-		SpeakitLogger.Log("*Pos window:  " + this.currentWindow.getBits() + "(" + this.currentWindow.getNumber() + ")");
+		
 		SpeakitLogger.Log("decoded: " + decodedSymbol + "\n");
 		return decodedSymbol;
 	}
-
-	public String	currentBuffer	= "";
+ 
 	private String	previousFlush	= "";
+	private int bitsDiscardedByUnderflow = 0;
 
 	private void slideWindow() throws IOException {
 		if (previousFlush.length() > 0) {
@@ -60,13 +65,33 @@ public class ArithmeticDecoder {
 			// como la ventana ya se movió cuando hubo underflow, debo
 			// desplazarme un poco menos
 			int shiftSize = previousFlush.length() - this.previousUnderflow;
+			
+			Emitter discardedBitsEmitter = new Emitter();
+			discardedBitsEmitter.setUnderflowCount(previousUnderflow);
+			discardedBitsEmitter.emitOverflow(currentWindow.getBits().substring(0,shiftSize));
+			String discardedBits = discardedBitsEmitter.flush(); 
+			
 			currentWindow = currentWindow.shiftLeft(shiftSize, 0, this.input);
+			
+			if (!previousFlush.equals(discardedBits)) {
+				int a = 1;
+				a++;
+			}
+			
+//			if (previousUnderflow == 0) {
+//				
+//				Assert.assertEquals(previousFlush, currentWindow.getBits().substring(0, previousFlush.length()));
+//			} else {
+//				//Assert.assertEquals(previousFlush., currentWindow.getBits().substring(0, previousFlush.length()-previousUnderflow));
+//			}
+			bitsDiscardedByUnderflow=0;
 			previousUnderflow = 0;
 		}
 		if (range.getUnderflowCount() > 0) {
 			// elimino de la ventana los bits de underflow
 			previousUnderflow = range.getUnderflowCount();
-			currentWindow = currentWindow.shiftLeft(previousUnderflow, 1, this.input);
+			currentWindow = currentWindow.shiftLeft(previousUnderflow-bitsDiscardedByUnderflow, 1, this.input);
+			bitsDiscardedByUnderflow+=previousUnderflow;
 		}
 	}
 

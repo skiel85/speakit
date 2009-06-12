@@ -181,7 +181,8 @@ public class ProbabilityTable {
 			floor = roof + 1;
 			roof = floor + roundDouble((rangeSize * symbolFrequency.getFrequency() / totalFreq) - 1);
 			if (symbolFrequency.getSymbol().getNumber() < 256) {
-//				SpeakitLogger.Log("Simbolo: " + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
+				// SpeakitLogger.Log("Simbolo: " + symbolFrequency.getSymbol() +
+				// " " + floor + "-" + roof);
 			}
 			if (number >= floor && number <= roof) {
 				SpeakitLogger.Log("Simbolo: " + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
@@ -195,7 +196,7 @@ public class ProbabilityTable {
 		throw new RuntimeException("Symbol not found");
 	}
 
-	public long roundDouble(double decimal) { 
+	public long roundDouble(double decimal) {
 		BigDecimal bd = new BigDecimal(decimal);
 		bd = bd.setScale(2, BigDecimal.ROUND_UP);
 		return bd.longValue();
@@ -209,19 +210,18 @@ public class ProbabilityTable {
 	public int getSymbolsQuantity() {
 		return this.symbolFrequencies.size();
 	}
+ 
+	public String toString2() {
+		String result = "";
 
-	// @Override
-	// public String toString() {
-	// String result="";
-	//		
-	// List<Symbol> symbols = this.getSymbols();
-	// for (Symbol symbol : symbols) {
-	// result+=symbol.toString()+":";
-	// result+=this.getProbability(symbol)+"\n";
-	// }
-	//		
-	// return result;
-	// }
+		List<Symbol> symbols = this.getSymbols();
+		for (Symbol symbol : symbols) {
+			result += symbol.toString() + ":";
+			result += this.getProbability(symbol) + "\n";
+		}
+
+		return result;
+	}
 
 	public void initAllSymbols() {
 		SpeakitLogger.Log("ProbabilityTable->initAllSymbols");

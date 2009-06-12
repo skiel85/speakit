@@ -1,5 +1,6 @@
 package speakit.compression.arithmetic;
 
+import java.math.BigDecimal;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -169,43 +170,58 @@ public class ProbabilityTable {
 
 	public Symbol getSymbolFor(long number, long initialFloor, long rangeSize) {
 		SpeakitLogger.Log("ProbabilityTable->getSymbolFor long: " + number + " ,initialFloor: " + initialFloor + " ,rangeSize: " + rangeSize);
+		if (!(number >= initialFloor && number <= initialFloor + rangeSize)) {
+			throw new RuntimeException("El numero no va a caer dentro de ningun subintervalo del rango principal porque esta por afuera.");
+		}
 		int totalFreq = this.getTotalFrecuency();
 		long floor = 0;
 		long roof = initialFloor - 1;
+		long accumulatedfrecuency = 0;
 		for (SymbolFrequency symbolFrequency : this.symbolFrequencies) {
 			floor = roof + 1;
-			roof = floor + Math.round((rangeSize * symbolFrequency.getFrequency() / totalFreq) - 1);
-			if (symbolFrequency.getSymbol().getNumber() < 255) {
-				SpeakitLogger.Log("Simbolo: " + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
+			roof = floor + roundDouble((rangeSize * symbolFrequency.getFrequency() / totalFreq) - 1);
+			if (symbolFrequency.getSymbol().getNumber() < 256) {
+//				SpeakitLogger.Log("Simbolo: " + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
 			}
 			if (number >= floor && number <= roof) {
 				SpeakitLogger.Log("Simbolo: " + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
 				return symbolFrequency.getSymbol();
 			}
+			accumulatedfrecuency += symbolFrequency.getFrequency();
 		}
+		SpeakitLogger.Log("ProbabilityTable->getSymbolFor long: " + number + " ,initialFloor: " + initialFloor + " ,rangeSize: " + rangeSize);
+		SpeakitLogger.Log("Acum frec: " + accumulatedfrecuency + ", acum proba: " + accumulatedfrecuency / totalFreq);
+		SpeakitLogger.Log("Last floor: " + floor + ", last roof: " + roof);
 		throw new RuntimeException("Symbol not found");
 	}
+
+	public long roundDouble(double decimal) { 
+		BigDecimal bd = new BigDecimal(decimal);
+		bd = bd.setScale(2, BigDecimal.ROUND_UP);
+		return bd.longValue();
+	}
+
 	public boolean contains(Symbol symbol) {
 		SpeakitLogger.Log("ProbabilityTable->contains" + symbol);
 		return (this.getSymbolIndex(symbol) >= 0);
 	}
-	
-	public int getSymbolsQuantity(){
+
+	public int getSymbolsQuantity() {
 		return this.symbolFrequencies.size();
 	}
-	
-//	@Override
-//	public String toString() {
-//		String result="";
-//		
-//		List<Symbol> symbols = this.getSymbols();
-//		for (Symbol symbol : symbols) {
-//			result+=symbol.toString()+":";
-//			result+=this.getProbability(symbol)+"\n";
-//		}
-//		
-//		return result;
-//	}
+
+	// @Override
+	// public String toString() {
+	// String result="";
+	//		
+	// List<Symbol> symbols = this.getSymbols();
+	// for (Symbol symbol : symbols) {
+	// result+=symbol.toString()+":";
+	// result+=this.getProbability(symbol)+"\n";
+	// }
+	//		
+	// return result;
+	// }
 
 	public void initAllSymbols() {
 		SpeakitLogger.Log("ProbabilityTable->initAllSymbols");

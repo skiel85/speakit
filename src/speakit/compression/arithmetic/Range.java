@@ -1,20 +1,24 @@
 package speakit.compression.arithmetic;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import speakit.SpeakitLogger;
+import speakit.compression.arithmetic.test.Emitter;
 
-public class Range {
+public class Range { 
 
+	public long		rangeSize;
+	private Emitter data;
 	private final int	precision;
 	private Binary		floor			= null;
 	private Binary		roof			= null;
-	private int			underflowCount	= 0;
-	private long		rangeSize		= 0;
-
+	
+	
 	public Range(int precision) throws IOException {
 		this.precision = precision;
-		this.setBounds(createRangeBound(true), createRangeBound(false));
+		this.data=new Emitter();
+		this.setBounds(createRangeBound(true), createRangeBound(false));		
 	}
 
 	private String createRangeBound(boolean isFloor) {
@@ -65,19 +69,22 @@ public class Range {
 		boolean exit = false;
 		String floorbits = floor.getBits();
 		String roofbits = roof.getBits();
+		
 		if (floorbits.charAt(0) != roofbits.charAt(0)) {
 			// puede haber underflow
+			int underflowCount=this.data.getUndeflowCount();
 			for (int i = 1; i < floorbits.length() && !exit; i++) {
 				if (floorbits.charAt(i) != floorbits.charAt(0) && floorbits.charAt(i) != roofbits.charAt(i)) {
-					this.underflowCount++;
+					underflowCount++;
 				} else {
 					exit = true;
 				}
 			}
-			this.setBounds(floor.shiftLeft(this.underflowCount, 1, new ConstantBitReader(true)).getBits(), roof.shiftLeft(this.underflowCount, 1, new ConstantBitReader(false))
+			this.data.setUnderflowCount(underflowCount);
+			this.setBounds(floor.shiftLeft(this.data.getUndeflowCount(), 1, new ConstantBitReader(true)).getBits(), roof.shiftLeft(this.data.getUndeflowCount(), 1, new ConstantBitReader(false))
 					.getBits(), false);
 		}
-		SpeakitLogger.Log("UF= " + this.underflowCount);
+		SpeakitLogger.Log("UF= " + this.data.getUndeflowCount());
 	}
 
 	/**
@@ -101,7 +108,7 @@ public class Range {
 		}
 		this.setBounds(floor.shiftLeft(overflow.length(), 0, new ConstantBitReader(true)).getBits(), roof.shiftLeft(overflow.length(), 0, new ConstantBitReader(false)).getBits(),
 				false);
-		emitOverflow(overflow);
+		data.emitOverflow(overflow);
 	}
 
 	/**
@@ -112,61 +119,31 @@ public class Range {
 		if (probability == 0) {
 			throw new RuntimeException("La probabilidad del símbolo no puede ser cero");
 		}
-		long floor = (long) Math.round(this.floor.getNumber() + this.rangeSize * accumulatedProbability);
-		long roof = (long) Math.round(floor - 1 + this.rangeSize * probability);
+		long floor = roundDouble(this.floor.getNumber() + this.rangeSize * accumulatedProbability);
+		long roof = roundDouble(floor - 1 + this.rangeSize * probability);
 		this.setBounds(Binary.numberToBinary(floor), Binary.numberToBinary(roof));
 	}
-
-	String	emissionBuffer	= "";
+	
+	public long roundDouble(double decimal) { 
+		BigDecimal bd = new BigDecimal(decimal);
+		bd = bd.setScale(2, BigDecimal.ROUND_UP);
+		return bd.longValue();
+	} 
 	/**
 	 * Devuelve el buffer de emision actual y lo limpia
 	 * 
 	 * @return
 	 */
 	public String flush() {
-		String flow = emissionBuffer;
-		emissionBuffer = "";
-		return flow;
+		return data.flush();
 	}
-
-	/**
-	 * Emite los bits enviados, emite el underflow si hiciera falta reiniciando
-	 * el contador.
-	 * 
-	 * @param overflow
-	 */
-	private void emitOverflow(String overflow) {
-		SpeakitLogger.Log("Emitiendo overflow: ");
-		StringBuffer overflowBuffer = new StringBuffer();
-		for (int i = 0; i < overflow.length(); i++) {
-			overflowBuffer.append(overflow.charAt(i));
-			SpeakitLogger.Log(overflow.charAt(i));
-			if (this.underflowCount > 0 && i == 0) {
-				String underflowBits = Binary.repeat(not(overflow.charAt(0)), this.underflowCount);
-				overflowBuffer.append(underflowBits);
-				SpeakitLogger.Log("(" + underflowBits + ")");
-			}
-		}
-		SpeakitLogger.Log("\n");
-		if (overflowBuffer.length() > 0) {
-			this.emissionBuffer += overflowBuffer;
-			this.underflowCount = 0;
-		}
-	}
-
-	private char not(char bit) {
-		return (bit == '1') ? '0' : '1';
-	}
+	 
 
 	/**
 	 * Emite el piso del rango
 	 */
-	public void emitEnding() {
-
-		// emitOverflow(new Binary(
-		// this.floor.getNumber()+1,this.precision).getBits());
-
-		emitOverflow(this.floor.getBits());
+	public void emitEnding() { 
+		data.emitOverflow(this.floor.getBits());
 	}
 
 	/**
@@ -204,7 +181,7 @@ public class Range {
 	}
 
 	public int getUnderflowCount() {
-		return underflowCount;
+		return data.getUndeflowCount();
 	}
 
 	public long getNumericFloor() {

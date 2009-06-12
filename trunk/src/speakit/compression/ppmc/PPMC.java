@@ -97,35 +97,43 @@ public class PPMC implements BitWriter{
 						//Emito el caracter y actualizo la probabilidad del caracter en este contexto
 						
 						emision+=interpreter.getActualSymbol().toString()+"["+table.getProbability(interpreter.getActualSymbol())+"]";
-						
-
 						encoder.encode(interpreter.getActualSymbol(), table);
 
-						table.increment(interpreter.getActualSymbol());
+						//table.increment(interpreter.getActualSymbol());
 						foundInModels=true;
 					}else{
 						//Emito un escape
 						
 						emision+=Symbol.getEscape().toString()+"["+table.getProbability(Symbol.getEscape())+"]";
-
 						encoder.encode(Symbol.getEscape(), table);
+						
+						table=getTable(context);
 
-						table.getProbability(Symbol.getEscape());
-
-						table.increment(interpreter.getActualSymbol());
-						if (table.getSymbolsQuantity()!=2) table.increment(Symbol.getEscape());
+						
 					}
+					
 					//Obtengo el subcontexto para chequear en el modelo anterior
 					context=context.subContext(context.size()-1);
 					table2=this.getTable(context);
-
-					//Utilizo el mecanismo de exclusión sobre la tabla del contexto anterior
-					ProbabilityTable tableWithEscape = new ProbabilityTable();
-					tableWithEscape.increment(Symbol.getEscape());
 					
-					table=table.exclude(tableWithEscape);
-					
-					table=table2.exclude(table);
+					if(!foundInModels){
+						//Utilizo el mecanismo de exclusión sobre la tabla del contexto anterior
+						ProbabilityTable tableWithEscape = new ProbabilityTable();
+						ProbabilityTable tableToExclude = new ProbabilityTable();
+						tableWithEscape.increment(Symbol.getEscape());
+						
+						tableToExclude=table.exclude(tableWithEscape);
+						
+						// Incremento la probabilidad de los caracteres en el contexto actual
+						if(!tableToExclude.contains(interpreter.getActualSymbol())) table.increment(interpreter.getActualSymbol());
+						if (table.getSymbolsQuantity()!=2) table.increment(Symbol.getEscape());
+						
+						table=table2.exclude(tableToExclude);	
+						
+					} else {
+						table.increment(interpreter.getActualSymbol());
+						table=table2;
+					}
 
 				}
 
@@ -147,12 +155,18 @@ public class PPMC implements BitWriter{
 
 						encoder.encode(Symbol.getEscape(), table);
 
-
+						//Excluyo el Modelo 0 del modelo -1, antes de emitir
+						table=getTable(context);
+						
+						this.ModelMinusOne=this.ModelMinusOne.exclude(table);
+						
+						//Incremento las probabilidades del caracter en el modelo 0
+						
 						table.increment(interpreter.getActualSymbol());
 
 						if (table.getSymbolsQuantity()!=2)table.increment(Symbol.getEscape());
 
-						//Emito el caracter en el modelo -1, excluyendo los del modelo 0
+						//Emito el caracter en el modelo -1
 						
 						emision+=interpreter.getActualSymbol().toString()+"["+this.ModelMinusOne.getProbability(interpreter.getActualSymbol())+"]";
 
@@ -168,7 +182,7 @@ public class PPMC implements BitWriter{
 				Set<Context> contexts = this.tables.keySet();
 
 				for (Context context2 : contexts) {
-					prepareInfoEntry("La tabla de probabilidades del contexto '"+context2.toString()+"' quedó: \n" + this.getTable(context2).toString()+"\n");
+					prepareInfoEntry("La tabla de probabilidades del contexto '"+context2.toString()+"' quedó: \n" + this.getTable(context2).toString2()+"\n");
 				}
 				
 				emision="";

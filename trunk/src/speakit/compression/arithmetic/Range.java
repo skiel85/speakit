@@ -120,13 +120,13 @@ public class Range {
 			throw new RuntimeException("La probabilidad del símbolo no puede ser cero");
 		}
 		long floor = roundDouble(this.floor.getNumber() + this.rangeSize * accumulatedProbability);
-		long roof = roundDouble(floor - 1 + this.rangeSize * probability);
+		long roof = roundDouble(this.floor.getNumber() + this.rangeSize * (accumulatedProbability + probability)) - 1;
 		this.setBounds(Binary.numberToBinary(floor), Binary.numberToBinary(roof));
 	}
 	
 	public long roundDouble(double decimal) { 
 		BigDecimal bd = new BigDecimal(decimal);
-		bd = bd.setScale(2, BigDecimal.ROUND_UP);
+		bd = bd.setScale(0, BigDecimal.ROUND_HALF_UP);
 		return bd.longValue();
 	} 
 	/**

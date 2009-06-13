@@ -97,7 +97,6 @@ public class ArithmeticCompressorTest {
 	@Ignore
 	@Test
 	public void testCompleteCompressionLoremIpsum() throws IOException {
-//		SpeakitLogger.activate();
 		SpeakitLogger.activate();
 		testCompressString(LOREM_IPSUM);
 	}

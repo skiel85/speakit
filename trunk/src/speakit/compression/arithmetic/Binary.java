@@ -107,6 +107,26 @@ public class Binary {
 
 		}
 		return new Binary(shifted, this.precision);
+		
+		//Otra implementación:
+		//--------------------
+//		StringBuffer shifted = new StringBuffer();
+//		for (int i = 0; i < startPos; i++) {
+//			shifted.append(bits.charAt(i));
+//		}
+//		for (int i = startPos + shiftSize; i < bits.length(); i++) {
+//			shifted.append(bits.charAt(i));
+//		}
+//		for (int i = bits.length(); i < shiftSize && reader.hashNext(); i++) {
+//			reader.readBit();
+//		}
+//		for (int i = shifted.length(); i < bits.length() && reader.hashNext(); i++) {
+//			shifted.append(reader.readBit());
+//		}
+//		if (shifted.length() < bits.length()) {
+//			throw new RuntimeException("Fin de archivo: No deberian seguirse pidiendo bits.");
+//		}
+//		return new Binary(shifted.toString(), this.precision);
 	}
 
 	public String getBits() {

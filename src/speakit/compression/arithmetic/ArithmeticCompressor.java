@@ -34,7 +34,7 @@ public class ArithmeticCompressor implements BitWriter {
 			decodedSymbol = decoder.decode(table);
 			if (verificationFile != null && decodedSymbol.getNumber()>=0) {
 				if (decodedSymbol.getChar() != this.verificationFile.charAt(verificationFileIndex)) {
-					throw new RuntimeException("Se esperaba " + this.verificationFile.charAt(verificationFileIndex) + " pero vino " + decodedSymbol);
+					throw new RuntimeException("Se esperaba " + new Symbol(this.verificationFile.charAt(verificationFileIndex)) + " pero vino " + decodedSymbol + " en la posición " + verificationFileIndex);
 				}
 			}
 			verificationFileIndex++;

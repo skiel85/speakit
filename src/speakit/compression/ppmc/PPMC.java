@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -275,6 +276,8 @@ public class PPMC implements BitWriter{
 			ProbabilityTable table=null;
 			
 			table=this.getTable(context);
+			
+			ArrayList<Context> contextsToUpdate=new ArrayList<Context>();
 
 			while (!foundInModels && context.size()>0){
 				
@@ -283,11 +286,15 @@ public class PPMC implements BitWriter{
 					// Si el caracter no es un ESC, escribo el caracter, actualizo la tabla de probabilidades y rearmo el contexto 
 					writer.write(decodedSymbol.getChar());
 					originalDocument.append(decodedSymbol.getChar());
+					
+					updateContexts(contextsToUpdate,decodedSymbol);
 
 					table.increment(decodedSymbol);
 					foundInModels=true;
 				} else {
 					//Si el caracter es un ESC, acorto el contexto y actualizo la probabilidad del escape, si corresponde
+					
+					contextsToUpdate.add(context);
 					context=context.subContext(context.size()-1);
 
 				}
@@ -303,26 +310,26 @@ public class PPMC implements BitWriter{
 				decodedSymbol=decoder.decode(table);
 
 
-				if(!table.contains(decodedSymbol)) {
-					table.increment(Symbol.getEscape());
-
-				}
+				
 				//Si es un escape, paso al modelo -1 y emito el caracter
 				if (decodedSymbol.equals(Symbol.getEscape()))
 				{
 					decodedSymbol=decoder.decode(this.ModelMinusOne);
-					if(!decodedSymbol.equals(Symbol.getEof())){
-						writer.write( decodedSymbol.getChar());
-						originalDocument.append(decodedSymbol.getChar());
-					}
+					
 				}
-				else{
-					if(!decodedSymbol.equals(Symbol.getEof())){
-						writer.write( decodedSymbol.getChar());
-						originalDocument.append(decodedSymbol.getChar());
-					}
-					table.increment(decodedSymbol);
+				
+				if(!decodedSymbol.equals(Symbol.getEof())){
+					writer.write( decodedSymbol.getChar());
+					originalDocument.append(decodedSymbol.getChar());
 				}
+				
+				/*if(!table.contains(decodedSymbol) && table.getSymbolsQuantity()!=1) {
+					table.increment(Symbol.getEscape());
+
+				}
+				table.increment(decodedSymbol);*/
+				contextsToUpdate.add(context);
+				updateContexts(contextsToUpdate,decodedSymbol);
 			}
 			
 			/* FIN Manejo de modelo 0 y modelo -1 */
@@ -335,5 +342,20 @@ public class PPMC implements BitWriter{
 		}while(!decodedSymbol.equals(Symbol.getEof()));
 		writer.flush();
 	}
+	
+	private void updateContexts(ArrayList<Context> contextsToUpdate, Symbol decodedSymbol){
+		
+		for (Context context : contextsToUpdate) {
+			ProbabilityTable table=this.getTable(context);
+			if(!table.contains(decodedSymbol) && table.getSymbolsQuantity()!=1) {
+				table.increment(Symbol.getEscape());
+
+			}
+			table.increment(decodedSymbol);
+		}
+		
+	}
+	
+	
 
 }

@@ -6,7 +6,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -207,7 +206,20 @@ public class Menu {
 			byte[] byteArray = out.toByteArray();
 			StreamBitReader reader = new StreamBitReader(new ByteArrayInputStream(byteArray));
 			System.out.println("Arhivo comprimido: " + reader.readToEnd());
-
+			
+			ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+			ArithmeticCompressor decomp = new ArithmeticCompressor(out2);
+			decomp.decompress(new ByteArrayInputStream(byteArray));
+			
+			byte[] byteArray2 = out2.toByteArray();
+			BufferedReader reader2 = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(byteArray2)));
+			String str = "Arhivo descomprimido: ";
+			while (str != null) {
+				System.out.print(str);
+				str = reader2.readLine();
+			}
+			System.in.read();
+			
 		} catch (FileNotFoundException fnf) {
 			showFileNotFoundMessage(path);
 			return;
@@ -333,6 +345,10 @@ public class Menu {
 			}
 
 			switch (opt) {
+				case 0 :
+					System.out.println("Terminado.");
+					finished = true;
+					break;	
 				case 1 :
 					addDocument();
 					break;
@@ -344,10 +360,6 @@ public class Menu {
 					break;
 				case 4 :
 					doConsultation();
-					break;
-				case 0 :
-					System.out.println("Terminado.");
-					finished = true;
 					break;
 				case 5 :
 					printCompressFile();
@@ -544,8 +556,12 @@ public class Menu {
 
 	private void displayMainMenu() {
 		System.out.println("Speak It!");
-		System.out.println("Menu Principal\n" + "		1.- Procesar un archivo de Texto\n" + "		2.- Procesar varios archivos de Texto\n" + "		3.- Reproducir Archivo\n"
-				+ "		4.- Realizar una consulta\n" + "		5.- Comprimir un archivo con Aritmético dinámico\n");
+		System.out.println("Menu Principal\n" + 
+				"		1.- Procesar un archivo de Texto\n" +
+				"		2.- Procesar varios archivos de Texto\n" +
+				"		3.- Reproducir Archivo\n" +
+				"		4.- Realizar una consulta\n" +
+				"		5.- Comprimir un archivo con Aritmético dinámico\n");
 		if (DEBUG_MODE) {
 			System.out.println("Bienvenido al lado oscuro\n");
 			System.out.println("\t\t666 - Imprimir archivo indice\n");

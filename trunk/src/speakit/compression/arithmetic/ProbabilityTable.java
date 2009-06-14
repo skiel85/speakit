@@ -185,7 +185,7 @@ public class ProbabilityTable {
 				// " " + floor + "-" + roof);
 			}
 			if (number >= floor && number <= roof) {
-				SpeakitLogger.Log("Simbolo: " + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
+				SpeakitLogger.Log("Simbolo: (" + ((double)(number-floor)/(double)(roof-floor))*100+"%)" + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
 				return symbolFrequency.getSymbol();
 			}
 			accumulatedfrecuency += symbolFrequency.getFrequency();
@@ -198,7 +198,7 @@ public class ProbabilityTable {
 
 	public long roundDouble(double decimal) {
 		BigDecimal bd = new BigDecimal(decimal);
-		bd = bd.setScale(2, BigDecimal.ROUND_UP);
+		bd = bd.setScale(0, BigDecimal.ROUND_HALF_UP);
 		return bd.longValue();
 	}
 

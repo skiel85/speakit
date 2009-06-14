@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import speakit.SpeakitLogger;
-import speakit.compression.arithmetic.test.Emitter;
 
 public class Range { 
 

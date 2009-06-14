@@ -1,4 +1,4 @@
-package speakit.compression.arithmetic.test;
+package speakit.compression.arithmetic;
 
 import speakit.SpeakitLogger;
 import speakit.compression.arithmetic.Binary;

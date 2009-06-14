@@ -111,7 +111,9 @@ public class Range {
 
 	/**
 	 * @throws IOException
+	 * @deprecated Esto pierde precision, utilizar zoomIn(long newFloor, long newRoof)
 	 */
+	@Deprecated 
 	public void zoomIn(Double accumulatedProbability, Double probability) throws IOException {
 		SpeakitLogger.Log("ZoomIn: acumProba:" + accumulatedProbability + ",probability" + probability);
 		if (probability == 0) {
@@ -120,6 +122,14 @@ public class Range {
 		long floor = roundDouble(this.floor.getNumber() + this.rangeSize * accumulatedProbability);
 		long roof = roundDouble(this.floor.getNumber() + this.rangeSize * (accumulatedProbability + probability)) - 1;
 		this.setBounds(Binary.numberToBinary(floor), Binary.numberToBinary(roof));
+	}
+	
+	/**
+	 * @throws IOException
+	 */
+	public void zoomIn(long newFloor, long newRoof) throws IOException { 
+		SpeakitLogger.Log("ZoomIn: floor:" + newFloor + ",roof" + newRoof); 
+		this.setBounds(Binary.numberToBinary(newFloor), Binary.numberToBinary(newRoof));
 	}
 	
 	public long roundDouble(double decimal) { 

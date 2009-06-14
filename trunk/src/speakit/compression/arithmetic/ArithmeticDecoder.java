@@ -2,6 +2,7 @@ package speakit.compression.arithmetic;
 
 import java.io.IOException;
 
+import junit.framework.Assert;
 import speakit.SpeakitLogger;
 
 public class ArithmeticDecoder {
@@ -42,10 +43,10 @@ public class ArithmeticDecoder {
 		SpeakitLogger.Log("*Pos window:  " + this.currentWindow.getBits() + "(" + this.currentWindow.getNumber() + ")");
 //		
 		
-		Symbol decodedSymbol=table.getSymbolFor(currentWindow.getNumber(),range.getNumericFloor(),range.getRangeSize());
+		Symbol decodedSymbol=table.getSymbolFor(currentWindow.getNumber(),range);
 		SpeakitLogger.Log("--gotcha: " + decodedSymbol + "\n");
 		
-		range.zoomIn(table.getProbabilityUntil(decodedSymbol), table.getProbability(decodedSymbol));
+		table.zoomRangeIn(decodedSymbol,range);
 		previousFlush = range.flush();
 
 		
@@ -71,16 +72,8 @@ public class ArithmeticDecoder {
 			currentWindow = currentWindow.shiftLeft(shiftSize, 0, this.input);
 			
 			if (!previousFlush.equals(discardedBits)) {
-				int a = 1;
-				a++;
-			}
-			
-//			if (previousUnderflow == 0) {
-//				
-//				Assert.assertEquals(previousFlush, currentWindow.getBits().substring(0, previousFlush.length()));
-//			} else {
-//				//Assert.assertEquals(previousFlush., currentWindow.getBits().substring(0, previousFlush.length()-previousUnderflow));
-//			}
+				Assert.assertEquals(previousFlush, currentWindow.getBits().substring(0, previousFlush.length()));
+			} 
 			bitsDiscardedByUnderflow=0;
 			previousUnderflow = 0;
 		}

@@ -1,5 +1,6 @@
 package speakit.compression.arithmetic;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -166,33 +167,56 @@ public class ProbabilityTable {
 			}
 		}
 		return this.symbolFrequencies.get(this.symbolFrequencies.size() - 1).getSymbol();
+	} 
+
+	public void zoomRangeIn(Symbol symbol, Range range) throws IOException {
+		long[] newRange = getNewRange(symbol,range);		
+		range.zoomIn(newRange[0],newRange[1]);
+	}
+	
+	private long[] getNewRange(Symbol symbol, Range range){
+		long totalFreq = this.getTotalFrecuency();
+		long accumulatedfrecuency = this.getFrequenceUntil(symbol, false);
+		long symbolFrequency = this.getFrequency(symbol);
+		long previousFloor = range.getNumericFloor();
+		long rangeSize = range.getRangeSize();
+		return calculateRange(totalFreq, accumulatedfrecuency, symbolFrequency, previousFloor, rangeSize);
 	}
 
-	public Symbol getSymbolFor(long number, long initialFloor, long rangeSize) {
-		SpeakitLogger.Log("ProbabilityTable->getSymbolFor long: " + number + " ,initialFloor: " + initialFloor + " ,rangeSize: " + rangeSize);
-		if (!(number >= initialFloor && number <= initialFloor + rangeSize)) {
+	private long[] calculateRange(long totalFreq, long accumulatedfrecuency, long symbolFrequency, long previousFloor, long rangeSize) {
+		long roof= calculateRoof(totalFreq, accumulatedfrecuency, previousFloor, rangeSize,symbolFrequency);
+		long floor = calculateFloor(totalFreq, accumulatedfrecuency, previousFloor, rangeSize);
+		return new long[]{floor,roof};
+	}
+
+	private long calculateFloor(long totalFreq, long accumulatedfrecuency, long previousFloor, long rangeSize) {
+		return previousFloor + roundDouble(rangeSize * accumulatedfrecuency / totalFreq);
+	}
+
+	private long calculateRoof(long totalFreq, long accumulatedfrecuency, long previousFloor, long rangeSize,long symbolFrequency) {
+		return previousFloor + roundDouble(rangeSize *  (accumulatedfrecuency + symbolFrequency) / totalFreq) -1;
+	}
+
+	public Symbol getSymbolFor(long number, Range range) {
+		SpeakitLogger.Log("ProbabilityTable->getSymbolFor long: " + number + " ,initialFloor: " + range.getNumericFloor() + " ,rangeSize: " + range.getRangeSize());
+		if (!(number >= range.getNumericFloor() && number <= range.getNumericRoof() + range.getRangeSize())) {
 			throw new RuntimeException("El numero no va a caer dentro de ningun subintervalo del rango principal porque esta por afuera.");
 		}
-		int totalFreq = this.getTotalFrecuency();
-		long floor = 0;
-		long roof = initialFloor - 1;
+		int totalFreq = this.getTotalFrecuency(); 
 		long accumulatedfrecuency = 0;
-		for (SymbolFrequency symbolFrequency : this.symbolFrequencies) {
-			floor = roof + 1;
-			roof = floor + roundDouble((rangeSize * symbolFrequency.getFrequency() / totalFreq) - 1);
-			if (symbolFrequency.getSymbol().getNumber() < 256) {
-				// SpeakitLogger.Log("Simbolo: " + symbolFrequency.getSymbol() +
-				// " " + floor + "-" + roof);
-			}
+		for (SymbolFrequency symbolFrequency : this.symbolFrequencies) { 
+			long[] newRange = calculateRange( totalFreq,accumulatedfrecuency,symbolFrequency.getFrequency(),range.getNumericFloor(),range.getRangeSize());			
+			long floor = newRange[0];
+			long roof= newRange[1];
 			if (number >= floor && number <= roof) {
 				SpeakitLogger.Log("Simbolo: (" + ((double)(number-floor)/(double)(roof-floor))*100+"%)" + symbolFrequency.getSymbol() + " " + floor + "-" + roof);
 				return symbolFrequency.getSymbol();
 			}
 			accumulatedfrecuency += symbolFrequency.getFrequency();
 		}
-		SpeakitLogger.Log("ProbabilityTable->getSymbolFor long: " + number + " ,initialFloor: " + initialFloor + " ,rangeSize: " + rangeSize);
+		SpeakitLogger.Log("ProbabilityTable->getSymbolFor long: " + number + " ,initialFloor: " + range.getFloor() + " ,rangeSize: " + range.getRangeSize());
 		SpeakitLogger.Log("Acum frec: " + accumulatedfrecuency + ", acum proba: " + accumulatedfrecuency / totalFreq);
-		SpeakitLogger.Log("Last floor: " + floor + ", last roof: " + roof);
+		SpeakitLogger.Log("Last floor: " + range.getFloor() + ", last roof: " + range.getRoof());
 		throw new RuntimeException("Symbol not found");
 	}
 
@@ -256,4 +280,6 @@ public class ProbabilityTable {
 		}
 		return result.toString();
 	}
+
+	
 }

@@ -124,5 +124,8 @@ public class Symbol implements Comparable<Symbol> {
 			return false;
 		}
 	}
-
+	public boolean isDecodificable() {
+		return this.number > 0;
+	}
+	
 }

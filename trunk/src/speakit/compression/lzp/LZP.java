@@ -1,17 +1,21 @@
 package speakit.compression.lzp;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 
 import speakit.SpeakitLogger;
 import speakit.TextDocument;
+import speakit.compression.arithmetic.ArithmeticDecoder;
 import speakit.compression.arithmetic.ArithmeticEncoder;
 import speakit.compression.arithmetic.BitWriter;
 import speakit.compression.arithmetic.Context;
 import speakit.compression.arithmetic.ProbabilityTable;
+import speakit.compression.arithmetic.StreamBitReader;
 import speakit.compression.arithmetic.StreamBitWriter;
 import speakit.compression.arithmetic.Symbol;
+import speakit.compression.lzp.test.TextDocumentBuilder;
 
 
 public class LZP implements BitWriter {
@@ -20,17 +24,24 @@ public class LZP implements BitWriter {
 	private HashMap<String, ProbabilityTable> contextTables;
 	private ProbabilityTable matchsTable;
 	private BitWriter	writer	;
-	private final OutputStream	out;
+	private OutputStream	outStream;
 	private String infoEntry;
+	
 
 	
 	
-	public LZP() {
+	public LZP(OutputStream outputStream) {
 		contextTables = new HashMap<String, ProbabilityTable>();
-		this.out = System.out;
-		this.writer = new StreamBitWriter(this.out);
+		this.outStream = outputStream;
+		this.writer = new StreamBitWriter(outputStream);
+		initTables();
 	}
 	
+	private void initTables() {
+		this.matchsTable = new ProbabilityTable();
+		this.matchsTable.initAllSymbols();
+	}
+
 	/**
 	 * @throws IOException 
 	 */
@@ -51,17 +62,17 @@ public class LZP implements BitWriter {
 			matchLength = interpreter.getMatchLength(matchPos);
 			prepareInfoEntry("Longitud = '" + matchLength.toString() + "'");
 			Symbol lengthSymbol = new Symbol(matchLength); 
-			//encoder.encode(lengthSymbol, getMatchsTable());
+			encoder.encode(lengthSymbol, getMatchsTable());
 			Context releasedContext = interpreter.getContext(1);
 			prepareInfoEntry("Ctxt Compresion = '" + releasedContext.toString() + "'");
 			table = getContextTable(releasedContext);
 			Symbol actualSymbol = interpreter.getActualSymbol();
 			prepareInfoEntry("Char = '" + actualSymbol.toString() + "'");
-			//encoder.encode(actualSymbol, table);
+			encoder.encode(actualSymbol, table);
 		//actualizo las tablas q use en esta iteracion
 			lzpTable.update(matchContext, currPosition);
 			prepareInfoEntry("Actualizo = '" + matchContext.toString() + " pos: " + currPosition + "'");
-			//getMatchsTable().increment(lengthSymbol);
+			updateMatchsTable(lengthSymbol);
 			table.increment(actualSymbol);
 			updateTable(releasedContext, table);
 		//Avanzo en la lectura del archivo
@@ -69,6 +80,53 @@ public class LZP implements BitWriter {
 		//Logueo la info
 			logInfoEntry();
 		} 
+	}
+	
+	public TextDocument decompress(InputStream compressedFile) throws IOException {
+		ArithmeticDecoder decoder = new ArithmeticDecoder(new StreamBitReader(compressedFile), ENCODER_PRECISION);
+		TextDocumentBuilder builder = new TextDocumentBuilder();
+		Symbol decodedSymbol = null;
+		ProbabilityTable compressTable = null;
+		Context matchContext = null;
+		Context compressContext = null;
+		LZPTable lzpTable = new LZPTable();
+		Integer matchLength = null;
+		Integer matchPos = null;
+		Integer currentPos = null;
+		do {
+			currentPos = builder.getPosition() + 1;
+			prepareInfoEntry("Pos: '" + currentPos + "'");
+			matchContext = builder.getContext(MATCH_CONTEXT_SIZE);
+			prepareInfoEntry("Ctxt: '" + matchContext + "'");
+			decodedSymbol = decoder.decode(getMatchsTable());
+			matchLength = decodedSymbol.getNumber();
+			updateMatchsTable(decodedSymbol);
+			
+			if (decodedSymbol.getNumber() > 0) {
+				matchPos = lzpTable.getLastMatchPosition(matchContext);
+				prepareInfoEntry("Ult match: '" + matchPos + "'");
+				String match = builder.getMatch(matchPos, matchLength);
+				builder.add(match);
+				prepareInfoEntry("Match: '" + match + "'");
+				compressContext = builder.getContext(1);
+			} else {
+				compressContext = builder.getContext(1);
+				prepareInfoEntry("Ult match: '-'");
+			}
+			prepareInfoEntry("Compr ctx: '" + compressContext + "'");
+			compressTable = getContextTable(compressContext);
+			decodedSymbol = decoder.decode(compressTable);
+			prepareInfoEntry("Char: '" + decodedSymbol + "'");
+			builder.add(decodedSymbol);
+			
+			lzpTable.update(matchContext, currentPos);
+			prepareInfoEntry("Actualizo: Ctxt= '" + matchContext + "' pos: '" + currentPos + "'");
+			compressTable.increment(decodedSymbol);
+			updateTable(compressContext, compressTable);
+			prepareInfoEntry("Actual: '" + builder.getDocument().getText());
+			logInfoEntry();
+		} while (!decodedSymbol.equals(Symbol.getEof()));
+		return builder.getDocument();
 	}
 
 	private void prepareInfoEntry(String info) {
@@ -83,22 +141,30 @@ public class LZP implements BitWriter {
 		contextTables.put(releasedContext.toString(), table);
 	}
 
-	private ProbabilityTable getMatchsTable() {
+	public ProbabilityTable getMatchsTable() {
 		return this.matchsTable;
+	}
+	
+	public void updateMatchsTable(Symbol symbol) {
+		this.matchsTable.increment(symbol);
 	}
 
 	/**
 	 */
 	protected ProbabilityTable getContextTable(Context context){
-		if (contextTables.containsKey(context)) {
-			return contextTables.get(context);
+		if (contextTables.containsKey(context.toString())) {
+			return contextTables.get(context.toString());
 		} else {
 			ProbabilityTable table = new ProbabilityTable();
+			table.initAllSymbols();
 			contextTables.put(context.toString(), table);
 			return table;
 		}	
 	}
 	
+	public HashMap<String, ProbabilityTable> getTables() {
+		return contextTables;
+	}
 	
 	@Override
 	public void write(String bits) throws IOException {

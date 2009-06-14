@@ -33,7 +33,36 @@ public class PPMCCompressorTest {
 	}
 
 	@Test
-	public void testCompress() throws IOException {
+	public void testCompress1() throws IOException {
+		SpeakitLogger.activate();
+		//this.ppmc.compress(new TextDocument("TATATAAAAALO"));
+		
+		//Este funciona ok
+		byte[] compressedbytes = this.compress("ABAAAB");
+		byte[] sourcebytes = "ABAAAB".getBytes();
+		
+		//Este no funciona
+		//byte[] compressedbytes = this.compress("ABAAAC");
+		//byte[] sourcebytes = "ABAAAC".getBytes();
+		
+		//Este no funciona
+		//byte[] compressedbytes = this.compress("ABAAAD");
+		//byte[] sourcebytes = "ABAAAD".getBytes();
+		
+		//byte[] compressedbytes = this.compress(".E.l. vuélo 447 de Air France France.");
+		//byte[] sourcebytes = ".E.l. vuélo 447 de Air France France.".getBytes();
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		//SpeakitLogger.Log("***Descomprimiendo: " + article);
+		PPMC compressor = new PPMC(out,2);
+		compressor.decompress(new ByteArrayInputStream(compressedbytes));
+		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
+		
+		
+	}
+	
+	@Test
+	public void testCompress2() throws IOException {
 		SpeakitLogger.activate();
 		//this.ppmc.compress(new TextDocument("TATATAAAAALO"));
 		
@@ -48,6 +77,35 @@ public class PPMCCompressorTest {
 		//Este no funciona
 		//byte[] compressedbytes = this.compress("ABAAAD");
 		//byte[] sourcebytes = "ABAAAD".getBytes();
+		
+		//byte[] compressedbytes = this.compress(".E.l. vuélo 447 de Air France France.");
+		//byte[] sourcebytes = ".E.l. vuélo 447 de Air France France.".getBytes();
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		//SpeakitLogger.Log("***Descomprimiendo: " + article);
+		PPMC compressor = new PPMC(out,2);
+		compressor.decompress(new ByteArrayInputStream(compressedbytes));
+		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
+		
+		
+	}
+	
+	@Test
+	public void testCompress3() throws IOException {
+		SpeakitLogger.activate();
+		//this.ppmc.compress(new TextDocument("TATATAAAAALO"));
+		
+		//Este funciona ok
+		//byte[] compressedbytes = this.compress("ABAAAB");
+		//byte[] sourcebytes = "ABAAAB".getBytes();
+		
+		//Este no funciona
+		//byte[] compressedbytes = this.compress("ABAAAC");
+		//byte[] sourcebytes = "ABAAAC".getBytes();
+		
+		//Este no funciona
+		byte[] compressedbytes = this.compress("ABAAAD");
+		byte[] sourcebytes = "ABAAAD".getBytes();
 		
 		//byte[] compressedbytes = this.compress(".E.l. vuélo 447 de Air France France.");
 		//byte[] sourcebytes = ".E.l. vuélo 447 de Air France France.".getBytes();

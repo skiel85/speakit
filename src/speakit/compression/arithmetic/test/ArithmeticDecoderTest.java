@@ -29,13 +29,14 @@ public class ArithmeticDecoderTest {
 	@Test
 	public void testDecodeStatic() throws IOException {
 		ArithmeticDecoder	sut;
-		String string = "1010001111101101011100000000000000";
+		String string = "10110011101011000000000000";
 		sut = new ArithmeticDecoder(new StringBitReader(string), 8);
 		ProbabilityTable table = new ProbabilityTable();
 		table.increment(new Symbol('C'), 2);
 		table.increment(new Symbol('D'), 2);
 		table.increment(new Symbol('B'), 1);
 		table.increment(new Symbol('A'), 2);
+		table.increment(Symbol.getEof(), 1);
 		table.sort();
  
 		Assert.assertEquals(new Symbol('C'), sut.decode(table));

@@ -23,7 +23,7 @@ public class PPMCCompressorTest {
 	@Before
 	public void setUp() throws Exception {
 		out = new ByteArrayOutputStream();
-		ppmc = new PPMC(out,1);
+		ppmc = new PPMC(out,2);
 		
 	}
 
@@ -37,13 +37,24 @@ public class PPMCCompressorTest {
 		SpeakitLogger.activate();
 		//this.ppmc.compress(new TextDocument("TATATAAAAALO"));
 		
+		//Este funciona ok
+		//byte[] compressedbytes = this.compress("ABAAAB");
+		//byte[] sourcebytes = "ABAAAB".getBytes();
 		
-		byte[] compressedbytes = this.compress("ABAC");
-		byte[] sourcebytes = "ABAC".getBytes();
+		//Este no funciona
+		byte[] compressedbytes = this.compress("ABAAAC");
+		byte[] sourcebytes = "ABAAAC".getBytes();
+		
+		//Este no funciona
+		//byte[] compressedbytes = this.compress("ABAAAD");
+		//byte[] sourcebytes = "ABAAAD".getBytes();
+		
+		//byte[] compressedbytes = this.compress(".E.l. vuélo 447 de Air France France.");
+		//byte[] sourcebytes = ".E.l. vuélo 447 de Air France France.".getBytes();
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		//SpeakitLogger.Log("***Descomprimiendo: " + article);
-		PPMC compressor = new PPMC(out,1);
+		PPMC compressor = new PPMC(out,2);
 		compressor.decompress(new ByteArrayInputStream(compressedbytes));
 		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
 		

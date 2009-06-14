@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import speakit.SpeakitLogger;
@@ -107,13 +108,17 @@ public class PPMC implements BitWriter{
 						//Emito el caracter y actualizo la probabilidad del caracter en este contexto
 						
 						emision+=interpreter.getActualSymbol().toString()+"["+table.getProbability(interpreter.getActualSymbol())+"]";
+						SpeakitLogger.activate();
 						encoder.encode(interpreter.getActualSymbol(), table);
+						SpeakitLogger.deactivate();
 
 						foundInModels=true;
 					}else{
 						//Emito un escape
 						emision+=Symbol.getEscape().toString()+"["+table.getProbability(Symbol.getEscape())+"]";
+						SpeakitLogger.activate();
 						encoder.encode(Symbol.getEscape(), table);
+						SpeakitLogger.deactivate();
 						
 						//Recupero la tabla original, por si hubo una exclusion en el modelo anterior
 						table=getTable(context);
@@ -130,11 +135,13 @@ public class PPMC implements BitWriter{
 						
 					} else {
 						table.increment(interpreter.getActualSymbol());
-						table=table2; - Volver a poner para usar Exclusion
+						table=table2;
 					}*/
 					
+					//No exclusion!
 					table.increment(interpreter.getActualSymbol());
-					if (table.getSymbolsQuantity()!=2)table.increment(Symbol.getEscape());
+					if (table.getSymbolsQuantity()!=2 && !foundInModels)table.increment(Symbol.getEscape());
+					
 					
 					table=table2;
 					
@@ -147,7 +154,9 @@ public class PPMC implements BitWriter{
 					if (table.contains(interpreter.getActualSymbol())){
 						//Emito el caracter en el modelo 0 y actualizo su probabilidad
 						emision+=interpreter.getActualSymbol().toString()+"["+table.getProbability(interpreter.getActualSymbol())+"]";
+						SpeakitLogger.activate();
 						encoder.encode(interpreter.getActualSymbol(), table);
+						SpeakitLogger.deactivate();
 
 						table.increment(interpreter.getActualSymbol());
 
@@ -156,8 +165,10 @@ public class PPMC implements BitWriter{
 						
 						table.getProbability(Symbol.getEscape());
 						emision+=Symbol.getEscape().toString()+"["+table.getProbability(Symbol.getEscape())+"]";
-
+						
+						SpeakitLogger.activate();
 						encoder.encode(Symbol.getEscape(), table);
+						SpeakitLogger.deactivate();
 
 						//Excluyo el Modelo 0 del modelo -1, antes de emitir
 						table=getTable(context);
@@ -173,8 +184,9 @@ public class PPMC implements BitWriter{
 						//Emito el caracter en el modelo -1
 						
 						emision+=interpreter.getActualSymbol().toString()+"["+this.ModelMinusOne.getProbability(interpreter.getActualSymbol())+"]";
-
+						SpeakitLogger.activate();
 						encoder.encode(interpreter.getActualSymbol(), this.ModelMinusOne);
+						SpeakitLogger.deactivate();
 
 					}
 				}
@@ -267,21 +279,24 @@ public class PPMC implements BitWriter{
 		int positionOnDocument=0;
 
 		Context context=new Context(this.contextSize);
-
-		boolean foundInModels=false;
+		//SpeakitLogger.activate();
+		
 
 		Symbol decodedSymbol=null; 
 
 		do{ 
 			ProbabilityTable table=null;
+			ProbabilityTable table2 = null;
+			boolean foundInModels=false;
 			
 			table=this.getTable(context);
 			
 			ArrayList<Context> contextsToUpdate=new ArrayList<Context>();
 
 			while (!foundInModels && context.size()>0){
-				
+				SpeakitLogger.activate();
 				decodedSymbol=decoder.decode(table);
+				SpeakitLogger.deactivate();
 				if (!decodedSymbol.equals(Symbol.getEscape())){
 					// Si el caracter no es un ESC, escribo el caracter, actualizo la tabla de probabilidades y rearmo el contexto 
 					writer.write(decodedSymbol.getChar());
@@ -294,11 +309,30 @@ public class PPMC implements BitWriter{
 				} else {
 					//Si el caracter es un ESC, acorto el contexto y actualizo la probabilidad del escape, si corresponde
 					
+					table=this.getTable(context);
+					
 					contextsToUpdate.add(context);
 					context=context.subContext(context.size()-1);
 
 				}
 				
+				//Exclusion!
+				/*table2=this.getTable(context);
+				
+				
+				if(!foundInModels){
+					ProbabilityTable tableWithEscape = new ProbabilityTable();
+					ProbabilityTable tableToExclude = new ProbabilityTable();
+					tableWithEscape.increment(Symbol.getEscape());
+					
+					tableToExclude=table.exclude(tableWithEscape);
+					
+					table=table2.exclude(tableToExclude);
+					
+				} else {
+					
+					table=table2;
+				}*/
 				table=this.getTable(context);
 				
 			}
@@ -307,15 +341,18 @@ public class PPMC implements BitWriter{
 			if (!foundInModels) {
 
 				//Decodifico el caracter en el modelo 0
+				SpeakitLogger.activate();
 				decodedSymbol=decoder.decode(table);
-
+				SpeakitLogger.deactivate();
 
 				
 				//Si es un escape, paso al modelo -1 y emito el caracter
 				if (decodedSymbol.equals(Symbol.getEscape()))
 				{
+					//this.ModelMinusOne=this.ModelMinusOne.exclude(table);
+					SpeakitLogger.activate();
 					decodedSymbol=decoder.decode(this.ModelMinusOne);
-					
+					SpeakitLogger.deactivate();
 				}
 				
 				if(!decodedSymbol.equals(Symbol.getEof())){
@@ -335,9 +372,28 @@ public class PPMC implements BitWriter{
 			/* FIN Manejo de modelo 0 y modelo -1 */
 			context=new Context(this.contextSize);
 			
+			//String contextString=originalDocument.substring(originalDocument.length()-this.contextSize-1);
+			
 			for (int i = 0; i < originalDocument.length(); i++) {
 				context.add(new Symbol(originalDocument.charAt(i)));
-			} 
+			}
+			
+			SpeakitLogger.activate();
+			prepareInfoEntry("Documento: '" + originalDocument + "'\n");
+			Set<Context> lalala=this.getTables().keySet();
+			for (Context context2 : lalala) {
+				ProbabilityTable tablita = getTable(context2);
+				prepareInfoEntry("Probabilidades para el contexto: '" + context2.toString() + "'\n"+tablita.toString2());
+				
+				/*List<Symbol> symbolList=tablita.getSymbols();
+				for (Symbol symbol : symbolList) {
+					prepareInfoEntry(symbol.toString()+":"+"'" + tablita.getProbability(symbol) + "'\n");
+				}*/
+				
+			}
+			
+			logInfoEntry();
+			SpeakitLogger.deactivate();
 
 		}while(!decodedSymbol.equals(Symbol.getEof()));
 		writer.flush();

@@ -71,7 +71,7 @@ public class Range {
 		
 		if (floorbits.charAt(0) != roofbits.charAt(0)) {
 			// puede haber underflow
-			int underflowCount=this.data.getUndeflowCount();
+			int underflowCount=0;
 			for (int i = 1; i < floorbits.length() && !exit; i++) {
 				if (floorbits.charAt(i) != floorbits.charAt(0) && floorbits.charAt(i) != roofbits.charAt(i)) {
 					underflowCount++;
@@ -79,9 +79,8 @@ public class Range {
 					exit = true;
 				}
 			}
-			this.data.setUnderflowCount(underflowCount);
-			this.setBounds(floor.shiftLeft(this.data.getUndeflowCount(), 1, new ConstantBitReader(true)).getBits(), roof.shiftLeft(this.data.getUndeflowCount(), 1, new ConstantBitReader(false))
-					.getBits(), false);
+			this.data.setUnderflowCount(this.data.getUndeflowCount()+underflowCount);
+			this.setBounds(floor.shiftLeft(underflowCount, 1, new ConstantBitReader(true)).getBits(), roof.shiftLeft(underflowCount, 1, new ConstantBitReader(false)).getBits(), false);
 		}
 		SpeakitLogger.Log("UF= " + this.data.getUndeflowCount());
 	}

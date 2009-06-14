@@ -103,7 +103,6 @@ public class ArithmeticCompressorTest {
 		testCompressString(LOREM_IPSUM);
 	}
 
-	@Ignore
 	@Test
 	public void testCompleteCompressionABB() throws IOException {
 		SpeakitLogger.activate();
@@ -133,10 +132,10 @@ public class ArithmeticCompressorTest {
 	 * abb
 	 * @throws IOException
 	 */
-	@Ignore
+	
 	@Test
 	public void testProgressiveTextFiles() throws IOException { 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			testCompressionRecursively("", i, 0);
 		}
 	}
@@ -164,6 +163,7 @@ public class ArithmeticCompressorTest {
 					testCompressString(currentFile);
 				} catch (AritmethicCompressionException ex) {
 					Assert.fail("Error en la compresion de " + "\"" + symbolFileToString(currentFile) + "\": " + ex.getMessage());
+//					System.out.println("Error en la compresion de " + "\"" + symbolFileToString(currentFile) + "\": " + ex.getMessage());
 				}
 			}
 		}

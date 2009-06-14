@@ -222,7 +222,7 @@ public class Menu {
 				System.out.println("Falló la verificación. Intente nuevamente.");
 			}
 			
-			new File(path + ".dezipit").delete();
+			//new File(path + ".dezipit").delete();
 			System.in.read();
 		} catch (FileNotFoundException fnf) {
 			showFileNotFoundMessage(path);

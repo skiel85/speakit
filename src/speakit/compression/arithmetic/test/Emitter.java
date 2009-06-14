@@ -24,17 +24,18 @@ public class Emitter {
 	 */
 	public void emitOverflow(String overflow) {
 		SpeakitLogger.Log("Emitiendo overflow: ");
+		String emision = "";
 		StringBuffer overflowBuffer = new StringBuffer();
 		for (int i = 0; i < overflow.length(); i++) {
 			overflowBuffer.append(overflow.charAt(i));
-			SpeakitLogger.Log(overflow.charAt(i));
+			emision+=overflow.charAt(i);
 			if (this.underflowCount > 0 && i == 0) {
 				String underflowBits = Binary.repeat(not(overflow.charAt(0)), this.underflowCount);
 				overflowBuffer.append(underflowBits);
-				SpeakitLogger.Log("(" + underflowBits + ")");
+				emision+="(" + underflowBits + ")";
 			}
 		}
-		SpeakitLogger.Log("\n");
+		SpeakitLogger.Log(emision);
 		if (overflowBuffer.length() > 0) {
 			this.emissionBuffer += overflowBuffer;
 			this.underflowCount = 0;

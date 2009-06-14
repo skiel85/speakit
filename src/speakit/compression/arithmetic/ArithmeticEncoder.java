@@ -25,7 +25,7 @@ public class ArithmeticEncoder {
 		if(range ==null){
 			range = new Range((byte) precision);
 		}
-		range.zoomIn(table.getProbabilityUntil(symbol), table.getProbability(symbol));
+		table.zoomRangeIn(symbol, range);
 		if (symbol.equals(Symbol.getEof())) {
 			range.emitEnding();// emito el piso del rango
 		}

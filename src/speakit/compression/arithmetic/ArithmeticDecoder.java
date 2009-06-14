@@ -2,10 +2,7 @@ package speakit.compression.arithmetic;
 
 import java.io.IOException;
 
-import org.junit.Assert;
-
 import speakit.SpeakitLogger;
-import speakit.compression.arithmetic.test.Emitter;
 
 public class ArithmeticDecoder {
 

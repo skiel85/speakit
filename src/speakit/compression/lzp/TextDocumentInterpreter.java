@@ -20,6 +20,10 @@ public class TextDocumentInterpreter {
 			charData = document.getText().toCharArray();
 			pointer = 0;
 		}
+		
+		public TextDocumentInterpreter() {
+			pointer = 0;
+		}
 
 			
 		/**
@@ -79,6 +83,11 @@ public class TextDocumentInterpreter {
 
 		public void setPosition(int i) {
 			pointer = i;
+		}
+
+
+		public TextDocument getDocument() {
+			return document;
 		}
 
 }

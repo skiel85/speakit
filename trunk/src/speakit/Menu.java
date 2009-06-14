@@ -3,7 +3,9 @@ package speakit;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -198,28 +200,16 @@ public class Menu {
 		TextDocument textDocumentFromFile;
 		try {
 			textDocumentFromFile = speakit.getTextDocumentFromFile(path);
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			ArithmeticCompressor comp = new ArithmeticCompressor(out);
+			FileOutputStream compOut = new FileOutputStream(path + ".zipit");
+			ArithmeticCompressor comp = new ArithmeticCompressor(compOut);
 			comp.compress(textDocumentFromFile);
-			out.flush();
-
-			byte[] byteArray = out.toByteArray();
-			StreamBitReader reader = new StreamBitReader(new ByteArrayInputStream(byteArray));
-			System.out.println("Arhivo comprimido: " + reader.readToEnd());
+			System.out.println("Arhivo comprimido: " + path + ".zipit");
 			
-			ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-			ArithmeticCompressor decomp = new ArithmeticCompressor(out2);
-			decomp.decompress(new ByteArrayInputStream(byteArray));
+			FileOutputStream decompOut = new FileOutputStream(path + ".zipit.dezipit");
+			ArithmeticCompressor decomp = new ArithmeticCompressor(decompOut);
+			decomp.decompress(new FileInputStream(path + ".zipit"));
 			
-			byte[] byteArray2 = out2.toByteArray();
-			BufferedReader reader2 = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(byteArray2)));
-			String str = "Arhivo descomprimido: ";
-			while (str != null) {
-				System.out.print(str);
-				str = reader2.readLine();
-			}
 			System.in.read();
-			
 		} catch (FileNotFoundException fnf) {
 			showFileNotFoundMessage(path);
 			return;

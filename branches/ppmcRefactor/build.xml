@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     29/03/2009 14:11:16                                                        
+
+     SpeakIt    
+     
+                   
+     Osiris Argüello                                                                
+     ====================================================================== -->
+<project name="SpeakIt" default="run" basedir=".">
+	<description>
+            description
+    </description>
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="build-tests" location="allTests" />
+	<property name="dist" location="dist" />
+	<property name="main-class" value="speakit/Main" />
+	<property name="lib.dir" value="lib" />
+
+	<property name="compressionTest" value="src/speakit/compression/test" />
+	<property name="dictionaryTest" value="src/speakit/dictionary/test" />
+	<property name="dictionaryTrieTest" value="src/speakit/dictionary/trie/test" />
+	<property name="documentStorageTest" value="src/speakit/documentstorage/test" />
+	<property name="ftrsIndexTest" value="src/speakit/ftrs/index/test" />
+	<property name="ftrsIndexerTest" value="src/speakit/ftrs/indexer/test" />
+	<property name="ftrsTest" value="src/speakit/ftrs/test" />
+	<property name="ioBLockFileTest" value="src/speakit/io/blockfile/test" />
+	<property name="ioBsharptreeTest" value="src/speakit/io/bsharptree/test" />
+	<property name="ioRecordTest" value="src/speakit/io/record/test" />
+	<property name="ioRecordfileTest" value="src/speakit/io/recordfile/test" />
+	<property name="ioTest" value="src/speakit/io/test" />
+	<property name="speakitTest" value="src/speakit/test" />
+	<property name="TestFilesTest" value="src/speakit/test/files" />
+	<property name="wordreaderTest" value="src/speakit/wordreader/test" />
+
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}" />
+	</target>
+
+	<target name="compile" depends="init" description="compile the source">
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${build}" encoding="8859_1" classpathref="classpath" />
+	</target>
+
+	<target name="test-compile" depends="compile">
+		<mkdir dir="${build-tests}" />
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${compressionTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${compressionTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${dictionaryTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${dictionaryTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${dictionaryTrieTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${dictionaryTrieTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${documentStorageTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${documentStorageTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ftrsIndexTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${ftrsIndexTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ftrsIndexerTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${ftrsIndexerTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ftrsTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${ftrsTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ioBLockFileTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${ioBLockFileTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ioBsharptreeTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${ioBsharptreeTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ioRecordTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${ioRecordTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ioRecordfileTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${ioRecordfileTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ioTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${ioTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${speakitTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${speakitTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${TestFilesTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${TestFilesTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${wordreaderTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${wordreaderTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="test" depends="test-compile">
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<formatter type="brief" />
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+				<pathelement path="${build-tests}" />
+			</classpath>
+		</junit>
+	</target>
+
+
+	<target name="jar" depends="compile">
+		<!-- Create the distribution directory and build the jar file -->
+		<mkdir dir="${dist}/lib" />
+		<jar destfile="${dist}/lib/${ant.project.name}-${DSTAMP}.jar" basedir="${build}">
+			<manifest>
+				<attribute name="Main-Class" value="${main-class}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run" depends="jar, test">
+		<!-- Compile and starts the SpeakIt application -->
+		<java jar="${dist}/lib/${ant.project.name}-${DSTAMP}.jar" fork="true" />
+	</target>
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+		<delete dir="bin" />
+		<delete dir="${build-tests}" />
+	</target>
+
+
+</project>

@@ -63,152 +63,92 @@ public class PPMC implements BitWriter{
 	}
 
 
-	public void compress(TextDocument document) throws IOException{
-		ProbabilityTable table = null;
-		ProbabilityTable table2 = null;
-		
-//		SpeakitLogger.deactivate();
+	public void compress(TextDocument document) throws IOException {
+		SpeakitLogger.deactivate();
 		ArithmeticEncoder encoder = new ArithmeticEncoder(this, ENCODER_PRECISION);
-		
 
 		TextDocumentInterpreter interpreter = new TextDocumentInterpreter(document);
-		try {
-			String emision="";
 
-			Context context = null;
+		while (interpreter.hasData()) {
+			Symbol sym = interpreter.getActualSymbol();
+			Context ctx = interpreter.getContext(this.getContextSize());
+	
+			SpeakitLogger.activate();
+			prepareInfoEntry("Caracter Actual: '" + interpreter.getActualSymbol().toString() + "'");
+			prepareInfoEntry("Contexto Actual: '" + ctx.toString() + "'\n");
+			SpeakitLogger.deactivate();
 
-			while (interpreter.hasData()) {
+			encodeSymbol(new EncoderEmitter(encoder), ctx, new SymbolWrapper(sym));
+			
+			SpeakitLogger.activate();
 
-				// Contexto para el modelo 0
-				if (interpreter.getCurrentPosition()==0) {
-					context=interpreter.getContext(0);
+			Set<Context> contexts = this.tables.keySet();
 
-				/** TODO Chequear el tema de los contextos en contextos mayores a 2, sirve diferenciar el 1???**/
-				} else {
-					//Contexto para el modelo 1
-					if (interpreter.getCurrentPosition()==1){
-						context = interpreter.getContext(1);
-					}
-					//Contexto para el resto de los modelos
-					else{
-						context=interpreter.getContext(this.getContextSize());
-					}
-				}
-//				SpeakitLogger.activate();
-				prepareInfoEntry("Caracter Actual: '" + interpreter.getActualSymbol().toString() + "'");
-				prepareInfoEntry("Contexto Actual: '" + context.toString() + "'\n");
-//				SpeakitLogger.deactivate();
-
-				table=this.getTable(context);
-
-				boolean foundInModels=false;
-
-				while (!foundInModels && context.size()>0){
-					if (table.contains(interpreter.getActualSymbol())){
-						//Emito el caracter y actualizo la probabilidad del caracter en este contexto
-						
-						emision+=interpreter.getActualSymbol().toString()+"["+table.getProbability(interpreter.getActualSymbol())+"]";
-//						SpeakitLogger.activate();
-						encoder.encode(interpreter.getActualSymbol(), table);
-//						SpeakitLogger.deactivate();
-
-						foundInModels=true;
-					}else{
-						//Emito un escape
-						emision+=Symbol.getEscape().toString()+"["+table.getProbability(Symbol.getEscape())+"]";
-//						SpeakitLogger.activate();
-						encoder.encode(Symbol.getEscape(), table);
-//						SpeakitLogger.deactivate();
-						
-						//Recupero la tabla original, por si hubo una exclusion en el modelo anterior
-						table=getTable(context);
-
-					}
-					
-					//Obtengo el subcontexto para chequear en el modelo anterior
-					context=context.subContext(context.size()-1);
-					table2=this.getTable(context);
-					
-					//Exclusion!
-					/*if(!foundInModels){
-						table = getTableWithExclusion(table, table2, interpreter.getActualSymbol());
-						
-					} else {
-						table.increment(interpreter.getActualSymbol());
-						table=table2;
-					}*/
-					
-					//No exclusion!
-					table.increment(interpreter.getActualSymbol());
-					if (table.getSymbolsQuantity()!=2 && !foundInModels)table.increment(Symbol.getEscape());
-					
-					
-					table=table2;
-					
-					
-
-				}
-
-				if (!foundInModels){
-
-					if (table.contains(interpreter.getActualSymbol())){
-						//Emito el caracter en el modelo 0 y actualizo su probabilidad
-						emision+=interpreter.getActualSymbol().toString()+"["+table.getProbability(interpreter.getActualSymbol())+"]";
-//						SpeakitLogger.activate();
-						encoder.encode(interpreter.getActualSymbol(), table);
-//						SpeakitLogger.deactivate();
-
-						table.increment(interpreter.getActualSymbol());
-
-					}else{
-						//Emito un escape en el modelo 0 y emito el caracter en el modelo -1 
-						
-						table.getProbability(Symbol.getEscape());
-						emision+=Symbol.getEscape().toString()+"["+table.getProbability(Symbol.getEscape())+"]";
-						
-//						SpeakitLogger.activate();
-						encoder.encode(Symbol.getEscape(), table);
-//						SpeakitLogger.deactivate();
-
-						//Excluyo el Modelo 0 del modelo -1, antes de emitir
-						table=getTable(context);
-						
-						//this.ModelMinusOne=this.ModelMinusOne.exclude(table);
-						
-						//Incremento las probabilidades del caracter en el modelo 0
-						
-						table.increment(interpreter.getActualSymbol());
-
-						if (table.getSymbolsQuantity()!=2)table.increment(Symbol.getEscape());
-
-						//Emito el caracter en el modelo -1
-						
-						emision+=interpreter.getActualSymbol().toString()+"["+this.ModelMinusOne.getProbability(interpreter.getActualSymbol())+"]";
-//						SpeakitLogger.activate();
-						encoder.encode(interpreter.getActualSymbol(), this.ModelMinusOne);
-//						SpeakitLogger.deactivate();
-
-					}
-				}
-//				SpeakitLogger.activate();
-				prepareInfoEntry("Emito: '"+emision+"' \n");
-
-				Set<Context> contexts = this.tables.keySet();
-
-				for (Context context2 : contexts) {
-					prepareInfoEntry("La tabla de probabilidades del contexto '"+context2.toString()+"' quedó: \n" + this.getTable(context2).toString2()+"\n");
-				}
-				
-				emision="";
-				logInfoEntry();
-				interpreter.advance();
-//				SpeakitLogger.deactivate();
+			for (Context context2 : contexts) {
+				prepareInfoEntry("La tabla de probabilidades del contexto '" + context2.toString() + "' quedó: \n" + this.getTable(context2).toString2() + "\n");
 			}
 
-		} catch (Exception e){
-			e.printStackTrace();
+			logInfoEntry();
+			interpreter.advance();
+			SpeakitLogger.deactivate();
 		}
 
+	}
+	
+	private void encodeSymbol(Emitter emitter, Context context, SymbolWrapper sym) throws IOException {
+		// Obtengo la tabla del contexto actual
+		ProbabilityTable table;
+		if(context != null) {
+			table = this.getTable(context);
+		} else {
+			table = this.ModelMinusOne;
+		}
+		
+		//SymbolWrapper symbolWrapper=new SymbolWrapper(sym);
+
+		// Codifico con la tabla actual.
+		boolean foundInModels = emitter.emitSymbol(table,sym);
+
+		// Si no encuentro el símbolo en esa tabla:
+		if (!foundInModels) {
+			// Emito un escape
+			if (context != null) {
+				if (table.getSymbolsQuantity() != 1) {
+					table.increment(Symbol.getEscape());
+				}
+			}
+
+			// Busco en el contexto siguiente
+			if (context.size() > 0) {
+				encodeSymbol(emitter, context.subContext(context.size() - 1), sym);
+			} else {
+				encodeSymbol(emitter, null, sym);
+			}
+		}
+		
+		// Incremento el símbolo
+		if (context != null) {
+			table.increment(sym.getSymbol());
+		}
+
+	}
+
+	@Deprecated
+	private boolean emitSymbol(ProbabilityTable table, ArithmeticEncoder encoder, Symbol sym) throws IOException {
+		boolean foundInTable = false;
+		if (table.contains(sym)) {
+			// Emito el caracter y actualizo la probabilidad del
+			// caracter en este contexto
+			foundInTable = true;
+		} else {
+			// Emito un escape
+			sym = Symbol.getEscape();
+		}
+		prepareInfoEntry(sym.toString() + "[" + table.getProbability(sym) + "]");
+		SpeakitLogger.activate();
+		encoder.encode(sym, table);
+		SpeakitLogger.deactivate();
+		return foundInTable;
 	}
 
 	private ProbabilityTable getTableWithExclusion(ProbabilityTable table,
@@ -272,133 +212,64 @@ public class PPMC implements BitWriter{
 	}
 
 	public void decompress(InputStream compressedFile) throws IOException {
-		OutputStreamWriter writer= new OutputStreamWriter(outStream);
+		OutputStreamWriter writer = new OutputStreamWriter(outStream);
 
 		ArithmeticDecoder decoder = new ArithmeticDecoder(new StreamBitReader(compressedFile), ENCODER_PRECISION);
-		StringBuilder originalDocument=new StringBuilder("");
-		int positionOnDocument=0;
+		//StringBuilder originalDocument = new StringBuilder("");
+		int positionOnDocument = 0;
 
-		Context context=new Context(this.contextSize);
-		//SpeakitLogger.activate();
-		
+		Context context = new Context(this.contextSize);
+		ArrayList<Symbol> originalDocument = new ArrayList<Symbol>();
+		// SpeakitLogger.activate();
 
-		Symbol decodedSymbol=null; 
+		SymbolWrapper decodedSymbol = new SymbolWrapper(null);
 
-		do{ 
-			ProbabilityTable table=null;
+		do {
+			ProbabilityTable table = null;
 			ProbabilityTable table2 = null;
-			boolean foundInModels=false;
-			
-			table=this.getTable(context);
-			
-			ArrayList<Context> contextsToUpdate=new ArrayList<Context>();
+			boolean foundInModels = false;
 
-			while (!foundInModels && context.size()>0){
-//				SpeakitLogger.activate();
-				decodedSymbol=decoder.decode(table);
-//				SpeakitLogger.deactivate();
-				if (!decodedSymbol.equals(Symbol.getEscape())){
-					// Si el caracter no es un ESC, escribo el caracter, actualizo la tabla de probabilidades y rearmo el contexto 
-					writer.write(decodedSymbol.getChar());
-					originalDocument.append(decodedSymbol.getChar());
-					
-					updateContexts(contextsToUpdate,decodedSymbol);
+			table = this.getTable(context);
 
-					table.increment(decodedSymbol);
-					foundInModels=true;
-				} else {
-					//Si el caracter es un ESC, acorto el contexto y actualizo la probabilidad del escape, si corresponde
-					
-					table=this.getTable(context);
-					
-					contextsToUpdate.add(context);
-					context=context.subContext(context.size()-1);
-
-				}
-				
-				//Exclusion!
-				/*table2=this.getTable(context);
-				
-				
-				if(!foundInModels){
-					ProbabilityTable tableWithEscape = new ProbabilityTable();
-					ProbabilityTable tableToExclude = new ProbabilityTable();
-					tableWithEscape.increment(Symbol.getEscape());
-					
-					tableToExclude=table.exclude(tableWithEscape);
-					
-					table=table2.exclude(tableToExclude);
-					
-				} else {
-					
-					table=table2;
-				}*/
-				table=this.getTable(context);
-				
-			}
-			
-			/* COMIENZO Manejo de modelo 0 y modelo -1 */
-			if (!foundInModels) {
-
-				//Decodifico el caracter en el modelo 0
-//				SpeakitLogger.activate();
-				decodedSymbol=decoder.decode(table);
-//				SpeakitLogger.deactivate();
-
-				
-				//Si es un escape, paso al modelo -1 y emito el caracter
-				if (decodedSymbol.equals(Symbol.getEscape()))
-				{
-					//this.ModelMinusOne=this.ModelMinusOne.exclude(table);
-//					SpeakitLogger.activate();
-					decodedSymbol=decoder.decode(this.ModelMinusOne);
-//					SpeakitLogger.deactivate();
-				}
-				
-				if(!decodedSymbol.equals(Symbol.getEof())){
-					writer.write( decodedSymbol.getChar());
-					originalDocument.append(decodedSymbol.getChar());
-				}
-				
-				
-				
-				/*if(!table.contains(decodedSymbol) && table.getSymbolsQuantity()!=1) {
-					table.increment(Symbol.getEscape());
-
-				}
-				table.increment(decodedSymbol);*/
-				contextsToUpdate.add(context);
-				updateContexts(contextsToUpdate,decodedSymbol);
-				SpeakitLogger.Log("PPMC->Decodificado: " + decodedSymbol);
-			}
-			
+			ArrayList<Context> contextsToUpdate = new ArrayList<Context>();
+			//////
+			encodeSymbol(new DecoderEmitter(decoder, writer), context, decodedSymbol);
+			//////
 			/* FIN Manejo de modelo 0 y modelo -1 */
-			context=new Context(this.contextSize);
-			
-			//String contextString=originalDocument.substring(originalDocument.length()-this.contextSize-1);
-			
-			for (int i = 0; i < originalDocument.length(); i++) {
+			//context3 = new Context(this.contextSize);
+			originalDocument.add(decodedSymbol.getSymbol());
+
+			// String
+			// contextString=originalDocument.substring(originalDocument.length()-this.contextSize-1);
+
+			/*for (int i = 0; i < originalDocument.length(); i++) {
 				context.add(new Symbol(originalDocument.charAt(i)));
-			}
-			
-//			SpeakitLogger.activate();
+			}*/
+
+			SpeakitLogger.activate();
 			prepareInfoEntry("Documento: '" + originalDocument + "'\n");
-			Set<Context> lalala=this.getTables().keySet();
+			Set<Context> lalala = this.getTables().keySet();
 			for (Context context2 : lalala) {
 				ProbabilityTable tablita = getTable(context2);
-				prepareInfoEntry("Probabilidades para el contexto: '" + context2.toString() + "'\n"+tablita.toString2());
-				
-				/*List<Symbol> symbolList=tablita.getSymbols();
-				for (Symbol symbol : symbolList) {
-					prepareInfoEntry(symbol.toString()+":"+"'" + tablita.getProbability(symbol) + "'\n");
-				}*/
-				
+				prepareInfoEntry("Probabilidades para el contexto: '" + context2.toString() + "'\n" + tablita.toString2());
+
+				/*
+				 * List<Symbol> symbolList=tablita.getSymbols(); for (Symbol
+				 * symbol : symbolList) {
+				 * prepareInfoEntry(symbol.toString()+":"+"'" +
+				 * tablita.getProbability(symbol) + "'\n"); }
+				 */
+
+			}
+			context=new Context(this.contextSize);
+			for (Symbol symbol : originalDocument) {
+				context.add(symbol);
 			}
 			
 			logInfoEntry();
-//			SpeakitLogger.deactivate();
+			SpeakitLogger.deactivate();
 
-		}while(!decodedSymbol.equals(Symbol.getEof()));
+		} while (!decodedSymbol.getSymbol().equals(Symbol.getEof()));
 		writer.flush();
 	}
 	

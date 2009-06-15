@@ -618,7 +618,14 @@ public class Menu {
 		return input;
 	}
 
+	private void showConfigStatus() {
+		if (speakit.getConf().getAskForUnknownWords() == 0) {
+			System.out.println("Atención: No se grabaran audios de las palabras.");
+		}
+		
+	}
 	private void displayMainMenu() {
+		showConfigStatus();
 		System.out.println("Speak It!");
 		System.out.println("Menu Principal\n" + 
 				"		1.- Procesar un archivo de Texto\n" +

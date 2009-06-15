@@ -72,4 +72,9 @@ public interface BasicBlockFile {
 	 * @throws IOException
 	 */
 	int getBlockCount() throws IOException;
+	
+	/**
+	 * Cierra los archivos internos del File
+	 */
+	void close() throws IOException;
 }

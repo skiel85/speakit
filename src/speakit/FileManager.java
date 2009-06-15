@@ -15,6 +15,7 @@ public class FileManager {
 	public File openFile(String name) throws IOException {
 		File file = new File(name);
 		//setUp(file);
+		this.openedFiles.add(file);
 		return file;
 	}
 

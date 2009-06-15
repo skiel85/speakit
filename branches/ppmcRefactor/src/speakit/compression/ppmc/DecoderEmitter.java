@@ -15,7 +15,7 @@ public class DecoderEmitter implements Emitter {
 	OutputStreamWriter writer;
 
 	@Override
-	public boolean emitSymbol(ProbabilityTable table, Symbol sym)
+	public boolean emitSymbol(ProbabilityTable table, SymbolWrapper sym)
 			throws IOException {
 		SpeakitLogger.activate();
 		Symbol decodedSymbol=decoder.decode(table);

@@ -12,19 +12,20 @@ public class EncoderEmitter implements Emitter {
 	private final ArithmeticEncoder encoder;
 
 	@Override
-	public boolean emitSymbol(ProbabilityTable table, Symbol sym) throws IOException {
+	public boolean emitSymbol(ProbabilityTable table, SymbolWrapper sym) throws IOException {
 		boolean foundInTable = false;
-		if (table.contains(sym)) {
+		Symbol emitSym = sym.getSymbol();
+		if (table.contains(emitSym)) {
 			// Emito el caracter y actualizo la probabilidad del
 			// caracter en este contexto
 			foundInTable = true;
 		} else {
 			// Emito un escape
-			sym = Symbol.getEscape();
+			emitSym = Symbol.getEscape();
 		}
-		SpeakitLogger.Log(sym.toString() + "[" + table.getProbability(sym) + "]");
+		SpeakitLogger.Log(sym.toString() + "[" + table.getProbability(emitSym) + "]");
 		SpeakitLogger.activate();
-		encoder.encode(sym, table);
+		encoder.encode(emitSym, table);
 		SpeakitLogger.deactivate();
 		return foundInTable;
 	}

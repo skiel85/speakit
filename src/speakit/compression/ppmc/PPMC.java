@@ -81,7 +81,7 @@ public class PPMC implements BitWriter{
 			prepareInfoEntry("Contexto Actual: '" + ctx.toString() + "'\n");
 			SpeakitLogger.deactivate();
 
-			encodeSymbol(encoder, ctx, sym);
+			encodeSymbol(new EncoderEmitter(encoder), ctx, sym);
 			
 			SpeakitLogger.activate();
 
@@ -97,8 +97,8 @@ public class PPMC implements BitWriter{
 		}
 
 	}
-
-	private void encodeSymbol(ArithmeticEncoder encoder, Context context, Symbol sym) throws IOException {
+	
+	private void encodeSymbol(Emitter emitter, Context context, Symbol sym) throws IOException {
 		// Obtengo la tabla del contexto actual
 		ProbabilityTable table;
 		if(context != null) {
@@ -108,7 +108,7 @@ public class PPMC implements BitWriter{
 		}
 
 		// Codifico con la tabla actual.
-		boolean foundInModels = emitSymbol(table, encoder, sym);
+		boolean foundInModels = emitter.emitSymbol(table, sym);
 
 		// Si no encuentro el símbolo en esa tabla:
 		if (!foundInModels) {
@@ -121,9 +121,9 @@ public class PPMC implements BitWriter{
 
 			// Busco en el contexto siguiente
 			if (context.size() > 0) {
-				encodeSymbol(encoder, context.subContext(context.size() - 1), sym);
+				encodeSymbol(emitter, context.subContext(context.size() - 1), sym);
 			} else {
-				encodeSymbol(encoder, null, sym);
+				encodeSymbol(emitter, null, sym);
 			}
 		}
 		
@@ -134,6 +134,7 @@ public class PPMC implements BitWriter{
 
 	}
 
+	@Deprecated
 	private boolean emitSymbol(ProbabilityTable table, ArithmeticEncoder encoder, Symbol sym) throws IOException {
 		boolean foundInTable = false;
 		if (table.contains(sym)) {
@@ -231,7 +232,7 @@ public class PPMC implements BitWriter{
 			table = this.getTable(context);
 
 			ArrayList<Context> contextsToUpdate = new ArrayList<Context>();
-
+			//////
 			while (!foundInModels && context.size() > 0) {
 				SpeakitLogger.activate();
 				decodedSymbol = decoder.decode(table);
@@ -310,7 +311,7 @@ public class PPMC implements BitWriter{
 				contextsToUpdate.add(context);
 				updateContexts(contextsToUpdate, decodedSymbol);
 			}
-
+			//////
 			/* FIN Manejo de modelo 0 y modelo -1 */
 			context = new Context(this.contextSize);
 

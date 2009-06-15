@@ -17,9 +17,9 @@ public class DecoderEmitter implements Emitter {
 	@Override
 	public boolean emitSymbol(ProbabilityTable table, SymbolWrapper sym)
 			throws IOException {
-		SpeakitLogger.activate();
+		//SpeakitLogger.activate();
 		Symbol decodedSymbol=decoder.decode(table);
-		SpeakitLogger.deactivate();
+		//SpeakitLogger.deactivate();
 		boolean foundInTable=false;
 		
 		if (!decodedSymbol.equals(Symbol.getEscape())){

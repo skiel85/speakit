@@ -64,7 +64,7 @@ public class PPMC implements BitWriter{
 
 
 	public void compress(TextDocument document) throws IOException {
-		SpeakitLogger.deactivate();
+		//SpeakitLogger.deactivate();
 		ArithmeticEncoder encoder = new ArithmeticEncoder(this, ENCODER_PRECISION);
 
 		TextDocumentInterpreter interpreter = new TextDocumentInterpreter(document);
@@ -73,16 +73,16 @@ public class PPMC implements BitWriter{
 			Symbol sym = interpreter.getActualSymbol();
 			Context ctx = interpreter.getContext(this.getContextSize());
 	
-			SpeakitLogger.activate();
+			//SpeakitLogger.activate();
 			prepareInfoEntry("Caracter Actual: '" + interpreter.getActualSymbol().toString() + "'");
 			prepareInfoEntry("Contexto Actual: '" + ctx.toString() + "'\n");
-			SpeakitLogger.deactivate();
+			//SpeakitLogger.deactivate();
 			
 			ProbabilityTable table = null;
 
 			encodeSymbol(new EncoderEmitter(encoder), ctx, new SymbolWrapper(sym), table);
 			
-			SpeakitLogger.activate();
+			//SpeakitLogger.activate();
 
 			Set<Context> contexts = this.tables.keySet();
 
@@ -90,9 +90,9 @@ public class PPMC implements BitWriter{
 				prepareInfoEntry("La tabla de probabilidades del contexto '" + context2.toString() + "' quedó: \n" + this.getTable(context2).toString2() + "\n");
 			}
 
-			logInfoEntry();
+			//logInfoEntry();
 			interpreter.advance();
-			SpeakitLogger.deactivate();
+			//SpeakitLogger.deactivate();
 		}
 
 	}
@@ -174,9 +174,9 @@ public class PPMC implements BitWriter{
 			sym = Symbol.getEscape();
 		}
 		prepareInfoEntry(sym.toString() + "[" + table.getProbability(sym) + "]");
-		SpeakitLogger.activate();
+		//SpeakitLogger.activate();
 		encoder.encode(sym, table);
-		SpeakitLogger.deactivate();
+		//SpeakitLogger.deactivate();
 		return foundInTable;
 	}
 
@@ -229,10 +229,10 @@ public class PPMC implements BitWriter{
 	private void prepareInfoEntry(String info) {
 		infoEntry += "\t" + info;
 	}
-	private void logInfoEntry() {
-		SpeakitLogger.Log(infoEntry);
-		infoEntry = "";
-	}
+//	private void logInfoEntry() {
+//		SpeakitLogger.Log(infoEntry);
+//		infoEntry = "";
+//	}
 
 
 	@Override
@@ -276,7 +276,7 @@ public class PPMC implements BitWriter{
 				context.add(new Symbol(originalDocument.charAt(i)));
 			}*/
 
-			SpeakitLogger.activate();
+			//SpeakitLogger.activate();
 			prepareInfoEntry("Documento: '" + originalDocument + "'\n");
 			Set<Context> lalala = this.getTables().keySet();
 			for (Context context2 : lalala) {
@@ -296,8 +296,8 @@ public class PPMC implements BitWriter{
 				context.add(symbol);
 			}
 			
-			logInfoEntry();
-			SpeakitLogger.deactivate();
+			//logInfoEntry();
+			//SpeakitLogger.deactivate();
 
 		} while (!decodedSymbol.getSymbol().equals(Symbol.getEof()));
 		writer.flush();

@@ -100,30 +100,29 @@ public class PPMC implements BitWriter{
 
 	private void encodeSymbol(ArithmeticEncoder encoder, Context context, Symbol sym) throws IOException {
 		ProbabilityTable table;
-		ProbabilityTable table2;
-		table = this.getTable(context);
-
-		boolean foundInModels = false;
-		while (!foundInModels) {
-			foundInModels |= emitSymbol(table, encoder, sym);
-
-			// Obtengo el subcontexto para chequear en el modelo anterior
-			if(context.size() > 0) {
-				context = context.subContext(context.size() - 1);
-				table2 = this.getTable(context);
-			} else {
-				table2 = this.ModelMinusOne;
-			}
-			
-			if (table != this.ModelMinusOne) {
-				table.increment(sym);
-				if (table.getSymbolsQuantity() != 2 && !foundInModels) {
-					table.increment(Symbol.getEscape());
-				}
-			}
-
-			table = table2;
+		if(context != null) {
+			table = this.getTable(context);
+		} else {
+			table = this.ModelMinusOne;
 		}
+
+		boolean foundInModels = emitSymbol(table, encoder, sym);
+
+		if(!foundInModels) {
+			if (context.size() > 0) {
+				encodeSymbol(encoder, context.subContext(context.size() - 1), sym);
+			} else {
+				encodeSymbol(encoder, null, sym);
+			}
+		}
+		
+		if (table != this.ModelMinusOne) {
+			table.increment(sym);
+			if (table.getSymbolsQuantity() != 2 && !foundInModels) {
+				table.increment(Symbol.getEscape());
+			}
+		}
+
 	}
 
 	private boolean emitSymbol(ProbabilityTable table, ArithmeticEncoder encoder, Symbol sym) throws IOException {

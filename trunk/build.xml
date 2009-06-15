@@ -18,6 +18,10 @@
 	<property name="main-class" value="speakit/Main" />
 	<property name="lib.dir" value="lib" />
 
+	<property name="compressionArithmeticTest" value="src/speakit/compression/arithmetic/test" />
+	<property name="compressionLZPTest" value="src/speakit/compression/lzp/test" />
+	<property name="compressionPPMCTest" value="src/speakit/compression/ppmc/test" />
+
 	<property name="compressionTest" value="src/speakit/compression/test" />
 	<property name="dictionaryTest" value="src/speakit/dictionary/test" />
 	<property name="dictionaryTrieTest" value="src/speakit/dictionary/trie/test" />
@@ -25,7 +29,7 @@
 	<property name="ftrsIndexTest" value="src/speakit/ftrs/index/test" />
 	<property name="ftrsIndexerTest" value="src/speakit/ftrs/indexer/test" />
 	<property name="ftrsTest" value="src/speakit/ftrs/test" />
-	<property name="ioBLockFileTest" value="src/speakit/io/blockfile/test" />
+	<property name="ioBlockFileTest" value="src/speakit/io/blockfile/test" />
 	<property name="ioBsharptreeTest" value="src/speakit/io/bsharptree/test" />
 	<property name="ioRecordTest" value="src/speakit/io/record/test" />
 	<property name="ioRecordfileTest" value="src/speakit/io/recordfile/test" />
@@ -53,6 +57,45 @@
 
 	<target name="test-compile" depends="compile">
 		<mkdir dir="${build-tests}" />
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${compressionArithmeticTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${compressionArithmeticTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${compressionLZPTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${compressionLZPTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${compressionPPMCTest}">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement path="${build}" />
+			</classpath>
+		</javac>
+		<copy todir="${build-tests}">
+			<fileset dir="${compressionPPMCTest}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${compressionTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -65,6 +108,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${dictionaryTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -77,6 +121,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${dictionaryTrieTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -89,6 +134,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${documentStorageTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -101,6 +147,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ftrsIndexTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -113,6 +160,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ftrsIndexerTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -125,6 +173,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ftrsTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -137,18 +186,20 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
-		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ioBLockFileTest}">
+		
+		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ioBlockFileTest}">
 			<classpath>
 				<path refid="classpath" />
 				<pathelement path="${build}" />
 			</classpath>
 		</javac>
 		<copy todir="${build-tests}">
-			<fileset dir="${ioBLockFileTest}">
+			<fileset dir="${ioBlockFileTest}">
 				<include name="**/*.*" />
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ioBsharptreeTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -161,6 +212,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ioRecordTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -173,6 +225,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ioRecordfileTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -185,6 +238,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${ioTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -197,6 +251,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${speakitTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -209,6 +264,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${TestFilesTest}">
 			<classpath>
 				<path refid="classpath" />
@@ -221,6 +277,7 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
+		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${wordreaderTest}">
 			<classpath>
 				<path refid="classpath" />

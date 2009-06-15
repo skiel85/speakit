@@ -1,5 +1,6 @@
 package speakit.compression.lzp;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -35,6 +36,7 @@ public class LZP implements BitWriter {
 		this.outStream = outputStream;
 		this.writer = new StreamBitWriter(outputStream);
 		initTables();
+
 	}
 	
 	private void initTables() {

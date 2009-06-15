@@ -51,7 +51,7 @@ public class SpeakitSearchRealDocumentsTest {
 		list.add(ARTICLE_INSTINTO);
 		list.add(ARTICLE_PORTUGA);
 		
-		this.sut.addDocuments(list);
+		this.sut.addDocuments(list,3);
 		this.sut.addDocument(ARTICLE_EQUIPAMIENTO);
 		/*this.sut.addDocument(ARTICLE_EFECTO_TETRIS);
 		this.sut.addDocument(ARTICLE_INSTINTO);
@@ -68,10 +68,10 @@ public class SpeakitSearchRealDocumentsTest {
 	@Test
 	public void testSearch() throws IOException{ 
 		TextDocumentList result = this.sut.search(new TextDocument("componentes Biología"));
-		Iterator<TextDocument> iterator = result.iterator();
 		
 		List<TextDocument> resultList = new ArrayList<TextDocument>();
 		for (TextDocument textDocument : result) {
+		
 			resultList.add(textDocument);
 		}
 		//System.out.println(sut.printIndexForDebug());

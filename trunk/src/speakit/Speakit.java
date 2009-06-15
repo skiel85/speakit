@@ -110,6 +110,61 @@ public class Speakit implements SpeakitInterface {
 		return new TextDocument(unknownWords);
 	}
 
+	
+	/**
+	 * A partir de un documento, indexa ese documento y devuelve un iterable 
+	 * de strings de ese documento
+	 * 
+	 * @param doc
+	 * @return Iterable<String>
+	 * 
+	 * @throws IOException
+	 */
+	public Iterable<String> addDocument(TextDocument doc, int compressor) throws IOException {
+		indexDocument(doc, compressor);
+		ArrayList<String> words = new ArrayList<String>();
+		for (String word : doc) {
+			if (!this.dataBase.contains(word) && !words.contains(word)) {
+				words.add(word);
+			}
+		}
+		return words;
+	}
+	
+	/**
+	 * A partir de una lista de documentos, indexa esa lista y devuelve un iterable 
+	 * de palabras desconocidas
+	 * 
+	 * @param docs
+	 * @return Iterable<TextDocument>
+	 * 
+	 * @throws IOException
+	 */
+	public Iterable<String> addDocuments(TextDocumentList docs, int compressor) throws IOException {
+		indexDocuments(docs, compressor);
+		ArrayList<String> unknownWordsFromDocuments = new ArrayList<String>();
+		Iterator<TextDocument> iterator = docs.iterator();
+		TextDocument textDocument;
+		String unknownWords = "";
+		
+		while(iterator.hasNext()){
+			textDocument = iterator.next();
+			for(String word : textDocument){
+				if (!this.dataBase.contains(word) && !unknownWordsFromDocuments.contains(word)) {
+					unknownWordsFromDocuments.add(word);
+				}
+			}
+		}
+		
+		for(String word : unknownWordsFromDocuments){
+			if(unknownWords == ""){
+				unknownWords = word;
+			}else{
+				unknownWords = unknownWords + " " + word;
+			}
+		}
+		return new TextDocument(unknownWords);
+	}
 	/**
 	 * Procesa el documento para poder recuperarlo mediante el modulo FTRS
 	 * 
@@ -124,6 +179,14 @@ public class Speakit implements SpeakitInterface {
 
 	private void indexDocuments (TextDocumentList docs)throws IOException, RecordSerializationException {
 		this.ftrs.indexDocuments(docs);
+	}
+	
+	private void indexDocument(TextDocument doc, int compressor) throws IOException, RecordSerializationException {
+		this.ftrs.indexDocument(doc, compressor);
+	}
+
+	private void indexDocuments (TextDocumentList docs, int compressor)throws IOException, RecordSerializationException {
+		this.ftrs.indexDocuments(docs, compressor);
 	}
 	
 	public WordAudioDocument convertToAudioDocument(TextDocument doc) throws IOException {

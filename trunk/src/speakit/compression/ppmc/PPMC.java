@@ -196,7 +196,7 @@ public class PPMC implements BitWriter{
 				Set<Context> contexts = this.tables.keySet();
 
 				for (Context context2 : contexts) {
-					prepareInfoEntry("La tabla de probabilidades del contexto '"+context2.toString()+"' quedó: \n" + this.getTable(context2).toString2()+"\n");
+					prepareInfoEntry("La tabla de probabilidades del contexto '"+context2.toString()+"' quedó: \n" + this.getTable(context2).toString()+"\n");
 				}
 				
 				emision="";

@@ -99,6 +99,7 @@ public class PPMC implements BitWriter{
 	}
 
 	private void encodeSymbol(ArithmeticEncoder encoder, Context context, Symbol sym) throws IOException {
+		// Obtengo la tabla del contexto actual
 		ProbabilityTable table;
 		if(context != null) {
 			table = this.getTable(context);
@@ -106,15 +107,19 @@ public class PPMC implements BitWriter{
 			table = this.ModelMinusOne;
 		}
 
+		// Codifico con la tabla actual.
 		boolean foundInModels = emitSymbol(table, encoder, sym);
 
-		if (context != null) {
-			if (table.getSymbolsQuantity() != 1 && !foundInModels) {
-				table.increment(Symbol.getEscape());
+		// Si no encuentro el símbolo en esa tabla:
+		if (!foundInModels) {
+			// Emito un escape
+			if (context != null) {
+				if (table.getSymbolsQuantity() != 1) {
+					table.increment(Symbol.getEscape());
+				}
 			}
-		}
-		
-		if(!foundInModels) {
+
+			// Busco en el contexto siguiente
 			if (context.size() > 0) {
 				encodeSymbol(encoder, context.subContext(context.size() - 1), sym);
 			} else {
@@ -122,6 +127,7 @@ public class PPMC implements BitWriter{
 			}
 		}
 		
+		// Incremento el símbolo
 		if (context != null) {
 			table.increment(sym);
 		}

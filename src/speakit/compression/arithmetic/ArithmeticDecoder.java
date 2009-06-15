@@ -80,8 +80,9 @@ public class ArithmeticDecoder {
 		if (range.getUnderflowCount() > 0) {
 			// elimino de la ventana los bits de underflow
 			previousUnderflow = range.getUnderflowCount();
-			currentWindow = currentWindow.shiftLeft(previousUnderflow-bitsDiscardedByUnderflow, 1, this.input);
-			bitsDiscardedByUnderflow+=previousUnderflow;
+			int bitsToMove = previousUnderflow-bitsDiscardedByUnderflow;
+			currentWindow = currentWindow.shiftLeft(bitsToMove, 1, this.input);
+			bitsDiscardedByUnderflow+=bitsToMove;
 		}
 	}
 

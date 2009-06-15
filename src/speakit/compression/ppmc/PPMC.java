@@ -72,51 +72,16 @@ public class PPMC implements BitWriter{
 
 		TextDocumentInterpreter interpreter = new TextDocumentInterpreter(document);
 
-		Context context = null;
-
 		while (interpreter.hasData()) {
-			if (interpreter.getCurrentPosition() == 0) {
-				// Contexto para el modelo 0
-				context = interpreter.getContext(0);
-			} else if (interpreter.getCurrentPosition() == 1) {
-				// Contexto para el modelo 1
-				context = interpreter.getContext(1);
-			} else {
-				// Contexto para el resto de los modelos
-				context = interpreter.getContext(this.getContextSize());
-			}
+			Symbol sym = interpreter.getActualSymbol();
+			Context ctx = interpreter.getContext(this.getContextSize());
+	
 			SpeakitLogger.activate();
 			prepareInfoEntry("Caracter Actual: '" + interpreter.getActualSymbol().toString() + "'");
-			prepareInfoEntry("Contexto Actual: '" + context.toString() + "'\n");
+			prepareInfoEntry("Contexto Actual: '" + ctx.toString() + "'\n");
 			SpeakitLogger.deactivate();
 
-			table = this.getTable(context);
-
-			boolean foundInModels = false;
-
-			Symbol sym = interpreter.getActualSymbol();
-			while (!foundInModels) {
-				foundInModels |= emitSymbol(table, encoder, sym);
-
-				// Obtengo el subcontexto para chequear en el modelo anterior
-				if(context.size() > 0) {
-					context = context.subContext(context.size() - 1);
-					table2 = this.getTable(context);
-				} else {
-					table2 = this.ModelMinusOne;
-				}
-				
-				if (table != this.ModelMinusOne) {
-					table.increment(interpreter.getActualSymbol());
-					if (table.getSymbolsQuantity() != 2 && !foundInModels) {
-						table.increment(Symbol.getEscape());
-					}
-				}
-
-				table = table2;
-			}
-
-					
+			encodeSymbol(encoder, ctx, sym);
 			
 			SpeakitLogger.activate();
 
@@ -131,6 +96,34 @@ public class PPMC implements BitWriter{
 			SpeakitLogger.deactivate();
 		}
 
+	}
+
+	private void encodeSymbol(ArithmeticEncoder encoder, Context context, Symbol sym) throws IOException {
+		ProbabilityTable table;
+		ProbabilityTable table2;
+		table = this.getTable(context);
+
+		boolean foundInModels = false;
+		while (!foundInModels) {
+			foundInModels |= emitSymbol(table, encoder, sym);
+
+			// Obtengo el subcontexto para chequear en el modelo anterior
+			if(context.size() > 0) {
+				context = context.subContext(context.size() - 1);
+				table2 = this.getTable(context);
+			} else {
+				table2 = this.ModelMinusOne;
+			}
+			
+			if (table != this.ModelMinusOne) {
+				table.increment(sym);
+				if (table.getSymbolsQuantity() != 2 && !foundInModels) {
+					table.increment(Symbol.getEscape());
+				}
+			}
+
+			table = table2;
+		}
 	}
 
 	private boolean emitSymbol(ProbabilityTable table, ArithmeticEncoder encoder, Symbol sym) throws IOException {

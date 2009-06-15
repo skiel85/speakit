@@ -147,7 +147,7 @@ public class PPMCCompressorTest {
 		
 	}
 	
-	@Ignore
+	//@Ignore
 	@Test
 	public void testCompressAAB() throws IOException{
 		SpeakitLogger.activate();

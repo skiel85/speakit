@@ -29,13 +29,14 @@ public class Menu {
 	private SpeakitInterface	speakit;
 	private boolean				DEBUG_MODE		= false;
 	private ArrayList<String>	documentsAdded	= new ArrayList<String>();
-
-	public Menu(boolean debug) {
+	
+	
+	public Menu(boolean debug) throws FileNotFoundException, IOException {
 		this();
 		DEBUG_MODE = debug;
 	}
 
-	public Menu() {
+	public Menu() throws FileNotFoundException, IOException {
 		audioManager = new AudioManager();
 		speakit = new Speakit();
 	}
@@ -64,13 +65,15 @@ public class Menu {
 			return;
 		}
 		
-		if (wordIterable.iterator().hasNext()) {
-			System.out.println("El documento contiene palabras desconocidas, que deberá grabar a continuación.");
-		}
-		for (String unknownWord : wordIterable) {
-			WordAudio audio = getAudio(unknownWord);
-			if (audio != null && audio.getAudio() != null) {
-				speakit.addWordAudio(audio);
+		if(speakit.getConf().getAskForUnknownWords() == 1){
+			if (wordIterable.iterator().hasNext()) {
+				System.out.println("El documento contiene palabras desconocidas, que deberá grabar a continuación.");
+			}
+			for (String unknownWord : wordIterable) {
+				WordAudio audio = getAudio(unknownWord);
+				if (audio != null && audio.getAudio() != null) {
+					speakit.addWordAudio(audio);
+				}
 			}
 		}
 		System.out.println("El documento fué agregado con éxito.");
@@ -139,16 +142,19 @@ public class Menu {
 		int compressor = chooseCompressor();
 		Iterable<String> faltantes = this.speakit.addDocuments(documents, compressor);
 		boolean showTitle = true;
-		for (String unknownWord : faltantes) {
-			System.out.println();
-			if (unknownWord != "") {
-				if (showTitle) {
-					System.out.println("Los documentos ingresados contienen palabras desconocidas que deberá grabar a continuación");
-					showTitle = false;
-				}
-				WordAudio audio = getAudio(unknownWord);
-				if (audio != null && audio.getAudio() != null) {
-					speakit.addWordAudio(audio);
+		
+		if(speakit.getConf().getAskForUnknownWords() == 1){
+			for (String unknownWord : faltantes) {
+				System.out.println();
+				if (unknownWord != "") {
+					if (showTitle) {
+						System.out.println("Los documentos ingresados contienen palabras desconocidas que deberá grabar a continuación");
+						showTitle = false;
+					}
+					WordAudio audio = getAudio(unknownWord);
+					if (audio != null && audio.getAudio() != null) {
+						speakit.addWordAudio(audio);
+					}
 				}
 			}
 		}

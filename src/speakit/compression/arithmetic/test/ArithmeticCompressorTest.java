@@ -69,7 +69,7 @@ public class ArithmeticCompressorTest {
 		testCompressString(VUELO_447_DE_AIR_FRANCE_CORTO_SIN_PUNTO);
 	}
 
-	private void testCompressString(String article) throws IOException {
+	public void testCompressString(String article) throws IOException {
 		// testea que el compresor genere un archivo que sea menos pesado que el
 		// original
 
@@ -110,64 +110,25 @@ public class ArithmeticCompressorTest {
 	}
 
 	/**
-	 * Este test genera archivos formados por todas las combinaciones de símbolos posibles concatenando N caracteres, este tamaño va de 1 a 10. 
-	 * La idea es detectar el archivo mas corto que haga fallar al compresor para poder probarlo facilmente. 
-	 * Este es un ejemplo de generación de archivos:
-	 * a
-	 * b
-	 * c
-	 * aa
-	 * ab
-	 * ac
-	 * ba
-	 * bb
-	 * bc
-	 * ca
-	 * cb
-	 * cc
-	 * aaa
-	 * aab
-	 * aac
-	 * aba
-	 * abb
+	 * Este test genera archivos formados por todas las combinaciones de
+	 * símbolos posibles concatenando N caracteres, este tamaño va de 1 a 10. La
+	 * idea es detectar el archivo mas corto que haga fallar al compresor para
+	 * poder probarlo facilmente. Este es un ejemplo de generación de archivos:
+	 * a b c aa ab ac ba bb bc ca cb cc aaa aab aac aba abb
+	 * 
 	 * @throws IOException
 	 */
-	
+
 	@Test
-	public void testProgressiveTextFiles() throws IOException { 
-		for (int i = 0; i < 5; i++) {
-			testCompressionRecursively("", i, 0);
-		}
-	}
+	public void testProgressiveTextFiles() throws IOException {
+		BruteForceCompressionTester tester = new BruteForceCompressionTester(5,new SingleCompressionTester(){
 
-	private String symbolFileToString(String file) {
-		String result = "";
-		for (int i = 0; i < file.length(); i++) {
-			result += new Symbol(file.charAt(i));
-		}
-		return result;
-	}
- 
-
-	private void testCompressionRecursively(String baseFile, int deepToTest, int currentDeep) throws IOException {
-		Symbol first = new Symbol('a');
-		Symbol last = new Symbol('c');
-		for (Symbol symbol = first; symbol.compareTo(last) <= 0; symbol = symbol.next()) {
-			Character current = new Character(symbol.getChar());
-			String currentFile = baseFile + current;
-			if (currentDeep < deepToTest) {
-				testCompressionRecursively(currentFile, deepToTest, currentDeep + 1);
-			} else {
-				try {
-					System.out.println("Comprimiendo: " + symbolFileToString(currentFile));
-					testCompressString(currentFile);
-				} catch (AritmethicCompressionException ex) {
-					Assert.fail("Error en la compresion de " + "\"" + symbolFileToString(currentFile) + "\": " + ex.getMessage());
-//					System.out.println("Error en la compresion de " + "\"" + symbolFileToString(currentFile) + "\": " + ex.getMessage());
-				}
+			@Override
+			public void testCompress(String file) throws IOException {
+				ArithmeticCompressorTest.this.testCompressString(file);
 			}
-		}
+			
+		},true);
+		tester.runTests();
 	}
-
-	 
 }

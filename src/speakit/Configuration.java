@@ -11,7 +11,13 @@ public class Configuration {
 	private int blockSize = 0;
 	private int trieDepth = 0;
 	private int askForUnknownWords = 0;
+	private int PPMCContextSize = 0;
 
+	public int getPPMCContextSize() {
+		return PPMCContextSize;
+	}
+
+	
 	public int getAskForUnknownWords() {
 		return askForUnknownWords;
 	}
@@ -41,6 +47,7 @@ public class Configuration {
 			this.blockSize = 512;
 			this.trieDepth = 4;
 			this.askForUnknownWords = 1; //1 es que hay que pedir las palabras, 0 lo contrario
+			this.PPMCContextSize = 2;
 			create(fileManager);
 			// throw new
 			// IOException("No se puede cargar la configuración: No se encuentra el archivo 'speakit.conf'. Es un archivo de texto con el siguiente formato: 'XXX YYY', donde XXX es el tamaño de bloque e YYY es la profundidad del trie.");
@@ -51,13 +58,17 @@ public class Configuration {
 		String blockSizeString = "";
 		String trieDepthString = "";
 		String askForUnknownWordsString = "";
+		String PPMCContextSizeString = "";
 		try {
 			blockSizeString = configFile.readLine();
 			trieDepthString = configFile.readLine();
 			askForUnknownWordsString = configFile.readLine();
+			PPMCContextSizeString = configFile.readLine();
 			this.blockSize = new Integer(blockSizeString);
 			this.trieDepth = new Integer(trieDepthString);
 			this.askForUnknownWords = new Integer(askForUnknownWordsString);
+			this.PPMCContextSize = new Integer(PPMCContextSizeString);
+			if(this.PPMCContextSize > 4)this.PPMCContextSize = 4;
 		} catch (NumberFormatException ex) {
 			throw new IOException("No se puede cargar la configuración: error en el formato del archivo. blockSizeString=" + blockSizeString + ", trieDepthString=" + trieDepthString + ", askForUnknownWords=" + askForUnknownWordsString);
 		}
@@ -66,7 +77,7 @@ public class Configuration {
 
 	public void create(FileManager fileManager) throws FileNotFoundException, IOException {
 		FileOutputStream fo = new FileOutputStream(fileManager.openFile(SPEAKIT_CONF));
-		fo.write((this.getBlockSize() + "\n" + this.getTrieDepth() + "\n" + this.getAskForUnknownWords()).getBytes());
+		fo.write((this.getBlockSize() + "\n" + this.getTrieDepth() + "\n" + this.getAskForUnknownWords() + "\n" + this.getPPMCContextSize()).getBytes());
 		fo.flush();
 		fo.close();
 	}

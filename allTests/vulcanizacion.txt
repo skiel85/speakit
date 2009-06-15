@@ -1,0 +1,43 @@
+La vulcanización es un proceso mediante el cual se calienta el caucho crudo en presencia de azufre, con el fin de volverlo más duro y resistente al frío. Se dice que fue descubierto por Charles Goodyear en 1839 por accidente, al volcar un recipiente de azufre(s) y caucho encima de una estufa. Esta mezcla se endurecio y se volvio impermeable, a la que llamo vulcanización en honor al dios vulcano. Sin embargo, hay estudios que demuestran que un proceso similar a la vulcanización, pero basado en el uso de materiales orgánicos (savias y otros extractos de plantas) fue utilizado por la Cultura Olmeca 3.500 años antes para hacer pelotas de hule destinadas a un juego ritual [[1]].
+
+Durante la vulcanización, los polímeros lineales paralelos cercanos constituyen puentes de entrecruzamiento entre sí. El resultado final es que las moléculas elásticas de caucho quedan unidas entre sí a una mayor o menor extensión. Esto forma un caucho más estable, duro, mucho más durable, más resistente al ataque químico y sin perder la elasticidad natural. También transforma la superficie pegajosa del material a una superficie suave que no se adhiere al metal o a los sustratos plásticos
+
+La vulcanización es un proceso de cura irreversible y debe ser fuertemente contrastado con los procesos termoplásticos que caracterizan el comportamiento de la vasta mayoría de los polímeros modernos. Este proceso irreversible define a los cauchos curados como materiales termorígidos (no se derriten con el calor) y los saca de la categoría de los termoplásticos (como el polietileno y el polipropileno).
+
+Usualmente el entrecruzamiento químico es realizado con azufre, pero existen otras tecnologías como los sistemas basados en peróxidos. Se suelen usar combinadamente con agentes aceleradores y retardadores.
+
+El azufre es un material con singulares propiedades. En determinadas circunstancias, formará cadenas de sus propios átomos. El carbono y el silicio pueden formar también esas cadenas. El proceso de vulcanización hace uso de este fenómeno. A lo largo de la molécula del caucho, hay un número de sitios que son atractivos para los átomos de azufre. Son los llamados sitios de cura. En cada sitio de cura, un átomo de azufre se puede unir a sí mismo, y a partir de allí la cadena de átomos de azufre puede crecer hasta que alcance el sitio de cura de otra molécula. Estos puentes de azufre son usualmente de 2 a 10 átomos de largo, en contraste con los polímeros más comunes en los que la "columna vertebral" de carbonos puedes ser varios miles de veces de larga.
+
+Image:Vulcanización.gif
+
+Historia [editar]
+
+La historia del caucho es antigua. Los mayas y los indigenas meso-americanos extrajeron el látex orgánico de los árboles de hevea brasilensis de los bosques americanos, transformaban esa viscosa sustancia en pelotas, y jugaban con ellas el juego de pelota, con connotaciones sagradas: los ganadores eran a veces, ejecutados ritualmente. Esas pelotas no podían durar mucho más que los jugadores ganadores. El caucho natural no curado se vuelve muy oloroso y en pocos días comienza a pudrirse. El proceso de putrefacción tiene, en parte, relación con la ruptura de las proteínas, como sucede con las proteínas de la leche, pero también a la ruptura de las largas moléculas de caucho a medida que se oxidan en el aire o en tierra
+
+La primer referencia al caucho en Europa aparece en 1770, cuando Edward Nairne vendía cubos de caucho natural de su hogar. Los cubos, con la intención de ser gomas de borrar, se vendían al altísimo precio de 18 chelines por balde.
+
+Desde mediados del siglo XIX, el caucho era un material novedoso, pero no encontró gran aplicación en el mundo industrial. Era usado en principio como goma de borrar, como dispositivos médicos para conectar tubos y para la inhalación de gases medicinales. Cuando los químicos descubrieron que el caucho era soluble en el éter, se hallaron nuevas aplicaciones en el mundo del zapato y en impermeables.
+
+A pesar de todo, la mayoría de estas aplicaciones eran en pequeños volúmenes y el material no duraba mucho. La razón de la falta de aplicaciones importantes era el hecho de que el material no era durable, era pegajoso, y en ocasiones se pudría liberando mal olor porque no estaba bien curado.
+
+La contribución de Goodyear [editar]
+
+La mayoría de los libros de texto dicen que Charles Goodyear fue el primero en usar azufre para vulcanizar el caucho. Dependiendo del lector, la historia de Goodyear es de pura suerte o de una cuidadosa investigación.
+
+Goodyear clamó que le correspondía el descubrimiento de la vulcanización basada en azufre en 1839, pero no patentó su invento hasta el 5 de julio de 1843, y no escribió la historia de su descubrimiento hasta 1853 en su libro autobiográfico, Gum-Elastica. Mientras tanto, Thomas Hancock (1786-1865), un científico e ingeniero, patentó el proceso en el Reino Unido el 21 de noviembre de 1843, ocho semanas antes que Goodyear ejerciera su propia patente en el Reino Unido.
+
+La Goodyear Tire And Rubber Company adoptó el nombre de Goodyear por sus actividades en la industria del caucho, pero no tenía ninguna otra relación con Charles Goodyear y su familia.
+
+Aquí está el relato de Goodyear sobre su invención, tomada de Gum-Elastica. Aunque el libro es una autobiografía, Goodyear eligió escribirlo en tercera persona, así que 'el inventor' y 'el' se refieren en el texto al autor en realidad. El describe el escenario de la fábrica de caucho donde su hermano trabajó.
+
+    ... El inventor hizo muchos experimentos para verificar los efectos del calor en el mismo compuesto que se había descompuesto en las bolsas de correo y otros artículos. Él se sorprendió al encontrar que el espécimen, siendo descuidadamente puesto en contacto con una estufa caliente, se achicharraba como el cuero.
+
+Goodyear continúa describiendo como el intentó llamar la atención de su hermano y otros trabajadores en la planta, familiarizados con el comportamiento del caucho disuelto, pero ellos descartaron su observación, creyendo que era otro de sus muchos extraños experimentos. Goodyear afirma que intentó decirles que el caucho se derretía cuando se calentaba excesivamente, pero ellos lo siguieron ignorando.
+
+Goodyear infirió directamente que si el proceso de achicharramiento podía ser detenido en el punto correcto, podría hacer que el caucho se librara de sus adhesivos nativos, lo que implicaría una mejora sustancial sobre la goma nativa. Se convenció más de la validez de su intuición al descubrir que el caucho de la India no podía derretirse en azufre hirviendo ya que siempre se achicharraba. Hizo otra prueba calentando un tejido similar antes de probar con un fuego abierto. El mismo efecto de achicharramiento de la goma continuó; pero había muchos indicios satisfactorios de éxito en producir el resultado deseado cuando, sobre el borde de la porción achicharrada, aparecía una línea que no estaba achicharrada, pero sí perfectamente curada.
+
+Goodyear luego describe su mudanza a Woburn, Massachusetts, y cómo llevó a cabo una serie de experimentos sistemáticos para descubrir las condiciones correctas para la cura del caucho.
+
+    ... Cuando se cercioraba de que había encontrado el objeto de su búsqueda y mucho más, y que la nueva sustancia era resistente al frío y al solvente de la goma nativa, se sintió ampliamente recompensado por el pasado y bastante indiferente a las pruebas del futuro.
+
+Goodyear nunca ganó dinero con su descubrimiento. Empeñó todas las posesiones de su familia en un esfuerzo por ganar dinero, pero el 1º de julio de 1860, fallecía cubierto de deudas por importe de más de 200.000 dólares.

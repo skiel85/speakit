@@ -215,11 +215,11 @@ public class PPMC implements BitWriter{
 		OutputStreamWriter writer = new OutputStreamWriter(outStream);
 
 		ArithmeticDecoder decoder = new ArithmeticDecoder(new StreamBitReader(compressedFile), ENCODER_PRECISION);
-		StringBuilder originalDocument = new StringBuilder("");
+		//StringBuilder originalDocument = new StringBuilder("");
 		int positionOnDocument = 0;
 
 		Context context = new Context(this.contextSize);
-		Context context3 = new Context(this.contextSize);
+		ArrayList<Symbol> originalDocument = new ArrayList<Symbol>();
 		// SpeakitLogger.activate();
 
 		SymbolWrapper decodedSymbol = new SymbolWrapper(null);
@@ -237,7 +237,7 @@ public class PPMC implements BitWriter{
 			//////
 			/* FIN Manejo de modelo 0 y modelo -1 */
 			//context3 = new Context(this.contextSize);
-			context3.add(decodedSymbol.getSymbol());
+			originalDocument.add(decodedSymbol.getSymbol());
 
 			// String
 			// contextString=originalDocument.substring(originalDocument.length()-this.contextSize-1);
@@ -262,7 +262,10 @@ public class PPMC implements BitWriter{
 
 			}
 			context=new Context(this.contextSize);
-			context=context3;
+			for (Symbol symbol : originalDocument) {
+				context.add(symbol);
+			}
+			
 			logInfoEntry();
 			SpeakitLogger.deactivate();
 

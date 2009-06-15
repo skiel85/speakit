@@ -28,6 +28,7 @@ public class DecoderEmitter implements Emitter {
 				//originalDocument.append(decodedSymbol.getChar());
 			}
 			foundInTable=true;
+			sym.setSymbol(decodedSymbol);
 		} 
 		
 		return foundInTable;

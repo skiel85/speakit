@@ -64,9 +64,6 @@ public class PPMC implements BitWriter{
 
 
 	public void compress(TextDocument document) throws IOException {
-		ProbabilityTable table = null;
-		ProbabilityTable table2 = null;
-
 		SpeakitLogger.deactivate();
 		ArithmeticEncoder encoder = new ArithmeticEncoder(this, ENCODER_PRECISION);
 
@@ -233,84 +230,7 @@ public class PPMC implements BitWriter{
 
 			ArrayList<Context> contextsToUpdate = new ArrayList<Context>();
 			//////
-			while (!foundInModels && context.size() > 0) {
-				SpeakitLogger.activate();
-				decodedSymbol = decoder.decode(table);
-				SpeakitLogger.deactivate();
-				if (!decodedSymbol.equals(Symbol.getEscape())) {
-					// Si el caracter no es un ESC, escribo el caracter,
-					// actualizo la tabla de probabilidades y rearmo el contexto
-					writer.write(decodedSymbol.getChar());
-					originalDocument.append(decodedSymbol.getChar());
-
-					updateContexts(contextsToUpdate, decodedSymbol);
-
-					table.increment(decodedSymbol);
-					foundInModels = true;
-				} else {
-					// Si el caracter es un ESC, acorto el contexto y actualizo
-					// la probabilidad del escape, si corresponde
-
-					table = this.getTable(context);
-
-					contextsToUpdate.add(context);
-					context = context.subContext(context.size() - 1);
-
-				}
-
-				// Exclusion!
-				/*
-				 * table2=this.getTable(context);
-				 * 
-				 * 
-				 * if(!foundInModels){ ProbabilityTable tableWithEscape = new
-				 * ProbabilityTable(); ProbabilityTable tableToExclude = new
-				 * ProbabilityTable();
-				 * tableWithEscape.increment(Symbol.getEscape());
-				 * 
-				 * tableToExclude=table.exclude(tableWithEscape);
-				 * 
-				 * table=table2.exclude(tableToExclude);
-				 * 
-				 * } else {
-				 * 
-				 * table=table2; }
-				 */
-				table = this.getTable(context);
-
-			}
-
-			/* COMIENZO Manejo de modelo 0 y modelo -1 */
-			if (!foundInModels) {
-
-				// Decodifico el caracter en el modelo 0
-				SpeakitLogger.activate();
-				decodedSymbol = decoder.decode(table);
-				SpeakitLogger.deactivate();
-
-				// Si es un escape, paso al modelo -1 y emito el caracter
-				if (decodedSymbol.equals(Symbol.getEscape())) {
-					// this.ModelMinusOne=this.ModelMinusOne.exclude(table);
-					SpeakitLogger.activate();
-					decodedSymbol = decoder.decode(this.ModelMinusOne);
-					SpeakitLogger.deactivate();
-				}
-
-				if (!decodedSymbol.equals(Symbol.getEof())) {
-					writer.write(decodedSymbol.getChar());
-					originalDocument.append(decodedSymbol.getChar());
-				}
-
-				/*
-				 * if(!table.contains(decodedSymbol) &&
-				 * table.getSymbolsQuantity()!=1) {
-				 * table.increment(Symbol.getEscape());
-				 * 
-				 * } table.increment(decodedSymbol);
-				 */
-				contextsToUpdate.add(context);
-				updateContexts(contextsToUpdate, decodedSymbol);
-			}
+			encodeSymbol(new DecoderEmitter(decoder, outStream), context, Symbol.getEscape());
 			//////
 			/* FIN Manejo de modelo 0 y modelo -1 */
 			context = new Context(this.contextSize);

@@ -233,7 +233,7 @@ public class PPMC implements BitWriter{
 
 			ArrayList<Context> contextsToUpdate = new ArrayList<Context>();
 			//////
-			encodeSymbol(new DecoderEmitter(decoder, outStream), context, decodedSymbol);
+			encodeSymbol(new DecoderEmitter(decoder, writer), context, decodedSymbol);
 			//////
 			/* FIN Manejo de modelo 0 y modelo -1 */
 			//context3 = new Context(this.contextSize);
@@ -269,7 +269,7 @@ public class PPMC implements BitWriter{
 			logInfoEntry();
 			SpeakitLogger.deactivate();
 
-		} while (!decodedSymbol.equals(Symbol.getEof()));
+		} while (!decodedSymbol.getSymbol().equals(Symbol.getEof()));
 		writer.flush();
 	}
 	

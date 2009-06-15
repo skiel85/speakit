@@ -23,7 +23,7 @@ public class EncoderEmitter implements Emitter {
 			// Emito un escape
 			emitSym = Symbol.getEscape();
 		}
-		SpeakitLogger.Log(sym.toString() + "[" + table.getProbability(emitSym) + "]");
+		SpeakitLogger.Log(emitSym.toString() + "[" + table.getProbability(emitSym) + "]");
 		SpeakitLogger.activate();
 		encoder.encode(emitSym, table);
 		SpeakitLogger.deactivate();

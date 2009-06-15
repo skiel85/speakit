@@ -20,10 +20,12 @@ import speakit.io.recordfile.OffsetRecordFile;
 //TODO implementar esta clase
 public class DocumentRepository implements File, RecordFactory {
 	private OffsetRecordFile<DocumentRecord> recordFile;
+	private int PPMCContextSize;
 
 	@Override
 	public void load(FileManager fileManager, Configuration conf) throws IOException {
 		this.recordFile = new OffsetRecordFile<DocumentRecord>(fileManager.openFile("DocumentRepository.dat"), this);
+		this.PPMCContextSize = conf.getPPMCContextSize();
 	}
 
 	/**
@@ -64,7 +66,7 @@ public class DocumentRepository implements File, RecordFactory {
 			if(compressor == 1){
 				ByteArrayInputStream in = new ByteArrayInputStream(record.getCompressedDocument().getBytes());
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				PPMC ppmcCompressor = new PPMC(out,2);
+				PPMC ppmcCompressor = new PPMC(out,this.PPMCContextSize);
 				ppmcCompressor.decompress(in);
 				textFromDecompressedDocument = new String(out.toByteArray());
 				
@@ -115,7 +117,8 @@ public class DocumentRepository implements File, RecordFactory {
 		//se usa el compresor PPMC
 		if(compressor == 1){
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				PPMC ppmcCompressor = new PPMC(out,2);
+				
+				PPMC ppmcCompressor = new PPMC(out,this.PPMCContextSize);
 				ppmcCompressor.compress(doc);
 				DocumentRecord record = new DocumentRecord(out.toByteArray(), 1);
 				recordFile.insertRecord(record);

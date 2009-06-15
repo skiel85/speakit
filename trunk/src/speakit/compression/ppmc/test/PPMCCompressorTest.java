@@ -10,6 +10,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import speakit.Configuration;
+import speakit.Speakit;
+import speakit.SpeakitInterface;
 import speakit.SpeakitLogger;
 import speakit.TextDocument;
 import speakit.compression.arithmetic.test.BruteForceCompressionTester;
@@ -21,11 +24,15 @@ public class PPMCCompressorTest {
 	
 	private PPMC ppmc;
 	ByteArrayOutputStream out;
+	private SpeakitInterface speakit;
 
 	@Before
 	public void setUp() throws Exception {
 		out = new ByteArrayOutputStream();
-		ppmc = new PPMC(out,2);
+		speakit = new Speakit();
+		speakit.load();
+		System.out.println(speakit.getConf().getPPMCContextSize());
+		ppmc = new PPMC(out,speakit.getConf().getPPMCContextSize());
 		
 	}
 
@@ -43,7 +50,7 @@ public class PPMCCompressorTest {
 		byte[] sourcebytes = "ABAAAB".getBytes();
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		PPMC compressor = new PPMC(out,2);
+		PPMC compressor = new PPMC(out,this.speakit.getConf().getPPMCContextSize());
 		compressor.decompress(new ByteArrayInputStream(compressedbytes));
 		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
 		
@@ -60,7 +67,7 @@ public class PPMCCompressorTest {
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
-		PPMC compressor = new PPMC(out,2);
+		PPMC compressor = new PPMC(out,this.speakit.getConf().getPPMCContextSize());
 		compressor.decompress(new ByteArrayInputStream(compressedbytes));
 		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
 		
@@ -77,7 +84,7 @@ public class PPMCCompressorTest {
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
-		PPMC compressor = new PPMC(out,2);
+		PPMC compressor = new PPMC(out,this.speakit.getConf().getPPMCContextSize());
 		compressor.decompress(new ByteArrayInputStream(compressedbytes));
 		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
 		
@@ -93,7 +100,7 @@ public class PPMCCompressorTest {
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
-		PPMC compressor = new PPMC(out,2);
+		PPMC compressor = new PPMC(out,this.speakit.getConf().getPPMCContextSize());
 		compressor.decompress(new ByteArrayInputStream(compressedbytes));
 		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
 		
@@ -109,7 +116,7 @@ public class PPMCCompressorTest {
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
-		PPMC compressor = new PPMC(out,2);
+		PPMC compressor = new PPMC(out,this.speakit.getConf().getPPMCContextSize());
 		compressor.decompress(new ByteArrayInputStream(compressedbytes));
 		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
 		
@@ -126,7 +133,7 @@ public class PPMCCompressorTest {
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
-		PPMC compressor = new PPMC(out,2);
+		PPMC compressor = new PPMC(out,this.speakit.getConf().getPPMCContextSize());
 		compressor.decompress(new ByteArrayInputStream(compressedbytes));
 		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
 		

@@ -1,13 +1,10 @@
 package speakit;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -17,9 +14,9 @@ import speakit.audio.Audio;
 import speakit.audio.AudioManager;
 import speakit.audio.AudioManagerException;
 import speakit.compression.arithmetic.ArithmeticCompressor;
-import speakit.compression.arithmetic.StreamBitReader;
 import speakit.dictionary.audiofile.WordNotFoundException;
 import speakit.documentstorage.TextDocumentList;
+import speakit.io.FileUtils;
 import speakit.io.record.RecordSerializationException;
 import datos.capturaaudio.exception.SimpleAudioRecorderException;
 
@@ -220,7 +217,7 @@ public class Menu {
 			decomp.decompress(new FileInputStream(path + ".zipit"));
 			
 			System.out.println("Verificando...");
-			if (compareFiles(path, path + ".zipit.dezipit")){
+			if (FileUtils.compareFiles(path, path + ".zipit.dezipit")){
 				System.out.println("Verificación exitosa.");
 			} else {
 				System.out.println("Falló la verificación. Intente nuevamente.");
@@ -234,36 +231,7 @@ public class Menu {
 		}
 	}
 
-	private boolean compareFiles(String path1, String path2) throws IOException {
-		FileReader reader1 = new FileReader (path1);
-		FileReader reader2 = new FileReader (path2);
-		
-		char[] buffer1 = new char[1024];
-		char[] buffer2 = new char[1024];
-		int count1 = 0;
-		int count2 = 0;
-		
-		boolean result = true;
-		
-		while (result && count1 != -1 && count2 != -1) {
-			count1 = reader1.read(buffer1);
-			count2 = reader2.read(buffer2);
-			if (count1 != count2) {
-				result = false;
-			} else {
-				for (int i = 0; i < count1 && result; i++) {
-					if (buffer1[i] != buffer2[i]) {
-						result = false;
-					}
-				}
-			}
-		}
-		
-		reader1.close();
-		reader2.close();
-		
-		return result;
-	}
+	
 	
 	/**
 	 * confirma que el contenido del audio sea correcto, si no lo es, vuelve a

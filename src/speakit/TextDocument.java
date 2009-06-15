@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import speakit.compression.arithmetic.Symbol;
 import speakit.wordreader.WordReader;
 import speakit.wordreader.WordReaderImpl;
 
@@ -43,11 +44,14 @@ public class TextDocument implements Iterable<String> {
 	}
 
 	public void loadFromFile(File file) throws IOException {
-		FileInputStream in = new FileInputStream(file);
-		InputStreamReader reader = new InputStreamReader(in);
-		char[] buffer = new char[(int) in.available()];
-		reader.read(buffer);
-		this.text = new String(buffer);
+		FileInputStream in = new FileInputStream(file); 
+		InputStreamReader reader = new InputStreamReader(in,"UTF-16");  //el notepad++ marca a estos archivos como ucs-2 big endian
+		String readString = new String();
+		int current=0;		
+		while((current=reader.read())>=0){
+			readString+=new Symbol((char)current).getChar();
+		}
+		this.text=readString;
 	}
 
 	@Override

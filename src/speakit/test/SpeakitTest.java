@@ -17,6 +17,7 @@ import speakit.Speakit;
 import speakit.TextDocument;
 import speakit.WordAudio;
 import speakit.audio.Audio;
+import speakit.io.FileUtils;
 import speakit.io.record.RecordSerializationException;
 
 public class SpeakitTest {
@@ -45,14 +46,10 @@ public class SpeakitTest {
 
 	public TextDocument createTextDocument(String text) throws FileNotFoundException, IOException {
 		File file = File.createTempFile(this.getClass().getName(), ".txt");
-		OutputStream os = new FileOutputStream(file);
-		os.write(text.getBytes());
-		os.close();
+		FileUtils.writeTextOnUnicodeFile(file, text);
 
 		TextDocument textDocument = this.sut.getTextDocumentFromFile(file.getAbsolutePath());
-
 		file.delete();
-
 		return textDocument;
 	}
 	

@@ -23,7 +23,7 @@ public class ArithmeticCompressor implements BitWriter {
 	}
 
 	public void decompress(InputStream compressedFile) throws IOException {
-		OutputStreamWriter writer = new OutputStreamWriter(outStream);
+		OutputStreamWriter writer = new OutputStreamWriter(outStream, "UTF-16"); 
 
 		ArithmeticDecoder decoder = new ArithmeticDecoder(new StreamBitReader(compressedFile), precision);
 		ProbabilityTable table = createInitialTable();

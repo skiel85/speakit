@@ -103,56 +103,30 @@ public class PPMC implements BitWriter{
 				table2 = this.getTable(context);
 
 				table.increment(interpreter.getActualSymbol());
-				if (table.getSymbolsQuantity() != 2 && !foundInModels)
+				if (table.getSymbolsQuantity() != 2 && !foundInModels) {
 					table.increment(Symbol.getEscape());
+				}
 
 				table = table2;
 			}
 
 			if (!foundInModels) {
+				// Contexto 0
+				foundInModels |= emitSymbol(table, encoder, sym);
 
-				if (table.contains(interpreter.getActualSymbol())) {
-					// Emito el caracter en el modelo 0 y actualizo su
-					// probabilidad
-					prepareInfoEntry(interpreter.getActualSymbol().toString() + "[" + table.getProbability(interpreter.getActualSymbol()) + "]");
-					SpeakitLogger.activate();
-					encoder.encode(interpreter.getActualSymbol(), table);
-					SpeakitLogger.deactivate();
-
-					table.increment(interpreter.getActualSymbol());
-
-				} else {
-					// Emito un escape en el modelo 0 y emito el caracter en el
-					// modelo -1
-
-					table.getProbability(Symbol.getEscape());
-					prepareInfoEntry(Symbol.getEscape().toString() + "[" + table.getProbability(Symbol.getEscape()) + "]");
-
-					SpeakitLogger.activate();
-					encoder.encode(Symbol.getEscape(), table);
-					SpeakitLogger.deactivate();
-
-					// Excluyo el Modelo 0 del modelo -1, antes de emitir
-					table = getTable(context);
-
-					// this.ModelMinusOne=this.ModelMinusOne.exclude(table);
-
-					// Incremento las probabilidades del caracter en el modelo 0
-
-					table.increment(interpreter.getActualSymbol());
-
-					if (table.getSymbolsQuantity() != 2)
-						table.increment(Symbol.getEscape());
-
-					// Emito el caracter en el modelo -1
-
-					prepareInfoEntry(interpreter.getActualSymbol().toString() + "[" + this.ModelMinusOne.getProbability(interpreter.getActualSymbol()) + "]");
-					SpeakitLogger.activate();
-					encoder.encode(interpreter.getActualSymbol(), this.ModelMinusOne);
-					SpeakitLogger.deactivate();
-
+				table.increment(interpreter.getActualSymbol());
+				if (table.getSymbolsQuantity() != 2 && !foundInModels) {
+					table.increment(Symbol.getEscape());
 				}
 			}
+			if (!foundInModels) {
+				// Emito el caracter en el modelo -1
+				prepareInfoEntry(interpreter.getActualSymbol().toString() + "[" + this.ModelMinusOne.getProbability(interpreter.getActualSymbol()) + "]");
+				SpeakitLogger.activate();
+				encoder.encode(interpreter.getActualSymbol(), this.ModelMinusOne);
+				SpeakitLogger.deactivate();
+			}				
+			
 			SpeakitLogger.activate();
 
 			Set<Context> contexts = this.tables.keySet();

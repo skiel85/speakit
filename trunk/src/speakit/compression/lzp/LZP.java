@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 
+import speakit.FileManager;
 import speakit.SpeakitLogger;
 import speakit.TextDocument;
 import speakit.compression.arithmetic.ArithmeticDecoder;
@@ -27,6 +28,7 @@ public class LZP implements BitWriter {
 	private BitWriter	writer	;
 	private OutputStream	outStream;
 	private String infoEntry;
+	private FileManager  fileManager;
 	
 
 	
@@ -35,6 +37,7 @@ public class LZP implements BitWriter {
 		contextTables = new HashMap<String, LzpProbabilityTable>();
 		this.outStream = outputStream;
 		this.writer = new StreamBitWriter(outputStream);
+		this.fileManager = new FileManager();
 		initTables();
 
 	}
@@ -53,6 +56,7 @@ public class LZP implements BitWriter {
 		LzpProbabilityTable table = null;
 		ArithmeticEncoder encoder = new ArithmeticEncoder(this, ENCODER_PRECISION);
 		LZPTable lzpTable = new LZPTable();
+		initLzpTable(lzpTable);
 		TextDocumentInterpreter interpreter = new TextDocumentInterpreter(document);
 		while (interpreter.hasData()) {
 			Integer currPosition = interpreter.getCurrentPosition();
@@ -81,9 +85,15 @@ public class LZP implements BitWriter {
 			interpreter.advance();
 		//Logueo la info
 			logInfoEntry();
-		} 
+		}
+		lzpTable.cleanTempFiles(fileManager);
 	}
 	
+	private void initLzpTable(LZPTable table) throws IOException{
+		
+		table.install(fileManager, null);
+	}
+
 	public TextDocument decompress(InputStream compressedFile) throws IOException {
 		ArithmeticDecoder decoder = new ArithmeticDecoder(new StreamBitReader(compressedFile), ENCODER_PRECISION);
 		TextDocumentBuilder builder = new TextDocumentBuilder();
@@ -92,6 +102,7 @@ public class LZP implements BitWriter {
 		Context matchContext = null;
 		Context compressContext = null;
 		LZPTable lzpTable = new LZPTable();
+		initLzpTable(lzpTable);
 		Integer matchLength = null;
 		Integer matchPos = null;
 		Integer currentPos = null;
@@ -128,6 +139,7 @@ public class LZP implements BitWriter {
 			prepareInfoEntry("Actual: '" + builder.getDocument().getText());
 			logInfoEntry();
 		} while (!decodedSymbol.equals(Symbol.getEof()));
+		lzpTable.cleanTempFiles(fileManager);
 		return builder.getDocument();
 	}
 	

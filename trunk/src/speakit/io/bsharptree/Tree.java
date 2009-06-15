@@ -313,4 +313,8 @@ public class Tree<RECTYPE extends Record<KEYTYPE>, KEYTYPE extends Field> implem
 		this.updateNode(this.root);
 	}
 
+	public void close() throws IOException {
+		if (this.blockFile != null)
+			this.blockFile.close();
+	}
 }

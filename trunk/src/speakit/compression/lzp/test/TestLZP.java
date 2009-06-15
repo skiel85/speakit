@@ -46,6 +46,7 @@ public class TestLZP {
 		//SpeakitLogger.activate();
 
 	}
+	
 	@Test
 	public void testCompress() throws IOException {
 		lzp.compress(docFrase);
@@ -53,7 +54,7 @@ public class TestLZP {
 		System.out.println(out);
 	}
 	
-	
+	@Ignore
 	@Test
 	public void testDecompress() throws IOException {
 		byte[] compressedbytes = compress(document);
@@ -74,7 +75,7 @@ public class TestLZP {
 		System.out.println("Fin de la descompresion");
 		Assert.assertTrue(docWikiChars.getText().equals(result.getText()));
 	}
-	
+	@Ignore
 	@Test
 	public void testCompressDecompres() throws IOException  {
 		long initTime = Calendar.getInstance().getTimeInMillis();

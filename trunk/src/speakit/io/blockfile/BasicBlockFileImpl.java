@@ -176,4 +176,10 @@ public class BasicBlockFileImpl implements BasicBlockFile {
 		return getActualBlockNumberFromUserBlockNumber(getLastBlockNumber());
 	}
 
+	@Override
+	public void close() throws IOException {
+		if (this.randomFile != null)
+			this.randomFile.close();
+	}
+
 }

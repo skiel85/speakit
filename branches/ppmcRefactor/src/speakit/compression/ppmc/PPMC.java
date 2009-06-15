@@ -77,8 +77,10 @@ public class PPMC implements BitWriter{
 			prepareInfoEntry("Caracter Actual: '" + interpreter.getActualSymbol().toString() + "'");
 			prepareInfoEntry("Contexto Actual: '" + ctx.toString() + "'\n");
 			SpeakitLogger.deactivate();
+			
+			ProbabilityTable table = null;
 
-			encodeSymbol(new EncoderEmitter(encoder), ctx, new SymbolWrapper(sym));
+			encodeSymbol(new EncoderEmitter(encoder), ctx, new SymbolWrapper(sym), table);
 			
 			SpeakitLogger.activate();
 
@@ -95,19 +97,25 @@ public class PPMC implements BitWriter{
 
 	}
 	
-	private void encodeSymbol(Emitter emitter, Context context, SymbolWrapper sym) throws IOException {
+	private void encodeSymbol(Emitter emitter, Context context, SymbolWrapper sym, ProbabilityTable tableToExclude) throws IOException {
 		// Obtengo la tabla del contexto actual
 		ProbabilityTable table;
 		if(context != null) {
-			table = this.getTable(context);
+			//table = this.getTable(context);
+			table = this.getTableWithExclusion(this.getTable(context), tableToExclude);
+			//this.tables.put(context, this.getTableWithExclusion(this.getTable(context), tableToExclude));
+			//table = this.getTable(context);
 		} else {
-			table = this.ModelMinusOne;
+			//table = this.ModelMinusOne;
+			table = this.getTableWithExclusion(this.ModelMinusOne, tableToExclude);
 		}
 		
-		//SymbolWrapper symbolWrapper=new SymbolWrapper(sym);
+		
 
 		// Codifico con la tabla actual.
 		boolean foundInModels = emitter.emitSymbol(table,sym);
+		
+		if (context!=null) table=this.getTable(context);
 
 		// Si no encuentro el símbolo en esa tabla:
 		if (!foundInModels) {
@@ -120,9 +128,9 @@ public class PPMC implements BitWriter{
 
 			// Busco en el contexto siguiente
 			if (context.size() > 0) {
-				encodeSymbol(emitter, context.subContext(context.size() - 1), sym);
+				encodeSymbol(emitter, context.subContext(context.size() - 1), sym,table);
 			} else {
-				encodeSymbol(emitter, null, sym);
+				encodeSymbol(emitter, null, sym,table);
 			}
 		}
 		
@@ -131,6 +139,27 @@ public class PPMC implements BitWriter{
 			table.increment(sym.getSymbol());
 		}
 
+	}
+
+	private ProbabilityTable getTableWithExclusion(ProbabilityTable table,
+			ProbabilityTable tableToExclude) {
+		
+		//ProbabilityTable table=this.getTable(context);
+		ProbabilityTable tableWithEscape = new ProbabilityTable();
+		ProbabilityTable tableToExcludeWithoutEscape = new ProbabilityTable();
+		
+		if (tableToExclude!=null){
+			
+			tableWithEscape.increment(Symbol.getEscape());
+			
+			tableToExcludeWithoutEscape=tableToExclude.exclude(tableWithEscape);
+			
+			table=table.exclude(tableToExcludeWithoutEscape);
+			
+			return table;
+		} else {
+			return table;
+		}
 	}
 
 	@Deprecated
@@ -161,8 +190,8 @@ public class PPMC implements BitWriter{
 		tableToExclude=table.exclude(tableWithEscape);
 		
 		// Incremento la probabilidad de los caracteres en el contexto actual
-		if(!tableToExclude.contains(actualSymbol)) table.increment(actualSymbol);
-		if (table.getSymbolsQuantity()!=2) table.increment(Symbol.getEscape());
+		/*if(!tableToExclude.contains(actualSymbol)) table.increment(actualSymbol);
+		if (table.getSymbolsQuantity()!=2) table.increment(Symbol.getEscape());*/
 		
 		table=table2.exclude(tableToExclude);
 		return table;
@@ -230,10 +259,11 @@ public class PPMC implements BitWriter{
 			boolean foundInModels = false;
 
 			table = this.getTable(context);
+			
 
 			ArrayList<Context> contextsToUpdate = new ArrayList<Context>();
 			//////
-			encodeSymbol(new DecoderEmitter(decoder, writer), context, decodedSymbol);
+			encodeSymbol(new DecoderEmitter(decoder, writer), context, decodedSymbol,table2);
 			//////
 			/* FIN Manejo de modelo 0 y modelo -1 */
 			//context3 = new Context(this.contextSize);

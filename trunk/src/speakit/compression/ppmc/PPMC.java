@@ -67,7 +67,7 @@ public class PPMC implements BitWriter{
 		ProbabilityTable table = null;
 		ProbabilityTable table2 = null;
 		
-		SpeakitLogger.deactivate();
+//		SpeakitLogger.deactivate();
 		ArithmeticEncoder encoder = new ArithmeticEncoder(this, ENCODER_PRECISION);
 		
 
@@ -94,10 +94,10 @@ public class PPMC implements BitWriter{
 						context=interpreter.getContext(this.getContextSize());
 					}
 				}
-				SpeakitLogger.activate();
+//				SpeakitLogger.activate();
 				prepareInfoEntry("Caracter Actual: '" + interpreter.getActualSymbol().toString() + "'");
 				prepareInfoEntry("Contexto Actual: '" + context.toString() + "'\n");
-				SpeakitLogger.deactivate();
+//				SpeakitLogger.deactivate();
 
 				table=this.getTable(context);
 
@@ -108,17 +108,17 @@ public class PPMC implements BitWriter{
 						//Emito el caracter y actualizo la probabilidad del caracter en este contexto
 						
 						emision+=interpreter.getActualSymbol().toString()+"["+table.getProbability(interpreter.getActualSymbol())+"]";
-						SpeakitLogger.activate();
+//						SpeakitLogger.activate();
 						encoder.encode(interpreter.getActualSymbol(), table);
-						SpeakitLogger.deactivate();
+//						SpeakitLogger.deactivate();
 
 						foundInModels=true;
 					}else{
 						//Emito un escape
 						emision+=Symbol.getEscape().toString()+"["+table.getProbability(Symbol.getEscape())+"]";
-						SpeakitLogger.activate();
+//						SpeakitLogger.activate();
 						encoder.encode(Symbol.getEscape(), table);
-						SpeakitLogger.deactivate();
+//						SpeakitLogger.deactivate();
 						
 						//Recupero la tabla original, por si hubo una exclusion en el modelo anterior
 						table=getTable(context);
@@ -154,9 +154,9 @@ public class PPMC implements BitWriter{
 					if (table.contains(interpreter.getActualSymbol())){
 						//Emito el caracter en el modelo 0 y actualizo su probabilidad
 						emision+=interpreter.getActualSymbol().toString()+"["+table.getProbability(interpreter.getActualSymbol())+"]";
-						SpeakitLogger.activate();
+//						SpeakitLogger.activate();
 						encoder.encode(interpreter.getActualSymbol(), table);
-						SpeakitLogger.deactivate();
+//						SpeakitLogger.deactivate();
 
 						table.increment(interpreter.getActualSymbol());
 
@@ -166,9 +166,9 @@ public class PPMC implements BitWriter{
 						table.getProbability(Symbol.getEscape());
 						emision+=Symbol.getEscape().toString()+"["+table.getProbability(Symbol.getEscape())+"]";
 						
-						SpeakitLogger.activate();
+//						SpeakitLogger.activate();
 						encoder.encode(Symbol.getEscape(), table);
-						SpeakitLogger.deactivate();
+//						SpeakitLogger.deactivate();
 
 						//Excluyo el Modelo 0 del modelo -1, antes de emitir
 						table=getTable(context);
@@ -184,13 +184,13 @@ public class PPMC implements BitWriter{
 						//Emito el caracter en el modelo -1
 						
 						emision+=interpreter.getActualSymbol().toString()+"["+this.ModelMinusOne.getProbability(interpreter.getActualSymbol())+"]";
-						SpeakitLogger.activate();
+//						SpeakitLogger.activate();
 						encoder.encode(interpreter.getActualSymbol(), this.ModelMinusOne);
-						SpeakitLogger.deactivate();
+//						SpeakitLogger.deactivate();
 
 					}
 				}
-				SpeakitLogger.activate();
+//				SpeakitLogger.activate();
 				prepareInfoEntry("Emito: '"+emision+"' \n");
 
 				Set<Context> contexts = this.tables.keySet();
@@ -202,7 +202,7 @@ public class PPMC implements BitWriter{
 				emision="";
 				logInfoEntry();
 				interpreter.advance();
-				SpeakitLogger.deactivate();
+//				SpeakitLogger.deactivate();
 			}
 
 		} catch (Exception e){
@@ -294,9 +294,9 @@ public class PPMC implements BitWriter{
 			ArrayList<Context> contextsToUpdate=new ArrayList<Context>();
 
 			while (!foundInModels && context.size()>0){
-				SpeakitLogger.activate();
+//				SpeakitLogger.activate();
 				decodedSymbol=decoder.decode(table);
-				SpeakitLogger.deactivate();
+//				SpeakitLogger.deactivate();
 				if (!decodedSymbol.equals(Symbol.getEscape())){
 					// Si el caracter no es un ESC, escribo el caracter, actualizo la tabla de probabilidades y rearmo el contexto 
 					writer.write(decodedSymbol.getChar());
@@ -341,24 +341,26 @@ public class PPMC implements BitWriter{
 			if (!foundInModels) {
 
 				//Decodifico el caracter en el modelo 0
-				SpeakitLogger.activate();
+//				SpeakitLogger.activate();
 				decodedSymbol=decoder.decode(table);
-				SpeakitLogger.deactivate();
+//				SpeakitLogger.deactivate();
 
 				
 				//Si es un escape, paso al modelo -1 y emito el caracter
 				if (decodedSymbol.equals(Symbol.getEscape()))
 				{
 					//this.ModelMinusOne=this.ModelMinusOne.exclude(table);
-					SpeakitLogger.activate();
+//					SpeakitLogger.activate();
 					decodedSymbol=decoder.decode(this.ModelMinusOne);
-					SpeakitLogger.deactivate();
+//					SpeakitLogger.deactivate();
 				}
 				
 				if(!decodedSymbol.equals(Symbol.getEof())){
 					writer.write( decodedSymbol.getChar());
 					originalDocument.append(decodedSymbol.getChar());
 				}
+				
+				
 				
 				/*if(!table.contains(decodedSymbol) && table.getSymbolsQuantity()!=1) {
 					table.increment(Symbol.getEscape());
@@ -367,6 +369,7 @@ public class PPMC implements BitWriter{
 				table.increment(decodedSymbol);*/
 				contextsToUpdate.add(context);
 				updateContexts(contextsToUpdate,decodedSymbol);
+				SpeakitLogger.Log("PPMC->Decodificado: " + decodedSymbol);
 			}
 			
 			/* FIN Manejo de modelo 0 y modelo -1 */
@@ -378,7 +381,7 @@ public class PPMC implements BitWriter{
 				context.add(new Symbol(originalDocument.charAt(i)));
 			}
 			
-			SpeakitLogger.activate();
+//			SpeakitLogger.activate();
 			prepareInfoEntry("Documento: '" + originalDocument + "'\n");
 			Set<Context> lalala=this.getTables().keySet();
 			for (Context context2 : lalala) {
@@ -393,7 +396,7 @@ public class PPMC implements BitWriter{
 			}
 			
 			logInfoEntry();
-			SpeakitLogger.deactivate();
+//			SpeakitLogger.deactivate();
 
 		}while(!decodedSymbol.equals(Symbol.getEof()));
 		writer.flush();

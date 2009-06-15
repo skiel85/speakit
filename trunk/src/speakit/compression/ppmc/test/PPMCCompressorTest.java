@@ -7,11 +7,13 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.SpeakitLogger;
 import speakit.TextDocument;
-import speakit.compression.arithmetic.ArithmeticCompressor;
+import speakit.compression.arithmetic.test.BruteForceCompressionTester;
+import speakit.compression.arithmetic.test.SingleCompressionTester;
 import speakit.compression.ppmc.PPMC;
 import speakit.io.ByteArrayConverter;
 
@@ -61,6 +63,7 @@ public class PPMCCompressorTest {
 		
 	}
 	
+	@Ignore
 	@Test
 	public void testCompress2() throws IOException {
 		SpeakitLogger.activate();
@@ -120,9 +123,50 @@ public class PPMCCompressorTest {
 	}
 	
 	private byte[] compress(String document) throws IOException {
-		this.ppmc.compress(new TextDocument(document));
+		ppmc.compress(new TextDocument(document));
+		return out.toByteArray();
+	}
+	
+	private static byte[] compress(String document,PPMC ppmc,ByteArrayOutputStream out) throws IOException {
+		ppmc.compress(new TextDocument(document));
 		// SpeakitLogger.Log(out.toString());
 		return out.toByteArray();
+	}
+	
+	public static void testCompress(String file) throws IOException{
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		PPMC ppmc = new PPMC(out,2);
+		//Este no funciona
+		ppmc.compress(new TextDocument(file));
+		byte[] compressedbytes = out.toByteArray(); 
+		
+		ByteArrayOutputStream decompressionOutput = new ByteArrayOutputStream(); 
+		PPMC compressor = new PPMC(decompressionOutput,2);
+		compressor.decompress(new ByteArrayInputStream(compressedbytes));
+		Assert.assertEquals(file, new String(decompressionOutput.toByteArray()));
+		
+	}
+	
+	@Ignore
+	@Test
+	public void testCompressAAB() throws IOException{
+		SpeakitLogger.activate();
+		testCompress("aab");
+	}
+	
+	@Ignore
+	@Test
+	public void testProgressiveTextFiles() throws IOException {
+		SpeakitLogger.deactivate();
+		BruteForceCompressionTester tester = new BruteForceCompressionTester(5,new SingleCompressionTester(){
+
+			@Override
+			public void testCompress(String file) throws IOException {
+				PPMCCompressorTest.testCompress(file);
+			}
+			
+		},true);
+		tester.runTests();
 	}
 
 }

@@ -32,5 +32,9 @@ public interface FTRS extends File {
 	public String printIndexForDebug();
 
 	public ArrayList<String> getInvalidWordsForSearch(TextDocument consultation, FileManager fileManager, Configuration configuration);
+
+	public void indexDocuments(TextDocumentList documentList, int compressor) throws IOException;
+
+	public void indexDocument(TextDocument textDocument, int compressor) throws IOException;
 	
 }

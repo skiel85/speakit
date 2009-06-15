@@ -28,6 +28,18 @@ public interface SpeakitInterface extends Installable {
 	public abstract Iterable<String> addDocuments(TextDocumentList docs) throws IOException;
 	
 	/**
+	 * Agrega el documento al sistema y devuelve la lista de palabras
+	 * desconocidas
+	 */
+	public abstract Iterable<String> addDocument(TextDocument doc, int compressor) throws IOException;
+	
+	/**
+	 * Agrega los documentos al sistema y devuelve la lista de documentos
+	 * para luego obtener las palabras desconocidas de cada uno
+	 */
+	public abstract Iterable<String> addDocuments(TextDocumentList docs, int compressor) throws IOException;
+	
+	/**
 	 * Devuelve una documento de audio
 	 */
 	public abstract WordAudioDocument convertToAudioDocument(TextDocument doc) throws IOException;

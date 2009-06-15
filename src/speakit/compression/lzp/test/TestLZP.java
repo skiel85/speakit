@@ -1,7 +1,11 @@
 package speakit.compression.lzp.test;
 
-import java.io.ByteArrayInputStream;
+
 import java.io.ByteArrayOutputStream;
+
+import java.io.ByteArrayInputStream;
+
+
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -38,7 +42,9 @@ public class TestLZP {
 	public void setUp() throws Exception {
 		out = new ByteArrayOutputStream();
 		lzp = new LZP(out);
+
 		//SpeakitLogger.activate();
+
 	}
 	@Test
 	public void testCompress() throws IOException {

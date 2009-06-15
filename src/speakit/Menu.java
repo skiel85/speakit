@@ -43,6 +43,8 @@ public class Menu {
 		speakit = new Speakit();
 	}
 
+	
+	
 	/**
 	 * Despliega el menu para procesar los archivos de texto
 	 * 
@@ -58,12 +60,13 @@ public class Menu {
 		Iterable<String> wordIterable;
 
 		try {
-			wordIterable = this.speakit.addDocument(speakit.getTextDocumentFromFile(path));
+			int compressor = chooseCompressor();
+			wordIterable = this.speakit.addDocument(speakit.getTextDocumentFromFile(path), compressor);
 		} catch (FileNotFoundException fnf) {
 			showFileNotFoundMessage(path);
 			return;
 		}
-
+		
 		if (wordIterable.iterator().hasNext()) {
 			System.out.println("El documento contiene palabras desconocidas, que deberá grabar a continuación.");
 		}
@@ -136,7 +139,8 @@ public class Menu {
 				pathsNotFounds.add(path);
 			}
 		}
-		Iterable<String> faltantes = this.speakit.addDocuments(documents);
+		int compressor = chooseCompressor();
+		Iterable<String> faltantes = this.speakit.addDocuments(documents, compressor);
 		boolean showTitle = true;
 		for (String unknownWord : faltantes) {
 			System.out.println();
@@ -415,6 +419,57 @@ public class Menu {
 		System.out.println(speakit.printIndexForDebug());
 	}
 
+	/**
+	 * Despliega el menu para elegir el tipo de compresor a utilizar
+	 * 
+	 * @throws IOException
+	 */
+	
+	private int chooseCompressor(){
+		int compressor = 0;
+		showCompressorTypes();
+		boolean finished = false;
+		while (!finished) {
+			int opt = 0;
+			try {
+				opt = Integer.parseInt(userInput.readLine());
+			} catch (IOException e) {
+				System.out.println("Error de E/S al leer la consola.");
+				continue;
+			} catch (NumberFormatException e) {
+				System.out.println("Opción inválida.");
+				continue;
+			}
+			
+			switch (opt) {
+			case 1:
+				compressor = 1;
+				finished = true;
+				break;
+			case 2:
+				compressor = 2;
+				finished = true;
+				break;
+			case 3:
+				compressor = 3;
+				finished = true;
+				break;
+			default:
+				System.out.println("Opción inválida.\n");
+				break;	
+			}
+		}
+		return compressor;
+	}
+	
+	
+	private void showCompressorTypes() {
+		System.out.println("Ingrese el tipo de compresor que desea utilizar para comprimir los archivos de texto:\n"
+				+ "		1.- PPMC\n"
+				+ "		2.- LZP\n"
+				+ "		3.- No Comprimir\n");
+	}
+	
 	/**
 	 * Despliega el menu para realizar una consulta
 	 * 

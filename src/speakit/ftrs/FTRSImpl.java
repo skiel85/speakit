@@ -35,7 +35,7 @@ public class FTRSImpl implements FTRS {
 
 		TextDocumentList result = new TextDocumentList();
 		for (Long docId : documentIds) {
-			result.add(repository.getById(docId));
+			result.add(repository.getByIdOfCompressedDocument(docId));
 		}
 
 		return result;
@@ -92,6 +92,36 @@ public class FTRSImpl implements FTRS {
 		getIndex().updateRecords(records);
 	}
 
+	
+	@Override
+	public void indexDocuments(TextDocumentList documentList, int compressor) throws IOException {
+		InvertedIndexRecordGenerator generator = new InvertedIndexRecordGenerator();
+		for (TextDocument textDocument : documentList) {
+			this.repository.store(textDocument, compressor);
+			TextDocument cleanDocument = applyFilters(textDocument);
+			generator.addSingleDocument(cleanDocument);
+		}
+		ArrayList<InvertedIndexRecord> records = generator.generateNewRegisters();
+		// TODO faltaría mergear los index records preexistentes con los nuevos
+		// index records
+		getIndex().updateRecords(records);
+	}
+
+	@Override
+	public void indexDocument(TextDocument textDocument, int compressor) throws IOException {
+		this.repository.store(textDocument, compressor);
+		InvertedIndexRecordGenerator generator = new InvertedIndexRecordGenerator();
+		// a modo de prueba, agrego un document, este metodo seguramente no
+		// tenga sentido
+		TextDocument cleanDocument = applyFilters(textDocument);
+		generator.addSingleDocument(cleanDocument);
+		ArrayList<InvertedIndexRecord> records = generator.generateNewRegisters();
+		// TODO faltaría mergear los index records preexistentes con los nuevos
+		// index records
+		getIndex().updateRecords(records);
+	}
+	
+	
 	@Override
 	public void load(FileManager filemanager, Configuration conf) throws IOException {
 		this.index.load(filemanager, conf);

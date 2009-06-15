@@ -108,6 +108,12 @@ public class PPMC implements BitWriter{
 
 		boolean foundInModels = emitSymbol(table, encoder, sym);
 
+		if (context != null) {
+			if (table.getSymbolsQuantity() != 1 && !foundInModels) {
+				table.increment(Symbol.getEscape());
+			}
+		}
+		
 		if(!foundInModels) {
 			if (context.size() > 0) {
 				encodeSymbol(encoder, context.subContext(context.size() - 1), sym);
@@ -118,9 +124,6 @@ public class PPMC implements BitWriter{
 		
 		if (context != null) {
 			table.increment(sym);
-			if (table.getSymbolsQuantity() != 2 && !foundInModels) {
-				table.increment(Symbol.getEscape());
-			}
 		}
 
 	}

@@ -95,37 +95,28 @@ public class PPMC implements BitWriter{
 			boolean foundInModels = false;
 
 			Symbol sym = interpreter.getActualSymbol();
-			while (!foundInModels && context.size() > 0) {
+			while (!foundInModels) {
 				foundInModels |= emitSymbol(table, encoder, sym);
 
 				// Obtengo el subcontexto para chequear en el modelo anterior
-				context = context.subContext(context.size() - 1);
-				table2 = this.getTable(context);
-
-				table.increment(interpreter.getActualSymbol());
-				if (table.getSymbolsQuantity() != 2 && !foundInModels) {
-					table.increment(Symbol.getEscape());
+				if(context.size() > 0) {
+					context = context.subContext(context.size() - 1);
+					table2 = this.getTable(context);
+				} else {
+					table2 = this.ModelMinusOne;
+				}
+				
+				if (table != this.ModelMinusOne) {
+					table.increment(interpreter.getActualSymbol());
+					if (table.getSymbolsQuantity() != 2 && !foundInModels) {
+						table.increment(Symbol.getEscape());
+					}
 				}
 
 				table = table2;
 			}
 
-			if (!foundInModels) {
-				// Contexto 0
-				foundInModels |= emitSymbol(table, encoder, sym);
-
-				table.increment(interpreter.getActualSymbol());
-				if (table.getSymbolsQuantity() != 2 && !foundInModels) {
-					table.increment(Symbol.getEscape());
-				}
-			}
-			if (!foundInModels) {
-				// Emito el caracter en el modelo -1
-				prepareInfoEntry(interpreter.getActualSymbol().toString() + "[" + this.ModelMinusOne.getProbability(interpreter.getActualSymbol()) + "]");
-				SpeakitLogger.activate();
-				encoder.encode(interpreter.getActualSymbol(), this.ModelMinusOne);
-				SpeakitLogger.deactivate();
-			}				
+					
 			
 			SpeakitLogger.activate();
 

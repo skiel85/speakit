@@ -63,4 +63,5 @@ public interface SpeakitInterface extends Installable {
 	
 	public ArrayList<String> getInvalidWordsForSearch(TextDocument consultation);
 
+	public Configuration getConf();
 }

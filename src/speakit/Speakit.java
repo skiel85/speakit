@@ -32,6 +32,10 @@ public class Speakit implements SpeakitInterface {
 		this.ftrs = new FTRSImpl();
 	}
 
+	public Configuration getConf() {
+		return conf;
+	}
+
 	/**
 	 * Carga Speakit con el conjunto de archivos predeterminado.
 	 * 

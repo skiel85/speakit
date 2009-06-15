@@ -34,9 +34,9 @@ public class DecoderEmitter implements Emitter {
 		return foundInTable;
 	}
 	
-	public DecoderEmitter(ArithmeticDecoder decoder, OutputStream outStream )
+	public DecoderEmitter(ArithmeticDecoder decoder, OutputStreamWriter writer )
 	{
-		this.writer= new OutputStreamWriter(outStream);
+		this.writer=writer;
 		this.decoder=decoder;
 	}
 

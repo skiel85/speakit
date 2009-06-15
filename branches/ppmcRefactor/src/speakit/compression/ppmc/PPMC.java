@@ -78,7 +78,7 @@ public class PPMC implements BitWriter{
 			prepareInfoEntry("Contexto Actual: '" + ctx.toString() + "'\n");
 			SpeakitLogger.deactivate();
 
-			encodeSymbol(new EncoderEmitter(encoder), ctx, sym);
+			encodeSymbol(new EncoderEmitter(encoder), ctx, new SymbolWrapper(sym));
 			
 			SpeakitLogger.activate();
 
@@ -95,7 +95,7 @@ public class PPMC implements BitWriter{
 
 	}
 	
-	private void encodeSymbol(Emitter emitter, Context context, Symbol sym) throws IOException {
+	private void encodeSymbol(Emitter emitter, Context context, SymbolWrapper sym) throws IOException {
 		// Obtengo la tabla del contexto actual
 		ProbabilityTable table;
 		if(context != null) {
@@ -103,9 +103,11 @@ public class PPMC implements BitWriter{
 		} else {
 			table = this.ModelMinusOne;
 		}
+		
+		//SymbolWrapper symbolWrapper=new SymbolWrapper(sym);
 
 		// Codifico con la tabla actual.
-		boolean foundInModels = emitter.emitSymbol(table, new SymbolWrapper(sym));
+		boolean foundInModels = emitter.emitSymbol(table,sym);
 
 		// Si no encuentro el símbolo en esa tabla:
 		if (!foundInModels) {
@@ -126,7 +128,7 @@ public class PPMC implements BitWriter{
 		
 		// Incremento el símbolo
 		if (context != null) {
-			table.increment(sym);
+			table.increment(sym.getSymbol());
 		}
 
 	}
@@ -217,9 +219,10 @@ public class PPMC implements BitWriter{
 		int positionOnDocument = 0;
 
 		Context context = new Context(this.contextSize);
+		Context context3 = new Context(this.contextSize);
 		// SpeakitLogger.activate();
 
-		Symbol decodedSymbol = Symbol.getEscape();
+		SymbolWrapper decodedSymbol = new SymbolWrapper(null);
 
 		do {
 			ProbabilityTable table = null;
@@ -233,14 +236,15 @@ public class PPMC implements BitWriter{
 			encodeSymbol(new DecoderEmitter(decoder, outStream), context, decodedSymbol);
 			//////
 			/* FIN Manejo de modelo 0 y modelo -1 */
-			context = new Context(this.contextSize);
+			//context3 = new Context(this.contextSize);
+			context3.add(decodedSymbol.getSymbol());
 
 			// String
 			// contextString=originalDocument.substring(originalDocument.length()-this.contextSize-1);
 
-			for (int i = 0; i < originalDocument.length(); i++) {
+			/*for (int i = 0; i < originalDocument.length(); i++) {
 				context.add(new Symbol(originalDocument.charAt(i)));
-			}
+			}*/
 
 			SpeakitLogger.activate();
 			prepareInfoEntry("Documento: '" + originalDocument + "'\n");
@@ -257,7 +261,8 @@ public class PPMC implements BitWriter{
 				 */
 
 			}
-
+			context=new Context(this.contextSize);
+			context=context3;
 			logInfoEntry();
 			SpeakitLogger.deactivate();
 

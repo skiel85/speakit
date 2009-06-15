@@ -105,7 +105,7 @@ public class PPMC implements BitWriter{
 		}
 
 		// Codifico con la tabla actual.
-		boolean foundInModels = emitter.emitSymbol(table, sym);
+		boolean foundInModels = emitter.emitSymbol(table, new SymbolWrapper(sym));
 
 		// Si no encuentro el símbolo en esa tabla:
 		if (!foundInModels) {
@@ -219,7 +219,7 @@ public class PPMC implements BitWriter{
 		Context context = new Context(this.contextSize);
 		// SpeakitLogger.activate();
 
-		Symbol decodedSymbol = null;
+		Symbol decodedSymbol = Symbol.getEscape();
 
 		do {
 			ProbabilityTable table = null;
@@ -230,7 +230,7 @@ public class PPMC implements BitWriter{
 
 			ArrayList<Context> contextsToUpdate = new ArrayList<Context>();
 			//////
-			encodeSymbol(new DecoderEmitter(decoder, outStream), context, Symbol.getEscape());
+			encodeSymbol(new DecoderEmitter(decoder, outStream), context, decodedSymbol);
 			//////
 			/* FIN Manejo de modelo 0 y modelo -1 */
 			context = new Context(this.contextSize);

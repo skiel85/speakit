@@ -18,9 +18,7 @@
 	<property name="main-class" value="speakit/Main" />
 	<property name="lib.dir" value="lib" />
 
-	<property name="compressionArithmeticTest" value="src/speakit/compression/arithmetic/test" />
-	<property name="compressionLZPTest" value="src/speakit/compression/lzp/test" />
-	<property name="compressionPPMCTest" value="src/speakit/compression/ppmc/test" />
+	
 
 	<property name="compressionTest" value="src/speakit/compression/test" />
 	<property name="dictionaryTest" value="src/speakit/dictionary/test" />
@@ -57,45 +55,6 @@
 
 	<target name="test-compile" depends="compile">
 		<mkdir dir="${build-tests}" />
-		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${compressionArithmeticTest}">
-			<classpath>
-				<path refid="classpath" />
-				<pathelement path="${build}" />
-			</classpath>
-		</javac>
-		<copy todir="${build-tests}">
-			<fileset dir="${compressionArithmeticTest}">
-				<include name="**/*.*" />
-				<exclude name="**/*.java" />
-			</fileset>
-		</copy>
-
-		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${compressionLZPTest}">
-			<classpath>
-				<path refid="classpath" />
-				<pathelement path="${build}" />
-			</classpath>
-		</javac>
-		<copy todir="${build-tests}">
-			<fileset dir="${compressionLZPTest}">
-				<include name="**/*.*" />
-				<exclude name="**/*.java" />
-			</fileset>
-		</copy>
-
-		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${compressionPPMCTest}">
-			<classpath>
-				<path refid="classpath" />
-				<pathelement path="${build}" />
-			</classpath>
-		</javac>
-		<copy todir="${build-tests}">
-			<fileset dir="${compressionPPMCTest}">
-				<include name="**/*.*" />
-				<exclude name="**/*.java" />
-			</fileset>
-		</copy>
-		
 		<javac destdir="${build-tests}" target="1.6" source="1.6" srcdir="${compressionTest}">
 			<classpath>
 				<path refid="classpath" />

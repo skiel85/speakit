@@ -2,26 +2,33 @@ package speakit.compression.arithmetic.test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
-
-import junit.framework.TestCase;
-import junit.framework.TestResult;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.SpeakitLogger;
 import speakit.TextDocument;
 import speakit.compression.arithmetic.ArithmeticCompressor;
-import speakit.compression.arithmetic.AritmethicCompressionException;
 import speakit.compression.arithmetic.Symbol;
 import speakit.io.ByteArrayConverter;
+import speakit.io.FileUtils;
+import speakit.test.TestFileManager;
 
 public class ArithmeticCompressorTest {
 
+	private static final String	UNICODE_TEXT	= new Character((char)300)+"este archivo tiene carecteres unicode, tales como " + new Character((char)300)+ ", o bien " + (char)0x05A3 + ", o " + (char)0x05A2 + ", o " + (char)0x04A2 + ", o " + (char)0x03A2 + ", o " + (char)0x01A2;
 	private static final String	VUELO_447_DE_AIR_FRANCE					= ".E.l. vuelo 447 de Air France fue un vuelo internacional entre el Aeropuerto Internacional de Galeão y el Aeropuerto Internacional Charles de Gaulle de París. El 1 de junio de 2009, el avión, un Airbus A330-200, registrado F-GZCP (primer vuelo el 25 de febrero de 2005),1 desapareció sobre el Océano Atlántico con 216 pasajeros, entre ellos 61 franceses, 58 brasileños, 26 alemanes, 71 de otras 29 nacionalidades2 y 11 tripulantes a bordo, incluyendo tres pilotos.3 4 Las autoridades de Brasil confirmaron que la Fuerza Aérea Brasileña se encuentra realizando una búsqueda con el avión militar C-130 Hercules en la zona del archipiélago de Fernando de Noronha, donde se cree que pudo haber caído la aeronave.5 El estado del avión y sus pasajeros es actualmente desconocido, pero tanto las declaraciones oficiales de Air France como del Gobierno de Francia presumen que la aeronave ha sufrido un accidente y que todas las personas que iban a bordo han fallecido.6 Se han localizado los restos de un avión cerca de las costas de Senegal; se cree que pueda ser el vuelo 447. Un testigo afirma que vio restos en llamas caer al mar. Otro piloto de la Fuerza Aérea Brasileña informó haber visto luces naranjas en el mar cerca al archipielago de Fernando de Noronha.7";
 	private static final String	VUELO_447_DE_AIR_FRANCE_CORTO			= ".E.l. vuélo 447 de Air France France.";
 	private static final String	VUELO_447_DE_AIR_FRANCE_CORTO_SIN_PUNTO	= ".E.l. vuélo 447 de Air France France";
@@ -31,12 +38,12 @@ public class ArithmeticCompressorTest {
 	@Before
 	public void setUp() throws Exception {
 		SpeakitLogger.deactivate();
-		// SpeakitLogger.activate();
+		filemanager = new TestFileManager( this.getClass().toString());
 	}
 
 	@After
 	public void tearDown() throws Exception {
-
+		filemanager.destroyFiles();
 	}
 
 	@Test
@@ -53,6 +60,7 @@ public class ArithmeticCompressorTest {
 	}
 
 	private static final String	VUELO_447_DE_AIR_FRANCE_MICRO	= "gg";
+	private TestFileManager	filemanager;
 
 	@Test
 	public void testCompleteCompressionMicro() throws IOException {
@@ -72,17 +80,17 @@ public class ArithmeticCompressorTest {
 	public void testCompressString(String article) throws IOException {
 		// testea que el compresor genere un archivo que sea menos pesado que el
 		// original
-
+//article.getBytes("UTF-16")
 		SpeakitLogger.Log("***Comprimiendo: " + article);
 		byte[] compressedbytes = compress(article);
-		byte[] sourcebytes = article.getBytes();
+//		byte[] sourcebytes = article.getBytes();
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		SpeakitLogger.Log("***Descomprimiendo: " + article);
 		ArithmeticCompressor compressor = new ArithmeticCompressor(out);
 		compressor.setVerificationFile(article);
 		compressor.decompress(new ByteArrayInputStream(compressedbytes));
-		Assert.assertEquals(ByteArrayConverter.toString(sourcebytes), ByteArrayConverter.toString(out.toByteArray()));
+		Assert.assertEquals( article, new String(out.toByteArray(),"UTF-16"));
 	}
 
 	@Test
@@ -95,6 +103,12 @@ public class ArithmeticCompressorTest {
 	public void testCompleteCompressionLoremIpsumCorto() throws IOException {
 		SpeakitLogger.activate();
 		testCompressString(LOREM_IPSUM_CORTO);
+	}
+	
+	@Test
+	public void testCompleteStringCompressionUnicodeText() throws IOException {
+		SpeakitLogger.activate();
+		testCompressString(UNICODE_TEXT);
 	}
 
 	@Test
@@ -130,5 +144,79 @@ public class ArithmeticCompressorTest {
 			
 		},true);
 		tester.runTests();
+	}
+	
+	@Test
+	public void testCompressUnicodeFile() throws IOException{
+		String testText = "este archivo tiene carecteres unicode, tales como " + new Character((char)300)+ ", o bien " + (char)0x05A3 + ", o " + (char)0x05A2 + ", o " + (char)0x04A2 + ", o " + (char)0x03A2 + ", o " + (char)0x01A2;
+		String unicodeTestFile = "unicodeTestFile.txt";
+		String unicodeTestFile_zipit = "unicodeTestFile.zipit";
+		String unicodeTestFile_dezipit_txt = "unicodeTestFile.dezipit.txt";
+
+		testCompressionUsingActualFiles(testText, unicodeTestFile, unicodeTestFile_zipit, unicodeTestFile_dezipit_txt);
+	}
+	
+	@Test
+	public void testCompressAnsiFile() throws IOException{
+		String testText = "este archivo no tiene carecteres unicode";
+		String unicodeTestFile = "ansiTestFile.txt";
+		String unicodeTestFile_zipit = "ansiTestFile.zipit";
+		String unicodeTestFile_dezipit_txt = "ansiTestFile.dezipit.txt";
+
+		 
+		testCompressionUsingActualFiles(testText, unicodeTestFile, unicodeTestFile_zipit, unicodeTestFile_dezipit_txt);
+	}
+
+	private void testCompressionUsingActualFiles(String testText, String testFile, String testFile_zipit, String testFile_dezipit_txt) throws FileNotFoundException, UnsupportedEncodingException, IOException {
+		File textFile = filemanager.openFile(testFile);
+		File binaryFile = filemanager.openFile(testFile_zipit);
+		File descompressedTextFile = filemanager.openFile(testFile_dezipit_txt);
+		
+		FileOutputStream fos=new FileOutputStream(textFile);
+		OutputStreamWriter writer = new OutputStreamWriter(fos, "UTF-16");	 
+		writer.write(testText);
+		writer.close();
+		
+		TextDocument doc = new TextDocument();
+		doc.loadFromFile(textFile);
+
+		FileOutputStream compressionOuputStream=new FileOutputStream(binaryFile);
+		ArithmeticCompressor compressor = new ArithmeticCompressor(compressionOuputStream);
+		compressor.compress(doc);
+		compressionOuputStream.close();
+		compressor=null;
+		
+		FileOutputStream decompressionOuputStream=new FileOutputStream(descompressedTextFile);
+		ArithmeticCompressor decompressor = new ArithmeticCompressor(decompressionOuputStream);		
+		FileInputStream fis = new FileInputStream(binaryFile);
+		decompressor.decompress( fis);
+		decompressionOuputStream.close();
+		
+		FileUtils.compareFiles(textFile,descompressedTextFile);
+	}
+	
+	@Test
+	public void testWriteAndReadUnicode() throws IOException{
+		String testText = "esto es una prueba de unicode:" + new Character((char)300)+", otro ejemplo sería: " + (char)0x05A3;
+//		El notepad dice que el encoding es "UCS-2 Big Endian"
+		File file = new File("javaUnicode.txt");
+		FileOutputStream fos=new FileOutputStream(file);
+		OutputStreamWriter writer = new OutputStreamWriter(fos, "UTF-16");	 
+		writer.write(testText);
+		writer.close();
+		
+		FileInputStream in = new FileInputStream(file);
+		InputStreamReader reader = new InputStreamReader(in,"UTF-16"); 
+		
+//		System.out.println(reader.getEncoding()); 
+		String readString = new String();
+		int current=0;		
+		while((current=reader.read())>=0){
+			readString+=new Symbol((char)current).getChar();
+		}
+		
+//		System.out.println(testText);
+//		System.out.println(readString);
+		Assert.assertEquals(testText, readString);
 	}
 }

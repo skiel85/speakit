@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import speakit.TextDocument;
@@ -85,6 +86,7 @@ public class StressTreeTest {
 	 * 
 	 * @throws IOException
 	 */
+	@Ignore
 	@Test
 	public void testRetrieveAllFromRecentlyOpenBTree() throws IOException {
 		Tree<InvertedIndexIndexRecord, StringField> newTree = new Tree<InvertedIndexIndexRecord, StringField>(filemanager.openFile("FullBSTree.dat"), InvertedIndexIndexRecord
@@ -101,6 +103,7 @@ public class StressTreeTest {
 	 * @throws IOException
 	 * @throws RecordSerializationException
 	 */
+	@Ignore
 	@Test
 	public void testRetrieveAllRecords() throws RecordSerializationException, IOException {
 		for (TextDocument article : repo.documents) {

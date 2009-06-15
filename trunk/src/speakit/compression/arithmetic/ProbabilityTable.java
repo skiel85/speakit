@@ -197,10 +197,10 @@ public class ProbabilityTable {
 		return previousFloor + roundDouble(rangeSize *  (accumulatedfrecuency + symbolFrequency) / totalFreq) -1;
 	}
 
-	public Symbol getSymbolFor(long number, Range range) {
+	public Symbol getSymbolFor(long number, Range range) throws AritmethicCompressionException {
 		SpeakitLogger.Log("ProbabilityTable->getSymbolFor long: " + number + " ,initialFloor: " + range.getNumericFloor() + " ,rangeSize: " + range.getRangeSize());
 		if (!(number >= range.getNumericFloor() && number <= range.getNumericRoof() + range.getRangeSize())) {
-			throw new RuntimeException("El numero no va a caer dentro de ningun subintervalo del rango principal porque esta por afuera.");
+			throw new AritmethicCompressionException("El numero no va a caer dentro de ningun subintervalo del rango principal porque esta por afuera.");
 		}
 		int totalFreq = this.getTotalFrecuency(); 
 		long accumulatedfrecuency = 0;
@@ -217,7 +217,7 @@ public class ProbabilityTable {
 		SpeakitLogger.Log("ProbabilityTable->getSymbolFor long: " + number + " ,initialFloor: " + range.getFloor() + " ,rangeSize: " + range.getRangeSize());
 		SpeakitLogger.Log("Acum frec: " + accumulatedfrecuency + ", acum proba: " + accumulatedfrecuency / totalFreq);
 		SpeakitLogger.Log("Last floor: " + range.getFloor() + ", last roof: " + range.getRoof());
-		throw new RuntimeException("Symbol not found");
+		throw new AritmethicCompressionException("Symbol not found");
 	}
 
 	public long roundDouble(double decimal) {

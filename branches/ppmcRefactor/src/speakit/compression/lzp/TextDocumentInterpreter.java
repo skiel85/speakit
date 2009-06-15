@@ -43,6 +43,8 @@ public class TextDocumentInterpreter {
 					char ch = charData[i];
 					context.add(new Symbol(ch));
 				}
+			} else {
+				context = getContext(getCurrentPosition());
 			}
 			return context;
 		}

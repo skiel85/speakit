@@ -116,7 +116,7 @@ public class PPMC implements BitWriter{
 			}
 		}
 		
-		if (table != this.ModelMinusOne) {
+		if (context != null) {
 			table.increment(sym);
 			if (table.getSymbolsQuantity() != 2 && !foundInModels) {
 				table.increment(Symbol.getEscape());

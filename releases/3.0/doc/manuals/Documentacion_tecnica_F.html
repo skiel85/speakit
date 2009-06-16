@@ -1,0 +1,1595 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<base target="_top">
+<style type="text/css">
+  
+
+/* default css */
+
+table {
+  font-size: 1em;
+  line-height: inherit;
+  border-collapse: collapse;
+}
+
+
+tr {
+  
+  text-align: left;
+  
+}
+
+
+div, address, ol, ul, li, option, select {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+p {
+  margin: 0px;
+}
+
+
+pre {
+  font-family: Courier New;
+  white-space: pre-wrap;
+  margin:0;
+}
+
+body {
+  margin: 6px;
+  padding: 0px;
+  font-family: Verdana, sans-serif;
+  font-size: 10pt;
+  background-color: #ffffff;
+}
+
+
+img {
+  -moz-force-broken-image-icon: 1;
+}
+
+@media screen {
+  html.pageview {
+    background-color: #f3f3f3 !important;
+  }
+
+  
+
+  body {
+    min-height: 1100px;
+    
+    counter-reset: __goog_page__;
+  }
+  * html body {
+    height: 1100px;
+  }
+  .pageview body {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 2px solid #bbb;
+    border-bottom: 2px solid #bbb;
+    width: 648px !important;
+    margin: 15px auto 25px;
+    padding: 40px 50px;
+  }
+  /* IE6 */
+  * html {
+    overflow-y: scroll;
+  }
+  * html.pageview body {
+    overflow-x: auto;
+  }
+  /* Prevent repaint errors when scrolling in Safari. This "Star-7" css hack
+     targets Safari 3.1, but not WebKit nightlies and presumably Safari 4.
+     That's OK because this bug is fixed in WebKit nightlies/Safari 4 :-). */
+  html*#wys_frame::before {
+    content: '\A0';
+    position: fixed;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    top: 0;
+    left: 0;
+  }
+  
+  
+
+  
+    .writely-callout-data {
+      display: none;
+      *display: inline-block;
+      *width: 0;
+      *height: 0;
+      *overflow: hidden;
+    }
+    .writely-footnote-marker {
+      background-image: url('MISSING');
+      background-color: transparent;
+      background-repeat: no-repeat;
+      width: 7px;
+      overflow: hidden;
+      height: 16px;
+      vertical-align: top;
+
+      
+      -moz-user-select: none;
+    }
+    .editor .writely-footnote-marker {
+      cursor: move;
+    }
+    .writely-footnote-marker-highlight {
+      background-position: -15px 0;
+      -moz-user-select: text;
+    }
+    .writely-footnote-hide-selection ::-moz-selection, .writely-footnote-hide-selection::-moz-selection {
+      background: transparent;
+    }
+    .writely-footnote-hide-selection ::selection, .writely-footnote-hide-selection::selection {
+      background: transparent;
+    }
+    .writely-footnote-hide-selection {
+      cursor: move;
+    }
+
+    
+    .editor .writely-comment-yellow {
+      background-color: #FF9;
+      background-position: -240px 0;
+    }
+    .editor .writely-comment-yellow-hover {
+      background-color: #FF0;
+      background-position: -224px 0;
+    }
+    .editor .writely-comment-blue {
+      background-color: #C0D3FF;
+      background-position: -16px 0;
+    }
+    .editor .writely-comment-blue-hover {
+      background-color: #6292FE;
+      background-position: 0 0;
+    }
+    .editor .writely-comment-orange {
+      background-color: #FFDEAD;
+      background-position: -80px 0;
+    }
+    .editor .writely-comment-orange-hover {
+      background-color: #F90;
+      background-position: -64px 0;
+    }
+    .editor .writely-comment-green {
+      background-color: #99FBB3;
+      background-position: -48px 0;
+    }
+    .editor .writely-comment-green-hover {
+      background-color: #00F442;
+      background-position: -32px 0;
+    }
+    .editor .writely-comment-cyan {
+      background-color: #CFF;
+      background-position: -208px 0;
+    }
+    .editor .writely-comment-cyan-hover {
+      background-color: #0FF;
+      background-position: -192px 0;
+    }
+    .editor .writely-comment-purple {
+      background-color: #EBCCFF;
+      background-position: -144px 0;
+    }
+    .editor .writely-comment-purple-hover {
+      background-color: #90F;
+      background-position: -128px 0;
+    }
+    .editor .writely-comment-magenta {
+      background-color: #FCF;
+      background-position: -112px 0;
+    }
+    .editor .writely-comment-magenta-hover {
+      background-color: #F0F;
+      background-position: -96px 0;
+    }
+    .editor .writely-comment-red {
+      background-color: #FFCACA;
+      background-position: -176px 0;
+    }
+    .editor .writely-comment-red-hover {
+      background-color: #FF7A7A;
+      background-position: -160px 0;
+    }
+
+    .editor .writely-comment-marker {
+      background-image: url('MISSING');
+      background-color: transparent;
+      padding-right: 11px;
+      background-repeat: no-repeat;
+      width: 16px;
+      height: 16px;
+      -moz-user-select: none;
+    }
+
+    .editor .writely-comment-hidden {
+      padding: 0;
+      background: none;
+    }
+    .editor .writely-comment-marker-hidden {
+      background: none;
+      padding: 0;
+      width: 0;
+    }
+    .editor .writely-comment-none {
+      opacity: .2;
+      filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+      -moz-opacity: .2;
+    }
+    .editor .writely-comment-none-hover {
+      opacity: .2;
+      filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+      -moz-opacity: .2;
+    }
+  
+
+
+  
+  .br_fix br:not(:-moz-last-node):not(:-moz-first-node) {
+    
+    position:relative;
+    
+    left: -1ex
+    
+  }
+  
+  .br_fix br+br {
+    position: static !important
+  }
+
+  
+  #cb-p-tgt {
+    font-size: 8pt;
+    padding: .4em;
+    font-style: oblique;
+    background-color: #FFF1A8;
+    border: 1px solid #000;
+  }
+}
+
+h6 { font-size: 8pt }
+h5 { font-size: 8pt }
+h4 { font-size: 10pt }
+h3 { font-size: 12pt }
+h2 { font-size: 14pt }
+h1 { font-size: 18pt }
+
+blockquote {padding: 10px; border: 1px #DDD dashed }
+
+.webkit-indent-blockquote { border: none; }
+
+a img {border: 0}
+
+.pb {
+  border-width: 0;
+  page-break-after: always;
+  /* We don't want this to be resizeable, so enforce a width and height
+     using !important */
+  height: 1px !important;
+  width: 100% !important;
+}
+
+.editor .pb {
+  border-top: 1px dashed #C0C0C0;
+  border-bottom: 1px dashed #C0C0C0;
+}
+
+div.google_header, div.google_footer {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+
+/* Table of contents */
+.editor div.writely-toc {
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+}
+.writely-toc > ol {
+  padding-left: 3em;
+  font-weight: bold;
+}
+ol.writely-toc-subheading {
+  padding-left: 1em;
+  font-weight: normal;
+}
+/* IE6 only */
+* html writely-toc ol {
+  list-style-position: inside;
+}
+.writely-toc-none {
+  list-style-type: none;
+}
+.writely-toc-decimal {
+  list-style-type: decimal;
+}
+.writely-toc-upper-alpha {
+  list-style-type: upper-alpha;
+}
+.writely-toc-lower-alpha {
+  list-style-type: lower-alpha;
+}
+.writely-toc-upper-roman {
+  list-style-type: upper-roman;
+}
+.writely-toc-lower-roman {
+  list-style-type: lower-roman;
+}
+.writely-toc-disc {
+  list-style-type: disc;
+}
+
+/* Ordered lists converted to numbered lists can preserve ordered types, and
+   vice versa. This is confusing, so disallow it */
+ul[type="i"], ul[type="I"], ul[type="1"], ul[type="a"], ul[type="A"] {
+  list-style-type: disc;
+}
+
+ol[type="disc"], ol[type="circle"], ol[type="square"] {
+  list-style-type: decimal;
+}
+
+/* end default css */
+
+
+  /* default print css */
+  
+  @media print {
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    div.google_header, div.google_footer {
+      display: block;
+      min-height: 0;
+      border: none;
+    }
+
+    div.google_header {
+      flow: static(header);
+    }
+
+    /* used to insert page numbers */
+    div.google_header::before, div.google_footer::before {
+      position: absolute;
+      top: 0;
+    }
+
+    div.google_footer {
+      flow: static(footer);
+    }
+
+    /* always consider this element at the start of the doc */
+    div#google_footer {
+      flow: static(footer, start);
+    }
+
+    span.google_pagenumber {
+      content: counter(page);
+    }
+
+    span.google_pagecount {
+      content: counter(pages);
+    }
+
+
+    callout.google_footnote {
+      
+      display: prince-footnote;
+      footnote-style-position: inside;
+      /* These styles keep the footnote from taking on the style of the text
+         surrounding the footnote marker. They can be overridden in the
+         document CSS. */
+      color: #000;
+      font-family: Verdana;
+      font-size: 10.0pt;
+      font-weight: normal;
+    }
+
+    /* Table of contents */
+    #WritelyTableOfContents a::after {
+      content: leader('.') target-counter(attr(href), page);
+    }
+
+    #WritelyTableOfContents a {
+      text-decoration: none;
+      color: black;
+    }
+  }
+
+  @page {
+    @top {
+      content: flow(header);
+    }
+    @bottom {
+      content: flow(footer);
+    }
+    @footnotes {
+      border-top: solid black thin;
+      padding-top: 8pt;
+    }
+  }
+  /* end default print css */
+
+
+/* custom css */
+
+
+/* end custom css */
+
+/* ui edited css */
+
+body {
+  font-family: Verdana;
+  
+  font-size: 10.0pt;
+  line-height: normal;
+  background-color: #ffffff;
+}
+/* end ui edited css */
+
+
+/* editor CSS */
+.editor a:visited {color: #551A8B}
+.editor table.zeroBorder {border: 1px dotted gray}
+.editor table.zeroBorder td {border: 1px dotted gray}
+.editor table.zeroBorder th {border: 1px dotted gray}
+
+
+.editor div.google_header, .editor div.google_footer {
+  border: 2px #DDDDDD dashed;
+  position: static;
+  width: 100%;
+  min-height: 2em;
+}
+
+.editor .misspell {background-color: yellow}
+
+.editor .writely-comment {
+  font-size: 9pt;
+  line-height: 1.4;
+  padding: 1px;
+  border: 1px dashed #C0C0C0
+}
+
+
+/* end editor CSS */
+
+</style>
+
+  
+  <title>Documentación técnica - Fase 3</title>
+
+</head>
+
+<body 
+    
+    >
+    
+    
+    
+<div>
+</div>
+<p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:center">
+  &nbsp;<font size=6>SPEAKIT!&nbsp;<font size=5>V3.0</font></font>
+</p>
+<div>
+  <div>
+    <br>
+  </div>
+  <div>
+  </div>
+  <div>
+    <br>
+  </div>
+  <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:center">
+    MANUAL DE USUARIO
+  </p>
+  <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:left">
+  </p>
+  <div class=writely-toc id=WritelyTableOfContents toctype=decimal+decimal>
+    <ol class=writely-toc-decimal>
+      <li>
+        <a href=#Estructura_general_del_sistema_017761908732764065 target=_self>Estructura general del sistema</a>
+      </li>
+      <li>
+        <a href=#Compresi_n_Aritm_tica_37905588 target=_self>Compresión Aritmética</a>
+        <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#Symbol_3368987385183573_564278 target=_self>Symbol</a>
+          </li>
+          <li>
+            <a href=#ProbabilityTable_4090667488053_6939801136975285 target=_self>ProbabilityTable</a>
+          </li>
+          <li>
+            <a href=#ArithmeticEncoder_061088998802 target=_self>ArithmeticEncoder</a>
+          </li>
+          <li>
+            <a href=#ArithmeticDecoder_294681580737 target=_self>ArithmeticDecoder</a>
+          </li>
+          <li>
+            <a href=#ArithmeticCompressor_888167645 target=_self>ArithmeticCompressor</a>
+          </li>
+          <li>
+            <a href=#StreamBitReader_14038009662181 target=_self>StreamBitReader</a>
+          </li>
+          <li>
+            <a href=#StreamBitWriter_10128292534500 target=_self>StreamBitWriter</a>
+          </li>
+          <li>
+            <a href=#Emitter_19494559429585934_3431 target=_self>Emitter</a>
+          </li>
+          <li>
+            <a href=#Range_06744779087603092_895401 target=_self>Range</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href=#_Compresi_n_LZP_06794713510673 target=_self>Compresión LZP</a>
+        <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#_LZP_7209256988923834_35946926 target=_self>LZP</a>
+          </li>
+          <li>
+            <a href=#_LzpProbabilityTable_222211098 target=_self>LzpProbabilityTable</a>
+          </li>
+          <li>
+            <a href=#_LZPTable_9816997675143264_816 target=_self>LZPTable</a>
+          </li>
+          <li>
+            <a href=#_LZPTableRecord_37580250282967 target=_self>LZPTableRecord</a>
+          </li>
+          <li>
+            <a href=#_TextDocumentInterpreter_74915 target=_self>TextDocumentInterpreter</a>
+          </li>
+          <li>
+            <a href=#_TextDocumentBuilder_647100403 target=_self>TextDocumentBuilder</a>
+          </li>
+          <li>
+            <a href=#_Algunas_consideraciones_51095_23976549280557236 target=_self>Algunas consideraciones</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href=#_Compresi_n_PPMC_3399881688004 target=_self>Compresión PPMC</a>
+        <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#PPMC_17600056435912848_4378117_2923574524711814 target=_self>PPMC</a>
+          </li>
+          <li>
+            <a href=#Emitter_5343209933489561_76942_5178331646681124 target=_self>Emitter</a>
+          </li>
+          <li>
+            <a href=#EncoderEmitter_177258873358368 target=_self>EncoderEmitter</a>
+          </li>
+          <li>
+            <a href=#DecoderEmitter_528439088724553 target=_self>DecoderEmitter</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href=#Instrucciones_de_uso_128221964_4296416666443704 target=_self>Instrucciones de uso</a>
+        <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#Instalaci_n_del_sistema_958589_5354868554434227 target=_self>Instalación del sistema</a>
+          </li>
+          <li>
+            <a href=#_Configuraci_n_del_sistema_711_1997337391743883 target=_self>Configuración del sistema</a>
+          </li>
+          <li>
+            <a href=#_Encoding_de_documentos_508336 target=_self>Encoding de documentos</a>
+          </li>
+          <li>
+            <a href=#Utilizaci_n_del_sistema_212234_7977153149631379 target=_self>Utilización del sistema</a>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href=#Ejemplos_26386148136019694_931 target=_self>Ejemplos</a>
+        <ol class="writely-toc-subheading writely-toc-decimal" style=MARGIN-LEFT:0pt>
+          <li>
+            <a href=#_Test_Case_1_4349729651656352__28077028198639586 target=_self>Test Case 1</a>
+          </li>
+          <li>
+            <a href=#_Test_Case_2_8022732915613854__11491617150835542 target=_self>Test Case 2</a>
+          </li>
+          <li>
+            <a href=#_Test_Case_3_5356053464764968__1579059992179006 target=_self>Test Case 3</a>
+          </li>
+          <li>
+            <a href=#_Test_Case_4_592247309473765_9_7200882129133805 target=_self>Test Case 4</a>
+          </li>
+          <li>
+            <a href=#Test_Case_5_24929259717464447__7368536368232425 target=_self>Test Case 5</a>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </div>
+  <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:center">
+  </p>
+  <div style=TEXT-ALIGN:left>
+  </div>
+  <h1>
+    <a id=Estructura_general_del_sistema_017761908732764065 name=Estructura_general_del_sistema_017761908732764065></a> <font size=5>Estructura general del sistema<br>
+    </font>
+  </h1>
+  <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+    Speakit es un sistema que lee documentos por salida de audio y los guarda indexados y comprimidos.
+  </p>
+  <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+    <br>
+  </p>
+  <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  </p>
+  <div>
+    El sistema Speakit, permite ingresar un documento de texto, grabar todas las palabras que no estén registradas, y agregarlas a un diccionario que asocia palabras con su audio, y también permite reproducir las palabras contenidas en un documento.
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    Contiene un módulo de indexación y almacenamiento de documentos, que en esta versión tiene la posibilidad (opcional) de guardar los documentos en forma comprimida soportando 2 métodos de compresión distintos (PPMC y LZP). Además contiene un módulo stand alone que permite comprimir archivos unicode codificados en UTF-16BE con el método aritmético dinámico.
+  </div>
+  <div>
+    <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:left">
+      <br>
+      El módulo Speakit, tiene la función de agregar el audio de una palabra. Además tiene la función de agregar un documento a la colección de documentos almacenados. Esta función realiza su tarea valiéndose del módulo documents. Puede almacenar documentos a pesar de que el módulo dictionary no contenga todas sus palabras.<br>
+    </p>
+    <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:left">
+      <br>
+    </p>
+    <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:left">
+      Audiofile tiene implementación secuencial y está indizado por un Trie. El trie fue implementado sobre un archivo directo de registros por bloque que almacena los nodos del árbol y un archivo secuencial que se utiliza como índice para saber en que bloque buscar un nodo sabiendo su número. El archivo directo está implementado independientemente en la clase DirectRecordFile para poder ser reutilizado por otras estructuras que requieran el uso de un archivo directo.
+    </p>
+    <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:left">
+      <br>
+      El módulo&nbsp;<i>documentsstorage&nbsp;</i>tiene la funcionalidad de guardar, y buscar los documentos de texto guardados conociendo el offset dentro del archivo. Cuando se agrega un nuevo documento el módulo ftrs extrae los terminos relevantes, dejando de lado los q se repiten comunmente, tales como artículos, proposiciones, etc. Si se agregan al sistema un conjunto de documentos estos se indexan de una manera más óptima que ingresándolos de a uno, creando las listas invertidas sincronizadamente y utilizando un algoritmo de sort externo. Los documentos agregados, serán comprimidos en la próxima etapa con el módulo compression.
+    </p>
+    <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:left">
+      <br>
+    </p>
+    <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:left">
+      La búsqueda de documentos se realiza a través del módulo&nbsp;<i>ftrs&nbsp;</i>y se recuperan a través del módulo<i>&nbsp;documentsstorage</i>. Las listas invertidas del ftrs se almacenan en un archivo directo de registros por bloque que está indexado por un árbol B# para agilizar las búsquedas. El árbol B# está implementado en un módulo independiente y en el módulo ftrs se lo utiliza junto con un encoder que permite comprimir los términos en las hojas mediante front coding.
+    </p>
+    <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:left">
+      <br>
+    </p>
+    <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px; TEXT-ALIGN:left">
+      La garantía de funcionalidad y estabilidad del sistema está soportada por unas 300 pruebas automáticas, las cuales incluyen pruebas simples y pruebas de stress. Las pruebas de stress utilizadas garantizan por ejemplo que el árbol B# pueda indexar todas las palabras del idioma castellano (véase StressTreeTest con speakit/test/files/lemario.txt), u otras por ejemplo garantizan la robustez del sistema ftrs, y en esta versión hay pruebas que garantizan que los datos comprimidos se puedan recuperar. Estas pruebas se pueden utilizar a modo de documentación técnica adicional para aprender sobre el funcionamiento y la utilización del sistema, por lo cual recomendamos su lectura y ejecución.
+    </p>
+  </div>
+  <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  </p>
+  <p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+    <br>
+  </p>
+</div>
+<div>
+  <br>
+</div>
+<h1>
+  <a id=Compresi_n_Aritm_tica_37905588 name=Compresi_n_Aritm_tica_37905588></a> Compresión Aritmética
+</h1>
+<div>
+  En esta etapa se implementó un compresor aritmético dinámico, de orden 0, capaz de comprimir archivos de texto en formato unicode. Como el unicode tiene 65536 caracteres posibles hubo que utilizara precisión de 32 bits para la representación el piso y el techo del intervalo.<br>
+  <br>
+</div>
+<div>
+  <br>
+</div>
+<br>
+<div id=d.kd style=TEXT-ALIGN:left>
+  <img src=Documentacion_tecnica_F_images/dc6m444d_3nz6ctrgp_b.jpg style="WIDTH:648px; HEIGHT:341.522px">
+</div>
+<br>
+<div>
+  <div>
+    <div>
+      <div>
+      </div>
+      <div>
+        <h2>
+          <a id=Symbol_3368987385183573_564278 name=Symbol_3368987385183573_564278></a> <font class=Apple-style-span size=5>
+          <h2>
+            <a id=_Symbol_9682200147211546_33966 name=_Symbol_9682200147211546_33966></a><a id=_Symbol_9682200147211546_33966_7913733119462363 name=_Symbol_9682200147211546_33966_7913733119462363></a> <font size=4>Symbol</font>
+          </h2>
+          </font>
+        </h2>
+      </div>
+      <div>
+        <div style=TEXT-ALIGN:center>
+          <img src=Documentacion_tecnica_F_images/dc6m444d_12fg5hmxc8_b.jpg style="WIDTH:377px; HEIGHT:407px">
+        </div>
+        Encapsula a un caracter unicode.<br>
+        <h2>
+          <a id=ProbabilityTable_8713212376460 name=ProbabilityTable_8713212376460></a> <font class=Apple-style-span size=5>
+          <h2>
+            <a id=ProbabilityTable_4090667488053_6939801136975285 name=ProbabilityTable_4090667488053_6939801136975285></a><a id=ProbabilityTable_4090667488053 name=ProbabilityTable_4090667488053></a> <font size=4>ProbabilityTable</font>
+          </h2>
+          <div>
+            <p>
+            </p>
+          </div>
+          </font>
+        </h2>
+        <div id=gql9 style=TEXT-ALIGN:left>
+          <div style=TEXT-ALIGN:center>
+            <img src=Documentacion_tecnica_F_images/dc6m444d_6czjs7dcb_b.jpg style="WIDTH:176px; HEIGHT:358px">
+          </div>
+          Mantiene la lista de símbolos con su respectiva probabilidad. Permite notificar que un símbolo ha ocurido para que incremente su probabilidad, o bien agregarlo a la lista si no habia ocurrido. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        </div>
+        <div>
+          Además tiene dos funcionalidades cruciales para la codificación y decodificación aritmética:
+        </div>
+        <div>
+          1_ getSymbolFor:
+        </div>
+        <div>
+          Este método se utiliza para la decodificación, permite obtener un símbolo a partir del valor de la ventana de inspeccion y del Rango actual. Para lograrlo asigna a cada símbolo de la lista un subintervalo (piso y techo) dentro del rango actual, con tamaño del subintervalo proporcional a la magnitud de su probabilidad. Luego busca dentro de cual de estos intervalos está el número de la ventana de inspección y devuelve el símbolo asociado a ese subintervalo.
+        </div>
+        <div>
+          <br>
+        </div>
+        <div>
+          2_ zoomIn:
+        </div>
+        <div>
+          Este método se utiliza en la codificación, sirve para hacer zoom en el rango para un símbolo determinado. Esto lo hace calculando el subintervalo correspondiente al símbolo indicado de la misma forma que se hace en el metodo getSymbolFor.
+        </div>
+        <div>
+          <br>
+        </div>
+        <div>
+        </div>
+        <div>
+        </div>
+        <a id=_HACE_TODA_LA_MAGIA_ name=_HACE_TODA_LA_MAGIA_></a>
+      </div>
+    </div>
+    <h2>
+      <a id=ArithmeticEncoder_061088998802 name=ArithmeticEncoder_061088998802></a> ArithmeticEncoder
+    </h2>
+    <div>
+      <br>
+    </div>
+    <div>
+      Esta clase se encarga de codificar un símbolo en bits comprimidos que son emitidos a traves de un BitWriter. Recibe como parámetro una tabla de probabilidades. Utilizado en los otros compresores y en ArithmeticCompressor.
+    </div>
+    <h2>
+      <a id=ArithmeticDecoder_294681580737 name=ArithmeticDecoder_294681580737></a> ArithmeticDecoder
+    </h2>
+    <div>
+      Se encarga de recuperar símbolos del archivo comprimido y mover la ventana de inspección. Utilizado en los otros compresores y en ArithmeticCompressor.
+    </div>
+    <h2>
+      <a id=ArithmeticCompressor_888167645 name=ArithmeticCompressor_888167645></a> ArithmeticCompressor
+    </h2>
+    <br>
+    <div style=TEXT-ALIGN:center>
+      <img alt=""><img alt=""><img src=Documentacion_tecnica_F_images/dc6m444d_0f8pbhcfn_b.jpg style="WIDTH:634px; HEIGHT:197px">
+    </div>
+    <br>
+    <div>
+      Compresor aritmético dinámico. Utiliza el ArithmeticEncoder y ArithmeticDecoder para comprimir y descomprimir un archivo respectivamente. Mantiene tablas de probabilidades de los símbolos que van apareciendo en el archivo mientras de codifica/decodifica.&nbsp;
+    </div>
+    <div>
+      Este es el módulo que se utiliza para comprimir desde el menú de speakit.
+    </div>
+    <h2>
+      <a id=StreamBitReader_14038009662181 name=StreamBitReader_14038009662181></a> StreamBitReader
+    </h2>
+    <br>
+    <div id=g9-b style=TEXT-ALIGN:center>
+      <img src=Documentacion_tecnica_F_images/dc6m444d_2fg34t5gq_b.jpg style="WIDTH:562px; HEIGHT:387px">
+    </div>
+    <br>
+    <p>
+      Esta clase sirve para desempaquetar bytes de un stream y convertirlos en bits.
+    </p>
+    <h2>
+      <a id=StreamBitWriter_10128292534500 name=StreamBitWriter_10128292534500></a> StreamBitWriter
+    </h2>
+    <div>
+      Esta clase sirve para empaquetar bits en bytes para luego escribirlos a un stream.
+    </div>
+    <h2>
+      <a id=Emitter_19494559429585934_3431 name=Emitter_19494559429585934_3431></a> Emitter
+    </h2>
+    <br>
+    <div id=g.5l style=TEXT-ALIGN:left>
+      <div style=TEXT-ALIGN:center>
+        <img src=Documentacion_tecnica_F_images/dc6m444d_5cknjhmgk_b.jpg style="WIDTH:173px; HEIGHT:183px">
+      </div>
+      <div id=qo_b style=TEXT-ALIGN:left>
+        <br>
+      </div>
+      <br>
+    </div>
+    <br>
+    <br>
+    <div>
+      Encapsula el comportamiento de la emisión de bits del aritmético. Tiene primitivas para emitir overflow e incrementar el contador de underflow. Las emisiones se van acumulando dentro de este objeto hasta que se ejecuta el metodo flush que devuelve los bits en forma de String.
+    </div>
+    <h2>
+      <a id=Range_06744779087603092_895401 name=Range_06744779087603092_895401></a> Range<br>
+    </h2>
+    <div id=w6kg style=TEXT-ALIGN:center>
+      <img src=Documentacion_tecnica_F_images/dc6m444d_7gpzbtpc8_b.jpg style="WIDTH:170px; HEIGHT:382px">
+    </div>
+    <br>
+    <p>
+      Esta clase encapsula el comportamiento del intervalo del compresor aritmético, mantiene los valores de piso y techo y provee metodos para interactuar con ellos. Tiene un método para hacer zoom en un subintervalo, actualiza los correspondientes extremos y resuelve el overflow y el underflow emitiendo los bits que correspondan mediante un Emitter.
+    </p>
+    <div>
+      <br>
+    </div>
+    <h1>
+      <a id=_Compresi_n_LZP_06794713510673 name=_Compresi_n_LZP_06794713510673></a> Compresión LZP
+    </h1>
+    <div>
+      <h2>
+        <a id=_LZP_7209256988923834_35946926 name=_LZP_7209256988923834_35946926></a> LZP
+      </h2>
+      <br>
+      <div id=s.bi style=TEXT-ALIGN:left>
+      </div>
+      <div id=q4a- style=TEXT-ALIGN:center>
+        &nbsp;&nbsp; <img src=Documentacion_tecnica_F_images/ddbqgjs4_5dzxtzmhs_b.jpg style="WIDTH:468px; HEIGHT:537px">
+      </div>
+      Clase encargada de modelar el compresor LZP.<br>
+      <br>
+      <h2>
+        <a id=_LzpProbabilityTable_222211098 name=_LzpProbabilityTable_222211098></a> LzpProbabilityTable
+      </h2>
+      <div id=mbj9 style=TEXT-ALIGN:center>
+        <img src=Documentacion_tecnica_F_images/ddbqgjs4_2gr645sc2_b.jpg style="WIDTH:438px; HEIGHT:382px">
+      </div>
+      Modelado de las tablas de probabilidad, segun la necesidad del algoritmo de compresión LZP. La misma mantiene los caracteres con frecuencia de aparición distinta de 0 (distinta de 1 en la implementacion) para cada contexto y construye las ProbabilityTable según sean solicitadas.<br>
+      <br>
+      <h2>
+        <a id=_LZPTable_9816997675143264_816 name=_LZPTable_9816997675143264_816></a> LZPTable
+      </h2>
+      <div id=qb9: style=TEXT-ALIGN:center>
+        <img src=Documentacion_tecnica_F_images/ddbqgjs4_3f72wqkgt_b.jpg style="WIDTH:648px; HEIGHT:448.274px">
+      </div>
+      <br>
+      Tabla de trabajo del LZP, registra en cada paso la posición del contexto de busqueda de matchs. La misma se almacena en disco, no superando nunca el tamaño de 4096 bytes de memoria. El almacenamiento se realiza en una estructura de arbol B# para que la busqueda sea en el menor tiempo posible y asi acortar los tiempos de compresion y descompresion.<br>
+      <br>
+      <h2>
+        <a id=_LZPTableRecord_37580250282967 name=_LZPTableRecord_37580250282967></a> LZPTableRecord
+      </h2>
+      <div id=cs90 style=TEXT-ALIGN:center>
+        <img src=Documentacion_tecnica_F_images/ddbqgjs4_4d77h2pg6_b.jpg style="WIDTH:259px; HEIGHT:293px">
+      </div>
+      Representacion de los registros que se insertaran en el árbol B#, los mismo almacenan el contexto y la última aparición del mismo dentro del documento que se está comprimiendo.<br>
+      <br>
+      <h2>
+        <a id=_TextDocumentInterpreter_74915 name=_TextDocumentInterpreter_74915></a> TextDocumentInterpreter
+      </h2>
+      <div id=c5cb style=TEXT-ALIGN:center>
+        <img src=Documentacion_tecnica_F_images/ddbqgjs4_1gfgnw7v9_b.jpg style="WIDTH:483px; HEIGHT:354px">
+      </div>
+      Esta clase se encarga de encapsular la forma de recorrer un documento, proveyendo en cada paso la posición actual, el contexto en el que se esta trabajando y la posibilidad de referenciar el texto desde cualquier posicion del mismo.<br>
+      <img alt=""><img alt=""> <a id=_TextDocumentBuilder_ name=_TextDocumentBuilder_></a><br>
+      <h2>
+        <a id=_TextDocumentBuilder_647100403 name=_TextDocumentBuilder_647100403></a> TextDocumentBuilder
+      </h2>
+      <br>
+      <div id=sg.j style=TEXT-ALIGN:center>
+        <img src=Documentacion_tecnica_F_images/ddbqgjs4_6g3skw9fk_b.jpg style="WIDTH:484px; HEIGHT:346px">
+      </div>
+      <br>
+      Clase que facilita el armado de un documento y provee datos sobre el mismo, como ser contexto actual, posición y permite recorrer los caracteres ya decodificados.<br>
+      <br>
+      <h2>
+        <a id=_Algunas_consideraciones_51095_23976549280557236 name=_Algunas_consideraciones_51095_23976549280557236></a> Algunas consideraciones
+      </h2>
+      Una de las limitaciones que presentaba el algoritmo estaba en el tamaño de la tabla de trabajo, en este modelo llamada LzpTable, la misma no podia superar los 4096 bytes de memoria. Para atacar este problema, se decidió, como primera medida, hacer una actualizacion optima de la misma, evitando tener contextos repetidos, ya que los únicos que tienen relevancia son los que se han registrado al final.<br>
+      Por otro lado, también se implemento una estructura de árbol BSharp que permite mantener un solo nodo del mismo en memoria, cumpliendo de esta manera la restricción de tamaño y premitiendo la busqueda y la actualización de una manera rápida.<br>
+    </div>
+    <div>
+      <br>
+    </div>
+    <h1>
+      <a id=_Compresi_n_PPMC_3399881688004 name=_Compresi_n_PPMC_3399881688004></a> Compresión PPMC&nbsp;
+    </h1>
+    <div>
+      En esta parte del TP tuvimos que implementar un compresor PPMC con contextos variables entre 0 y 4. Esta estructura tiene los métodos&nbsp;<b>compress</b>, al que se le debe pasar un&nbsp;<b>TextDocument</b>&nbsp;y que utiliza la clase&nbsp;<b>ArithmeticEncoder</b>&nbsp;para generar la cadena de bits correspondiente y&nbsp;<b>decompress</b>&nbsp;a los que se les debe pasar una cadena de bits y utiliza el&nbsp;<b>ArithmeticDecoder</b>&nbsp;para descomprimirla. Para llevar la estructura de los modelos se decidió hacer un hashmap de&nbsp;<b>Context&nbsp;</b>y<b>&nbsp;ProbabilityTable</b>. Además, el modelo -1 como tiene un tratamiento especial en muchas ocasiones (no se incrementa la probabilidad de un símbolo al emitirlo, no tiene caracter de escape, etc.) se decidió tenerlo apartado del hashmap anteriormente mencionado.
+    </div>
+    <h2>
+      <a id=PPMC_17600056435912848_4378117_2923574524711814 name=PPMC_17600056435912848_4378117_2923574524711814></a> <b><font size=4>PPMC</font></b>
+    </h2>
+    <div id=g7sg style=TEXT-ALIGN:center>
+      <img src=Documentacion_tecnica_F_images/dgsb86tc_0g824rsg6_b.jpg style="WIDTH:529px; HEIGHT:649px">
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h2>
+      <a id=Emitter_5343209933489561_76942_5178331646681124 name=Emitter_5343209933489561_76942_5178331646681124></a> Emitter
+    </h2>
+    <div id=m3tb style=TEXT-ALIGN:center>
+      <img src=Documentacion_tecnica_F_images/dgsb86tc_1djrn28ch_b.jpg style="WIDTH:389px; HEIGHT:328px">
+    </div>
+    Para realizar la emisión, ya sea de bits al comprimir o de caracteres al descomprimir, se utiliza una interfaz Emitter con un método emitSymbol() que será implementado en el <b>EncoderEmitter</b> y en el <b>DecoderEmitter</b><br>
+    <div>
+      <br>
+    </div>
+    <h2>
+      <a id=EncoderEmitter_177258873358368 name=EncoderEmitter_177258873358368></a> EncoderEmitter
+    </h2>
+    En esta clase se implementa la interfaz <b>Emitter </b>y emite una cadena de bits, segun un simbolo pasado.<br>
+    <br>
+    <h2>
+      <a id=DecoderEmitter_528439088724553 name=DecoderEmitter_528439088724553></a> DecoderEmitter
+    </h2>
+    En esta clase se implementa la interfaz <b>Emitter </b>y emite un simbolo, segun una cadena de bits pasada.<br>
+    <br>
+  </div>
+  <hr>
+  <div style=TEXT-ALIGN:center>
+    MANUAL DE USUARIO<br>
+  </div>
+  <div style=TEXT-ALIGN:left>
+    <br>
+  </div>
+</div>
+<h1>
+  <a id=Instrucciones_de_uso_128221964_4296416666443704 name=Instrucciones_de_uso_128221964_4296416666443704></a> <font size=5> Instrucciones de uso<br>
+  </font>
+</h1>
+<h2>
+  <a id=Instalaci_n_del_sistema_958589_5354868554434227 name=Instalaci_n_del_sistema_958589_5354868554434227></a> <u>Instalación del sistema</u>
+</h2>
+Para instalar y correr el sistema se requiere de la herramienta&nbsp;<b>Apache Ant</b>. Esta herramienta puede conseguirse mediante el gestor de paquetes de su distribución de Linux o descargandolo de la página&nbsp;<b>http://ant.apache.org</b>&nbsp;. Si se elige esta última opción se deben seguir las instrucciones de instalación de la herramienta proporcionadas en la página.<br>
+<br>
+Para compilar o correr la aplicación, utilizando la consola del sistema operativo, ingresar al directorio&nbsp;<b>speakit</b>&nbsp;y ejecutar alguno de los siguientes comandos:<br>
+<br>
+<b>ant clean -&nbsp;</b>Usando este comando se borran las carpetas utilizadas para compilar y distribuir la aplicación.<br>
+<br>
+<b>ant compile -</b>&nbsp;Con este comando se compila la aplicación, generando los archivos .class dentro de la carpeta&nbsp;<b>build&nbsp;</b>del proyecto.<br>
+<br>
+<b>ant run</b>&nbsp;- Al ejecutar este comando se compila y se ejecuta la aplicación.<br>
+<br>
+<b>ant -&nbsp;</b>Si se ejecuta el comando ant, sin utilizar ningún parametro, por default se ejecuta el comando&nbsp;<b>ant run</b>.<br>
+<br>
+<div>
+  <h2>
+    <a id=_Configuraci_n_del_sistema_711_1997337391743883 name=_Configuraci_n_del_sistema_711_1997337391743883></a> <u>Configuración del sistema</u>
+  </h2>
+  <div>
+    El archivo de configuración se llama Speakit.conf y vá ubicado en la raiz de la aplicación. Es un archivo de texto donde cada linea define una variable distinta del sistema.
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    Linea 1: Tamaño de nodo del arbol bsharp del indice invertido. Este numero va expresado en bytes.
+  </div>
+  <div>
+    Linea 2: Profundidad del trie.
+  </div>
+  <div>
+    Linea 3: Indica si al indexar documentos se van a omitir ingresar las palabrasdesconocidas. Valores posibles: 1 ( pedir palabras desconocidas), 0 ( no pedir palabras desconocidas)
+  </div>
+  <div>
+    Linea 4: Tamaño de contexto del compresor PPMC. Valores posibles 0,1,2,3,4.
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    Ejemplo de archivo de configuracion:
+  </div>
+  <div>
+    <div>
+      1024
+    </div>
+    <div>
+      4
+    </div>
+    <div>
+      0
+    </div>
+    <div>
+      2
+    </div>
+  </div>
+  <br>
+  <div>
+    <h2>
+      <a id=_Encoding_de_documentos_508336 name=_Encoding_de_documentos_508336></a> <u>Encoding de documentos</u>
+    </h2>
+    <div>
+      En esta versión Speakit <b><u>sólo</u></b> trabaja con archivos de texto Unicode, formateados en UTF-16BE (Big Endian), tanto para indexar como para reproducir y comprmir. Si se quieren ingresar archivos con otra codificación no garantizamos que funcione correctamente.
+    </div>
+    <div>
+      <br>
+    </div>
+    <h2>
+      <a id=Utilizaci_n_del_sistema_212234_7977153149631379 name=Utilizaci_n_del_sistema_212234_7977153149631379></a> <u>Utilización del sistema</u>
+    </h2>
+    Al iniciar la aplicación podemos ver la siguiente pantalla:
+    <div>
+      <br>
+    </div>
+    <blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+      <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+      <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+      <br>
+      <br>
+      <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+    </blockquote>
+    <div>
+      <br>
+      <div id=pw2o style=TEXT-ALIGN:left>
+        Aqui tenemos 6 opciones:<br>
+      </div>
+      <br>
+      -&nbsp;<b>Procesar archivo de Texto</b>: En este módulo el sistema pregunta por un archivo de texto para ser leido. Si el archivo está dentro de la carpeta de la aplicación no es necesario ingresar la ruta al mismo, solo se debe ingresar el nombre. Una vez ingresado el nombre del archivo, el sistema reconoce las palabras que ya están agregadas al diccionario y las que no se encuentren en este, se requerirá que sean grabadas por el usuario. Luego de grabar cada palabra el sistema reproducirá la palabra, preguntará al usuario si la palabra se grabó correctamente y dará la posibilidad de regrabarla si asi lo desea el usuario.<br>
+      <br>
+      <div id=hs:v style=TEXT-ALIGN:left>
+      </div>
+    </div>
+    <blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+      <span style="FONT-FAMILY:'Courier New'">Speak It!</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+      <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+      <font class=Apple-style-span face="'Courier New'"> 5.- Comprimir un archivo con Aritmético dinámico<br>
+      </font><br>
+      <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Leer archivo de Texto</span><br>
+      <br>
+      <span style="FONT-FAMILY:'Courier New'">Ingrese la ruta a continuación:</span><br>
+      <span style="FONT-FAMILY:'Courier New'">(Si su archivo es '1.txt' sólo presione ENTER)</span><br>
+      <span style="FONT-FAMILY:'Courier New'">hamlet.txt</span><br>
+      <span style="FONT-FAMILY:'Courier New'">El documento contiene palabras desconocidas, que deberá grabar a continuación.</span><br>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Palabra 'ser'. (ENTER para grabar).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Palabra 'o'. (ENTER para grabar).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Palabra 'no'. (ENTER para grabar).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Palabra 'esta'. (ENTER para grabar).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">n</span>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Palabra 'esta'. (ENTER para grabar).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Palabra 'es'. (ENTER para grabar).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Palabra 'la'. (ENTER para grabar).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Palabra 'cuestion'. (ENTER para grabar).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Grabando... (ENTER para detener).</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">Reproduciendo...(ENTER para confirmar. N para volver a grabar)</span>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <span style="FONT-FAMILY:'Courier New'">El documento fué agregado con éxito.</span>
+      </div>
+    </blockquote>
+    <div>
+      <br>
+      Si se ingresa un nombre de archivo que el sistema no puede encontrar, se emitirá un mensaje de error y la aplicación volvera al menu inicial.<br>
+      <div id=d3vo style=TEXT-ALIGN:left>
+        <br>
+      </div>
+    </div>
+    <blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+      <span style="FONT-FAMILY:'Courier New'">Speak It!</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+      <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+      <span style="FONT-FAMILY:'Courier New'">5.- Comprimir un archivo con Aritmético dinámico</span><br>
+      <br>
+      <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Leer archivo de Texto</span><br>
+      <br>
+      <span style="FONT-FAMILY:'Courier New'">Ingrese la ruta a continuación:</span><br>
+      <span style="FONT-FAMILY:'Courier New'">(Si su archivo es '1.txt' sólo presione ENTER)</span><br>
+      <span style="FONT-FAMILY:'Courier New'">lalala.txt</span><br>
+      <span style="FONT-FAMILY:'Courier New'">No pudo encontrarse el archivo 'lalala.txt'.</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Speak It!</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+      <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+      <span style="FONT-FAMILY:'Courier New'">5.- Comprimir un archivo con Aritmético dinámico<br>
+      </span><br>
+      <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+    </blockquote>
+    <div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <b> - Procesar varios archivos de Texto:</b> Funciona igual a la opción anterior, sólo que permite ingresar mas de un documento a la vez. Los nombres de archivo se deben escribir uno a continuación del otro separándolos por una coma.
+      </div>
+      <div>
+        <br>
+      </div>
+    </div>
+    <blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+      <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+      <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+      <span style="FONT-FAMILY:'Courier New'">5.- Comprimir un archivo con Aritmético dinámico</span><br>
+      <br>
+      <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+      <span style="FONT-FAMILY:'Courier New'">2</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Ingrese cada una de las rutas de los documentos que desea ingresar separadas por coma</span><br>
+      <span style="FONT-FAMILY:'Courier New'">hamlet.txt,speakit.txt</span><br>
+      <br>
+      <span style="FONT-FAMILY:'Courier New'">Los documentos ingresados contienen palabras desconocidas que deberá grabar a continuación</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Palabra 'una'. (ENTER para grabar).</span><br>
+    </blockquote>
+    <div>
+      <div>
+        <br>
+      </div>
+      <br>
+      -&nbsp;<b>Reproducir Archivo</b>: Con esta opción podemos reproducir las palabras grabadas con anterioridad en la aplicación. Se solicitará nuevamente el nombre del archivo ingresado y el sistema indicará por pantalla las palabras a reproducir consecutivamente y se escuchará su audio a continuación.<br>
+      <br>
+    </div>
+    <blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+      <span style="FONT-FAMILY:'Courier New'">Speak It!</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+      <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+      <span style="FONT-FAMILY:'Courier New'">5.- Comprimir un archivo con Aritmético dinámico</span><br>
+      <br>
+      <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+      <span style="FONT-FAMILY:'Courier New'">3</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Ingrese la ruta a continuación:</span><br>
+      <span style="FONT-FAMILY:'Courier New'">(Si su archivo es '1.txt' sólo presione ENTER)</span><br>
+      <span style="FONT-FAMILY:'Courier New'">hamlet.txt</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Se va a reproducir el siguiente documento</span><br>
+      <span style="FONT-FAMILY:'Courier New'">¡Ser o no ser: ésta es la cuestión!</span><br>
+    </blockquote>
+    <div>
+      <div id=pwp2 style=TEXT-ALIGN:left>
+      </div>
+      <div>
+        <br>
+      </div>
+      <div>
+        <b> - Realizar una consulta</b>: Escriba los términos por los que quiere buscar y el sistema desplegará un listado de los documentos más relevantes.
+      </div>
+      <div>
+        <br>
+      </div>
+    </div>
+    <blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+      <span style="FONT-FAMILY:'Courier New'">Speak It!</span><br>
+    </blockquote>
+    <blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+      <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+      <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+      <span style="FONT-FAMILY:'Courier New'">5.- Comprimir un archivo con Aritmético dinámico</span><br>
+      <br>
+      <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+      <span style="FONT-FAMILY:'Courier New'">4</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Ingrese la consulta</span><br>
+      <span style="FONT-FAMILY:'Courier New'">cuestion</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Los documentos encontrados para la consulta realizada se muestran a continuacion:</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1 : ¡Ser o no ser: ésta es la cuestión!....</span><br>
+    </blockquote>
+    <br>
+    Si quiere reproducir uno de los documentos listados, presione 1 y a continuación escriba el número de documento que quiere escuchar y el sistema se lo leerá.
+    <div>
+      <br>
+      <div>
+        <blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+          <span style="FONT-FAMILY:'Courier New'">Si desea reproducir algun documento presione 1</span><br>
+          <span style="FONT-FAMILY:'Courier New'">Para realizar una nueva consulta presione 2</span><br>
+          <span style="FONT-FAMILY:'Courier New'">Para ir al menu principal presione 0</span><br>
+          <span style="FONT-FAMILY:'Courier New'">1</span><br>
+          <span style="FONT-FAMILY:'Courier New'">Elija el numero de documento que desea reproducir</span><br>
+          <span style="FONT-FAMILY:'Courier New'">1</span><br>
+          <span style="FONT-FAMILY:'Courier New'">Se va a reproducir el siguiente documento</span><br>
+          <span style="FONT-FAMILY:'Courier New'">¡Ser o no ser: ésta es la cuestión!</span><br>
+        </blockquote>
+        <div>
+          <div>
+            -&nbsp;<b>Comprimir un archivo con Aritmético dinámico</b>: Con esta opción podemos comprimir un documento utilizando el compresor aritmético dinámico. Se solicitará el nombre de un archivo de texto y el sistema lo comprimirá mostrando por pantalla los información sobre el proceso<i>. </i>Speakit creará un archivo comprimido concatenandole al nombre la extensión .zipit. Luego calculará la tasa de compresión. Adicionalmente speakit descomprimirá el archivo recien comprimido generando un nuevo archivo con extensión .zipit.dezipit para compararlo contra el archivo original.
+          </div>
+          <div>
+            <br>
+          </div>
+          <blockquote class=webkit-indent-blockquote style="MARGIN-RIGHT:0pt; MARGIN-LEFT:40px">
+            <span style="FONT-FAMILY:'Courier New'">Speak It!</span><br>
+            <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+            <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+            <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+            <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+            <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+            <span style="FONT-FAMILY:'Courier New'">5.- Comprimir un archivo con Aritmético dinámico</span><br>
+            <br>
+            <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+            <font class=Apple-style-span face="'Courier New'">5<br>
+            </font> <span style="FONT-FAMILY:'Courier New'">Ingrese la ruta a continuación:</span><br>
+            <span style="FONT-FAMILY:'Courier New'">(Si su archivo es '1.txt' sólo presione ENTER)</span><br>
+            <span style="FONT-FAMILY:'Courier New'"><font class=Apple-style-span color=#274e13><i><b>articulo.txt</b></i></font></span><font class=Apple-style-span face="'Courier New'">
+            <div>
+              Comprimiendo...
+            </div>
+            <div>
+              Arhivo comprimido:&nbsp;<span style=COLOR:#274e13><b><i>articulo</i></b></span>.txt.zipit
+            </div>
+            <div>
+              Tasa de compresión: 36%
+            </div>
+            <div>
+              Descomprimiendo...
+            </div>
+            <div>
+              Verificando...
+            </div>
+            <div>
+              Verificación exitosa.
+            </div>
+            </font>
+          </blockquote>
+        </div>
+        <div>
+          <br>
+          -&nbsp;<b>Salir</b>: Esta opción permite salir de&nbsp;<b>SpeakIt</b>.<br>
+          <br>
+        </div>
+      </div>
+    </div>
+    <blockquote class=webkit-indent-blockquote style="BORDER:medium none ; MARGIN:0pt 0pt 0pt 40px">
+      <span style="FONT-FAMILY:'Courier New'">Menu Principal</span><br>
+      <span style="FONT-FAMILY:'Courier New'">1.- Procesar un archivo de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">2.- Procesar varios archivos de Texto</span><br>
+      <span style="FONT-FAMILY:'Courier New'">3.- Reproducir Archivo</span><br>
+      <span style="FONT-FAMILY:'Courier New'">4.- Realizar una consulta</span><br>
+      <span style="FONT-FAMILY:'Courier New'">5.- Comprimir un archivo con Aritmético dinámico</span><br>
+      <br>
+      <span style="FONT-FAMILY:'Courier New'">0.- Salir</span><br>
+      <span style="FONT-FAMILY:'Courier New'">0</span><br>
+      <span style="FONT-FAMILY:'Courier New'">Terminado.</span><br>
+    </blockquote>
+    <div>
+      <div>
+        <div>
+          <br>
+          <h1>
+            <a id=Ejemplos_26386148136019694_931 name=Ejemplos_26386148136019694_931></a> <u>Ejemplos</u>
+          </h1>
+          <div>
+            <br>
+          </div>
+          <div>
+            Se documentan las siguientes pruebas hechas con el compresor aritmético con archivos de diferentes tamaños. Se proveen archivos originales codificados en UTF-16BE para poder reproducir las pruebas.
+          </div>
+          <div>
+            <br>
+          </div>
+          <div>
+            <h2>
+              <a id=_Test_Case_1_4349729651656352__28077028198639586 name=_Test_Case_1_4349729651656352__28077028198639586></a> Test Case 1
+            </h2>
+            <div>
+              Ingrese la ruta a continuación:
+            </div>
+            <div>
+              victima-influenza.txt
+            </div>
+            <div>
+              Comprimiendo...
+            </div>
+            <div>
+              Arhivo comprimido: victima-influenza.txt.zipit
+            </div>
+            <div>
+              Tasa de compresión: 27%
+            </div>
+            <div>
+              Descomprimiendo...
+            </div>
+            <div>
+              Verificando...
+            </div>
+            <div>
+              Verificación exitosa.
+            </div>
+            <div>
+              <br>
+            </div>
+            <h2>
+              <a id=_Test_Case_2_8022732915613854__11491617150835542 name=_Test_Case_2_8022732915613854__11491617150835542></a> Test Case 2
+            </h2>
+            <div>
+              Ingrese la ruta a continuación:
+            </div>
+            <div>
+              <div>
+                arquitectura-speakit.txt
+              </div>
+              <div>
+                Comprimiendo...
+              </div>
+              <div>
+                Arhivo comprimido: arquitectura-speakit.txt.zipit
+              </div>
+              <div>
+                Tasa de compresión: 37%
+              </div>
+              <div>
+                Descomprimiendo...
+              </div>
+              <div>
+                Verificando...
+              </div>
+              <div>
+                Verificación exitosa.
+              </div>
+            </div>
+            <div>
+              <br>
+            </div>
+            <h2>
+              <a id=_Test_Case_3_5356053464764968__1579059992179006 name=_Test_Case_3_5356053464764968__1579059992179006></a> Test Case 3
+            </h2>
+            <div>
+              Ingrese la ruta a continuación:
+            </div>
+          </div>
+          <div>
+            <div>
+              airbus.txt
+            </div>
+            <div>
+              Comprimiendo...
+            </div>
+            <div>
+              Arhivo comprimido: airbus.txt.zipit
+            </div>
+            <div>
+              Tasa de compresión: 39%
+            </div>
+            <div>
+              Descomprimiendo...
+            </div>
+            <div>
+              Verificando...
+            </div>
+            <div>
+              Verificación exitosa.
+            </div>
+            <div>
+              <br>
+            </div>
+            <h2>
+              <a id=_Test_Case_4_592247309473765_9_7200882129133805 name=_Test_Case_4_592247309473765_9_7200882129133805></a> Test Case 4
+            </h2>
+            <div>
+              Ingrese la ruta a continuación:
+            </div>
+          </div>
+          <div>
+            <div>
+              hola-mundo.txt
+            </div>
+            <div>
+              Comprimiendo...
+            </div>
+            <div>
+              Arhivo comprimido: hola-mundo.txt.zipit
+            </div>
+            <div>
+              Tasa de compresión: -13%
+            </div>
+            <div>
+              Descomprimiendo...
+            </div>
+            <div>
+              Verificando...
+            </div>
+            <div>
+              Verificación exitosa.
+            </div>
+            <div>
+              <br>
+            </div>
+            <h2>
+              <a id=Test_Case_5_24929259717464447__7368536368232425 name=Test_Case_5_24929259717464447__7368536368232425></a> Test Case 5
+            </h2>
+            <div>
+              Ingrese la ruta a continuación:
+            </div>
+            <div>
+              <div>
+                constitucion.txt
+              </div>
+              <div>
+                Comprimiendo...
+              </div>
+              <div>
+                Arhivo comprimido: constitucion.txt.zipit
+              </div>
+              <div>
+                Tasa de compresión: 61%
+              </div>
+              <div>
+                Descomprimiendo...
+              </div>
+              <div>
+                Verificando...
+              </div>
+              <div>
+                Verificación exitosa.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br></body>
+</html>

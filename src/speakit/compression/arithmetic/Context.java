@@ -33,12 +33,14 @@ public class Context {
 		/**
 		 */
 		public void add(Symbol symbol){
-			if (chars.size() < maxDepth )
-				chars.add(symbol);
-			else {
-				List<Symbol> subList = chars.subList(1, chars.size());
-				subList.add(symbol);
-				chars = subList;
+			if (maxDepth!=0){
+				if (chars.size() < maxDepth )
+					chars.add(symbol);
+				else {
+					List<Symbol> subList = chars.subList(1, chars.size());
+					subList.add(symbol);
+					chars = subList;
+				}
 			}
 		}
 
